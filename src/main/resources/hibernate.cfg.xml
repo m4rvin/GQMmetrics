@@ -1,0 +1,19 @@
+<!-- NOTE: If you're working offline, you might have to change the DOCTYPE to the following: -->
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="org.appfuse.model.User"/>
+        <mapping class="org.appfuse.model.Role"/>        
+		<mapping class="it.uniroma2.gqm.model.Goal"/>
+		<mapping class="it.uniroma2.gqm.model.Project"/>
+		<mapping class="it.uniroma2.gqm.model.Question"/>
+		<mapping class="it.uniroma2.gqm.model.GoalQuestion"/>
+		<mapping class="it.uniroma2.gqm.model.Unit"/>
+		<mapping class="it.uniroma2.gqm.model.Metric"/>
+		<mapping class="it.uniroma2.gqm.model.Scale"/>
+		<mapping class="it.uniroma2.gqm.model.QuestionMetric"/>
+		<mapping class="it.uniroma2.gqm.model.Strategy"/>
+		<mapping class="it.uniroma2.gqm.model.Measurement"/>
+    </session-factory>
+</hibernate-configuration>

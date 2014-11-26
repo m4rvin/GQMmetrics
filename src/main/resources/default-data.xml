@@ -1,0 +1,1451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <table name="app_user">
+        <column>id</column>
+        <column>username</column>
+        <column>password</column>
+        <column>first_name</column>
+        <column>last_name</column>
+        <column>address</column>
+        <column>city</column>
+        <column>country</column>
+        <column>email</column>
+        <column>phone_number</column>
+        <column>postal_code</column>
+        <column>province</column>
+        <column>website</column>
+        <column>password_hint</column>
+        <column>version</column>
+        <column>account_enabled</column>
+        <column>account_expired</column>
+        <column>account_locked</column>
+        <column>credentials_expired</column>
+        <row>
+            <value description="id">-1</value>
+            <value description="username">luca</value>
+            <value description="password">41213f768a613c42733e956314b0cf4dc2502377</value>
+            <value description="first_name">Luca</value>
+            <value description="last_name">Mastrogiovanni</value>
+            <value description="address">Via Virgilio 114</value>
+            <value description="city">Albano Laziale</value>
+            <value description="country">IT</value>
+            <value description="email">luca.mastrogiovanni@gmail.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">00041</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[My first nick name.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>
+        <row>
+            <value description="id">-2</value>
+            <value description="username">marco</value>
+            <value description="password">45bcf4bc05478909c504f47edf89633c1460dfd9</value>
+            <value description="first_name">Marco</value>
+            <value description="last_name">Vasselli</value>
+            <value description="address">Via Filippo Serafini 5</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">nicovax7@gmail.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">00173</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[My first nick name.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>        
+        <row>
+            <value description="id">-3</value>
+            <value description="username">admin</value>
+            <value description="password">a40546cc4fd6a12572828bb803380888ad1bfdab</value>
+            <value description="first_name">Administrator</value>
+            <value description="last_name">God</value>
+            <value description="address"></value>
+            <value description="city">Ney York</value>
+            <value description="country">US</value>
+            <value description="email">admin@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">12345</value>
+            <value description="province">NY</value>
+            <value description="website">http://gqmblind.com</value>
+            <value description="password_hint"><![CDATA[Something about my sister.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row> 
+        <row>
+            <value description="id">1</value>
+            <value description="username">Project Manager 1</value>
+            <value description="password">0dd1ebccc81d9710bd67cea5120e89790b0ff57d</value>
+            <value description="first_name">Project</value>
+            <value description="last_name">Manager 1</value>
+            <value description="address">Via Cola di Rienzo 1</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">pm1@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="username">Project Manager 2</value>
+            <value description="password">0cc44f0ce1ee2e600839ae16bdd188267faa3a63</value>
+            <value description="first_name">Project</value>
+            <value description="last_name">Manager 2</value>
+            <value description="address">Via Cola di Rienzo 2</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">pm2@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>
+        <row>
+            <value description="id">3</value>
+            <value description="username">Project Employee 1</value>
+            <value description="password">f07a16172ccf528353cb262727618f761dbc2283</value>
+            <value description="first_name">Project</value>
+            <value description="last_name">Employee 1</value>
+            <value description="address">Via Lemonia 1</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">pe1@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">4</value>
+            <value description="username">Project Employee 2</value>
+            <value description="password">4bc3d71224d71173824729d9d281dbb07066a3fc</value>
+            <value description="first_name">Project</value>
+            <value description="last_name">Employee 2</value>
+            <value description="address">Via Lemonia 2</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">pe2@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">5</value>
+            <value description="username">GQM Member 1</value>
+            <value description="password">4ea45af0e2d23d621ffb144183ca238ed2fd8416</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 1</value>
+            <value description="address">Via del Serafico 1</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm1@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">6</value>
+            <value description="username">GQM Member 2</value>
+            <value description="password">f0f8227d65524fd4a52c7f617db5a1273c36739f</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 2</value>
+            <value description="address">Via del Serafico 2</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm2@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">7</value>
+            <value description="username">GQM Member 3</value>
+            <value description="password">f6926493cca117930d7ffb7255909f204de2a6c2</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 3</value>
+            <value description="address">Via del Serafico 3</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm3@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">8</value>
+            <value description="username">GQM Member 4</value>
+            <value description="password">8a37caeb4384be43fbbe8e679da395cc3337f040</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 4</value>
+            <value description="address">Via del Serafico 4</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm4@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">9</value>
+            <value description="username">GQM Member 5</value>
+            <value description="password">72166ce00bff5ba9d74063f0471c750f5e4745d2</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 5</value>
+            <value description="address">Via del Serafico 5</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm5@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                 
+        <row>
+            <value description="id">10</value>
+            <value description="username">GQM Member 6</value>
+            <value description="password">bf26424ee33648ae6381ae8b69072b9c11860d2b</value>
+            <value description="first_name">GQM</value>
+            <value description="last_name">Member 6</value>
+            <value description="address">Via del Serafico 6</value>
+            <value description="city">Rome</value>
+            <value description="country">IT</value>
+            <value description="email">gqmm6@gqm-blind.com</value>
+            <value description="phone_number"></value>
+            <value description="postal_code">1234</value>
+            <value description="province">RM</value>
+            <value description="website">https://gqm-blind.googlecode.com</value>
+            <value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+            <value description="version">1</value>
+            <value description="account_enabled">1</value>
+            <value description="account_expired">0</value>
+            <value description="account_locked">0</value>
+            <value description="credentials_expired">0</value>
+        </row>                                 
+    </table>
+    <table name="role">
+        <column>id</column>
+        <column>name</column>
+        <column>description</column>
+        <row>
+            <value description="id">-1</value>
+            <value description="name">ROLE_ADMIN</value>
+            <value description="description"><![CDATA[Administrator role (can edit Users and create project.)]]></value>
+        </row>
+        <row>
+            <value description="id">-2</value>
+            <value description="name">ROLE_USER</value>
+            <value description="description"><![CDATA[Default role for all Users]]></value>
+        </row>
+    </table>
+    <table name="user_role">
+        <column>user_id</column>
+        <column>role_id</column>     
+        <row>
+            <value description="user_id">-1</value>
+            <value description="role_id">-1</value>
+        </row>
+        <row>
+            <value description="user_id">-1</value>
+            <value description="role_id">-2</value>
+        </row>
+        <row>
+            <value description="user_id">-2</value>
+            <value description="role_id">-1</value>
+        </row>
+        <row>
+            <value description="user_id">-2</value>
+            <value description="role_id">-2</value>
+        </row>        
+        <row>
+            <value description="user_id">-3</value>
+            <value description="role_id">-1</value>
+        </row>        
+        <row>
+            <value description="user_id">-3</value>
+            <value description="role_id">-2</value>
+        </row>
+        <row>
+            <value description="user_id">1</value>
+            <value description="role_id">-2</value>
+        </row>
+        <row>
+            <value description="user_id">2</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">3</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">4</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">5</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">6</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">7</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">8</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">9</value>
+            <value description="role_id">-2</value>
+        </row>                                
+        <row>
+            <value description="user_id">10</value>
+            <value description="role_id">-2</value>
+        </row>                                
+    </table>
+    <table name="Project">
+        <column>project_id</column>
+        <column>name</column>
+        <column>description</column>
+        <column>po_id</column>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="name">Trenitalia</value>
+            <value description="description"><![CDATA[Trenitalia is the primary train operator in Italy]]></value>
+            <value description="po_id">1</value>
+        </row>
+		<row>
+            <value description="project_id">-2</value>
+            <value description="name">CINECA</value>
+            <value description="description"><![CDATA[Cineca is a non profit Consortium, made up of 56 Italian universities*, and 3 Institutions.]]></value>
+            <value description="po_id">1</value>
+        </row>      
+		<row>
+            <value description="project_id">1</value>
+            <value description="name">Application replacement</value>
+            <value description="description"><![CDATA[Replacement of the management software of beds developed by Cineca. Cineca is a non profit Consortium, made up of 56 Italian universities, and 3 Institutions.]]></value>
+            <value description="po_id">1</value>
+        </row>
+    </table> 
+    <table name="strategy">
+        <column>strategy_id</column>
+        <column>project_id</column>
+        <column>name</column>
+        <column>assumption</column>
+        <column>so_id</column>        
+        <!--<row>
+            <value description="strategy_id">-1</value>
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[Improve customer interaction process]]></value>
+            <value description="assumption"><![CDATA[For getting more customers in the insurance area, the quality of the customer interaction processes has to be improved.]]></value>
+            <value description="so_id">1</value>                       
+        </row>
+        <row>
+            <value description="strategy_id">-2</value>
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[Increase the maximum speed of trains]]></value>
+            <value description="assumption"><![CDATA[To reduce the travel time is necessary to strengthen the trains. With faster trains travel time of each leg will be shorter]]></value>                       
+        	<value description="so_id">2</value> 
+        </row>
+        <row>
+            <value description="strategy_id">-3</value>
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[increase the number of people who do the cleaning]]></value>
+            <value description="assumption"><![CDATA[For trains cleaner is necessary to increase the number of people who carry out cleaning.]]></value>
+            <value description="so_id">1</value>                        
+        </row>           
+        <row>
+            <value description="strategy_id">1</value>
+            <value description="project_id">1</value>
+            <value description="name"><![CDATA[Cost reduction]]></value>
+            <value description="assumption"><![CDATA[For cost reduction is necessary to improve the developlemt process]]></value>
+            <value description="so_id">1</value>                        
+        </row>      
+        <row>
+            <value description="strategy_id">2</value>
+            <value description="project_id">1</value>
+            <value description="name"><![CDATA[Improve quality of product]]></value>
+            <value description="assumption"><![CDATA[For improve the quality of poduct it's possibile, for example, reduce the number of bug]]></value>
+            <value description="so_id">1</value>                        
+        </row>           
+        <row>
+            <value description="strategy_id">3</value>
+            <value description="project_id">1</value>
+            <value description="name"><![CDATA[Improve the quality of development team]]></value>
+            <value description="assumption"><![CDATA[The most experienced personnel produce code with fewer bugs]]></value>
+            <value description="so_id">2</value>                        
+        </row>     
+        <row>
+            <value description="strategy_id">4</value>
+            <value description="project_id">1</value>
+            <value description="name"><![CDATA[Improve the testing process]]></value>
+            <value description="assumption"><![CDATA[Increasing the test module and the functional test, you will produce software with fewer bugs]]></value>
+            <value description="so_id">2</value>                        
+        </row>  -->                             
+    </table>        
+    <table name="project_pm">
+        <column>project_id</column>
+        <column>user_id</column>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">2</value>
+        </row>
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">2</value>
+        </row>
+    </table>
+    <table name="project_team">
+        <column>project_id</column>
+        <column>user_id</column>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">2</value>
+        </row>        
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">3</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">4</value>
+        </row>
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">2</value>
+        </row>  
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">3</value>
+        </row>  
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">4</value>
+        </row>
+    </table>
+    <table name="project_gqm">
+        <column>project_id</column>
+        <column>user_id</column>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">5</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">6</value>
+        </row>        
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">7</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">8</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">9</value>
+        </row>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="user_id">10</value>
+        </row>       
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">5</value>
+        </row>          
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">6</value>
+        </row>    
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">7</value>
+        </row>    
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">8</value>
+        </row>    
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">9</value>
+        </row>    
+        <row>
+            <value description="project_id">1</value>
+            <value description="user_id">10</value>
+        </row>                                                                           
+    </table>         
+    <table name="goal">
+        <column>goal_id</column>
+        <column>project_id</column>
+        <column>description</column>
+        <column>type</column>
+        <column>subject</column>
+        <column>scope</column>
+		<column>focus</column>
+		<column>context</column>
+		<column>viewpoint</column>
+		<column>impact_of_variation</column>
+		<!--<column>interpretation_model</column>-->
+		<column>status</column>
+		<column>go_id</column>
+		<column>ge_id</column>
+		<column>refinement</column>
+		<column>strategy_id</column>
+		<column>activity</column>
+		<column>object</column>
+		<column>magnitude</column>
+		<column>timeframe</column>
+		<column>constraints</column>
+		<column>relations</column>
+		<column>parent_id</column>	
+        <!--<row>
+            <value description="goal_id">-1</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Travel time]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="strategy">-1</value>
+            <null/>
+        </row>
+        <row>
+            <value description="goal_id">-2</value>
+            <value description="project_id">-2</value>
+            <value description="description"><![CDATA[Test1]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">PROPOSED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <null/>
+        </row>
+        <row>
+            <value description="goal_id">-3</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Quality of service]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to increase the quelity of the service]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Increase the quality of the service during the travel between Albano and Roma]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="strategy">-1</value>
+        </row>
+        <row>
+            <value description="goal_id">-4</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Quality of air conditioning]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to improve the quality of air conditioning in the railway wagon]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Increase the quality of travel between Albano and Roma]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">FOR_REVIEW</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"><![CDATA[Please change the scope]]></value>
+            <null/>
+        </row>
+        <row>
+            <value description="goal_id">-5</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Level of cleanliness]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to increase the cleaning of railway wagon]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Increase the cleaning of railway wagon that start from Albano and arrive to Roma]]></value>
+            <value description="interpretation_model">1</value>
+            <value description="status">PROPOSED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <null/>
+        </row>      
+		<row>
+            <value description="goal_id">-6</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Number of railway]]></value>
+            <value description="type"><![CDATA[Business Gal]]></value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to increase the number of railway]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user (less waiting taim in the railway station)]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the management]]></value>
+            <value description="impact_of_variation"><![CDATA[Increase the number of trains during peak time]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">ACCEPTED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="strategy">-2</value>
+        </row> 
+        <row>
+            <value description="goal_id">-7</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Test goal -7]]></value>
+            <value description="type"><![CDATA[Test goal -7]]></value>            
+            <value description="subject"><![CDATA[Test goal -7]]></value>
+            <value description="scope"><![CDATA[Test goal -7]]></value>
+            <value description="focus"><![CDATA[Test goal -7]]></value>
+            <value description="context"><![CDATA[Test goal -7]]></value>
+            <value description="viewpoint"><![CDATA[Test goal -7]]></value>
+            <value description="impact_of_variation"><![CDATA[Test goal -7]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">DRAFT</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="strategy">-1</value>
+            <null/>
+        </row>        
+		<row>
+            <value description="goal_id">1</value>
+            <value description="project_id">1</value>
+            <value description="description"><![CDATA[Increase Customer Satisfaction]]></value>
+            <value description="type"><![CDATA[Business Goal]]></value>            
+            <null/>
+            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
+            <value description="focus"><![CDATA[Customer satisfaction]]></value>
+            <value description="context"><![CDATA[AAA]]></value>
+            <value description="viewpoint"><![CDATA[AAA]]></value>
+            <value description="impact_of_variation"><![CDATA[AAA]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <null/>
+            <value description="strategy">2</value>
+            <value description="activity"><![CDATA[Increase]]></value>
+            <value description="object"><![CDATA[Product Jiano]]></value>
+            <value description="magnitude"><![CDATA[10% reduction in number of custmer complaints]]></value>
+            <value description="timeframe"><![CDATA[6 months after software release]]></value>
+		    <value description="constraints"><![CDATA[Jiano price and functionality]]></value>	
+            <value description="relations"><![CDATA[Can conflict with development other goals]]></value>        
+        </row>          
+		<row>
+            <value description="goal_id">2</value>
+            <value description="project_id">1</value>
+            <value description="description"><![CDATA[Decrease reported software bugs ]]></value>
+            <value description="type"><![CDATA[Software Goal]]></value>            
+            <null/>
+            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
+            <value description="focus"><![CDATA[Reported software bugs]]></value>
+            <value description="context"><![CDATA[AAA]]></value>
+            <value description="viewpoint"><![CDATA[AAA]]></value>
+            <value description="impact_of_variation"><![CDATA[AAA]]></value>
+            <value description="interpretation_model">2</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <null/>
+            <value description="strategy">4</value>
+            <value description="activity"><![CDATA[Decrease]]></value>
+            <value description="object"><![CDATA[System test process for Jiano]]></value>
+            <value description="magnitude"><![CDATA[Decrease reported bugs by 20%]]></value>
+            <value description="timeframe"><![CDATA[6 months after software release (might check every week)]]></value>
+		    <value description="constraints"><![CDATA[Development cost and functionality]]></value>	
+            <value description="relations"><![CDATA[Can conflict with development other goals]]></value>
+            <value description="parent_id">1</value>        
+        </row>           
+		<row>
+            <value description="goal_id">3</value>
+            <value description="project_id">1</value>
+            <value description="description"><![CDATA[Decrease reported bugs by 20% compared to prior projects]]></value>
+            <value description="type"><![CDATA[Measurement Goal]]></value>            
+             <value description="subject"><![CDATA[System test process]]></value>
+            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
+            <value description="focus"><![CDATA[20% bug slippage compared to prior projects]]></value>
+            <value description="context"><![CDATA[Web product Division]]></value>
+            <value description="viewpoint"><![CDATA[Test Manager]]></value>
+            <value description="impact_of_variation"><![CDATA[Increase in the time of development and release of the software]]></value>
+            <value description="interpretation_model">1</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+		    <null/>	
+            <null/>
+            <value description="parent_id">2</value>        
+        </row>      
+		<row>
+            <value description="goal_id">4</value>
+            <value description="project_id">1</value>
+            <value description="description"><![CDATA[Analyze a pilot poject using a new system test process]]></value>
+            <value description="type"><![CDATA[Measurement Goal]]></value>            
+             <value description="subject"><![CDATA[System test process]]></value>
+            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
+            <value description="focus"><![CDATA[Using the new pilot project there will must be a reduction of 20% compared to the previous version of the test process]]></value>
+            <value description="context"><![CDATA[Web product Division, Research and Development Division]]></value>
+            <value description="viewpoint"><![CDATA[Test Manager]]></value>
+            <value description="impact_of_variation"><![CDATA[build a prototype which could not be used in production environment]]></value>
+            <value description="interpretation_model">1</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+		    <null/>	
+            <null/>
+            <value description="parent_id">2</value>        
+        </row>-->              
+    </table>   
+    <table name="goal_qs">
+        <column>goal_id</column>
+        <column>user_id</column>
+        <!--<row>
+            <value description="goal_id">-3</value>
+            <value description="user_id">7</value>
+        </row>
+        <row>
+            <value description="goal_id">-3</value>
+            <value description="user_id">8</value>
+        </row>
+        <row>
+            <value description="goal_id">-5</value>
+            <value description="user_id">7</value>
+        </row>
+        <row>
+            <value description="goal_id">-5</value>
+            <value description="user_id">8</value>
+        </row> 
+		<row>
+            <value description="goal_id">-6</value>
+            <value description="user_id">9</value>
+        </row>  
+		<row>
+            <value description="goal_id">1</value>
+            <value description="user_id">7</value>
+        </row>
+		<row>
+            <value description="goal_id">1</value>
+            <value description="user_id">8</value>
+        </row>    
+        <row>
+            <value description="goal_id">3</value>
+            <value description="user_id">7</value>
+        </row>
+		<row>
+            <value description="goal_id">3</value>
+            <value description="user_id">8</value>
+        </row>
+		<row>
+            <value description="goal_id">4</value>
+            <value description="user_id">7</value>
+        </row>-->          
+    </table>  
+    <table name="goal_mmdm">
+        <column>goal_id</column>
+        <column>user_id</column>
+        <!--<row>
+            <value description="goal_id">-3</value>
+            <value description="user_id">9</value>
+        </row>
+        <row>
+            <value description="goal_id">-3</value>
+            <value description="user_id">10</value>
+        </row>
+        <row>
+            <value description="goal_id">-5</value>
+            <value description="user_id">9</value>
+        </row>
+        <row>
+            <value description="goal_id">-5</value>
+            <value description="user_id">10</value>
+        </row>
+		<row>
+            <value description="goal_id">-6</value>
+            <value description="user_id">8</value>
+        </row>        
+		<row>
+            <value description="goal_id">1</value>
+            <value description="user_id">9</value>
+        </row>     
+		<row>
+            <value description="goal_id">1</value>
+            <value description="user_id">10</value>
+        </row>   
+		<row>
+            <value description="goal_id">3</value>
+            <value description="user_id">9</value>
+        </row>     
+		<row>
+            <value description="goal_id">3</value>
+            <value description="user_id">10</value>
+        </row>           
+		<row>
+            <value description="goal_id">4</value>
+            <value description="user_id">9</value>
+        </row>-->                      
+    </table>    
+    <table name="goal_vote">
+        <column>goal_id</column>
+        <column>user_id</column>
+        <!--<row>
+            <value description="goal_id">-2</value>
+            <value description="user_id">2</value>
+        </row>   
+        <row>
+            <value description="goal_id">1</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="goal_id">1</value>
+            <value description="user_id">2</value>
+        </row>     
+        <row>
+            <value description="goal_id">3</value>
+            <value description="user_id">1</value>
+        </row>
+        <row>
+            <value description="goal_id">3</value>
+            <value description="user_id">2</value>
+        </row>-->                     
+    </table>
+	<table name="question">
+        <column>question_id</column>
+        <column>name</column>
+        <column>text</column>
+        <column>project_id</column>
+        <column>qso_id</column>
+        <!--<row>
+            <value description="question_id">-1</value>
+            <value description="name"><![CDATA[Number of train]]></value>
+            <value description="text"><![CDATA[How many trains run from 7 to 10?]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">-2</value>
+            <value description="name"><![CDATA[Trip duration]]></value>
+            <value description="text"><![CDATA[How long a journey between Rome and Albano?]]></value>
+            <value description="project_id">-2</value>
+            <value description="qso_id">8</value>
+        </row>      
+		<row>
+            <value description="question_id">-3</value>
+            <value description="name"><![CDATA[Percentage of train with problem]]></value>
+            <value description="text"><![CDATA[What is the percentage of train whose involved problems?]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row> 
+        <row>
+            <value description="question_id">-4</value>
+            <value description="name"><![CDATA[Time left in station]]></value>
+            <value description="text"><![CDATA[How long is a train at the railway station?]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row> 
+        <row>
+            <value description="question_id">-5</value>
+            <value description="name"><![CDATA[Temperature inside the wagon]]></value>
+            <value description="text"><![CDATA[how many degrees there are in the railwai wagon during the summer months?]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>         
+        <row>
+            <value description="question_id">1</value>
+            <value description="name"><![CDATA[Number of bugs reported in the previous system]]></value>
+            <value description="text"><![CDATA[how many bugs were found in the old software?]]></value>
+            <value description="project_id">1</value>
+            <value description="qso_id">7</value>
+        </row>          
+        <row>
+            <value description="question_id">2</value>
+            <value description="name"><![CDATA[Number of bugs reported in the Jiano system]]></value>
+            <value description="text"><![CDATA[how many bugs were found in the Jiano software?]]></value>
+            <value description="project_id">1</value>
+            <value description="qso_id">7</value>
+        </row>          
+        <row>
+            <value description="question_id">3</value>
+            <value description="name"><![CDATA[Number of test developer]]></value>
+            <value description="text"><![CDATA[how many test developers work on the new version of the Jiano software?]]></value>
+            <value description="project_id">1</value>
+            <value description="qso_id">7</value>
+        </row>         
+        <row>
+            <value description="question_id">4</value>
+            <value description="name"><![CDATA[Number of test developer in the old system]]></value>
+            <value description="text"><![CDATA[how many test developers worked on the the previous version of the software?]]></value>
+            <value description="project_id">1</value>
+            <value description="qso_id">7</value>
+        </row>      
+        <row>
+            <value description="question_id">5</value>
+            <value description="name"><![CDATA[Weeks to implement new test process]]></value>
+            <value description="text"><![CDATA[how many weeks are required to implement a new test process?]]></value>
+            <value description="project_id">1</value>
+            <value description="qso_id">7</value>
+        </row>-->              
+    </table>
+    <table name="goal_question">
+        <column>question_id</column>
+        <column>goal_id</column>
+        <column>status</column>
+        <!--<row>
+            <value description="question_id">-1</value>
+            <value description="goal_id">-5</value>
+            <value description="status">PROPOSED</value>                       
+        </row>
+        <row>
+            <value description="question_id">-1</value>
+            <value description="goal_id">-3</value>
+            <value description="status">PROPOSED</value>                       
+        </row>        
+        <row>
+            <value description="question_id">-3</value>
+            <value description="goal_id">-6</value>
+            <value description="status">PROPOSED</value>
+        </row>        
+        <row>
+            <value description="question_id">1</value>
+            <value description="goal_id">3</value>
+            <value description="status">APPROVED</value>
+        </row>     
+        <row>
+            <value description="question_id">2</value>
+            <value description="goal_id">3</value>
+            <value description="status">APPROVED</value>
+        </row> 
+        <row>
+            <value description="question_id">3</value>
+            <value description="goal_id">3</value>
+            <value description="status">APPROVED</value>
+        </row> 
+        <row>
+            <value description="question_id">4</value>
+            <value description="goal_id">3</value>
+            <value description="status">APPROVED</value>
+        </row>      
+        <row>
+            <value description="question_id">1</value>
+            <value description="goal_id">4</value>
+            <value description="status">APPROVED</value>
+        </row>  
+        <row>
+            <value description="question_id">5</value>
+            <value description="goal_id">3</value>
+            <value description="status">APPROVED</value>
+        </row>-->                           
+    </table>
+    <table name="unit">
+        <column>unit_id</column>
+        <column>name</column>
+        <column>symbol</column>
+        <column>physical</column>
+        <column>base_unit</column>
+        <column>multiples</column>        
+        <!--<row>
+            <value description="unit_id">-1</value>
+            <value description="name">Radial</value>                       
+            <value description="symbol">rad</value>
+            <value description="physical">angle</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>            
+        </row>
+        <row>
+            <value description="unit_id">-2</value>
+            <value description="name">Lumen</value>                       
+            <value description="symbol">lm</value>
+            <value description="physical">luminous flux</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>
+        <row>
+            <value description="unit_id">-3</value>
+            <value description="name">Metre</value>                       
+            <value description="symbol">m</value>
+            <value description="physical">lenght</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>        
+        <row>
+            <value description="unit_id">-4</value>
+            <value description="name">Kilogram</value>                       
+            <value description="symbol">kg</value>
+            <value description="physical">mass</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>
+        <row>
+            <value description="unit_id">-5</value>
+            <value description="name">Second</value>                       
+            <value description="symbol">s</value>
+            <value description="physical">time</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>
+        <row>
+            <value description="unit_id">-6</value>
+            <value description="name">Kilometre</value>                       
+            <value description="symbol">km</value>
+            <value description="physical">lenght</value>
+            <value description="base_unit">F</value>
+            <value description="multiples">1000</value>
+        </row>        
+        <row>
+            <value description="unit_id">-7</value>
+            <value description="name">Minute</value>                       
+            <value description="symbol">m</value>
+            <value description="physical">time</value>
+            <value description="base_unit">F</value>
+            <value description="multiples">60</value>
+        </row>
+        <row>
+            <value description="unit_id">-8</value>
+            <value description="name">Hour</value>                       
+            <value description="symbol">hr</value>
+            <value description="physical">time</value>
+            <value description="base_unit">F</value>
+            <value description="multiples">3600</value>
+        </row>
+        <row>
+            <value description="unit_id">-9</value>
+            <value description="name">Kelvin</value>                       
+            <value description="symbol">K</value>
+            <value description="physical">temperature</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>
+        <row>
+            <value description="unit_id">-10</value>
+            <value description="name">Celsius</value>                       
+            <value description="symbol">T</value>
+            <value description="physical">temperature</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">1</value>
+        </row>  
+        <row>
+            <value description="unit_id">-11</value>
+            <value description="name">Man-days</value>                       
+            <value description="symbol">man-days</value>
+            <value description="physical">time</value>
+            <value description="base_unit">F</value>
+            <value description="multiples">86400</value>
+        </row>-->                                                                      
+	</table>
+    <table name="scale">
+        <column>scale_id</column>
+        <column>name</column>
+        <column>description</column>        
+        <column>type</column>
+        <column>examples</column>
+        <column>operations</column>
+        <!--<row>
+            <value description="scale_id">-1</value>
+            <value description="name">Nominal</value>
+            <value description="type"><![CDATA[Qualitative]]></value>                       
+            <value description="exaxmples"><![CDATA[Dichotomous: Gender (male vs. female), Non-dichotomous: Nationality (American/Chinese/etc)]]></value>
+            <value description="operations"><![CDATA[=;!=]]></value>
+        </row>
+        <row>
+            <value description="scale_id">-2</value>
+            <value description="name">Ordinal</value>
+            <value description="type"><![CDATA[Qualitative]]></value>                       
+            <value description="exaxmples"><![CDATA[
+            	Dichotomous:     Health
+                            (healthy vs.
+                            sick),
+                         Truth
+                            (true vs.
+                            false),
+                         Beauty
+                            (beautiful vs.
+                            ugly)
+            	Non-dichotomous: Opinion
+                            ('completely agree'/
+                             'mostly agree'/
+                             'mostly disagree'/
+                             'completely disagree')]]></value>
+            <value description="operations"><![CDATA[=;!=;>;<]]></value>
+        </row>
+        <row>
+            <value description="scale_id">-3</value>
+            <value description="name">Interval</value>
+            <value description="type"><![CDATA[Quantitative]]></value>                       
+            <value description="exaxmples"><![CDATA[
+            	Date (from 9999 BC to 2013 AD) /
+				Latitude (from +90° to −90°)]]></value>
+            <value description="operations"><![CDATA[=;!=;>;<;+;-]]></value>
+        </row>        
+        <row>
+            <value description="scale_id">-4</value>
+            <value description="name">Ratio</value>
+            <value description="type"><![CDATA[Quantitative]]></value>                       
+            <value description="exaxmples"><![CDATA[
+            	 Age (from 0  to 99 years)]]></value>
+            <value description="operations"><![CDATA[=;!=;>;<;+;-;*;/]]></value>
+        </row>-->                        
+	</table>
+	<table name="metric">
+        <column>metric_id</column>
+        <column>project_id</column>
+        <column>code</column>
+        <column>name</column>        
+        <column>hypothesis</column>
+        <column>unit_id</column>
+        <column>scale_id</column>
+        <column>type</column>
+        <column>mmdmo_id</column>
+        <column>actual_value</column>
+        <column>metric_a_id</column>
+        <column>metric_b_id</column>
+        <column>operation</column>
+        <column>collecting_type</column>
+        <column>satisfying_condition_peration</column>
+        <column>satisfying_condition_value</column>                
+        <!--<row>
+            <value description="metric_id">1</value>
+            <value description="project_id">1</value>
+            <value description="code">DEVTIME</value>
+            <value description="name"><![CDATA[Development time]]></value>
+            <value description="hypothesis">264</value>
+            <value description="unit_id">-11</value>
+            <value description="scale_id">-4</value>
+            <value description="type">SUBJECTIVE</value>
+            <value description="mmdmo_id">9</value>
+            <value description="actual_value">10</value>
+            <null/>
+            <null/>
+            <null/>
+            <value description="collecting_type">SINGLE_VALUE</value>
+            <value description="satisfying_condition_peration">LESS_OR_EQUAL</value>
+            <value description="satisfying_condition_value">260</value>            
+        </row>
+		<row>
+            <value description="metric_id">2</value>
+            <value description="project_id">1</value>
+            <value description="code">NBUGOLD</value>
+            <value description="name"><![CDATA[Number of bug on old system]]></value>
+            <value description="hypothesis">Less or more 200</value>
+            <null/>
+            <value description="scale_id">-4</value>
+            <value description="type">OBJECTIVE</value>
+            <value description="mmdmo_id">9</value>
+            <value description="actual_value">100</value>
+            <null/>
+            <null/>
+            <null/>
+            <value description="collecting_type">SINGLE_VALUE</value>
+        </row>                  
+		<row>
+            <value description="metric_id">3</value>
+            <value description="project_id">1</value>
+            <value description="code">NBUGNEW</value>
+            <value description="name"><![CDATA[Number of bug on new system]]></value>
+            <value description="hypothesis">Less then 150</value>
+            <null/>
+            <value description="scale_id">-4</value>
+            <value description="type">OBJECTIVE</value>
+            <value description="mmdmo_id">9</value>
+            <value description="actual_value">12</value>
+            <null/>
+            <null/>
+            <null/>
+            <value description="collecting_type">SINGLE_VALUE</value>
+        </row>
+		<row>
+            <value description="metric_id">4</value>
+            <value description="project_id">1</value>
+            <value description="code">RATIOBUG</value>
+            <value description="name"><![CDATA[Ratio between ild bug and new bug]]></value>
+            <value description="hypothesis">Less then 0.8</value>
+            <null/>
+            <value description="scale_id">-4</value>
+            <value description="type">OBJECTIVE</value>
+            <value description="mmdmo_id">9</value>
+            <value description="actual_value">1</value>
+            <value description="metric_a_id">2</value>
+            <value description="metric_b_id">3</value>
+            <value description="operation">DIVISION</value>            
+            <value description="collecting_type">SINGLE_VALUE</value>            
+            <value description="satisfying_condition_peration">LESS_OR_EQUAL</value>
+            <value description="satisfying_condition_value">0.8</value>     
+        </row>      
+		<row>
+            <value description="metric_id">5</value>
+            <value description="project_id">1</value>
+            <value description="code">#FAULT</value>
+            <value description="name"><![CDATA[# faults found in system test in current project]]></value>
+            <value description="hypothesis">Less then 0.8</value>
+            <null/>
+            <value description="scale_id">-4</value>
+            <value description="type">OBJECTIVE</value>
+            <value description="mmdmo_id">9</value>
+            <value description="actual_value">200</value>
+            <null/>
+            <null/>
+            <null/>
+            <value description="collecting_type">MULTIPLE_VALUE</value>
+            <value description="satisfying_condition_peration">GREATER_OR_EQUAL</value>
+            <value description="satisfying_condition_value">190</value>                        
+        </row>-->            
+    </table>	              
+    <table name="question_metric">
+        <column>metric_id</column>
+        <column>question_id</column>
+        <column>status</column>
+        <!--<row>
+            <value description="metric_id">1</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+        </row>     
+        <row>
+            <value description="metric_id">1</value>
+            <value description="question_id">2</value>
+            <value description="status">APPROVED</value>
+        </row>        
+        <row>
+            <value description="metric_id">2</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+        </row>
+		<row>
+            <value description="metric_id">2</value>
+            <value description="question_id">2</value>
+            <value description="status">APPROVED</value>
+        </row>    
+		<row>
+            <value description="metric_id">3</value>
+            <value description="question_id">2</value>
+            <value description="status">APPROVED</value>
+        </row>  
+		<row>
+            <value description="metric_id">4</value>
+            <value description="question_id">2</value>
+            <value description="status">APPROVED</value>
+        </row>   
+		<row>
+            <value description="metric_id">5</value>
+            <value description="question_id">2</value>
+            <value description="status">APPROVED</value>
+        </row>-->                            
+    </table>
+	<table name="measurement">
+        <column>measurement_id</column>
+        <column>metric_id</column>
+        <column>value</column>
+        <column>collecting_d</column>
+        <column>collecting_t</column>
+        <column>ts</column>
+        <column>measuremento_id</column>        
+        <!--<row>
+            <value description="measurement_id">1</value>
+            <value description="metric_id">2</value>
+            <value description="value"><![CDATA[12]]></value>
+            <value description="collecting_d"><![CDATA[2013-06-15]]></value>
+            <value description="collecting_t"><![CDATA[23:02:10]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>   
+        <row>
+            <value description="measurement_id">2</value>
+            <value description="metric_id">3</value>
+            <value description="value"><![CDATA[13]]></value>
+            <value description="collecting_d"><![CDATA[2013-06-16]]></value>
+            <value description="collecting_t"><![CDATA[10:02:10]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>           
+		<row>
+            <value description="measurement_id">3</value>
+            <value description="metric_id">3</value>
+            <value description="value"><![CDATA[9]]></value>
+            <value description="collecting_d"><![CDATA[2013-06-17]]></value>
+            <value description="collecting_t"><![CDATA[10:02:10]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>   
+		<row>
+            <value description="measurement_id">4</value>
+            <value description="metric_id">3</value>
+            <value description="value"><![CDATA[9]]></value>
+            <value description="collecting_d"><![CDATA[2013-06-18]]></value>
+            <value description="collecting_t"><![CDATA[10:02:10]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>        
+		<row>
+            <value description="measurement_id">5</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[500]]></value>
+            <value description="collecting_d"><![CDATA[2013-01-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>            
+		<row>
+            <value description="measurement_id">6</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[400]]></value>
+            <value description="collecting_d"><![CDATA[2013-02-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>        
+		<row>
+            <value description="measurement_id">7</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[300]]></value>
+            <value description="collecting_d"><![CDATA[2013-03-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>       
+		<row>
+            <value description="measurement_id">8</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[200]]></value>
+            <value description="collecting_d"><![CDATA[2013-04-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>           
+		<row>
+            <value description="measurement_id">9</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[150]]></value>
+            <value description="collecting_d"><![CDATA[2013-05-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>          
+		<row>
+            <value description="measurement_id">10</value>
+            <value description="metric_id">5</value>
+            <value description="value"><![CDATA[130]]></value>
+            <value description="collecting_d"><![CDATA[2013-06-01]]></value>
+            <value description="collecting_t"><![CDATA[09:00:00]]></value>
+            <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
+            <value description="measuremento_id">9</value>            
+        </row>-->            
+	</table>     
+</dataset>

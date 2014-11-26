@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuConfig>
+    <Displayers>
+        <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
+    </Displayers>
+    <Menus>
+        <!-- <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu" roles="ROLE_ADMIN,ROLE_USER"/> -->
+        <Menu name="UserMenu" title="menu.user" description="User Menu" page="/userform" roles="ROLE_ADMIN,ROLE_USER"/>
+        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu" roles="ROLE_ADMIN" page="/admin/users">
+            <Item name="ViewUsers" title="menu.admin.users" page="/admin/users"/>
+            <Item name="ActiveUsers" title="mainMenu.activeUsers" page="/admin/activeUsers"/>
+            <Item name="ReloadContext" title="menu.admin.reload" page="/admin/reload"/>
+            <Item name="FileUpload" title="menu.selectFile" page="/fileupload"/>
+        </Menu>
+       <Menu name="PlanninghaseMenu" title="menu.planningPhase" description="GQM Planning Phase" roles="ROLE_ADMIN,ROLE_USER" page="/projects">
+       	<Item name="ViewProject" title="menu.planningPhase.projects" page="/projects"/>
+       </Menu>
+       <Menu name="DefinitionPhaseMenu" title="menu.definitionPhase" description="GQM Definition Phase" roles="ROLE_ADMIN,ROLE_USER" page="/goals">
+       		<Item name="ViewGoals" title="menu.definitionPhase.goals" page="/goals"/>
+            <Item name="ViewQuestions" title="menu.definitionPhase.questions" page="/questions"/>
+            <Item name="ViewMetrics" title="menu.definitionPhase.metrics" page="/metrics"/>
+            <Item name="ViewStrategies" title="menu.definitionPhase.strategies" page="/strategies"/>
+       </Menu> 
+       <Menu name="DataCollectionPhaseMenu" title="menu.dataCollectionPhase" description="GQM Data Collection Phase" roles="ROLE_ADMIN,ROLE_USER" page="/measurements"/>
+       <Menu name="InterpretationPhaseMenu" title="menu.interpretationPhase" description="GQM Interpretation Phase" roles="ROLE_ADMIN,ROLE_USER" page="/interpretation">
+       		<Item name="ViewGrid" title="menu.interpretationPhase.grid" page="/grid"/>
+            <Item name="ViewBinaryTable" title="menu.interpretationPhase.binaryTable" page="/binarylist"/>
+            <Item name="GoalSatisfaction" title="menu.interpretationPhase.goalSatisfaction" page="/goalsatisfaction"/>
+       </Menu>       
+       <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
+    </Menus>
+</MenuConfig>
