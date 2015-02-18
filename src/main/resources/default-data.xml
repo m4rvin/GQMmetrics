@@ -1159,7 +1159,7 @@
         <column>type</column>
         <column>examples</column>
         <column>operations</column>
-        <!--<row>
+        <row>
             <value description="scale_id">-1</value>
             <value description="name">Nominal</value>
             <value description="type"><![CDATA[Qualitative]]></value>                       
@@ -1203,7 +1203,7 @@
             <value description="exaxmples"><![CDATA[
             	 Age (from 0  to 99 years)]]></value>
             <value description="operations"><![CDATA[=;!=;>;<;+;-;*;/]]></value>
-        </row>-->                        
+        </row>                     
 	</table>
 	<table name="metric">
         <column>metric_id</column>

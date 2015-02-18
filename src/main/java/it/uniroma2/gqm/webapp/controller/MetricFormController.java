@@ -150,7 +150,8 @@ public class MetricFormController  extends BaseFormController {
                 
         if (validator != null) { // validator is null during testing
             validator.validate(metric, errors);
-            if (errors.hasErrors() && request.getParameter("delete") == null) { // don't validate when deleting
+            if (errors.hasErrors() && request.getParameter("delete") == null) {
+            	// don't validate when deleting
                 return "metricform";
             }
         }
@@ -162,14 +163,16 @@ public class MetricFormController  extends BaseFormController {
         Locale locale = request.getLocale();
  
         if (request.getParameter("delete") != null) {
-            questionManager.remove(metric.getId());
+           metricManager.remove(metric.getId());
             saveMessage(request, getText("metric.deleted", locale));
         } else {
         	if(metric.getMetricOwner()==null)
         		metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
             
+        	
         	if(metric.getScale() != null && metric.getScale().getId() != null){
             	metric.setScale(scaleManager.get(metric.getScale().getId()));
+            	
             } else {
             	metric.setScale(null);
             }
@@ -204,7 +207,7 @@ public class MetricFormController  extends BaseFormController {
             }
         });
     }    
-    
+   
     @InitBinder
     protected void initBinder2(HttpServletRequest request, ServletRequestDataBinder binder) {
         binder.registerCustomEditor(Set.class, "scale", new CustomCollectionEditor(Set.class) {
