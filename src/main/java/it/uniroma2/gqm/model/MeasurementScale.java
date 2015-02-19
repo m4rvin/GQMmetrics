@@ -15,6 +15,9 @@ public class MeasurementScale extends BaseObject {
 	private Set<Operation> operations;
 	private MeasurementScaleTypeEnum type;
 
+	
+	private Project project;
+	
 	@Override
 	public String toString() {
 
@@ -74,5 +77,12 @@ public class MeasurementScale extends BaseObject {
 	}
 	
 	
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 }
