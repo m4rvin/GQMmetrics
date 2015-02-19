@@ -14,30 +14,29 @@
 			class="btn" href="<c:url value='/mainMenu'/>"> <i class="icon-ok"></i>
 			<fmt:message key="button.done" /></a>
 	</div>
-	<display:table name="metricList"
+	<display:table name="measurementScaleList"
 		class="table table-condensed table-striped table-hover" requestURI=""
 		id="measurementScaleList" export="true" pagesize="25">
-		<display:column property="id" sortable="true" href="metricform"
-			media="html" paramId="id" paramProperty="id" titleKey="metric.id" />
+		<display:column property="id" sortable="true" href="measurementScaleform"
+			media="html" paramId="id" paramProperty="id" titleKey="measurementScale.id" />
 		<display:column property="id" media="csv excel xml pdf"
-			titleKey="metric.id" />
-		<display:column property="code" sortable="true" titleKey="metric.code" />
-		<display:column property="name" sortable="true" titleKey="metric.name" />
-		<display:column property="collectingType" sortable="true"
-			titleKey="metric.collectingType" />
-		<display:column property="metricOwner.fullName" sortable="true"
-			titleKey="metric.metricOwner" />
+			titleKey="measurementScale.id" />
+
+		<display:column property="name" sortable="true" titleKey="measurementScale.name" />
+		<display:column property="rangeOfValues" sortable="true" titleKey="measurementScale.rangeOfValues" />
+		<display:column property="operations" sortable="true" titleKey="measurementScale.operations" />
+		
 		<display:setProperty name="paging.banner.item_name">
-			<fmt:message key="metricList.metric" />
+			<fmt:message key="measurementScaleList.measurementScale" />
 		</display:setProperty>
 		<display:setProperty name="paging.banner.items_name">
-			<fmt:message key="metricList.metrics" />
+			<fmt:message key="measurementScaleList.measurementScales" />
 		</display:setProperty>
 		<display:setProperty name="export.excel.filename">
-			<fmt:message key="metricList.title" />.xls</display:setProperty>
+			<fmt:message key="measurementScaleList.title" />.xls</display:setProperty>
 		<display:setProperty name="export.csv.filename">
-			<fmt:message key="metricList.title" />.csv</display:setProperty>
+			<fmt:message key="measurementScaleList.title" />.csv</display:setProperty>
 		<display:setProperty name="export.pdf.filename">
-			<fmt:message key="metricList.title" />.pdf</display:setProperty>
+			<fmt:message key="measurementScaleList.title" />.pdf</display:setProperty>
 	</display:table>
 </div>
