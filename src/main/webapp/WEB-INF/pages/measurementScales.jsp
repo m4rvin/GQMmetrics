@@ -3,17 +3,25 @@
 <title><fmt:message key="measurementScaleList.title" /></title>
 <meta name="menu" content="DefinitionPhaseMenu" />
 </head>
+<style>
+h1 {
+    text-align: center;
+}
+</style>
 <div class="span10">
 	<h2>
 		<fmt:message key='measurementScaleList.heading' />
 	</h2>
 	<div id="actions" class="form-actions">
+	
 		<a class="btn btn-primary"
 			href="<c:url value='/measurementScaleform'/>"> <i
 			class="icon-plus icon-white"></i> <fmt:message key="button.add" /></a> <a
 			class="btn" href="<c:url value='/mainMenu'/>"> <i class="icon-ok"></i>
 			<fmt:message key="button.done" /></a>
+			<a style="float:right" href="/rangeOfValues">View Range of Values</a>
 	</div>
+	
 	<display:table name="measurementScaleList"
 		class="table table-condensed table-striped table-hover" requestURI=""
 		id="measurementScaleList" export="true" pagesize="25">
