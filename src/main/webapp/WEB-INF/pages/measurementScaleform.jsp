@@ -22,7 +22,7 @@
 
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="metric" method="post" action="metricform" id="metricForm"
+    <form:form commandName="measurementScale" method="post" action="measurementScaleform" id="measurementScaleForm"
                cssClass="well form-horizontal">
     <form:hidden path="id"/>
 
