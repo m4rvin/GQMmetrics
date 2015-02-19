@@ -17,8 +17,9 @@
 			<li><a href="/questionmetricform?questionId=${m.question.id}&metricId=${m.metric.id}">${m.question.name} (${m.status})</a></li>			
 		</c:forEach>		    	
 	</ul>
+		 -->
+	
 </div>
-	 -->
 
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
