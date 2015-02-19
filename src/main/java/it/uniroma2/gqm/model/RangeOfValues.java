@@ -1,17 +1,39 @@
 package it.uniroma2.gqm.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.appfuse.model.BaseObject;
 
-public class RangeOfValues extends BaseObject {
+public class RangeOfValues extends BaseObject implements Serializable{
 
 	private static final long serialVersionUID = -5237393676634716606L;
+	
+	private long id;
+	private String name;
 	
 	private Class<?> valueType;
 	private ArrayList<Object> values;
 	private boolean isFinite;
 	
+	private Project project;
+	
+	
+	public long getId(){
+		return this.id;
+	}
+	
+	public void setId(Long id){
+		this.id = id;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
 	
 	public Class<?> getValueType()
 	{
@@ -65,6 +87,14 @@ public class RangeOfValues extends BaseObject {
 	public int hashCode() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 }
