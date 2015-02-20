@@ -1,22 +1,25 @@
 package it.uniroma2.gqm.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import org.appfuse.model.BaseObject;
 
-public class RangeOfValues extends BaseObject implements Serializable{
+public class RangeOfValues extends BaseObject{
 
 	private static final long serialVersionUID = -5237393676634716606L;
 	
 	private long id;
 	private String name;
+	private boolean isDefaultRange;
+	private boolean isNumeric;
+	private String numberType;
+	private boolean isRange;
+	private String rangeValues;
 	private MeasurementScaleTypeEnum measurementScaleType;
-	
-	private Class<?> valueType;
-	private ArrayList<Object> values;
+
+	//optional
 	private boolean isFinite;
 	
+	//relationship with other classes
 	private Project project;
 	
 	
@@ -36,59 +39,46 @@ public class RangeOfValues extends BaseObject implements Serializable{
 		this.name = name;
 	}
 	
-	public Class<?> getValueType()
-	{
-		return valueType;
-	}
-	
-	public ArrayList<Object> getValues()
-	{
-		if(this.isFinite)
-			return this.values;
-		return null;
-	}
-	
-	public void addValues(Object... values)
-	{
-		for(Object value : values)
-		{
-			this.values.add(value);
-		}
-	}
-	
-	public void setValues(ArrayList<Object> values)
-	{
-		this.values = values;
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isDefaultRange() {
+		return isDefaultRange;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		
-		if(o == null)
-			return false;
-		if(!o.getClass().equals(this.getClass()))
-			return false;
-		if(this.isFinite != ((RangeOfValues)o).isFinite)
-			return false;
-		if(this.valueType != ((RangeOfValues)o).valueType)
-			return false;
-		if(!this.isFinite)
-			return true;
-		else
-			return this.values.equals(((RangeOfValues)o).values);
+	public void setDefaultRange(boolean isDefaultRange) {
+		this.isDefaultRange = isDefaultRange;
 	}
 
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean isNumeric() {
+		return isNumeric;
 	}
+
+	public void setNumeric(boolean isNumeric) {
+		this.isNumeric = isNumeric;
+	}
+
+	public String getNumberType() {
+		return numberType;
+	}
+
+	public void setNumberType(String numberType) {
+		this.numberType = numberType;
+	}
+
+	public boolean isRange() {
+		return isRange;
+	}
+
+	public void setRange(boolean isRange) {
+		this.isRange = isRange;
+	}
+
+	public String getRangeValues() {
+		return rangeValues;
+	}
+
+	public void setRangeValues(String rangeValues) {
+		this.rangeValues = rangeValues;
+	}
+
 	
 	public Project getProject() {
 		return project;
@@ -106,5 +96,36 @@ public class RangeOfValues extends BaseObject implements Serializable{
 		this.measurementScaleType = measurementScaleType;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o == null)
+			return false;
+		if(!o.getClass().equals(this.getClass()))
+			return false;
+		if(this.isFinite != ((RangeOfValues)o).isFinite)
+			return false;
+		if(!this.isFinite)
+			return true;
+		
+		return false;
+		//FIXME
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 
 }
