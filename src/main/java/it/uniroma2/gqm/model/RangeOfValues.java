@@ -11,6 +11,7 @@ public class RangeOfValues extends BaseObject implements Serializable{
 	
 	private long id;
 	private String name;
+	private MeasurementScaleTypeEnum measurementScaleType;
 	
 	private Class<?> valueType;
 	private ArrayList<Object> values;
@@ -96,5 +97,14 @@ public class RangeOfValues extends BaseObject implements Serializable{
 	public void setProject(Project project) {
 		this.project = project;
 	}
+
+	public MeasurementScaleTypeEnum getMeasurementScaleType() {
+		return measurementScaleType;
+	}
+
+	public void setMeasurementScaleType(MeasurementScaleTypeEnum measurementScaleType) {
+		this.measurementScaleType = measurementScaleType;
+	}
+
 
 }

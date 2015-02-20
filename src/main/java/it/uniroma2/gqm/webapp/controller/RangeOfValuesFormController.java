@@ -9,9 +9,11 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import it.uniroma2.gqm.model.DefaultRangeOfValuesEnum;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Metric;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -72,6 +74,19 @@ public class RangeOfValuesFormController extends BaseFormController{
         
         model.addAttribute("currentProject",currentProject);
         model.addAttribute("currentUser",currentUser);
+        
+        ArrayList<String> availableMeasurementScaleTypes = new ArrayList<String>();
+        availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.INTERVAL.toString());
+        availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.NOMINAL.toString());
+        availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.ORDINAL.toString());
+        availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.RATIO.toString());
+        model.addAttribute("availableMeasurementScaleTypes", availableMeasurementScaleTypes);
+        
+        ArrayList<String> defaultRangeSets = new ArrayList<String>();
+        defaultRangeSets.add(DefaultRangeOfValuesEnum.NATURAL_NUMBERS.toString());
+        defaultRangeSets.add(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+        defaultRangeSets.add(DefaultRangeOfValuesEnum.REAL_NUMBERS.toString());
+        model.addAttribute("defaultRangeSets", defaultRangeSets);
         //model.addAttribute("units",unitManager.getAll());
         //model.addAttribute("scales",scaleManager.getAll());
         

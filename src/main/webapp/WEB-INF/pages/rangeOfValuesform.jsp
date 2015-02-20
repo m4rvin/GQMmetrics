@@ -62,10 +62,37 @@
 		</spring:bind>
 		<appfuse:label styleClass="control-label" key="rangeOfValues.name" />
 		<div class="controls">
-			<form:input path="name" id="name" maxlength="255" readonly="${false}" />
+			<form:input path="name" id="name" maxlength="255" readonly="false" />
 			<form:errors path="name" cssClass="help-inline" />
 		</div>
-
+		
+		<spring:bind path="rangeOfValues.measurementScaleType">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+		</spring:bind>
+		<appfuse:label styleClass="control-label" key="rangeOfValues.type" />
+		<div class="controls">
+			<form:select path="measurementScaleType" onchange="" disabled="false">
+				<form:options items="${availableMeasurementScaleTypes}"/>
+			</form:select>
+			<form:errors path="measurementScaleType" cssClass="help-inline" />
+		</div>
+		
+		<div class="control-group"></div>
+		<appfuse:label styleClass="control-label" key="rangeOfValues.defaultRanges" />
+		<div class="controls">
+			<input type="radio" name="rangeChoice" value="0" />
+			<form:select path="values" onchange="" disabled="false">
+				<form:options items="${defaultRangeSets}"/>
+			</form:select>
+			<form:errors path="measurementScaleType" cssClass="help-inline" />
+		</div>
+		
+		<div class="control-group"></div>
+		<appfuse:label styleClass="control-label" key="rangeOfValues.customRanges" />
+		<div class="controls">
+			<input type="radio" name="rangeChoice" value="1" />
+		</div>
 		<%-- <spring:bind path="metric.type">
 	<div
 		class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
