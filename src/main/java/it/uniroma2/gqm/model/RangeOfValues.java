@@ -9,10 +9,10 @@ public class RangeOfValues extends BaseObject{
 	
 	private long id;
 	private String name;
-	private boolean isDefaultRange;
-	private boolean isNumeric;
+	private boolean defaultRange;
+	private boolean numeric;
 	private String numberType;
-	private boolean isRange;
+	private boolean range;
 	private String rangeValues;
 	private MeasurementScaleTypeEnum measurementScaleType;
 
@@ -38,22 +38,30 @@ public class RangeOfValues extends BaseObject{
 	public void setName(String name){
 		this.name = name;
 	}
-	
-	public boolean isDefaultRange() {
-		return isDefaultRange;
-	}
-
-	public void setDefaultRange(boolean isDefaultRange) {
-		this.isDefaultRange = isDefaultRange;
-	}
 
 	public boolean isNumeric() {
-		return isNumeric;
+		return numeric;
 	}
 
-	public void setNumeric(boolean isNumeric) {
-		this.isNumeric = isNumeric;
+	public void setNumeric(boolean numeric) {
+		this.numeric = numeric;
 	}
+
+	public boolean isRange() {
+		return range;
+	}
+
+	public void setRange(boolean range) {
+		this.range = range;
+	}
+
+	public boolean isDefaultRange() {
+		return defaultRange;
+	}
+
+	public void setDefaultRange(boolean defaultRange) {
+		this.defaultRange = defaultRange;
+	}	
 
 	public String getNumberType() {
 		return numberType;
@@ -61,14 +69,6 @@ public class RangeOfValues extends BaseObject{
 
 	public void setNumberType(String numberType) {
 		this.numberType = numberType;
-	}
-
-	public boolean isRange() {
-		return isRange;
-	}
-
-	public void setRange(boolean isRange) {
-		this.isRange = isRange;
 	}
 
 	public String getRangeValues() {
