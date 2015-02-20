@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/style.css'/>" />
     <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/lib/jquery.ui.timepicker.css'/>" />
     <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/start/jquery-ui-1.10.3.custom.css'/>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/scripts/bootstrap-tagsinput/bootstrap-tagsinput.css'/>" />
+    
     <decorator:head/>
 
     <script type="text/javascript" src="<c:url value='/scripts/lib/jquery-1.9.1.js'/>"></script>
@@ -22,6 +24,10 @@
     <script type="text/javascript" src="<c:url value='/scripts/script.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/jquery-ui-1.10.3.custom.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/lib/jquery.ui.timepicker.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/bootstrap-tagsinput/bootstrap-tagsinput.js'/>"></script>
+    
+    
+    
 </head>
 <body<decorator:getProperty property="body.id" writeEntireProperty="true"/><decorator:getProperty property="body.class" writeEntireProperty="true"/>>
     <c:set var="currentMenu" scope="request"><decorator:getProperty property="meta.menu"/></c:set>

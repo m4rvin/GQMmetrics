@@ -46,16 +46,6 @@
 			<form:errors path="project" cssClass="help-inline" />
 		</div>
 
-		<%--   <spring:bind path="metric.code">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.code"/>
-        <div class="controls">
-            <form:input path="code" id="code" maxlength="50" readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
-            <form:errors path="code" cssClass="help-inline"/>        
-        </div>
-    </div>
-   --%>
 		<spring:bind path="rangeOfValues.name">
 			<div
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
@@ -65,74 +55,112 @@
 			<form:input path="name" id="name" maxlength="255" readonly="false" />
 			<form:errors path="name" cssClass="help-inline" />
 		</div>
-		
+
 		<spring:bind path="rangeOfValues.measurementScaleType">
 			<div
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
 		</spring:bind>
-		<appfuse:label styleClass="control-label" key="rangeOfValues.type" />
+		<appfuse:label styleClass="control-label"
+			key="rangeOfValues.measurementScaleType" />
 		<div class="controls">
 			<form:select path="measurementScaleType" onchange="" disabled="false">
-				<form:options items="${availableMeasurementScaleTypes}"/>
+				<form:options items="${availableMeasurementScaleTypes}" />
 			</form:select>
 			<form:errors path="measurementScaleType" cssClass="help-inline" />
 		</div>
-		
-		<div class="control-group"></div>
-		<appfuse:label styleClass="control-label" key="rangeOfValues.defaultRanges" />
-		<div class="controls">
-			<input type="radio" name="rangeChoice" value="0" />
-			<form:select path="values" onchange="" disabled="false">
-				<form:options items="${defaultRangeSets}"/>
-			</form:select>
-			<form:errors path="measurementScaleType" cssClass="help-inline" />
-		</div>
-		
-		<div class="control-group"></div>
-		<appfuse:label styleClass="control-label" key="rangeOfValues.customRanges" />
-		<div class="controls">
-			<input type="radio" name="rangeChoice" value="1" />
-		</div>
-		<%-- <spring:bind path="metric.type">
-	<div
-		class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-</spring:bind>
-<appfuse:label styleClass="control-label" key="measurementScale.type" />
-<div class="controls">
-	<form:select path="type" multiple="false"
-		disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-		<form:option value="" label="None" />
-		<form:options items="${availablesTypes}" />
-	</form:select>
-	<form:errors path="type" cssClass="help-inline" />
-</div> --%>
 
-		<%--  <spring:bind path="metric.unit">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.unit"/>
-        <div class="controls">
-			<form:select path="unit.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
-   				<form:option value="" label="None"/>
-		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
-		    </form:select>		
-            <form:errors path="unit" cssClass="help-inline"/>
-        </div>
-    </div>    
- --%>
-		<%-- <spring:bind path="metric.scale">
-	<div
-		class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-</spring:bind>
-<appfuse:label styleClass="control-label" key="metric.scale" />
-<div class="controls">
-	<form:select path="scale.id"
-		disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-		<form:option value="" label="None" />
-		<form:options items="${scales}" itemValue="id" itemLabel="name" />
-	</form:select>
-	<form:errors path="scale" cssClass="help-inline" />
-</div> --%>
+		<br>
+		<br>
+		<appfuse:label styleClass="control-label"
+			key="rangeOfValues.defaultRanges" />
+		<div class="controls">
+			<form:radiobutton id="rangeChoice" path="defaultRange"
+				name="rangeChoice" value="0" />
+			<form:select id="defaultRangeOfValues" path="rangeValues"
+				style="margin-left:10px;" onchange="" disabled="false">
+				<form:options items="${defaultRangeSets}" />
+			</form:select>
+			<form:errors path="rangeValues" cssClass="help-inline" />
+		</div>
+
+		<br>
+		<appfuse:label styleClass="control-label"
+			key="rangeOfValues.customRanges" />
+		<div class="controls">
+			<form:radiobutton id="rangeChoice" path="defaultRange"
+				name="rangeChoice" value="1" />
+		</div>
+
+		<div id="customRangeOfValuesDiv">
+			<!--  tutto quello che riguarda il custom range of values va qua dentro per poter essere nascoso ad occorrenza -->
+
+			<spring:bind path="rangeOfValues.numeric">
+				<div
+					class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			</spring:bind>
+			<appfuse:label styleClass="control-label"
+				key="rangeOfValues.isNumeric" />
+			<div class="controls">
+				<form:checkbox path="numeric" name="isNumeric" />
+			</div>
+
+			<div id="numericRangeDiv">
+				<!-- da far vedere solo se il range of value è un range custom di tipo numerico -->
+
+				<spring:bind path="rangeOfValues.numberType">
+					<div
+						class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+				</spring:bind>
+				<appfuse:label styleClass="control-label"
+					key="rangeOfValues.numberType" />
+				<div class="controls">
+					<form:select id="numberType" path="numberType" onchange=""
+						disabled="false">
+						<form:options items="${defaultRangeSets}" />
+					</form:select>
+				</div>
+
+				<spring:bind path="rangeOfValues.range">
+					<div
+						class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+				</spring:bind>
+				<appfuse:label styleClass="control-label"
+					key="rangeOfValues.isRange" />
+				<div class="controls">
+					<form:checkbox path="range" name="isRange" />
+				</div>
+				<div id="rangeDiv">
+					<spring:bind path="rangeOfValues.rangeValues">
+						<div
+							class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+					</spring:bind>
+					<appfuse:label styleClass="control-label"
+						key="rangeOfValues.rangeValues" />
+					<div class="controls">
+						From
+						<form:input path="rangeValues" id="name" maxlength="25"
+							style="width: 50px;" readonly="false" />
+						To
+						<form:input path="rangeValues" id="name" maxlength="25"
+							style="width: 50px;" readonly="false" />
+						<form:errors path="rangeValues" cssClass="help-inline" />
+					</div>
+				</div>
+				<!-- end rangeDiv -->
+			</div>
+			<div id="rangeListDiv"> <!-- div dove è presente l'input field per inserire i valori manualmente -->
+				<spring:bind path="rangeOfValues.rangeValues">
+					<div
+						class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+				</spring:bind>
+				<appfuse:label styleClass="control-label"
+					key="rangeOfValues.customValues" />
+				<div class="controls">
+					<form:input path="rangeValues" data-role="tagsinput" id="valuesE" />
+					<form:errors path="rangeValues" cssClass="help-inline" />
+				</div>
+			</div> <!-- end rangeListDiv -->
+		</div>
 
 		<div class="form-actions">
 			<c:if test="${true}">
@@ -160,5 +188,50 @@
 			function() {
 				$("input[type='text']:visible:enabled:first",
 						document.forms['rangeOfValuesForm']).focus();
+				hide_elements();
+
 			});
+
+	function hide_elements() {
+		$("#customRangeOfValuesDiv").hide();
+		$("#numericRangeDiv").hide();
+		$("#rangeDiv").hide();
+	}
+
+	$("input[name=defaultRange]").change(function() {
+		var radioValue = $("input[name=defaultRange]:checked").val();
+		if (radioValue == 0) {
+			$("#defaultRangeOfValues").attr("disabled", false);
+			$("#customRangeOfValuesDiv").hide();
+		} else {
+			$("#defaultRangeOfValues").attr("disabled", true);
+			$("#customRangeOfValuesDiv").show();
+
+		}
+	});
+	
+	$("input[name=numeric]").change(function() {
+
+		if ($(this).is(":checked")) {
+			$("#numericRangeDiv").show();
+		} else {
+			$("#numericRangeDiv").hide();
+			if($("input[name=range]").prop('checked'))
+				$("input[name=range]").click();
+			$("#rangeListDiv").show();
+		}
+	});
+	
+	$("input[name=range]").change(function() {
+
+		if ($(this).is(":checked")) {
+			$("#rangeDiv").show();
+			$("#rangeListDiv").hide();
+		} else {
+			$("#rangeDiv").hide();
+			$("#rangeListDiv").show();
+		}
+	});
+	
+	
 </script>
