@@ -44,7 +44,6 @@
 
     <build>
         <defaultGoal>install</defaultGoal>
-        <pluginManagement>
 	        <plugins>
 	            <plugin>
 	                <groupId>org.appfuse.plugins</groupId>
@@ -216,7 +215,6 @@
 	                </executions>
 	            </plugin>
 	        </plugins>
-        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -678,7 +676,7 @@
         <web.framework>spring</web.framework>
         <amp.genericCore>true</amp.genericCore>
         <amp.fullSource>false</amp.fullSource>
-        <db.name>GQM_Blind</db.name>
+        <db.name>GQM_Blind_prod</db.name>
 
         <!-- Framework dependency versions -->
         <appfuse.version>2.2.1</appfuse.version>
