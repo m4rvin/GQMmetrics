@@ -1,13 +1,23 @@
 package it.uniroma2.gqm.model;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import org.appfuse.model.BaseObject;
 
+@Entity
 public class RangeOfValues extends BaseObject{
 
 	private static final long serialVersionUID = -5237393676634716606L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	private String name;
 	private boolean defaultRange;
 	private boolean numeric;

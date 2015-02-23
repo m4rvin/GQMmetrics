@@ -15,5 +15,6 @@
 		<mapping class="it.uniroma2.gqm.model.QuestionMetric"/>
 		<mapping class="it.uniroma2.gqm.model.Strategy"/>
 		<mapping class="it.uniroma2.gqm.model.Measurement"/>
+		<mapping class="it.uniroma2.gqm.model.RangeOfValues"/>
     </session-factory>
 </hibernate-configuration>
