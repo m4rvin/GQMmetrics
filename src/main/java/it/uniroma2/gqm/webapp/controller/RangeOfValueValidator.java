@@ -27,6 +27,8 @@ public class RangeOfValueValidator implements Validator
 		  if (rov.isDefaultRange())
 		  {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rangeValues", "rangeValues", "Range Set is a required field");
+				 rov.setRange(true);
+				 rov.setRangeValues(null);
 		  } else
 		  {
 				if (rov.isNumeric())
