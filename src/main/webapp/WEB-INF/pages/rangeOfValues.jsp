@@ -23,7 +23,7 @@
 			titleKey="rangeOfValues.id" />
 
 		<display:column property="name" sortable="true" titleKey="rangeOfValues.name" />
-		<display:column property="values" sortable="true" titleKey="rangeOfValues.values" />
+		<display:column property="rangeValues" sortable="true" titleKey="rangeOfValues.values" />
 		
 		<display:setProperty name="paging.banner.item_name">
 			<fmt:message key="rangeOfValuesList.rangeOfValues" />

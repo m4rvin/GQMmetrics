@@ -1,7 +1,11 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import java.util.List;
+
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,20 +23,27 @@ import org.springframework.web.servlet.ModelAndView;
 public class RangeOfValuesController {
 	
 	
-	private ProjectManager projectManager;
+	private ProjectManager projectManager = null;
+	private RangeOfValuesManager rangeOfValuesManager = null;
 
 	@Autowired
 	public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager) {
 	    this.projectManager = projectManager;
 	}
+	
+	 @Autowired
+	 public void setRangeOfValuesManager(@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager) {
+		this.rangeOfValuesManager = rangeOfValuesManager;
+	 }
 
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpSession session) throws Exception
 	{
         Project currentProject = projectManager.getCurrentProject(session);
-
-		return new ModelAndView();
+        List<RangeOfValues> rovs = rangeOfValuesManager.findByProject(currentProject);
+        
+		return new ModelAndView().addObject("rangeOfValuesList", rovs);
 	}
 
 }
