@@ -4,7 +4,6 @@
 <meta name="menu" content="DefinitionPhaseMenu" />
 </head>
 
-${rangeOfValues}
 <div class="span2">
 	<h2>
 		<fmt:message key='rangeOfValuesDetail.heading' />
@@ -96,7 +95,7 @@ ${rangeOfValues}
 				<div class="control-group">
 					<appfuse:label styleClass="control-label" key="rangeOfValues.isNumeric" />
 					<div class="controls">
-						<form:checkbox path="numeric" name="isNumeric" />
+						<form:checkbox path="numeric" name="isNumeric" onchange="enableNumericRange()" />
 					</div>
 				</div>
 			
@@ -111,7 +110,9 @@ ${rangeOfValues}
 								<form:option value="" label="None" />
 								<form:options items="${defaultRangeSets}" />
 							</form:select>
+							<form:errors path="numberType" cssClass="help-inline" />
 						</div>
+						
 					</div>
 				</spring:bind>
 				
@@ -121,21 +122,12 @@ ${rangeOfValues}
 						<form:checkbox path="range" name="isRange" />
 					</div>
 				</div>
-				
-				<spring:bind path="rangeOfValues.rangeValues">
-					<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-						<appfuse:label styleClass="control-label" key="rangeOfValues.rangeValues" />
-						<div class="controls">
-							From
-							<form:input path="rangeValues" id="from" maxlength="25" style="width: 50px;" readonly="false" />
-							To
-							<form:input path="rangeValues" id="to" maxlength="25" style="width: 50px;" readonly="false" />
-							<form:errors path="rangeValues" cssClass="help-inline" />
-						</div>
-					</div>
-				</spring:bind>
-				
-				<div id="rangeListDiv">
+			
+			
+				 
+			</div>
+			
+			<div id="rangeListDiv">
 				
 					<spring:bind path="rangeOfValues.rangeValues">
 						<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
@@ -144,15 +136,10 @@ ${rangeOfValues}
 								<form:input id="customValues" path="rangeValues" data-role="tagsinput" />
 								<form:errors path="rangeValues" cssClass="help-inline" />
 							</div>
-							
-							<form:errors path="rangeValues" cssClass="help-inline" />
-						
 						</div>
 					</spring:bind>
 					
 				</div>
-				
-			</div>
 			
 		</div>
 
@@ -183,6 +170,7 @@ ${rangeOfValues}
 				$("input[type='text']:visible:enabled:first",
 						document.forms['rangeOfValuesForm']).focus();
 				selectTypes();
+				enableNumericRange();
 			});
 
 	function selectTypes()
@@ -192,8 +180,6 @@ ${rangeOfValues}
 			document.getElementById('numeric1').checked = true;
 			document.getElementById('numberType').value = '';
 			document.getElementById('range1').checked = false;
-			document.getElementById('from').value = '';
-			document.getElementById('to').value = '';
 			$('#customValues').tagsinput('removeAll');
 			
 			$('#customRangeOfValuesDiv').hide();
@@ -203,10 +189,27 @@ ${rangeOfValues}
 		else
 		{
 			document.getElementById('defaultRangeOfValues').value = '';
+		//	document.getElementById('defaultRangeOfValues').readOnly = true;
 			$('#defaultRangeDiv').hide();
-			document.getElementById('numeric1').checked = false;
+			enableNumericRange();
 			$('#customRangeOfValuesDiv').show();
 		}
 	}
+	
+	function enableNumericRange()
+	{
+		if($('#numeric1').is(':checked'))
+		{		
+			$('#numericRangeDiv').show();		
+		}
+		else
+		{
+			document.getElementById('numberType').value = '';
+			document.getElementById('range1').checked = false;
+			
+			$('#numericRangeDiv').hide();
+		}
+	}
+	
 	
 </script>

@@ -1,5 +1,11 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +38,8 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +53,7 @@ public class RangeOfValuesFormController extends BaseFormController
 
 	 private UserManager userManager = null;
 	 private ProjectManager projectManager = null;
+	 private RangeOfValueValidator customValidator;
 
 	 public RangeOfValuesFormController()
 	 {
@@ -56,6 +65,12 @@ public class RangeOfValuesFormController extends BaseFormController
 	 public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager)
 	 {
 		  this.projectManager = projectManager;
+	 }
+	 
+	 @Autowired
+	 public void setCustomValidator(@Qualifier("rangeOfValueValidator") RangeOfValueValidator validator)
+	 {
+		  this.customValidator = validator;
 	 }
 
 	 @Autowired
@@ -103,7 +118,7 @@ public class RangeOfValuesFormController extends BaseFormController
 
 
 	 @RequestMapping(method = RequestMethod.POST)
-	 public String onSubmit(RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, HttpServletResponse response)
+	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, HttpServletResponse response)
 	 {
         if (request.getParameter("cancel") != null)
             return getCancelView();
@@ -114,24 +129,43 @@ public class RangeOfValuesFormController extends BaseFormController
 				validator.validate(rangeOfValues, errors);
 				if (errors.hasErrors() && request.getParameter("delete") == null)
 				{
-					 System.out.println("errors during validation");
+					 System.out.println(errors);
 					 System.out.println(rangeOfValues);
 					 return "rangeOfValuesform";
 				}
 		  }
-		  
-		  String[] values = rangeOfValues.getRangeValues().split(",");
-		  for(String value : values)
-		  {
-				if(value.length() > 0)
-				{
-					 rangeOfValues.setRangeValues(value);
-					 break;
-				}
-		  }
-		  
-		  System.out.println(errors);
+		   
 		  System.out.println(rangeOfValues);
 		  return getSuccessView();
+	 }
+	 
+	 @InitBinder(value="rangeOfValues")
+	 public void initBinder(WebDataBinder binder)
+	 {
+		  binder.setValidator(this.customValidator);
+		  binder.registerCustomEditor(String.class, "rangeValues", new RangeValuesEditorSupport());	 
+	 }
+	 
+	 private class RangeValuesEditorSupport extends PropertyEditorSupport {
+		  
+		  @Override
+		  public void setAsText(String text)
+		  {
+				if(text != null && !text.equals(""))
+				{
+					 String[] values = text.split(",");
+					 String res = "";
+					 for(String val : values)
+					 {
+						  if(val.length() > 0)
+						  {
+								if(res.length() > 0)
+									 res += ",";
+								res = res + val;
+						  }
+					 }
+					 setValue(res);
+				}	
+		  }
 	 }
 }
