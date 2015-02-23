@@ -28,6 +28,7 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
@@ -53,6 +54,7 @@ public class RangeOfValuesFormController extends BaseFormController
 
 	 private UserManager userManager = null;
 	 private ProjectManager projectManager = null;
+	 private RangeOfValuesManager rangeOfValuesManager = null;
 	 private RangeOfValueValidator customValidator;
 
 	 public RangeOfValuesFormController()
@@ -68,6 +70,11 @@ public class RangeOfValuesFormController extends BaseFormController
 	 }
 	 
 	 @Autowired
+	 public void setRangeOfValuesManager(@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager) {
+		this.rangeOfValuesManager = rangeOfValuesManager;
+	 }
+
+	@Autowired
 	 public void setCustomValidator(@Qualifier("rangeOfValueValidator") RangeOfValueValidator validator)
 	 {
 		  this.customValidator = validator;
@@ -136,6 +143,7 @@ public class RangeOfValuesFormController extends BaseFormController
 		  }
 		   
 		  System.out.println(rangeOfValues);
+		  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
 		  return getSuccessView();
 	 }
 	 
@@ -168,4 +176,5 @@ public class RangeOfValuesFormController extends BaseFormController
 				}	
 		  }
 	 }
+	 
 }

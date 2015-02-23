@@ -138,10 +138,15 @@ public class RangeOfValues extends BaseObject{
 
 	
 	
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "RangeOfValues [id=" + id + ", name=" + name + ", defaultRange="
+				+ defaultRange + ", numeric=" + numeric + ", numberType="
+				+ numberType + ", range=" + range + ", rangeValues="
+				+ rangeValues + ", measurementScaleType="
+				+ measurementScaleType + ", isFinite=" + isFinite
+				+ ", project=" + project + "]";
 	}
 
 	@Override
