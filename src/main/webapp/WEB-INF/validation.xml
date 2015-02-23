@@ -131,10 +131,6 @@
             <field property="measurementScaleType" depends="required">
                 <arg key="rangeOfValues.measurementScaleType"/>
             </field>
-            <field property="rangeValues" depends="required">
-                <arg key="rangeOfValues.rangeValues"/>
-            </field>
-            
         </form>
     </formset>
 </form-validation>
