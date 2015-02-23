@@ -3,33 +3,54 @@ package it.uniroma2.gqm.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.appfuse.model.BaseObject;
 
 @Entity
+@Table(name = "range_of_values")
 public class RangeOfValues extends BaseObject{
 
 	private static final long serialVersionUID = -5237393676634716606L;
 	
 	@Id
+	@Column(name = "rangeofvalues_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	private String name;
+	
+	@Column(name = "is_default_range")
 	private boolean defaultRange;
+	
+	@Column(name = "is_numeric")
 	private boolean numeric;
+	
+	@Column(name = "number_type")
 	private String numberType;
+	
+	@Column(name = "is_range")
 	private boolean range;
+	
+	@Column(name = "range_values")
 	private String rangeValues;
+	
+	@Column(name = "measurement_scale_type")
 	private MeasurementScaleTypeEnum measurementScaleType;
 
 	//optional
+	@Column(name = "is_finite")
 	private boolean isFinite;
 	
 	//relationship with other classes
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_id", nullable = false)
 	private Project project;
 	
 	
