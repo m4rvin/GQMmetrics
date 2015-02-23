@@ -120,6 +120,21 @@
             <field property="type" depends="required">
                 <arg key="metric.type"/>
             </field>      
-        </form>   
+        </form>
+        <form name="rangeOfValues">
+        	<field property="project" depends="required">
+                <arg key="rangeOfValues.project"/>
+            </field>
+            <field property="name" depends="required">
+                <arg key="rangeOfValues.name"/>
+            </field>
+            <field property="measurementScaleType" depends="required">
+                <arg key="rangeOfValues.measurementScaleType"/>
+            </field>
+            <field property="rangeValues" depends="required">
+                <arg key="rangeOfValues.rangeValues"/>
+            </field>
+            
+        </form>
     </formset>
 </form-validation>
