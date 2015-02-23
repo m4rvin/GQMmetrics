@@ -24,6 +24,12 @@
 
 		<display:column property="name" sortable="true" titleKey="rangeOfValues.name" />
 		<display:column property="rangeValues" sortable="true" titleKey="rangeOfValues.values" />
+		<display:column property="defaultRange" sortable="true" titleKey="rangeOfValuesList.isDefault" />
+		<display:column property="numeric" sortable="true" titleKey="rangeOfValuesList.isNumeric" />
+		<display:column property="numberType" sortable="true" titleKey="rangeOfValues.numberType" />
+		<display:column property="measurementScaleType" sortable="true" titleKey="rangeOfValues.measurementScaleType" />
+		
+		
 		
 		<display:setProperty name="paging.banner.item_name">
 			<fmt:message key="rangeOfValuesList.rangeOfValues" />
