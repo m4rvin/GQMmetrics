@@ -9,12 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.appfuse.model.BaseObject;
 
 @Entity
 @Table(name = "range_of_values")
+@NamedQueries({
+    @NamedQuery(
+            name = "findRangeOfValuesByProject",
+            query = "select r from RangeOfValues r where r.project.id= :project_id "
+    )
+})
+
 public class RangeOfValues extends BaseObject{
 
 	private static final long serialVersionUID = -5237393676634716606L;
