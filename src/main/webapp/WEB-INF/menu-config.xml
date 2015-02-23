@@ -27,6 +27,7 @@
        		<Item name="ViewGrid" title="menu.interpretationPhase.grid" page="/grid"/>
             <Item name="ViewBinaryTable" title="menu.interpretationPhase.binaryTable" page="/binarylist"/>
             <Item name="GoalSatisfaction" title="menu.interpretationPhase.goalSatisfaction" page="/goalsatisfaction"/>
+            <Item name="InterpretationModel" title="menu.interpretationPhase.interpretationModel" page="/interpretationModel"/>
        </Menu>       
        <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
     </Menus>
