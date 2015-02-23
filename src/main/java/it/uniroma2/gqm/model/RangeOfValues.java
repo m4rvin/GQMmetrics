@@ -149,28 +149,37 @@ public class RangeOfValues extends BaseObject{
 				+ ", project=" + project + "]";
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		
-		if(o == null)
-			return false;
-		if(!o.getClass().equals(this.getClass()))
-			return false;
-		if(this.isFinite != ((RangeOfValues)o).isFinite)
-			return false;
-		if(!this.isFinite)
-			return true;
-		
-		return false;
-		//FIXME
-	}
-
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-
+   @Override
+   public int hashCode()
+   {
+   	 final int prime = 31;
+   	 int result = 1;
+   	 result = prime * result + (defaultRange ? 1231 : 1237);
+   	 result = prime * result + (int) (id ^ (id >>> 32));
+   	 result = prime * result + (isFinite ? 1231 : 1237);
+   	 result = prime * result + ((measurementScaleType == null) ? 0 : measurementScaleType.hashCode());
+   	 result = prime * result + ((name == null) ? 0 : name.hashCode());
+   	 result = prime * result + ((numberType == null) ? 0 : numberType.hashCode());
+   	 result = prime * result + (numeric ? 1231 : 1237);
+   	 result = prime * result + ((project == null) ? 0 : project.hashCode());
+   	 result = prime * result + (range ? 1231 : 1237);
+   	 result = prime * result + ((rangeValues == null) ? 0 : rangeValues.hashCode());
+   	 return result;
+   }
+   
+   @Override
+   public boolean equals(Object o) {
+   	
+   	if(o == null)
+   		return false;
+   	if(!o.getClass().equals(this.getClass()))
+   		return false;
+   	if(this.isFinite != ((RangeOfValues)o).isFinite)
+   		return false;
+   	if(!this.isFinite)
+   		return true;
+   	
+   	return false;
+   	//FIXME
+   }
 }
