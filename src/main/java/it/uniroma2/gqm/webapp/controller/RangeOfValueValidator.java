@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+@SuppressWarnings("deprecation")
 @Component(value = "rangeOfValueValidator")
 public class RangeOfValueValidator implements Validator
 {
@@ -26,22 +27,23 @@ public class RangeOfValueValidator implements Validator
 
 		  if (rov.isDefaultRange())
 		  {
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rangeValues", "rangeValues", "Range Set is a required field");
-				 rov.setRange(true);
-				 rov.setRangeValues(null);
-		  } else
+				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "numberType", "numberType", "Range Set is a required field");
+				rov.setRange(true);
+				rov.setRangeValues(null);
+		  } 
+		  else
 		  {
 				if (rov.isNumeric())
 				{
 					 // verificare che il numeric type sia stato selezionato
 					 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "numberType", "numberType", "Numeric type must be specified");
+					 if(errors.hasErrors())
+							 return;					
 
-					 // verificare il pattern del range solo se il numeric type è
-					 // specificato
-					 if (rov.isRange() && !rov.getNumberType().equals(""))
+					 // verificare il pattern del range
+					 if (rov.isRange())
 					 {
 						  String[] ranges = rov.getRangeValues().split(",");
-						  boolean found = false;
 						  for (String range : ranges) // per ogni valore inserito
 																// controllare il pattern del
 																// range in base al tipo e se è
@@ -49,53 +51,59 @@ public class RangeOfValueValidator implements Validator
 						  {
 								switch (DefaultRangeOfValuesEnum.valueOf(rov.getNumberType()))
 								{
-   								case REAL_NUMBERS:
-   									 if (!range.matches("^(\\[){1}(-)*[0-9]+(.[0-9]+)?(:){1}(-)*[0-9]+(.[0-9]+)?(\\])${1}"))
-   									 {
-   										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
-   										  found = true;
-   									 }
-   									 break;
-   								case INTEGER_NUMBERS:
-   									 if (!range.matches("^(\\[){1}(-)*[0-9]+(:){1}(-)*[0-9]+(\\])${1}"))
-   									 {
-   										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
-   										  found = true;
-   									 }
-   									 break;
-   								default:
-   									 if (!range.matches("^(\\[){1}[0-9]+(:){1}[0-9]+(\\])${1}"))
-   									 {
-   										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
-   										  found = true;
-   									 }
-   									 break;
-   							}
-								if (found)
-									 break;
-								else
-								{
-									 if (!this.isValidRange(range))
+								case REAL_NUMBERS:
+									 if (!range.matches("^(\\[){1}(-)*[0-9]+(.[0-9]+)?(:){1}(-)*[0-9]+(.[0-9]+)?(\\])${1}"))
 									 {
-										  errors.rejectValue("rangeValues", "rangeValues", "Ending point of a range must be gretater than starting point");
-										  break;
+										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
+										  return;
 									 }
-								}
-						  }
-					 } else if (!rov.isRange() && !rov.getNumberType().equals(""))
-					 {
-						  // verificare che i valori dentro il rangeValues siano solo
-						  // numeri
-						  String[] values = rov.getRangeValues().split(",");
-						  for (String val : values)
-						  {
-								if (!NumberUtils.isNumber(val) || !this.isConsistentNumber(val, rov.getNumberType()))
-								{
-									 errors.rejectValue("rangeValues", "rangeValues", "Range Set must contain only valid numbers");
 									 break;
+								case INTEGER_NUMBERS:
+									 if (!range.matches("^(\\[){1}(-)*[0-9]+(:){1}(-)*[0-9]+(\\])${1}"))
+									 {
+										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
+										  return;
+									 }
+									 break;
+								default:
+									 if (!range.matches("^(\\[){1}[0-9]+(:){1}[0-9]+(\\])${1}"))
+									 {
+										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
+										  return;
+									 }
+									 break;
+								}
+								if (!this.isValidRange(range))
+								{
+									 errors.rejectValue("rangeValues", "rangeValues", "Ending point of a range must be gretater than starting point");
+									 return;
 								}
 						  }
 					 }
+					 else
+					 {
+						  ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rangeValues", "rangeValues", "Range Set cannot be empty");
+							
+							if(errors.hasErrors())
+								 return;
+						  // verificare che i valori dentro il rangeValues siano solo
+						  // numeri
+						  String[] values = rov.getRangeValues().split(",");						  
+						  for (String val : values)
+						  {								
+								if (!NumberUtils.isNumber(val) || !this.isConsistentNumber(val, rov.getNumberType()))
+								{
+									 errors.rejectValue("rangeValues", "rangeValues", "Range Set must contain only valid numbers");
+									 return;
+								}
+						  }
+					 }
+				}
+				else //controlla solo che il campo dei valori accettati non sia nullo
+				{
+					 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rangeValues", "rangeValues", "Range Set cannot be empty");
+					 if(errors.hasErrors())
+							 return;					
 				}
 		  }
 	 }
@@ -112,7 +120,7 @@ public class RangeOfValueValidator implements Validator
 		  float to = Float.parseFloat(rangeExpression.split(":")[1]);
 		  return to > from;
 	 }
-	 
+
 	 /*
 	  * controlla che un numero sia consistente con il tipo specificato
 	  */
@@ -121,12 +129,12 @@ public class RangeOfValueValidator implements Validator
 		  System.out.println(num + " " + type);
 		  switch (DefaultRangeOfValuesEnum.valueOf(type))
 		  {
-		  		case NATURAL_NUMBERS:
-		  			 return num.indexOf("-") == -1 && num.indexOf(".") == -1;
-		  		case INTEGER_NUMBERS:
-		  			 return num.indexOf(".") == -1;
-	  			 default:
-	  				  return true;
+		  case NATURAL_NUMBERS:
+				return num.indexOf("-") == -1 && num.indexOf(".") == -1;
+		  case INTEGER_NUMBERS:
+				return num.indexOf(".") == -1;
+		  default:
+				return true;
 		  }
 	 }
 }

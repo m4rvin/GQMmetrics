@@ -74,15 +74,15 @@
 			</div>
 		</div>
 		<div id="defaultRangeDiv">
-			<spring:bind path="rangeOfValues.rangeValues">
+			<spring:bind path="rangeOfValues.numberType">
 				<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 					<appfuse:label styleClass="control-label" key="rangeOfValues.rangeValues" />
 					<div class="controls">
-						<form:select id="defaultRangeOfValues" path="rangeValues" disabled="false">
+						<form:select id="defaultRangeOfValues" path="numberType" disabled="false">
 							<form:option value="" label="None" />
 							<form:options items="${defaultRangeSets}" />
 						</form:select>
-						<form:errors path="rangeValues" cssClass="help-inline" />
+						<form:errors path="numberType" cssClass="help-inline" />
 					</div>
 				</div>
 			</spring:bind>

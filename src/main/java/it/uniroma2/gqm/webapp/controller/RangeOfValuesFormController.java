@@ -1,16 +1,8 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,24 +10,17 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import it.uniroma2.gqm.model.DefaultRangeOfValuesEnum;
-import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.GoalQuestion;
-import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
-import it.uniroma2.gqm.model.Metric;
-import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
 
-import org.apache.commons.lang.StringUtils;
+
 import org.appfuse.model.User;
 import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -151,7 +136,7 @@ public class RangeOfValuesFormController extends BaseFormController
 	 public void initBinder(WebDataBinder binder)
 	 {
 		  binder.setValidator(this.customValidator);
-		  binder.registerCustomEditor(String.class, "rangeValues", new RangeValuesEditorSupport());	 
+		  binder.registerCustomEditor(String.class, "numberType", new RangeValuesEditorSupport());
 	 }
 	 
 	 private class RangeValuesEditorSupport extends PropertyEditorSupport {
@@ -176,5 +161,4 @@ public class RangeOfValuesFormController extends BaseFormController
 				}	
 		  }
 	 }
-	 
 }
