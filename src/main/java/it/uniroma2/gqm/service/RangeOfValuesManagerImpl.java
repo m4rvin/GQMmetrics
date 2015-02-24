@@ -1,10 +1,11 @@
 package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.dao.RangeOfValuesDao;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.RangeOfValues;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.appfuse.service.impl.GenericManagerImpl;
@@ -41,5 +42,13 @@ public class RangeOfValuesManagerImpl extends
 	public RangeOfValues saveRangeOfValues(RangeOfValues rangeOfValues) {
 			return rangeOfValuesDao.save(rangeOfValues);
 	}
+
+   @Override
+   public List<RangeOfValues> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
+   {
+   	 if(type != null)
+   		  return this.rangeOfValuesDao.findBySupportedMeasurementScale(type);
+   	 return null;
+   }
 
 }

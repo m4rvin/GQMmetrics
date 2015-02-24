@@ -3,8 +3,7 @@ package it.uniroma2.gqm.dao.hibernate;
 import java.util.List;
 
 import it.uniroma2.gqm.dao.RangeOfValuesDao;
-import it.uniroma2.gqm.model.Metric;
-import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
 
 import org.appfuse.dao.hibernate.GenericDaoHibernate;
@@ -33,6 +32,13 @@ public class RangeOfValuesDaoHibernate extends GenericDaoHibernate<RangeOfValues
         getSession().flush();		
 		return super.save(object);
 	}
+
+   @Override
+   public List<RangeOfValues> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
+   {
+   	 Query q = getSession().getNamedQuery("findRangeOfValuesBySupportedMeasurementScale").setLong("measurementScaleType", type.ordinal());
+   	 return q.list();
+   }
 
 
 
