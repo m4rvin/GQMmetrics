@@ -28,88 +28,65 @@
 <div class="span7">
 	<form:errors path="*" cssClass="alert alert-error fade in"
 		element="div" />
-	<form:form commandName="measurementScale" method="post"
-		action="measurementScaleform" id="measurementScaleForm"
-		cssClass="well form-horizontal">
+	<form:form commandName="measurementScale" method="post" action="measurementScaleform" id="measurementScaleForm" cssClass="well form-horizontal">
 		<form:hidden path="id" />
 
 		<spring:bind path="measurementScale.project">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<appfuse:label styleClass="control-label" key="measurementScale.project" />
+			<div class="controls">
+				<form:select path="project.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+					<form:option value="${measurementScale.project.id}" label="${measurementScale.project.name}" />
+				</form:select>
+				<form:errors path="project" cssClass="help-inline" />
+			</div>
 		</spring:bind>
-		<appfuse:label styleClass="control-label"
-			key="measurementScale.project" />
-		<div class="controls">
-			<form:select path="project.id" onchange=""
-				disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-				<form:option value="${measurementScale.project.id}"
-					label="${measurementScale.project.name}" />
-			</form:select>
-			<form:errors path="project" cssClass="help-inline" />
-		</div>
 
-		<%--   <spring:bind path="metric.code">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.code"/>
-        <div class="controls">
-            <form:input path="code" id="code" maxlength="50" readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
-            <form:errors path="code" cssClass="help-inline"/>        
-        </div>
-    </div>
-   --%>
 		<spring:bind path="measurementScale.name">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<appfuse:label styleClass="control-label" key="measurementScale.name" />
+			<div class="controls">
+				<form:input path="name" id="name" maxlength="255"
+					readonly="${metric.metricOwner ne currentUser && not empty metric.id}" />
+				<form:errors path="name" cssClass="help-inline" />
+			</div>
 		</spring:bind>
-		<appfuse:label styleClass="control-label" key="measurementScale.name" />
-		<div class="controls">
-			<form:input path="name" id="name" maxlength="255"
-				readonly="${metric.metricOwner ne currentUser && not empty metric.id}" />
-			<form:errors path="name" cssClass="help-inline" />
-		</div>
-
-		<spring:bind path="metric.type">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+		
+		<spring:bind path="measurementScale.type">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<appfuse:label styleClass="control-label" key="measurementScale.type" />
+			<div class="controls">
+				<form:select id="measurementScaleType" path="type" onchange="getSupportedValues()" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+					<form:option value="" label="None" />
+					<form:options items="${availableMeasurementScaleTypes}" />
+				</form:select>
+				<form:errors path="type" cssClass="help-inline" />
+			</div>
 		</spring:bind>
-		<appfuse:label styleClass="control-label" key="measurementScale.type" />
-		<div class="controls">
-			<form:select path="type" multiple="false"
-				disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-				<form:option value="" label="None" />
-				<form:options items="${availablesTypes}" />
-			</form:select>
-			<form:errors path="type" cssClass="help-inline" />
-		</div>
-
-		<%--  <spring:bind path="metric.unit">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.unit"/>
-        <div class="controls">
-			<form:select path="unit.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
-   				<form:option value="" label="None"/>
-		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
-		    </form:select>		
-            <form:errors path="unit" cssClass="help-inline"/>
-        </div>
-    </div>    
- --%>
-		<spring:bind path="metric.scale">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+		
+		<spring:bind path="measurementScale.rangeOfValues">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
+			<div class="controls">
+				<form:select path="rangeOfValues" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+					<form:option value="" label="None" />
+				</form:select>
+				<form:errors path="rangeOfValues" cssClass="help-inline" />
+			</div>
 		</spring:bind>
-		<appfuse:label styleClass="control-label" key="metric.scale" />
-		<div class="controls">
-			<form:select path="scale.id"
-				disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-				<form:option value="" label="None" />
-				<form:options items="${scales}" itemValue="id" itemLabel="name" />
-			</form:select>
-			<form:errors path="scale" cssClass="help-inline" />
-		</div>
-
+		
+		<spring:bind path="measurementScale.operations">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
+			<div class="controls">
+				<form:select path="operations" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+					<form:option value="" label="None" />
+				</form:select>
+				<form:errors path="operations" cssClass="help-inline" />
+			</div>
+		</spring:bind>
+		
+	
 		<div class="form-actions">
 			<c:if test="${metric.metricOwner eq currentUser || empty metric.id}">
 				<button type="submit" class="btn btn-primary" name="save">
@@ -136,4 +113,43 @@
 				$("input[type='text']:visible:enabled:first",
 						document.forms['metricForm']).focus();
 			});
+	
+	function getSupportedValues()
+	{
+		var currentLength = document.getElementById('rangeOfValues').length;
+		if(currentLength > 1) //devo rimuovere le opzioni correnti prima di listare quelle nuove
+			{
+				while(currentLength > 0)
+					{	
+						$('#rangeOfValues option:eq(1)').remove();
+						currentLength = currentLength - 1;
+					}
+			}
+		
+		var type = $("#measurementScaleType").val();
+		if(type != "") //valore non nullo
+			{
+				var json_data = $.param({type : type});
+				
+				$.ajax(
+						{
+							type : "GET",
+							url : "measurementScaleformAjax",
+							data : {type : type},
+							contentType : "application/json",
+							success : function(response)
+								{
+									var JSONResponse = JSON.parse(response);
+									$.each(JSONResponse, function()
+												{
+													$('#rangeOfValues').append($("<option></option").attr("value", this[1]).text(this[0]));
+												});
+								},
+							error : function(error)
+								{
+									console.log(error);
+								}
+						});
+			}
+	}
 </script>
