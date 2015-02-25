@@ -1,8 +1,11 @@
 package it.uniroma2.gqm.model;
 
+
 import java.util.Set;
 
 import org.appfuse.model.BaseObject;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 public class MeasurementScale extends BaseObject {
 
@@ -18,16 +21,18 @@ public class MeasurementScale extends BaseObject {
 	
 	private Project project;
 	
-	@Override
-	public String toString() {
-
-		return null;
-	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "MeasurementScale [id=" + id + ", name=" + name
+				+ ", rangeOfValues=" + rangeOfValues + ", operations="
+				+ operations + ", type=" + type + ", project=" + project + "]";
 	}
 
 	@Override
@@ -84,5 +89,5 @@ public class MeasurementScale extends BaseObject {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
+	
 }
