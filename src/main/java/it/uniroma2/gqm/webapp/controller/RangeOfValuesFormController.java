@@ -16,7 +16,7 @@ import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
 
-
+import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
 import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,17 +76,24 @@ public class RangeOfValuesFormController extends BaseFormController
 	 protected RangeOfValues showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
 
-		  // String id = request.getParameter("id");
+		  String id = request.getParameter("id");
 		  RangeOfValues rov = null;
 
 		  Project currentProject = projectManager.getCurrentProject(session);
 		  User currentUser = userManager.getUserByUsername(request.getRemoteUser());
-
-		  rov = new RangeOfValues();
-		  rov.setProject(currentProject);
-		  rov.setDefaultRange(true);
-		  rov.setNumeric(true);
-
+		  
+		  if(!StringUtils.isBlank(id)) //rov già creato, visualizzo le info per l'update
+		  {
+				rov = this.rangeOfValuesManager.findById(new Long(id));
+		  }
+		  else
+		  {
+				rov = new RangeOfValues();
+				rov.setProject(currentProject);
+				rov.setDefaultRange(true);
+				rov.setNumeric(true);
+		  }
+		  
 		  model.addAttribute("currentProject", currentProject);
 		  model.addAttribute("currentUser", currentUser);
 

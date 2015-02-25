@@ -7,12 +7,13 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
 
 import org.appfuse.service.GenericManager;
+import org.json.JSONArray;
 
 public interface RangeOfValuesManager extends GenericManager<RangeOfValues, Long>{
 
 	public List<RangeOfValues> findByProject(Project project);
 	public RangeOfValues findById(Long id);
 	public RangeOfValues saveRangeOfValues(RangeOfValues rangeOfValues);
-	public List<RangeOfValues> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
+	public JSONArray findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
 	
 }

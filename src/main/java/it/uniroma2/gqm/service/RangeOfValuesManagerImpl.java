@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.appfuse.service.impl.GenericManagerImpl;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +45,12 @@ public class RangeOfValuesManagerImpl extends
 	}
 
    @Override
-   public List<RangeOfValues> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
+   public JSONArray findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
    {
    	 if(type != null)
-   		  return this.rangeOfValuesDao.findBySupportedMeasurementScale(type);
+   	 {
+   		 return new JSONArray(this.rangeOfValuesDao.findBySupportedMeasurementScale(type));
+   	 }
    	 return null;
    }
 
