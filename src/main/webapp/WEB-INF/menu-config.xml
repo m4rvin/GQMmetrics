@@ -20,7 +20,7 @@
             <Item name="ViewQuestions" title="menu.definitionPhase.questions" page="/questions"/>
             <Item name="ViewMetrics" title="menu.definitionPhase.metrics" page="/metrics"/>
             <Item name="ViewStrategies" title="menu.definitionPhase.strategies" page="/strategies"/>
-            <Item name="ViewMeasurementScales" title="menu.definitionPhase.measurementScales" page="measurementScales" />
+            <Item name="ViewMeasurementScales" title="menu.definitionPhase.measurementScales" page="/measurementScales" />
        </Menu> 
        <Menu name="DataCollectionPhaseMenu" title="menu.dataCollectionPhase" description="GQM Data Collection Phase" roles="ROLE_ADMIN,ROLE_USER" page="/measurements"/>
        <Menu name="InterpretationPhaseMenu" title="menu.interpretationPhase" description="GQM Interpretation Phase" roles="ROLE_ADMIN,ROLE_USER" page="/interpretation">

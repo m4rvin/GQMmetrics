@@ -119,7 +119,7 @@
 		var currentLength = document.getElementById('rangeOfValues').length;
 		if(currentLength > 1) //devo rimuovere le opzioni correnti prima di listare quelle nuove
 			{
-				while(currentLength > 0)
+				while(currentLength > 1)
 					{	
 						$('#rangeOfValues option:eq(1)').remove();
 						currentLength = currentLength - 1;
@@ -129,8 +129,6 @@
 		var type = $("#measurementScaleType").val();
 		if(type != "") //valore non nullo
 			{
-				var json_data = $.param({type : type});
-				
 				$.ajax(
 						{
 							type : "GET",
@@ -142,7 +140,7 @@
 									var JSONResponse = JSON.parse(response);
 									$.each(JSONResponse, function()
 												{
-													$('#rangeOfValues').append($("<option></option").attr("value", this[1]).text(this[0]));
+													$('#rangeOfValues').append($("<option></option>").attr("value", this[1]).text(this[0]));
 												});
 								},
 							error : function(error)

@@ -59,8 +59,4 @@ public class MeasurementScaleFormController extends BaseFormController{
 		 return null;
 	}
 	
-	public JSONObject getJSONObject(List<String> input)
-	{
-		 return null;
-	}
 }
