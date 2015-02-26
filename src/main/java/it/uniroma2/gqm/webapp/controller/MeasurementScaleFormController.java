@@ -4,16 +4,17 @@ import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
+import it.uniroma2.gqm.service.DefaultOperationManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import java.beans.PropertyEditorSupport;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
@@ -26,18 +27,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @SessionAttributes({"measurementScale", "currentProject"})
 public class MeasurementScaleFormController extends BaseFormController {
 
 	private RangeOfValuesManager rangeOfValuesManager;
+	private DefaultOperationManager defaultOperationManager;
 
 	private ProjectManager projectManager = null;
 
@@ -56,6 +56,12 @@ public class MeasurementScaleFormController extends BaseFormController {
 	public void setRangeOfValuesManager(
 			@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager) {
 		this.rangeOfValuesManager = rangeOfValuesManager;
+	}
+	
+	@Autowired
+	public void setDefaultOperationManager(
+			@Qualifier("rangeOfValuesManager") DefaultOperationManager defaultOperationManager) {
+		this.defaultOperationManager = defaultOperationManager;
 	}
 
 	@ModelAttribute
@@ -90,12 +96,12 @@ public class MeasurementScaleFormController extends BaseFormController {
 	public String getConsistentValues(HttpServletRequest request) {
 		String type = request.getParameter("type");
 		if (!StringUtils.isBlank(type)) {
-			JSONArray allowedRangeOfValues = this.rangeOfValuesManager
-					.findBySupportedMeasurementScale(MeasurementScaleTypeEnum
-							.valueOf(type));
-			System.out.println("query result : "
-					+ allowedRangeOfValues.toString());
-			return allowedRangeOfValues.toString();
+			Map<String, JSONArray> responseMap = new HashMap<String, JSONArray>(); 
+			responseMap.put("rangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.valueOf(type)));
+			responseMap.put("operation", this.defaultOperationManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.valueOf(type)));
+			JSONObject allowedValues = new JSONObject(responseMap);
+			System.out.println("query result : " + allowedValues.toString());
+			return allowedValues.toString();
 		}
 		return null;
 	}
