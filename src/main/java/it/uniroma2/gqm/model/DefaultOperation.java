@@ -5,12 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.appfuse.model.BaseObject;
 
 @Entity
 @Table(name = "default_operation")
+@NamedQueries({
+    @NamedQuery(
+   			name = "findDefaultOperationBySupportedMeasurementScale",
+   			query = "select do.id, do.operation, do.operandsNumber from DefaultOperation do where do.measurementScaleType >= :measurementScaleType"
+    )
+})
 public class DefaultOperation extends BaseObject{
 
 	/**
@@ -28,6 +36,8 @@ public class DefaultOperation extends BaseObject{
 	@Column(name = "operands_number")
 	private int operandsNumber;
 	
+	@Column(name = "measurement_scale_type")
+	private MeasurementScaleTypeEnum measurementScaleType;
 	
 	public long getId() {
 		return id;

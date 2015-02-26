@@ -1456,12 +1456,15 @@
 			<value description = "defaultoperation_id">1</value>
 			<value description = "operation">addition</value>
 			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+			
 		</row>
 <!-- TEMPLATE
 			<row>
 			<value description = "defaultoperation_id"></value>
 			<value description = "operation"></value>
 			<value description = "operands_number"></value>
+			<value description = "measurement_scale_type"></value>
 		</row> 
 -->
 	</table>     
