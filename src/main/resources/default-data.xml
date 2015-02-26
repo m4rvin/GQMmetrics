@@ -1447,5 +1447,22 @@
             <value description="ts"><![CDATA[2013-06-22 23:59:20]]></value>
             <value description="measuremento_id">9</value>            
         </row>-->            
+	</table>
+	<table name = "default_operation">
+		<column>defaultoperation_id</column>
+		<column>operation</column>
+		<column>operands_number</column>
+		<row>
+			<value description = "defaultoperation_id">1</value>
+			<value description = "operation">addition</value>
+			<value description = "operands_number">2</value>
+		</row>
+<!-- TEMPLATE
+			<row>
+			<value description = "defaultoperation_id"></value>
+			<value description = "operation"></value>
+			<value description = "operands_number"></value>
+		</row> 
+-->
 	</table>     
 </dataset>
