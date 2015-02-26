@@ -9,7 +9,9 @@ import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,7 +92,6 @@ public class RangeOfValuesFormController extends BaseFormController
 	 @RequestMapping(method = RequestMethod.GET)
 	 protected String showForm(@ModelAttribute("currentProject") Project currentProject, HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
-
 		  String id = request.getParameter("id");
 		  RangeOfValues rov = null;
 
