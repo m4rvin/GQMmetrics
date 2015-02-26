@@ -32,7 +32,7 @@
 		<form:hidden path="id" />
 
 		<spring:bind path="measurementScale.project">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.project" />
 			<div class="controls">
 				<form:select path="project.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
@@ -40,20 +40,22 @@
 				</form:select>
 				<form:errors path="project" cssClass="help-inline" />
 			</div>
+			</div>
 		</spring:bind>
 
 		<spring:bind path="measurementScale.name">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.name" />
 			<div class="controls">
 				<form:input path="name" id="name" maxlength="255"
 					readonly="${metric.metricOwner ne currentUser && not empty metric.id}" />
 				<form:errors path="name" cssClass="help-inline" />
 			</div>
+			</div>
 		</spring:bind>
 		
 		<spring:bind path="measurementScale.type">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.type" />
 			<div class="controls">
 				<form:select id="measurementScaleType" path="type" onchange="getSupportedValues()" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
@@ -62,10 +64,11 @@
 				</form:select>
 				<form:errors path="type" cssClass="help-inline" />
 			</div>
+			</div>
 		</spring:bind>
 		
 		<spring:bind path="measurementScale.rangeOfValues">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
 			<div class="controls">
 				<form:select path="rangeOfValues" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
@@ -73,16 +76,18 @@
 				</form:select>
 				<form:errors path="rangeOfValues" cssClass="help-inline" />
 			</div>
+			</div>
 		</spring:bind>
 		
 		<spring:bind path="measurementScale.operations">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}"></div>
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
 			<div class="controls">
 				<form:select path="operations" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
 					<form:option value="" label="None" />
 				</form:select>
 				<form:errors path="operations" cssClass="help-inline" />
+			</div>
 			</div>
 		</spring:bind>
 		

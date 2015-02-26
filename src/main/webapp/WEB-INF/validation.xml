@@ -132,5 +132,20 @@
                 <arg key="rangeOfValues.measurementScaleType"/>
             </field>
         </form>
+        <form name="measurementScale">
+        	<field property="project" depends="required">
+                <arg key="measurementScale.project"/>
+            </field>
+            <field property="name" depends="required">
+                <arg key="measurementScale.name"/>
+            </field>
+            <field property="type" depends="required">
+                <arg key="measurementScale.type"/>
+            </field>
+            <field property="rangeOfValues" depends="required">
+                <arg key="measurementScale.rangeOfValues"/>
+            </field>
+        </form>
+        
     </formset>
 </form-validation>
