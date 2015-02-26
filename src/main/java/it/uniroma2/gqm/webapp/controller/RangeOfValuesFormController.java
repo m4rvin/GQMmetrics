@@ -1,14 +1,5 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import it.uniroma2.gqm.model.DefaultRangeOfValuesEnum;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -16,8 +7,15 @@ import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
 
+import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.apache.commons.lang.StringUtils;
-import org.appfuse.model.User;
 import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,14 +28,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @RequestMapping("/rangeOfValuesform*")
-@SessionAttributes({ "currentProject", "rangeOfValues", "defaultRangeSets" })
+@SessionAttributes({"rangeOfValues", "currentProject"})
 public class RangeOfValuesFormController extends BaseFormController
 {
 
-	 private UserManager userManager = null;
 	 private ProjectManager projectManager = null;
 	 private RangeOfValuesManager rangeOfValuesManager = null;
 	 private RangeOfValueValidator customValidator;
@@ -64,39 +62,15 @@ public class RangeOfValuesFormController extends BaseFormController
 	 {
 		  this.customValidator = validator;
 	 }
-
-	 @Autowired
-	 public void setUserManager(UserManager userManager)
-	 {
-		  this.userManager = userManager;
-	 }
-
+	 
 	 @ModelAttribute
-	 @RequestMapping(method = RequestMethod.GET)
-	 protected RangeOfValues showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
+	 private void addModelAttributes(Model model, HttpSession session)
 	 {
-
-		  String id = request.getParameter("id");
-		  RangeOfValues rov = null;
-
-		  Project currentProject = projectManager.getCurrentProject(session);
-		  User currentUser = userManager.getUserByUsername(request.getRemoteUser());
-		  
-		  if(!StringUtils.isBlank(id)) //rov già creato, visualizzo le info per l'update
+		  if(model.asMap().get("currentProject") == null)
 		  {
-				rov = this.rangeOfValuesManager.findById(new Long(id));
+				this.projectManager.getCurrentProject(session);
 		  }
-		  else
-		  {
-				rov = new RangeOfValues();
-				rov.setProject(currentProject);
-				rov.setDefaultRange(true);
-				rov.setNumeric(true);
-		  }
-		  
-		  model.addAttribute("currentProject", currentProject);
-		  model.addAttribute("currentUser", currentUser);
-
+				
 		  ArrayList<String> availableMeasurementScaleTypes = new ArrayList<String>();
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.INTERVAL.toString());
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.NOMINAL.toString());
@@ -111,13 +85,35 @@ public class RangeOfValuesFormController extends BaseFormController
 		  
 		  model.addAttribute("defaultRangeSets", defaultRangeSets);
 		  model.addAttribute("numberTypes", defaultRangeSets);
+	 }
 
-		  return rov;
+	 @RequestMapping(method = RequestMethod.GET)
+	 protected String showForm(@ModelAttribute("currentProject") Project currentProject, HttpServletRequest request, HttpSession session, Model model) throws Exception
+	 {
+
+		  String id = request.getParameter("id");
+		  RangeOfValues rov = null;
+
+		  if(!StringUtils.isBlank(id)) //rov già creato, visualizzo le info per l'update
+		  {
+				rov = this.rangeOfValuesManager.findById(new Long(id));
+		  }
+		  else
+		  {
+				rov = new RangeOfValues();
+				rov.setProject(currentProject);
+				rov.setDefaultRange(true);
+				rov.setNumeric(true);
+		  }
+
+		  model.addAttribute("rangeOfValues", rov);
+		  
+		  return "rangeOfValuesform";
 	 }
 
 
 	 @RequestMapping(method = RequestMethod.POST)
-	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, HttpServletResponse response)
+	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, SessionStatus status, HttpSession session)
 	 {
         if (request.getParameter("cancel") != null)
             return getCancelView();
@@ -132,10 +128,10 @@ public class RangeOfValuesFormController extends BaseFormController
 					 System.out.println(rangeOfValues);
 					 return "rangeOfValuesform";
 				}
-		  }
-		   
+		  }		   
 		  System.out.println(rangeOfValues);
 		  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+		  status.setComplete();
 		  return getSuccessView();
 	 }
 	 
