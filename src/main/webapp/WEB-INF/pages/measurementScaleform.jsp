@@ -143,10 +143,18 @@
 							success : function(response)
 								{
 									var JSONResponse = JSON.parse(response);
-									$.each(JSONResponse, function()
+									
+									var JSONRangeOfValues = JSONResponse["rangeOfValues"];
+									$.each(JSONRangeOfValues, function()
 												{
 													$('#rangeOfValues').append($("<option></option>").attr("value", this[1]).text(this[0]));
 												});
+									
+									var JSONOperations = JSONResponse["operation"];
+									$.each(JSONOperations, function()
+											{
+												$('#operations').append($("<option></option>").attr("value", this[1]).text(this[0]));
+											});
 								},
 							error : function(error)
 								{
