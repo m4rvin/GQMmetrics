@@ -1452,6 +1452,7 @@
 		<column>defaultoperation_id</column>
 		<column>operation</column>
 		<column>operands_number</column>
+		<column>measurement_scale_type</column>
 		<row>
 			<value description = "defaultoperation_id">1</value>
 			<value description = "operation">addition</value>
@@ -1467,5 +1468,65 @@
 			<value description = "measurement_scale_type"></value>
 		</row> 
 -->
-	</table>     
+	</table>
+	<table name = "range_of_values">
+		<column>rangeofvalues_id</column>
+		<column>is_default_range</column>
+		<column>is_finite</column>
+		<column>measurement_scale_type</column>
+		<column>name</column>
+		<column>number_type</column>
+		<column>is_numeric</column>
+		<column>is_range</column>
+		<column>range_values</column>
+		<column>project_id</column>
+		<row>
+			<value description="rangeofvalues_id">1</value>
+			<value description="is_default_range">true</value>
+			<value description="is_finite">true</value>
+			<value description="measurement_scale_type">3</value>
+			<value description="name">Integer Numbers</value>
+			<value description="number_type">INTEGER_NUMBERS</value>
+			<value description="is_numeric">true</value>
+			<value description="is_range">true</value>
+			<value description="range_values"></value>
+			<value description="project_id">-1</value>		
+		</row>
+		<row>
+			<value description="rangeofvalues_id">2</value>
+			<value description="is_default_range">false</value>
+			<value description="is_finite">true</value>
+			<value description="measurement_scale_type">2</value>
+			<value description="name">Bug Numbers</value>
+			<value description="number_type">NATURAL_NUMBERS</value>
+			<value description="is_numeric">true</value>
+			<value description="is_range">true</value>
+			<value description="range_values">[0:100]</value>
+			<value description="project_id">-1</value>		
+		</row>
+		<row>
+			<value description="rangeofvalues_id">3</value>
+			<value description="is_default_range">false</value>
+			<value description="is_finite">true</value>
+			<value description="measurement_scale_type">1</value>
+			<value description="name">T-shirt sizes</value>
+			<value description="number_type">null</value>
+			<value description="is_numeric">false</value>
+			<value description="is_range">false</value>
+			<value description="range_values">XS,S,M,L,XL,XXL</value>
+			<value description="project_id">-1</value>		
+		</row>
+		<row>
+			<value description="rangeofvalues_id">4</value>
+			<value description="is_default_range">true</value>
+			<value description="is_finite">true</value>
+			<value description="measurement_scale_type">3</value>
+			<value description="name">Real Numbers</value>
+			<value description="number_type">REAL_NUMBERS</value>
+			<value description="is_numeric">true</value>
+			<value description="is_range">true</value>
+			<value description="range_values">null</value>
+			<value description="project_id">-1</value>		
+		</row>
+ 	</table>    
 </dataset>
