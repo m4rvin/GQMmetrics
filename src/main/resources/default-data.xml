@@ -1458,7 +1458,36 @@
 			<value description = "operation">addition</value>
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">2</value>
-			
+		</row>
+		<row>
+			<value description = "defaultoperation_id">2</value>
+			<value description = "operation">subtraction</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">3</value>
+			<value description = "operation">multiplication</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">4</value>
+			<value description = "operation">division</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">3</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">5</value>
+			<value description = "operation">decimal logaritm</value>
+			<value description = "operands_number">1</value>
+			<value description = "measurement_scale_type">3</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">6</value>
+			<value description = "operation">membership</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">0</value>
 		</row>
 <!-- TEMPLATE
 			<row>
