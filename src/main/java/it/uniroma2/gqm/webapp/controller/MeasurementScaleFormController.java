@@ -1,5 +1,6 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -11,6 +12,7 @@ import it.uniroma2.gqm.service.RangeOfValuesManager;
 import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -132,6 +135,18 @@ public class MeasurementScaleFormController extends BaseFormController {
 		// binder.setValidator(this.customValidator);
 		binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues",
 				new MeasurementScaleEditorSupport());
+		
+		binder.registerCustomEditor(Set.class, "operations", new CustomCollectionEditor(Set.class) {
+			
+			@Override
+			protected Object convertElement(Object obj)
+			{
+				Long operationId = new Long((String) obj);
+				DefaultOperation op = defaultOperationManager.get(operationId);
+				return op;
+			}
+			
+		});
 	}
 
 	private class MeasurementScaleEditorSupport extends PropertyEditorSupport {
