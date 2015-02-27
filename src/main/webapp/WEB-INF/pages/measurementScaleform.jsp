@@ -130,6 +130,16 @@
 						currentLength = currentLength - 1;
 					}
 			}
+		currentLength = document.getElementById('operations').length;
+
+		if(currentLength > 1) //devo rimuovere le opzioni correnti prima di listare quelle nuove
+		{
+			while(currentLength > 1)
+				{	
+					$('#operations option:eq(1)').remove();
+					currentLength = currentLength - 1;
+				}
+		}
 		
 		var type = $("#measurementScaleType").val();
 		if(type != "") //valore non nullo
@@ -143,17 +153,18 @@
 							success : function(response)
 								{
 									var JSONResponse = JSON.parse(response);
+									console.log(JSONResponse);
 									
 									var JSONRangeOfValues = JSONResponse["rangeOfValues"];
 									$.each(JSONRangeOfValues, function()
 												{
-													$('#rangeOfValues').append($("<option></option>").attr("value", this[1]).text(this[0]));
+													$('#rangeOfValues').append($("<option></option>").attr("value", this[0]).text(this[1]));
 												});
 									
 									var JSONOperations = JSONResponse["operation"];
 									$.each(JSONOperations, function()
 											{
-												$('#operations').append($("<option></option>").attr("value", this[1]).text(this[0]));
+												$('#operations').append($("<option></option>").attr("value", this[0]).text(this[1]));
 											});
 								},
 							error : function(error)

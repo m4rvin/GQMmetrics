@@ -24,7 +24,7 @@ import org.appfuse.model.BaseObject;
     ),
     @NamedQuery(
    			name = "findRangeOfValuesBySupportedMeasurementScale",
-   			query = "select r.name, r.id from RangeOfValues r where r.measurementScaleType >= :measurementScaleType"
+   			query = "select r.id, r.name from RangeOfValues r where r.measurementScaleType >= :measurementScaleType"
     )
 })
 
