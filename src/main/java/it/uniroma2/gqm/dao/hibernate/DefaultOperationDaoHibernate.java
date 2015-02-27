@@ -14,7 +14,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("DefaultOperationDao")
+@Repository("defaultOperationDao")
 public class DefaultOperationDaoHibernate extends
 		GenericDaoHibernate<DefaultOperation, Long> implements
 		DefaultOperationDao {

@@ -4,6 +4,7 @@ import it.uniroma2.gqm.dao.RangeOfValuesDao;
 import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
+import it.uniroma2.gqm.dao.DefaultOperationDao;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class DefaultOperationManagerImpl extends GenericManagerImpl<DefaultOpera
 		  {
 				return new JSONArray(this.defaultOperationDao.findBySupportedMeasurementScale(type));
 		  }
+		  return null;
 	 }
 
 }

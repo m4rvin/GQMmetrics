@@ -60,7 +60,7 @@ public class MeasurementScaleFormController extends BaseFormController {
 	
 	@Autowired
 	public void setDefaultOperationManager(
-			@Qualifier("rangeOfValuesManager") DefaultOperationManager defaultOperationManager) {
+			@Qualifier("defaultOperationManager") DefaultOperationManager defaultOperationManager) {
 		this.defaultOperationManager = defaultOperationManager;
 	}
 
