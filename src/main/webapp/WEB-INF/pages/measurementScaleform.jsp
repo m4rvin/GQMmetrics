@@ -153,7 +153,6 @@
 							success : function(response)
 								{
 									var JSONResponse = JSON.parse(response);
-									console.log(JSONResponse);
 									
 									var JSONRangeOfValues = JSONResponse["rangeOfValues"];
 									$.each(JSONRangeOfValues, function()
