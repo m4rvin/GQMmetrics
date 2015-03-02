@@ -1,9 +1,10 @@
 package it.uniroma2.gqm.service;
 
+import java.util.List;
+
 import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.dao.DefaultOperationDao;
-
 
 import org.appfuse.service.impl.GenericManagerImpl;
 import org.json.JSONArray;
@@ -23,11 +24,21 @@ public class DefaultOperationManagerImpl extends GenericManagerImpl<DefaultOpera
 	 }
 
 	 @Override
-	 public JSONArray findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
+	 public JSONArray findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum type)
 	 {
 		  if(type != null)
 		  {
 				return new JSONArray(this.defaultOperationDao.findBySupportedMeasurementScale(type));
+		  }
+		  return null;
+	 }
+	 
+	 @Override
+	 public List<Object> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type)
+	 {
+		  if(type != null)
+		  {
+				return this.defaultOperationDao.findBySupportedMeasurementScale(type);
 		  }
 		  return null;
 	 }

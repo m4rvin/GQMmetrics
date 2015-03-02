@@ -93,6 +93,13 @@ public class MeasurementScaleFormController extends BaseFormController {
 		 if(!StringUtils.isBlank(id))
 		 {
 			  measurementScale = this.measurementScaleManager.get(new Long(id));
+			 // boolean isUsed = this.measurementScaleManager.isUsed(measurementScale.getId());
+			 // model.addAttribute("used", isUsed);
+			  
+			  MeasurementScaleTypeEnum type = measurementScale.getType();
+			  model.addAttribute("supportedRangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScale(type));
+			  model.addAttribute("supportedOperations", this.defaultOperationManager.findBySupportedMeasurementScale(type));
+		 
 		 }
 		 else
 		 {
@@ -112,8 +119,8 @@ public class MeasurementScaleFormController extends BaseFormController {
 		String type = request.getParameter("type");
 		if (!StringUtils.isBlank(type)) {
 			Map<String, JSONArray> responseMap = new HashMap<String, JSONArray>(); 
-			responseMap.put("rangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.valueOf(type)));
-			responseMap.put("operation", this.defaultOperationManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.valueOf(type)));
+			responseMap.put("rangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.valueOf(type)));
+			responseMap.put("operation", this.defaultOperationManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.valueOf(type)));
 			JSONObject allowedValues = new JSONObject(responseMap);
 			System.out.println("query result : " + allowedValues.toString());
 			return allowedValues.toString();
@@ -171,6 +178,8 @@ public class MeasurementScaleFormController extends BaseFormController {
 			} else
 				System.out
 						.println(" FIXME error in MeasurementScaleEditorSupport conversion");
+			setValue(null);
+
 			// FIXME error
 		}
 	}

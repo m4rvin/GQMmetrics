@@ -20,13 +20,13 @@ public class RangeOfValuesServiceTest extends BaseControllerTestCase
 		@Test
 	 	public void testFindBySupportedMeasurementScale()
 	 	{
-	 		List<String> rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.INTERVAL);
+	 		List<String> rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.INTERVAL);
 	 		Assert.assertEquals(2, rovs.size());
-	 	   rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.NOMINAL);
+	 	   rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.NOMINAL);
 	 		Assert.assertEquals(4, rovs.size());
-	 		rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.ORDINAL);
+	 		rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.ORDINAL);
 	 		Assert.assertEquals(3, rovs.size());
-	 		rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScale(MeasurementScaleTypeEnum.RATIO);
+	 		rovs = this.mockRangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.RATIO);
 	 		Assert.assertEquals(1, rovs.size());
 	 	}
 }

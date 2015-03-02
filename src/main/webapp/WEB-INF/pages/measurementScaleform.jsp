@@ -72,7 +72,7 @@
 			<div class="controls">
 				<form:select path="rangeOfValues" onchange="" disabled="false">
 					<form:option value="" label="None" />
-					<form:options items="${availableRangeOfValues}" />
+					<form:options items="${supportedRangeOfValues}" />
 				</form:select>
 				<form:errors path="rangeOfValues" cssClass="help-inline" />
 			</div>
@@ -85,8 +85,10 @@
 			<div class="controls">
 				<form:select path="operations" onchange="" disabled="false">
 					<form:option value="" label="None" />
-					<form:options items="${availableOperations}" />
-				</form:select>
+					<c:forEach items="${supportedOperations}" var="operation_i" >
+						<form:option value="${operation_i[0]}" label="${operation_i[1]}" />
+					</c:forEach>
+ 				</form:select>
 				<form:errors path="operations" cssClass="help-inline" />
 			</div>
 			</div>
