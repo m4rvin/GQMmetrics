@@ -3,8 +3,16 @@ package it.uniroma2.gqm.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -16,8 +24,12 @@ import org.appfuse.model.BaseObject;
 @NamedQueries({
 	@NamedQuery(
 			  name = "findMeasurementScaleByProject",
-			  query = "select m from MeasurementScale where m.project.id = :project_id"
-			  ) 
+			  query = "select m from MeasurementScale m where m.project.id = :project_id"
+			  ),
+	@NamedQuery(
+  			  name = "findMeasurementScaleByRangeOfValues",
+  			  query = "select m from MeasurementScale m where m.rangeOfValues.id = :rangeofvalues_id"
+	 )
 })
 public class MeasurementScale extends BaseObject {
 
@@ -25,14 +37,28 @@ public class MeasurementScale extends BaseObject {
 	private static final long serialVersionUID = -4900033895686795409L;
 	
 	@Id
-	
+	@Column(name = "measurementScale_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rangeofvalues_id")
 	private RangeOfValues rangeOfValues;
+	
+	@Column(name = "supported_operations")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "MeasurementScDefaultOperation",
+				joinColumns = {@JoinColumn(name = "measurementScale_id")},
+				inverseJoinColumns = {@JoinColumn(name = "defaultoperation_id")}
+			  	)
 	private Set<DefaultOperation> operations;
+	
+	@Column(name = "measurementScale_type")
 	private MeasurementScaleTypeEnum type;
 
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_id", nullable = false)
 	private Project project;
 	
 

@@ -145,6 +145,9 @@
             <field property="rangeOfValues" depends="required">
                 <arg key="measurementScale.rangeOfValues"/>
             </field>
+             <field property="operations" depends="required">
+                <arg key="measurementScale.operations"/>
+            </field>
         </form>
         
     </formset>

@@ -14,6 +14,7 @@
 			class="btn" href="<c:url value='/mainMenu'/>"> <i class="icon-ok"></i>
 			<fmt:message key="button.done" /></a>
 	</div>
+
 	<display:table name="rangeOfValuesList"
 		class="table table-condensed table-striped table-hover" requestURI=""
 		id="rangeOfValuesList" export="true" pagesize="25">

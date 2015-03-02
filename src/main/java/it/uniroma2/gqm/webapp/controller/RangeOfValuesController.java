@@ -42,7 +42,7 @@ public class RangeOfValuesController {
 	{
         Project currentProject = projectManager.getCurrentProject(session);
         List<RangeOfValues> rovs = rangeOfValuesManager.findByProject(currentProject);
-        
+     //   rovs = rangeOfValuesManager.getAll();
 		return new ModelAndView().addObject("rangeOfValuesList", rovs);
 	}
 

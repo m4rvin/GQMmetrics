@@ -8,8 +8,14 @@
 	<h2>
 		<fmt:message key='rangeOfValuesDetail.heading' />
 	</h2>
+	<c:choose>
+		<c:when test="${used}">You cannot modify the selected Range of Values, it is already attached to a measurement scale</c:when>
+		<c:otherwise>
+			<fmt:message key="rangeOfValuesDetail.message" />
+		</c:otherwise>
+	</c:choose>
 	<p>
-		<fmt:message key="rangeOfValuesDetail.message" />
+		
 	</p>
 	<%-- <p><fmt:message 	key="metric.goals.message"/></p>		
 	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${metric.metricOwner.fullName}</b>
@@ -32,7 +38,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="rangeOfValues.project" />
 				<div class="controls">
-					<form:select path="project.id" onchange="" disabled="false">
+					<form:select path="project.id" onchange="" disabled="${used}">
 						<form:option value="${rangeOfValues.project.id}"
 							label="${rangeOfValues.project.name}" />
 					</form:select>
@@ -45,7 +51,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="rangeOfValues.name" />
 				<div class="controls">
-					<form:input path="name" id="name" maxlength="255" readonly="false" />
+					<form:input path="name" id="name" maxlength="255" readonly="${used}" />
 					<form:errors path="name" cssClass="help-inline" />
 				</div>
 			</div>
@@ -55,7 +61,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="rangeOfValues.measurementScaleType" />
 				<div class="controls">
-					<form:select path="measurementScaleType" onchange="" disabled="false">
+					<form:select path="measurementScaleType" onchange="" disabled="${used}">
 						<form:option value="" label="None" />
 						<form:options items="${availableMeasurementScaleTypes}" />
 					</form:select>
@@ -67,7 +73,7 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="rangeOfValues.rangeType" />
 			<div class="controls">
-				<form:select  path="defaultRange" onchange="selectTypes()">
+				<form:select  path="defaultRange" onchange="selectTypes()" disabled="${used}">
 					<form:option value="true" label="Default" />
 					<form:option value="false" label="Custom" />
 				</form:select>
@@ -78,7 +84,7 @@
 				<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 					<appfuse:label styleClass="control-label" key="rangeOfValues.rangeValues" />
 					<div class="controls">
-						<form:select id="defaultRangeOfValues" path="numberType" disabled="false">
+						<form:select id="defaultRangeOfValues" path="numberType" disabled="${used}">
 							<form:option value="" label="None" />
 							<form:options items="${defaultRangeSets}" />
 						</form:select>
@@ -95,7 +101,7 @@
 				<div class="control-group">
 					<appfuse:label styleClass="control-label" key="rangeOfValues.isNumeric" />
 					<div class="controls">
-						<form:checkbox path="numeric" name="isNumeric" onchange="enableNumericRange()" />
+						<form:checkbox path="numeric" name="isNumeric" onchange="enableNumericRange()" disabled="${used}" />
 					</div>
 				</div>
 			
@@ -106,7 +112,7 @@
 					<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 						<appfuse:label styleClass="control-label" key="rangeOfValues.numberType" />
 						<div class="controls">
-							<form:select id="numberType" path="numberType" onchange="" disabled="false">
+							<form:select id="numberType" path="numberType" onchange="" disabled="${used}">
 								<form:option value="" label="None" />
 								<form:options items="${defaultRangeSets}" />
 							</form:select>
@@ -119,7 +125,7 @@
 				<div class="control-group">
 					<appfuse:label styleClass="control-label" key="rangeOfValues.isRange" />
 					<div class="controls">
-						<form:checkbox path="range" name="isRange" />
+						<form:checkbox path="range" name="isRange" disabled="${used}" />
 					</div>
 				</div>
 			
@@ -133,7 +139,7 @@
 						<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 							<appfuse:label styleClass="control-label" key="rangeOfValues.customValues" />
 							<div class="controls">
-								<form:input id="customValues" path="rangeValues" data-role="tagsinput" />
+								<form:input id="customValues" path="rangeValues" data-role="tagsinput" disabled="${used}" />
 								<form:errors path="rangeValues" cssClass="help-inline" />
 							</div>
 						</div>
@@ -144,12 +150,12 @@
 		</div>
 
 		<div class="form-actions">
-			<c:if test="${true}">
+			<c:if test="${not used}">
 				<button type="submit" class="btn btn-primary" name="save">
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
-				<c:if test="${true}">
+				<c:if test="${not used}">
 					<%-- always checked- TODO remove if tags --%>
 					<button type="submit" class="btn" name="delete">
 						<i class="icon-trash"></i>

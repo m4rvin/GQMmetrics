@@ -17,5 +17,6 @@
 		<mapping class="it.uniroma2.gqm.model.Measurement"/>
 		<mapping class="it.uniroma2.gqm.model.RangeOfValues"/>
 		<mapping class="it.uniroma2.gqm.model.DefaultOperation"/>
+		<mapping class="it.uniroma2.gqm.model.MeasurementScale"/>
     </session-factory>
 </hibernate-configuration>

@@ -5,12 +5,14 @@ import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.DefaultOperationManager;
+import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +41,7 @@ public class MeasurementScaleFormController extends BaseFormController {
 
 	private RangeOfValuesManager rangeOfValuesManager;
 	private DefaultOperationManager defaultOperationManager;
+	private MeasurementScaleManager measurementScaleManager;
 
 	private ProjectManager projectManager = null;
 
@@ -50,6 +54,12 @@ public class MeasurementScaleFormController extends BaseFormController {
 	public void setProjectManager(
 			@Qualifier("projectManager") ProjectManager projectManager) {
 		this.projectManager = projectManager;
+	}
+	
+	@Autowired
+	public void setMeasurementScaleManager(
+			@Qualifier("measurementScaleManager") MeasurementScaleManager measurementScaleManager) {
+		this.measurementScaleManager = measurementScaleManager;
 	}
 
 	@Autowired
@@ -68,26 +78,31 @@ public class MeasurementScaleFormController extends BaseFormController {
 	private void initModel(Model model, HttpSession session){
 		 if(model.asMap().get("currentProject") == null)
 		  {
-				this.projectManager.getCurrentProject(session);
+				this.projectManager.getCurrentProject(session);				
 		  }
 	}
 	
 	@RequestMapping(value = "/measurementScaleform*", method = RequestMethod.GET)
-	protected String showForm(@ModelAttribute("currentProject") Project currentProject, HttpServletRequest request,
-			HttpSession session, Model model) throws Exception {
+	protected String showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+		 
+		 String id = request.getParameter("id");
+		 MeasurementScale measurementScale = null;
+		 
+		 Project currentProject = this.projectManager.getCurrentProject(session);
+		 
+		 if(!StringUtils.isBlank(id))
+		 {
+			  measurementScale = this.measurementScaleManager.get(new Long(id));
+		 }
+		 else
+		 {
+			  measurementScale = new MeasurementScale();
+			  measurementScale.setProject(currentProject);
+		 }
 		
-		//MeasurementScale ms = null;
-		
-		/*ModelAndView mv = new ModelAndView("measurementScaleform", model.asMap());
-		Project currentProject = (Project) mv.getModel().get("currentProject");*/
-	
-		MeasurementScale measurementScale = new MeasurementScale();
-		measurementScale.setProject(currentProject);
-		//mv.addObject("measurementScale", ms);
-		
-		model.addAttribute("measurementScale", measurementScale);
+		 model.addAttribute("measurementScale", measurementScale);
 
-		return "measurementScaleform";
+		 return "measurementScaleform";
 
 	}
 
@@ -107,13 +122,11 @@ public class MeasurementScaleFormController extends BaseFormController {
 	}
 
 	@RequestMapping(value = "/measurementScaleform*", method = RequestMethod.POST)
-	public String onSubmit(@ModelAttribute MeasurementScale measurementScale,
-			BindingResult errors, HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+	public String onSubmit(@ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, Model model) {
 		if (request.getParameter("cancel") != null)
 			return getCancelView();
 
-		if (validator != null) { // validator is null during testing
+		if (validator != null) {
 			validator.validate(measurementScale, errors);
 			if (errors.hasErrors() && request.getParameter("delete") == null) {
 				System.out.println(errors);
@@ -123,15 +136,22 @@ public class MeasurementScaleFormController extends BaseFormController {
 		}
 
 		System.out.println(measurementScale);
-		// rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+		this.measurementScaleManager.save(measurementScale);
 		return getSuccessView();
 	}
 
 	@InitBinder(value = "measurementScale")
 	public void initBinder(WebDataBinder binder) {
-		// binder.setValidator(this.customValidator);
-		binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues",
-				new MeasurementScaleEditorSupport());
+		binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues", new MeasurementScaleEditorSupport());
+		binder.registerCustomEditor(Set.class, "operations", new CustomCollectionEditor(Set.class)
+		{
+			@Override
+			protected Object convertElement(Object obj)
+			{
+				 Long operation_id = new Long((String) obj);
+				 return defaultOperationManager.get(operation_id);
+			}
+		});
 	}
 
 	private class MeasurementScaleEditorSupport extends PropertyEditorSupport {

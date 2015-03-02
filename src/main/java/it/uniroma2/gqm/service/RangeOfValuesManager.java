@@ -15,5 +15,6 @@ public interface RangeOfValuesManager extends GenericManager<RangeOfValues, Long
 	public RangeOfValues findById(Long id);
 	public RangeOfValues saveRangeOfValues(RangeOfValues rangeOfValues);
 	public JSONArray findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
+	public boolean isUsed(Long id);
 	
 }

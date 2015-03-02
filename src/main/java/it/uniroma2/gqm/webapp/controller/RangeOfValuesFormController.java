@@ -10,6 +10,7 @@ import it.uniroma2.gqm.service.RangeOfValuesManager;
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,14 +91,18 @@ public class RangeOfValuesFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(method = RequestMethod.GET)
-	 protected String showForm(@ModelAttribute("currentProject") Project currentProject, HttpServletRequest request, HttpSession session, Model model) throws Exception
+	 protected String showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
 		  String id = request.getParameter("id");
 		  RangeOfValues rov = null;
-
+		  
+		  Project currentProject = this.projectManager.getCurrentProject(session);
+		  
 		  if(!StringUtils.isBlank(id)) //rov già creato, visualizzo le info per l'update
 		  {
 				rov = this.rangeOfValuesManager.findById(new Long(id));
+				boolean isUsed = this.rangeOfValuesManager.isUsed(rov.getId());
+				model.addAttribute("used", isUsed);
 		  }
 		  else
 		  {
@@ -129,7 +134,22 @@ public class RangeOfValuesFormController extends BaseFormController
 					 System.out.println(rangeOfValues);
 					 return "rangeOfValuesform";
 				}
-		  }		   
+		  }
+		  
+		  if(request.getParameter("delete") != null)
+		  {
+				Long id = rangeOfValues.getId();
+				
+				if(id != 0 && !this.rangeOfValuesManager.isUsed(id))
+					 {
+					 	this.rangeOfValuesManager.remove(id);
+					 	return getSuccessView();
+					 }
+				
+				else
+					 return "rangeOfValuesform";
+		  }
+		  
 		  System.out.println(rangeOfValues);
 		  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
 		  status.setComplete();
@@ -162,7 +182,11 @@ public class RangeOfValuesFormController extends BaseFormController
 						  }
 					 }
 					 setValue(res);
-				}	
+				}
+				else
+				{
+					 System.out.println("Error in RangeOfValuesEditorSupport conversion");
+				}
 		  }
 	 }
 }

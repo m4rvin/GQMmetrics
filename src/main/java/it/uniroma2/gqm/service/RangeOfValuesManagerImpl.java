@@ -1,5 +1,6 @@
 package it.uniroma2.gqm.service;
 
+import it.uniroma2.gqm.dao.MeasurementScaleDao;
 import it.uniroma2.gqm.dao.RangeOfValuesDao;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -19,11 +20,18 @@ public class RangeOfValuesManagerImpl extends
 		GenericManagerImpl<RangeOfValues, Long> implements RangeOfValuesManager {
 
 	private RangeOfValuesDao rangeOfValuesDao;
+	private MeasurementScaleDao measurementScaleDao;
 	
 	@Autowired
 	public RangeOfValuesManagerImpl(RangeOfValuesDao rangeOfValuesDao){
 		super(rangeOfValuesDao);
 		this.rangeOfValuesDao = rangeOfValuesDao;
+	}
+	
+	@Autowired
+	public void setMeasurementScaleDao(MeasurementScaleDao measurementScaleDao)
+	{
+		 this.measurementScaleDao = measurementScaleDao;
 	}
 	
 	@Override
@@ -52,6 +60,16 @@ public class RangeOfValuesManagerImpl extends
    		 return new JSONArray(this.rangeOfValuesDao.findBySupportedMeasurementScale(type));
    	 }
    	 return null;
+   }
+
+   @Override
+   public boolean isUsed(Long id)
+   {
+   	 if(id !=null)
+   	 {
+   		  return this.measurementScaleDao.findByRangeOfValues(id).size() != 0;
+   	 }
+   	 return true;
    }
 
 }

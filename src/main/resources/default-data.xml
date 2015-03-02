@@ -1489,6 +1489,18 @@
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">0</value>
 		</row>
+		<row>
+			<value description = "defaultoperation_id">7</value>
+			<value description = "operation">exponentation</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">8</value>
+			<value description = "operation">modulo</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+		</row>
 <!-- TEMPLATE
 			<row>
 			<value description = "defaultoperation_id"></value>

@@ -35,7 +35,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.project" />
 			<div class="controls">
-				<form:select path="project.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+				<form:select path="project.id" disabled="false">
 					<form:option value="${measurementScale.project.id}" label="${measurementScale.project.name}" />
 				</form:select>
 				<form:errors path="project" cssClass="help-inline" />
@@ -47,8 +47,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.name" />
 			<div class="controls">
-				<form:input path="name" id="name" maxlength="255"
-					readonly="${metric.metricOwner ne currentUser && not empty metric.id}" />
+				<form:input path="name" id="name" maxlength="255" readonly="false" />
 				<form:errors path="name" cssClass="help-inline" />
 			</div>
 			</div>
@@ -58,7 +57,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.type" />
 			<div class="controls">
-				<form:select id="measurementScaleType" path="type" onchange="getSupportedValues()" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+				<form:select id="measurementScaleType" path="type" onchange="getSupportedValues()" disabled="false">
 					<form:option value="" label="None" />
 					<form:options items="${availableMeasurementScaleTypes}" />
 				</form:select>
@@ -71,8 +70,9 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
 			<div class="controls">
-				<form:select path="rangeOfValues" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+				<form:select path="rangeOfValues" onchange="" disabled="false">
 					<form:option value="" label="None" />
+					<form:options items="${availableRangeOfValues}" />
 				</form:select>
 				<form:errors path="rangeOfValues" cssClass="help-inline" />
 			</div>
@@ -83,8 +83,9 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
 			<div class="controls">
-				<form:select path="operations" onchange="" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+				<form:select path="operations" onchange="" disabled="false">
 					<form:option value="" label="None" />
+					<form:options items="${availableOperations}" />
 				</form:select>
 				<form:errors path="operations" cssClass="help-inline" />
 			</div>

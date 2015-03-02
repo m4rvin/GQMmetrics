@@ -24,6 +24,13 @@ public class MeasurementScaleDaoHibernate extends GenericDaoHibernate<Measuremen
 		  	Query q = getSession().getNamedQuery("findMeasurementScaleByProject").setLong("project_id", projectId);
 		  	return q.list();		  
 	 }
+
+	 @Override
+	 public List<MeasurementScale> findByRangeOfValues(Long rangeOfValuesId)
+	 {
+		  Query q = getSession().getNamedQuery("findMeasurementScaleByRangeOfValues").setLong("rangeofvalues_id", rangeOfValuesId);
+		  return q.list();
+	 }
 	 
 	 
 
