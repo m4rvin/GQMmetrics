@@ -57,16 +57,29 @@ public class DefaultOperation extends BaseObject{
 	public void setOperandsNumber(int operandsNumber) {
 		this.operandsNumber = operandsNumber;
 	}
+	
+	public MeasurementScaleTypeEnum getMeasurementScaleType() {
+		return measurementScaleType;
+	}
+	public void setMeasurementScaleType(
+			MeasurementScaleTypeEnum measurementScaleType) {
+		this.measurementScaleType = measurementScaleType;
+	}
 	@Override
 	public String toString() {
 		return "DefaultOperation [id=" + id + ", operation=" + operation
-				+ ", operandsNumber=" + operandsNumber + "]";
+				+ ", operandsNumber=" + operandsNumber
+				+ ", measurementScaleType=" + measurementScaleType + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime
+				* result
+				+ ((measurementScaleType == null) ? 0 : measurementScaleType
+						.hashCode());
 		result = prime * result + operandsNumber;
 		result = prime * result
 				+ ((operation == null) ? 0 : operation.hashCode());
@@ -83,6 +96,8 @@ public class DefaultOperation extends BaseObject{
 		DefaultOperation other = (DefaultOperation) obj;
 		if (id != other.id)
 			return false;
+		if (measurementScaleType != other.measurementScaleType)
+			return false;
 		if (operandsNumber != other.operandsNumber)
 			return false;
 		if (operation == null) {
@@ -92,5 +107,6 @@ public class DefaultOperation extends BaseObject{
 			return false;
 		return true;
 	}
+	
 	
 }

@@ -142,6 +142,7 @@ public class MeasurementScaleFormController extends BaseFormController {
 
 	@InitBinder(value = "measurementScale")
 	public void initBinder(WebDataBinder binder) {
+
 		binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues", new MeasurementScaleEditorSupport());
 		binder.registerCustomEditor(Set.class, "operations", new CustomCollectionEditor(Set.class)
 		{
