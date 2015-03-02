@@ -11,6 +11,7 @@ import it.uniroma2.gqm.service.RangeOfValuesManager;
 
 import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -98,7 +99,9 @@ public class MeasurementScaleFormController extends BaseFormController {
 			  
 			  MeasurementScaleTypeEnum type = measurementScale.getType();
 			  model.addAttribute("supportedRangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScale(type));
-			  model.addAttribute("supportedOperations", this.defaultOperationManager.findBySupportedMeasurementScale(type));
+			  
+			  List<Object> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
+			  model.addAttribute("supportedOperations", ret);
 		 
 		 }
 		 else
@@ -175,11 +178,11 @@ public class MeasurementScaleFormController extends BaseFormController {
 					System.out.println(e);
 					setValue(null);
 				}
-			} else
+			} else{
 				System.out
 						.println(" FIXME error in MeasurementScaleEditorSupport conversion");
-			setValue(null);
-
+				setValue(null);
+			}
 			// FIXME error
 		}
 	}

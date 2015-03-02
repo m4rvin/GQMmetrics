@@ -12,5 +12,7 @@ public interface DefaultOperationManager extends GenericManager<DefaultOperation
 {
 	 public JSONArray findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum type);
 	 public List<Object> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
+	 public List<Object> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type);
+
 
 }

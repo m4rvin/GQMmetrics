@@ -17,6 +17,10 @@ import org.appfuse.model.BaseObject;
     @NamedQuery(
    			name = "findDefaultOperationBySupportedMeasurementScale",
    			query = "select do.id, do.operation, do.operandsNumber from DefaultOperation do where do.measurementScaleType <= :measurementScaleType"
+    ),
+    @NamedQuery(
+   			name = "findDefaultOperationOBJBySupportedMeasurementScale",
+   			query = "select do from DefaultOperation do where do.measurementScaleType <= :measurementScaleType"
     )
 })
 public class DefaultOperation extends BaseObject{

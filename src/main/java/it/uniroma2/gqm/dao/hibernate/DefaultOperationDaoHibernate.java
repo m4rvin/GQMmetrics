@@ -31,4 +31,11 @@ public class DefaultOperationDaoHibernate extends
    	 return q.list();
    }
    
+   @Override
+   public List<Object> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type)
+   {
+   	 Query q = getSession().getNamedQuery("findDefaultOperationOBJBySupportedMeasurementScale").setLong("measurementScaleType", type.ordinal());
+   	 return q.list();
+   }
+   
 }

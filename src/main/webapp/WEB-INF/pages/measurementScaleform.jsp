@@ -66,34 +66,27 @@
 			</div>
 		</spring:bind>
 		
-		<spring:bind path="measurementScale.rangeOfValues">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
-			<div class="controls">
-				<form:select path="rangeOfValues" onchange="" disabled="false">
-					<form:option value="" label="None" />
-					<form:options items="${supportedRangeOfValues}" />
-				</form:select>
-				<form:errors path="rangeOfValues" cssClass="help-inline" />
-			</div>
-			</div>
-		</spring:bind>
 		
-		<spring:bind path="measurementScale.operations">
+		<c:forEach items="${supportedOperations}" var="operation_i" >
+			<c:out value="${operation_i.operation}"></c:out>
+			<c:out value="${operation_i.id}" />
+		</c:forEach>
+					
+		 <spring:bind path="measurementScale.operations">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
 			<div class="controls">
 				<form:select path="operations" onchange="" disabled="false">
 					<form:option value="" label="None" />
 					<c:forEach items="${supportedOperations}" var="operation_i" >
-						<form:option value="${operation_i[0]}" label="${operation_i[1]}" />
+						<form:option value="${operation_i.id}" label="${operation_i.operation}" />
 					</c:forEach>
  				</form:select>
 				<form:errors path="operations" cssClass="help-inline" />
 			</div>
 			</div>
 		</spring:bind>
-		
+		 
 	
 		<div class="form-actions">
 			<c:if test="${metric.metricOwner eq currentUser || empty metric.id}">

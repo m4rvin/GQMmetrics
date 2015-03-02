@@ -43,4 +43,14 @@ public class DefaultOperationManagerImpl extends GenericManagerImpl<DefaultOpera
 		  return null;
 	 }
 
+	@Override
+	public List<Object> findBySupportedMeasurementScaleOBJ(
+			MeasurementScaleTypeEnum type) {
+		if(type != null)
+		  {
+				return this.defaultOperationDao.findBySupportedMeasurementScaleOBJ(type);
+		  }
+		  return null;
+	}
+
 }
