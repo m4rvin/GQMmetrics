@@ -24,7 +24,7 @@
 		 --%>
 
 </div>
-
+${measurementScale}
 <div class="span7">
 	<form:errors path="*" cssClass="alert alert-error fade in"
 		element="div" />
@@ -58,15 +58,27 @@
 			<appfuse:label styleClass="control-label" key="measurementScale.type" />
 			<div class="controls">
 				<form:select id="measurementScaleType" path="type" onchange="getSupportedValues()" disabled="false">
-					<form:option value="" label="None" />
-					<form:options items="${availableMeasurementScaleTypes}" />
+	 					<form:option value="" label="None" />
+ 						<form:options items="${availableMeasurementScaleTypes}" />
 				</form:select>
 				<form:errors path="type" cssClass="help-inline" />
 			</div>
 			</div>
 		</spring:bind>
 		
-		
+		<%--  <spring:bind path="measurementScale.rangeOfValues">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
+			<div class="controls">
+				<form:select path="rangeOfValues" onchange="" disabled="false">
+					<form:option value="" label="None" />
+					<form:options items="${supportedRangeOfValues}" />
+				</form:select>
+				<form:errors path="rangeOfValues" cssClass="help-inline" />
+			</div>
+			</div>
+		</spring:bind>
+		 --%>
 		<c:forEach items="${supportedOperations}" var="operation_i" >
 			<c:out value="${operation_i.operation}"></c:out>
 			<c:out value="${operation_i.id}" />
@@ -77,9 +89,20 @@
 			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
 			<div class="controls">
 				<form:select path="operations" onchange="" disabled="false">
-					<form:option value="" label="None" />
+<%-- 					<form:option value="" label="None" /> --%>	
 					<c:forEach items="${supportedOperations}" var="operation_i" >
-						<form:option value="${operation_i.id}" label="${operation_i.operation}" />
+						<c:forEach items="${measurementScale.operations}" var= "i" >
+							<c:if test="${operation_i.id == i.id}">
+								<form:option value="${operation_i.id}" label="${operation_i.operation}" selected="selected">
+									${operation_i.operation}
+								</form:option>
+							</c:if>
+							<c:if test="${operation_i.id != i.id}">
+								<form:option value="${operation_i.id}" label="${operation_i.operation}">
+									${operation_i.operation}
+								</form:option>
+							</c:if>
+						</c:forEach>
 					</c:forEach>
  				</form:select>
 				<form:errors path="operations" cssClass="help-inline" />

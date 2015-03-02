@@ -1,6 +1,7 @@
 package it.uniroma2.gqm.model;
 
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -52,7 +53,7 @@ public class MeasurementScale extends BaseObject {
 				joinColumns = {@JoinColumn(name = "measurementScale_id")},
 				inverseJoinColumns = {@JoinColumn(name = "defaultoperation_id")}
 			  	)
-	private Set<DefaultOperation> operations;
+	private List<DefaultOperation> operations;
 	
 	@Column(name = "measurementScale_type")
 	private MeasurementScaleTypeEnum type;
@@ -101,11 +102,11 @@ public class MeasurementScale extends BaseObject {
 		this.rangeOfValues = rangeOfValues;
 	}
 
-	public Set<DefaultOperation> getOperations() {
+	public List<DefaultOperation> getOperations() {
 		return operations;
 	}
 
-	public void setOperations(Set<DefaultOperation> operations) {
+	public void setOperations(List<DefaultOperation> operations) {
 		this.operations = operations;
 	}
 	
