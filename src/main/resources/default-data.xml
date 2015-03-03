@@ -1491,7 +1491,7 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">7</value>
-			<value description = "operation">exponentation</value>
+			<value description = "operation">exponentiation</value>
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
@@ -1524,13 +1524,13 @@
 		<row>
 			<value description="rangeofvalues_id">1</value>
 			<value description="is_default_range">true</value>
-			<value description="is_finite">true</value>
+			<value description="is_finite">false</value>
 			<value description="measurement_scale_type">3</value>
 			<value description="name">Integer Numbers</value>
 			<value description="number_type">INTEGER_NUMBERS</value>
 			<value description="is_numeric">true</value>
 			<value description="is_range">true</value>
-			<value description="range_values"></value>
+			<value description="range_values">null</value>
 			<value description="project_id">-1</value>		
 		</row>
 		<row>
@@ -1538,7 +1538,7 @@
 			<value description="is_default_range">false</value>
 			<value description="is_finite">true</value>
 			<value description="measurement_scale_type">2</value>
-			<value description="name">Bug Numbers</value>
+			<value description="name">0-100 Numbers</value>
 			<value description="number_type">NATURAL_NUMBERS</value>
 			<value description="is_numeric">true</value>
 			<value description="is_range">true</value>
@@ -1559,7 +1559,7 @@
 		</row>
 		<row>
 			<value description="rangeofvalues_id">4</value>
-			<value description="is_default_range">true</value>
+			<value description="is_default_range">false</value>
 			<value description="is_finite">true</value>
 			<value description="measurement_scale_type">3</value>
 			<value description="name">Real Numbers</value>
@@ -1569,5 +1569,59 @@
 			<value description="range_values">null</value>
 			<value description="project_id">-1</value>		
 		</row>
- 	</table>    
+ 	</table> 
+ 	
+ 	<table name="measurement_scale">
+	<column>measurementScale_id</column>
+	<column>name</column>
+	<column>measurementScale_type</column>
+	<column>project_id</column>
+	<column>rangeofvalues_id</column>
+	<row>
+		<value description="measurementScale_id">1</value>
+		<value description="name">measurement scale A</value>
+		<value description="measurementScale_type">3</value>
+		<value description="project_id">-1</value>
+		<value description="rangeofvalues_id">4</value>
+	</row>
+	<row>
+		<value description="measurementScale_id">2</value>
+		<value description="name">measurement scale B</value>
+		<value description="measurementScale_type">2</value>
+		<value description="project_id">-1</value>
+		<value description="rangeofvalues_id">1</value>
+	</row>
+	
+	<!-- <row> <value description="measurementScale_id"></value> <value description="name"></value> 
+		<value description="measurementScale_type"></value> <value description="project_id"></value> 
+		<value description="rangeofvalues_id"></value> </row> -->
+</table>
+
+
+	<table name="measurementscale_defaultoperation">
+		<column>measurementScale_id</column>
+		<column>defaultoperation_id</column>
+		
+		<row>
+			<value description="measurementScale_id">1</value>
+			<value description="defaultoperation_id">7</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">1</value>
+			<value description="defaultoperation_id">8</value>
+		</row>
+		
+		<row>
+			<value description="measurementScale_id">2</value>
+			<value description="defaultoperation_id">1</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">2</value>
+			<value description="defaultoperation_id">2</value>
+		</row>
+
+		<!-- <row> <value description="measurementScale_id"></value> <value description="defaultoperation_id"></value> 
+			</row> -->
+	</table>
+	   
 </dataset>
