@@ -55,4 +55,11 @@ public class MetricDaoHibernate extends GenericDaoHibernate<Metric, Long>  imple
 		return super.save(object);
 	}
 
+   @Override
+   public List<Metric> findByMeasurementScale(Long id)
+   {
+   	 Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
+   	 return q.list();
+   }
+
 }
