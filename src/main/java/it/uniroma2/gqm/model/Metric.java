@@ -99,34 +99,6 @@ public class Metric   extends BaseObject  implements Serializable {
 	public void setHypothesis(String hypothesis) {
 		this.hypothesis = hypothesis;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Metric other = (Metric) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-	@Override
-	public String toString() {
-		return "Metric [id=" + id + ", name=" + name + "]";
-	}
-	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "unit_id", nullable = true)	
@@ -371,4 +343,153 @@ public class Metric   extends BaseObject  implements Serializable {
 		}
 		return formula;
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((actualValue == null) ? 0 : actualValue.hashCode());
+		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result
+				+ ((collectingType == null) ? 0 : collectingType.hashCode());
+		result = prime * result
+				+ ((hypothesis == null) ? 0 : hypothesis.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime
+				* result
+				+ ((measurementScale == null) ? 0 : measurementScale.hashCode());
+		result = prime * result
+				+ ((measurements == null) ? 0 : measurements.hashCode());
+		result = prime * result + ((metricA == null) ? 0 : metricA.hashCode());
+		result = prime * result + ((metricB == null) ? 0 : metricB.hashCode());
+		result = prime * result
+				+ ((metricOwner == null) ? 0 : metricOwner.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + ((project == null) ? 0 : project.hashCode());
+		result = prime * result
+				+ ((questions == null) ? 0 : questions.hashCode());
+		result = prime
+				* result
+				+ ((satisfyingConditionOperation == null) ? 0
+						: satisfyingConditionOperation.hashCode());
+		result = prime
+				* result
+				+ ((satisfyingConditionValue == null) ? 0
+						: satisfyingConditionValue.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Metric other = (Metric) obj;
+		if (actualValue == null) {
+			if (other.actualValue != null)
+				return false;
+		} else if (!actualValue.equals(other.actualValue))
+			return false;
+		if (code == null) {
+			if (other.code != null)
+				return false;
+		} else if (!code.equals(other.code))
+			return false;
+		if (collectingType != other.collectingType)
+			return false;
+		if (hypothesis == null) {
+			if (other.hypothesis != null)
+				return false;
+		} else if (!hypothesis.equals(other.hypothesis))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (measurementScale == null) {
+			if (other.measurementScale != null)
+				return false;
+		} else if (!measurementScale.equals(other.measurementScale))
+			return false;
+		if (measurements == null) {
+			if (other.measurements != null)
+				return false;
+		} else if (!measurements.equals(other.measurements))
+			return false;
+		if (metricA == null) {
+			if (other.metricA != null)
+				return false;
+		} else if (!metricA.equals(other.metricA))
+			return false;
+		if (metricB == null) {
+			if (other.metricB != null)
+				return false;
+		} else if (!metricB.equals(other.metricB))
+			return false;
+		if (metricOwner == null) {
+			if (other.metricOwner != null)
+				return false;
+		} else if (!metricOwner.equals(other.metricOwner))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (operation != other.operation)
+			return false;
+		if (project == null) {
+			if (other.project != null)
+				return false;
+		} else if (!project.equals(other.project))
+			return false;
+		if (questions == null) {
+			if (other.questions != null)
+				return false;
+		} else if (!questions.equals(other.questions))
+			return false;
+		if (satisfyingConditionOperation != other.satisfyingConditionOperation)
+			return false;
+		if (satisfyingConditionValue == null) {
+			if (other.satisfyingConditionValue != null)
+				return false;
+		} else if (!satisfyingConditionValue
+				.equals(other.satisfyingConditionValue))
+			return false;
+		if (type != other.type)
+			return false;
+		if (unit == null) {
+			if (other.unit != null)
+				return false;
+		} else if (!unit.equals(other.unit))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Metric [id=" + id + ", code=" + code + ", name=" + name
+				+ ", hypothesis=" + hypothesis + ", unit=" + unit
+				+ ", project=" + project + ", measurementScale="
+				+ measurementScale + ", type=" + type + ", collectingType="
+				+ collectingType + ", satisfyingConditionOperation="
+				+ satisfyingConditionOperation + ", metricOwner=" + metricOwner
+				+ ", questions=" + questions + ", metricA=" + metricA
+				+ ", metricB=" + metricB + ", operation=" + operation
+				+ ", actualValue=" + actualValue
+				+ ", satisfyingConditionValue=" + satisfyingConditionValue
+				+ ", measurements=" + measurements + "]";
+	}
+	
 }	

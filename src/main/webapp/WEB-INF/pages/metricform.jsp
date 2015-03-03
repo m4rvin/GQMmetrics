@@ -87,8 +87,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="measurementScale.id"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-   				<form:option value="-1" label="None"/>
+   			<form:select path="measurementScale"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
             <form:errors path="measurementScale" cssClass="help-inline"/>

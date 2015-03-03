@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @RequestMapping("/metricform*")
-@SessionAttributes({"currentProject","metric","currentUser","units","scales","availableMetrics"})
+@SessionAttributes({"currentProject","metric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class MetricFormController  extends BaseFormController {
 	@Autowired
 	private MetricManager metricManager;
@@ -184,6 +184,8 @@ public class MetricFormController  extends BaseFormController {
         	metric.setMetricB(metric.getMetricB()!=null && metric.getMetricB().getId() != null ? 
     				metricManager.get(metric.getMetricB().getId()) 
     				: null);
+        	
+        	System.out.println("\n\n" + metric + "\n\n");
         	metricManager.save(metric);
             String key = (isNew) ? "metric.added" : "metric.updated";
             saveMessage(request, getText(key, locale));
