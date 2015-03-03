@@ -32,7 +32,7 @@ public class DefaultOperationDaoHibernate extends
    }
    
    @Override
-   public List<Object> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type)
+   public List<DefaultOperation> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type)
    {
    	 Query q = getSession().getNamedQuery("findDefaultOperationOBJBySupportedMeasurementScale").setLong("measurementScaleType", type.ordinal());
    	 return q.list();

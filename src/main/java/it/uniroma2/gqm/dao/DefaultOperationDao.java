@@ -10,6 +10,6 @@ import org.appfuse.dao.GenericDao;
 public interface DefaultOperationDao extends GenericDao<DefaultOperation, Long> {
 	
 	public List<Object> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
-	public List<Object> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type);
+	public List<DefaultOperation> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type);
 
 }

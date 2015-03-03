@@ -1,5 +1,6 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -101,7 +102,7 @@ public class MeasurementScaleFormController extends BaseFormController {
 			  List<RangeOfValues> rovs = this.rangeOfValuesManager.findBySupportedMeasurementScaleOBJ(type);
 			  model.addAttribute("supportedRangeOfValues", rovs);
 			  
-			  List<Object> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
+			  List<DefaultOperation> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
 			  model.addAttribute("supportedOperations", ret);
 		 
 		 }

@@ -44,7 +44,7 @@ public class DefaultOperationManagerImpl extends GenericManagerImpl<DefaultOpera
 	 }
 
 	@Override
-	public List<Object> findBySupportedMeasurementScaleOBJ(
+	public List<DefaultOperation> findBySupportedMeasurementScaleOBJ(
 			MeasurementScaleTypeEnum type) {
 		if(type != null)
 		  {
