@@ -2,6 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
+import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.Metric;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
@@ -9,6 +10,7 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.Scale;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
@@ -16,6 +18,7 @@ import it.uniroma2.gqm.service.MetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
 
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -169,14 +172,7 @@ public class MetricFormController  extends BaseFormController {
         } else {
         	if(metric.getMetricOwner()==null)
         		metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
-            
         	
-        	if(metric.getScale() != null && metric.getScale().getId() != null){
-            	metric.setScale(scaleManager.get(metric.getScale().getId()));
-            	
-            } else {
-            	metric.setScale(null);
-            }
         	if(metric.getUnit() != null && metric.getUnit().getId() != null){
         		metric.setUnit(unitManager.get(metric.getUnit().getId()));
         	} else {
@@ -211,16 +207,7 @@ public class MetricFormController  extends BaseFormController {
    
     @InitBinder
     protected void initBinder2(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Set.class, "scale", new CustomCollectionEditor(Set.class) {
-            protected Object convertElement(Object element) {
-                if (element != null) {
-                    Long id = new Long((String)element);
-                    Scale s = scaleManager.get(id);
-                    return s;
-                }
-                return null;
-            }
-        });
+        binder.registerCustomEditor(MeasurementScale.class, "measurementScale", new MeasurementScaleEditorSupport());
     }
 
     /**
@@ -267,5 +254,34 @@ public class MetricFormController  extends BaseFormController {
                 return null;
             }
         });
-    }      
+    }  
+    
+    
+    private class MeasurementScaleEditorSupport extends PropertyEditorSupport
+	 {
+
+		  @Override
+		  public void setAsText(String text)
+		  {
+				if (text != null && !text.equals(""))
+				{
+					MeasurementScale measurementScale = null;
+					 try
+					 {
+						 measurementScale = measurementScaleManager.get(new Long(text));
+						 setValue(measurementScale);
+					 } catch (Exception e)
+					 {
+						  System.out.println(e);
+						  setValue(null);
+					 }
+				} else
+				{
+					 System.out.println(" FIXME error in MeasurementScaleEditorSupport conversion");
+					 setValue(null);
+				}
+				// FIXME error
+		  }
+	 }
+
 }

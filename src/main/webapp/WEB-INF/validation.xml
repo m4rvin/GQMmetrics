@@ -111,6 +111,9 @@
             <field property="project" depends="required">
                 <arg key="metric.project"/>
             </field>
+            <field property="measurementScale" depends="required">
+                <arg key="metric.measurementScale"/>
+            </field>
             <field property="code" depends="required">
                 <arg key="metric.code"/>
             </field>
