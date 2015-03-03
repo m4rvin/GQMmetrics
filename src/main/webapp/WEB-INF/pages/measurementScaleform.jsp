@@ -24,7 +24,6 @@
 		 --%>
 
 </div>
-${measurementScale}
 <div class="span7">
 	<form:errors path="*" cssClass="alert alert-error fade in"
 		element="div" />
@@ -66,24 +65,28 @@ ${measurementScale}
 			</div>
 		</spring:bind>
 		
-		<%--  <spring:bind path="measurementScale.rangeOfValues">
+		 <spring:bind path="measurementScale.rangeOfValues">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-			<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
-			<div class="controls">
-				<form:select path="rangeOfValues" onchange="" disabled="false">
-					<form:option value="" label="None" />
-					<form:options items="${supportedRangeOfValues}" />
-				</form:select>
-				<form:errors path="rangeOfValues" cssClass="help-inline" />
-			</div>
+				<appfuse:label styleClass="control-label" key="measurementScale.rangeOfValues" />
+				<div class="controls">
+					<form:select path="rangeOfValues" onchange="" disabled="false">
+						<form:option value="" label="None" />
+						<c:forEach items="${supportedRangeOfValues}" var="rov">
+							<c:choose>
+								<c:when test="${measurementScale.rangeOfValues.id == rov.id}">
+									<form:option value="${rov.id}" label="${rov.name}" selected="selected"/>
+								</c:when>
+								<c:otherwise>
+									<form:option value="${rov.id}" label="${rov.name}" />
+								</c:otherwise>
+							</c:choose>						
+						</c:forEach>						
+					</form:select>
+					<form:errors path="rangeOfValues" cssClass="help-inline" />
+				</div>
 			</div>
 		</spring:bind>
-		 --%>
-		<c:forEach items="${supportedOperations}" var="operation_i" >
-			<c:out value="${operation_i.operation}"></c:out>
-			<c:out value="${operation_i.id}" />
-		</c:forEach>
-					
+			
 		 <spring:bind path="measurementScale.operations">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			<appfuse:label styleClass="control-label" key="measurementScale.operations" />
@@ -92,16 +95,14 @@ ${measurementScale}
 <%-- 					<form:option value="" label="None" /> --%>	
 					<c:forEach items="${supportedOperations}" var="operation_i" >
 						<c:forEach items="${measurementScale.operations}" var= "i" >
-							<c:if test="${operation_i.id == i.id}">
-								<form:option value="${operation_i.id}" label="${operation_i.operation}" selected="selected">
-									${operation_i.operation}
-								</form:option>
-							</c:if>
-							<c:if test="${operation_i.id != i.id}">
-								<form:option value="${operation_i.id}" label="${operation_i.operation}">
-									${operation_i.operation}
-								</form:option>
-							</c:if>
+							<c:choose>
+								<c:when test="${operation_i.id == i.id}">
+									<form:option value="${operation_i.id}" label="${operation_i.operation}" selected="selected" />
+								</c:when>
+								<c:otherwise>
+									<form:option value="${operation_i.id}" label="${operation_i.operation}" />
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</c:forEach>
  				</form:select>

@@ -6,7 +6,6 @@ import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.appfuse.service.impl.GenericManagerImpl;
@@ -15,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("rangeOfValuesManager")
-public class RangeOfValuesManagerImpl extends
-		GenericManagerImpl<RangeOfValues, Long> implements RangeOfValuesManager {
+public class RangeOfValuesManagerImpl extends GenericManagerImpl<RangeOfValues, Long> implements RangeOfValuesManager {
 
 	private RangeOfValuesDao rangeOfValuesDao;
 	private MeasurementScaleDao measurementScaleDao;
@@ -77,4 +75,13 @@ public class RangeOfValuesManagerImpl extends
 		return null;
 	}
 
+   @Override
+   public List<RangeOfValues> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type)
+   {
+   	 if (type != null) {
+  			return this.rangeOfValuesDao.findBySupportedMeasurementScaleOBJ(type);
+  		}
+  		return null;
+   }
+   
 }

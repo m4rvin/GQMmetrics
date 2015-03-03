@@ -50,4 +50,11 @@ public class RangeOfValuesDaoHibernate extends GenericDaoHibernate<RangeOfValues
 		  return q.list();
 	 }
 
+	 @Override
+	 public List<RangeOfValues> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type)
+	 {
+		  Query q = getSession().getNamedQuery("findRangeOfValuesOBJBySupportedMeasurementScale").setLong("measurementScaleType", type.ordinal());
+		  return q.list();
+	 }
+
 }

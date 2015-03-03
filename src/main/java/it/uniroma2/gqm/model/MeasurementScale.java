@@ -49,7 +49,7 @@ public class MeasurementScale extends BaseObject {
 	
 	@Column(name = "supported_operations")
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "MeasurementScDefaultOperation",
+	@JoinTable(name = "MeasurementScale_DefaultOperation",
 				joinColumns = {@JoinColumn(name = "measurementScale_id")},
 				inverseJoinColumns = {@JoinColumn(name = "defaultoperation_id")}
 			  	)

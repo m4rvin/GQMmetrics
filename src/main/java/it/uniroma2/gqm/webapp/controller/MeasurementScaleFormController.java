@@ -98,7 +98,8 @@ public class MeasurementScaleFormController extends BaseFormController {
 			 // model.addAttribute("used", isUsed);
 			  
 			  MeasurementScaleTypeEnum type = measurementScale.getType();
-			  model.addAttribute("supportedRangeOfValues",this.rangeOfValuesManager.findBySupportedMeasurementScale(type));
+			  List<RangeOfValues> rovs = this.rangeOfValuesManager.findBySupportedMeasurementScaleOBJ(type);
+			  model.addAttribute("supportedRangeOfValues", rovs);
 			  
 			  List<Object> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
 			  model.addAttribute("supportedOperations", ret);

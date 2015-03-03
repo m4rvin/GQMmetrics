@@ -12,5 +12,6 @@ public interface RangeOfValuesDao extends
 
 	public List<RangeOfValues> findByProject(Long id);  
 	public List<Object> findBySupportedMeasurementScale(MeasurementScaleTypeEnum type);
+	public List<RangeOfValues> findBySupportedMeasurementScaleOBJ(MeasurementScaleTypeEnum type);
 
 }
