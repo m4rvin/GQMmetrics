@@ -53,7 +53,7 @@ public class MeasurementScale extends BaseObject {
 				joinColumns = {@JoinColumn(name = "measurementScale_id")},
 				inverseJoinColumns = {@JoinColumn(name = "defaultoperation_id")}
 			  	)
-	private List<DefaultOperation> operations;
+	private Set<DefaultOperation> operations;
 	
 	@Column(name = "measurementScale_type")
 	private MeasurementScaleTypeEnum type;
@@ -102,11 +102,11 @@ public class MeasurementScale extends BaseObject {
 		this.rangeOfValues = rangeOfValues;
 	}
 
-	public List<DefaultOperation> getOperations() {
+	public Set<DefaultOperation> getOperations() {
 		return operations;
 	}
 
-	public void setOperations(List<DefaultOperation> operations) {
+	public void setOperations(Set<DefaultOperation> operations) {
 		this.operations = operations;
 	}
 	
