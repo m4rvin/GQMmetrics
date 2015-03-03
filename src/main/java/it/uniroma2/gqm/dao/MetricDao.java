@@ -8,5 +8,6 @@ import java.util.List;
 import org.appfuse.dao.GenericDao;
 
 public interface MetricDao extends GenericDao<Metric, Long> {
-	public List<Metric> findByProject(Long id);       
+	public List<Metric> findByProject(Long id);
+	public List<Metric> findByMeasurementScale(Long id);
 }

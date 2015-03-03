@@ -37,7 +37,11 @@ import org.appfuse.model.User;
             		" inner join q.metrics qm " +
             		" inner join qm.pk.metric m " +
             		" where g.id= :goal_id and m.satisfyingConditionValue <> null"
-    )
+    ),
+    @NamedQuery(
+   			name = "findByMeasurementScale",
+   			query = "select m from Metric m where m.measurementScale.id = :measurementScaleId"
+	 )
 })
 public class Metric   extends BaseObject  implements Serializable {
 

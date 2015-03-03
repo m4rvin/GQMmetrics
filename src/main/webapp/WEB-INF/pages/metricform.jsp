@@ -22,8 +22,7 @@
 
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="metric" method="post" action="metricform" id="metricForm"
-               cssClass="well form-horizontal">
+    <form:form commandName="metric" method="post" action="metricform" id="metricForm" cssClass="well form-horizontal">
     <form:hidden path="id"/>
 
     <spring:bind path="metric.project">

@@ -99,9 +99,8 @@ public class MeasurementScaleFormController extends BaseFormController
 		  if (!StringUtils.isBlank(id))
 		  {
 				measurementScale = this.measurementScaleManager.get(new Long(id));
-				// boolean isUsed =
-				// this.measurementScaleManager.isUsed(measurementScale.getId());
-				// model.addAttribute("used", isUsed);
+				boolean isUsed = this.measurementScaleManager.isUsed(measurementScale.getId());
+				model.addAttribute("used", isUsed);
 
 				MeasurementScaleTypeEnum type = measurementScale.getType();
 				
@@ -154,7 +153,20 @@ public class MeasurementScaleFormController extends BaseFormController
 					 return "measurementScaleform";
 				}
 		  }
-
+		  
+		  if(request.getParameter("delete") != null)
+		  {
+				Long id = measurementScale.getId();
+				
+				if(id != 0 && !this.measurementScaleManager.isUsed(id))
+					 {
+					 	this.measurementScaleManager.remove(id);
+					 	return getSuccessView();
+					 }
+				
+				else
+					 return "measurementScaleform";
+		  }
 		  System.out.println(measurementScale);
 		  this.measurementScaleManager.save(measurementScale);
 		  return getSuccessView();

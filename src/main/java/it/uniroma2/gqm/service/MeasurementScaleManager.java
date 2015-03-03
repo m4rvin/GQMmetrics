@@ -10,5 +10,6 @@ import org.appfuse.service.GenericManager;
 public interface MeasurementScaleManager extends GenericManager<MeasurementScale, Long> {
 
 	public List<MeasurementScale> findByProject(Project project);
+	public boolean isUsed(Long id);
 
 }

@@ -10,7 +10,12 @@
 		<fmt:message key='measurementScaleDetail.heading' />
 	</h2>
 	<p>
-		<fmt:message key="measurementScaleDetail.message" />
+		<c:choose>
+		<c:when test="${used}">You cannot modify the selected Measurement Scale, it is already attached to a Metric</c:when>
+		<c:otherwise>
+			<fmt:message key="measurementScaleDetail.message" />
+		</c:otherwise>
+	</c:choose>
 	</p>
 	<%-- <p><fmt:message key="metric.goals.message"/></p>		
 	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${metric.metricOwner.fullName}</b>
@@ -38,7 +43,7 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.project" />
 				<div class="controls">
-					<form:select path="project.id" disabled="false">
+					<form:select path="project.id" disabled="${used}">
 						<form:option value="${measurementScale.project.id}"
 							label="${measurementScale.project.name}" />
 					</form:select>
@@ -53,7 +58,7 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.name" />
 				<div class="controls">
-					<form:input path="name" id="name" maxlength="255" readonly="false" />
+					<form:input path="name" id="name" maxlength="255" readonly="${used}" />
 					<form:errors path="name" cssClass="help-inline" />
 				</div>
 			</div>
@@ -66,7 +71,7 @@
 					key="measurementScale.type" />
 				<div class="controls">
 					<form:select id="measurementScaleType" path="type"
-						onchange="getSupportedValues()" disabled="false">
+						onchange="getSupportedValues()" disabled="${used}">
 						<form:option value="" label="None" />
 						<form:options items="${availableMeasurementScaleTypes}" />
 					</form:select>
@@ -81,7 +86,7 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.rangeOfValues" />
 				<div class="controls">
-					<form:select path="rangeOfValues" onchange="" disabled="false">
+					<form:select path="rangeOfValues" onchange="" disabled="${used}">
 						<form:option value="" label="None" />
 						<c:forEach items="${supportedRangeOfValues}" var="rov">
 							<c:choose>
@@ -106,7 +111,7 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.operations" />
 				<div class="controls">
-					<form:select path="operations" onchange="" disabled="false">
+					<form:select path="operations" onchange="" disabled="${used}">
 						<%-- 	<form:option value="" label="None" /> --%>
 						<c:forEach items="${supportedOperations}" var="i">
 							<c:set var="found" value="false"></c:set>
@@ -136,17 +141,15 @@
 
 
 		<div class="form-actions">
-			<c:if test="${metric.metricOwner eq currentUser || empty metric.id}">
+			<c:if test="${not used}">
 				<button type="submit" class="btn btn-primary" name="save">
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
-				<c:if test="${metric.metricOwner eq currentUser}">
 					<button type="submit" class="btn" name="delete">
 						<i class="icon-trash"></i>
 						<fmt:message key="button.delete" />
 					</button>
-				</c:if>
 			</c:if>
 			<button type="submit" class="btn" name="cancel">
 				<i class="icon-remove"></i>
