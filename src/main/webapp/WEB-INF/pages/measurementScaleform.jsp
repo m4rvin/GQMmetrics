@@ -107,7 +107,7 @@
 					key="measurementScale.operations" />
 				<div class="controls">
 					<form:select path="operations" onchange="" disabled="false">
-						<%-- 					<form:option value="" label="None" /> --%>
+						<%-- 	<form:option value="" label="None" /> --%>
 						<c:forEach items="${supportedOperations}" var="i">
 							<c:set var="found" value="false"></c:set>
 							<c:forEach items="${measurementScale.operations}" var="j">
@@ -164,19 +164,19 @@
 
 	function getSupportedValues() {
 		var currentLength = document.getElementById('rangeOfValues').length;
-		if (currentLength > 1) //devo rimuovere le opzioni correnti prima di listare quelle nuove
+		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
 		{
-			while (currentLength > 1) {
-				$('#rangeOfValues option:eq(1)').remove();
+			while (currentLength > 0) {
+				$('#rangeOfValues option:eq(0)').remove();
 				currentLength = currentLength - 1;
 			}
 		}
 		currentLength = document.getElementById('operations').length;
 
-		if (currentLength > 1) //devo rimuovere le opzioni correnti prima di listare quelle nuove
+		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
 		{
-			while (currentLength > 1) {
-				$('#operations option:eq(1)').remove();
+			while (currentLength > 0) {
+				$('#operations option:eq(0)').remove();
 				currentLength = currentLength - 1;
 			}
 		}
