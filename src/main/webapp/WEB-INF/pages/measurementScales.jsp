@@ -27,6 +27,7 @@
 
 		<display:column property="name" sortable="true" titleKey="measurementScale.name" />
 		<display:column property="rangeOfValues.name" sortable="true" titleKey="measurementScale.rangeOfValues" />
+		<display:column property="type" sortable="true" titleKey="measurementScale.type" />
 		
 		<c:set var="operations" value = "measurementScaleList.[${parent_rowNum -1}].operations" />
 		<display:column sortable="true" titleKey="measurementScale.operations">

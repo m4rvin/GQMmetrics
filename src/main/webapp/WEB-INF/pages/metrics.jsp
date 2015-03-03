@@ -18,6 +18,7 @@
         <display:column property="code" sortable="true" titleKey="metric.code"/>
         <display:column property="name" sortable="true" titleKey="metric.name"/>
         <display:column property="collectingType" sortable="true" titleKey="metric.collectingType"/>
+        <display:column property="measurementScale.name" sortable="true" titleKey="measurementScale"/>
         <display:column property="metricOwner.fullName" sortable="true" titleKey="metric.metricOwner"/>
         <display:setProperty name="paging.banner.item_name"><fmt:message key="metricList.metric"/></display:setProperty>
         <display:setProperty name="paging.banner.items_name"><fmt:message key="metricList.metrics"/></display:setProperty>

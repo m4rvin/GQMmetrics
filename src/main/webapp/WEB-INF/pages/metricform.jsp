@@ -88,6 +88,7 @@
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
    			<form:select path="measurementScale"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+   			   	<form:option value="" label="None"/>
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
             <form:errors path="measurementScale" cssClass="help-inline"/>
