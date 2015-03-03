@@ -11,6 +11,7 @@ import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.Scale;
 import it.uniroma2.gqm.model.Unit;
+import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.MetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
@@ -50,7 +51,7 @@ public class MetricFormController  extends BaseFormController {
 	@Autowired
 	private MetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
-    private GenericManager<Scale, Long> scaleManager = null;
+    private MeasurementScaleManager measurementScaleManager = null;
 
 	@Autowired
 	private QuestionManager questionManager;
@@ -78,8 +79,8 @@ public class MetricFormController  extends BaseFormController {
     }
         
     @Autowired
-    public void setScaleManager(@Qualifier("scaleManager") GenericManager<Scale, Long> scaleManager) {
-        this.scaleManager = scaleManager;
+    public void setMeasurementScaleManager(@Qualifier("measurementScaleManager") MeasurementScaleManager measurementScaleManager) {
+        this.measurementScaleManager = measurementScaleManager;
     }
 
     public MetricFormController() {
@@ -124,7 +125,7 @@ public class MetricFormController  extends BaseFormController {
         model.addAttribute("currentProject",currentProject);
         model.addAttribute("currentUser",currentUser);
         model.addAttribute("units",unitManager.getAll());
-        model.addAttribute("scales",scaleManager.getAll());
+        model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
         
         ArrayList<String> availablesTypes = new ArrayList<String>();
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());

@@ -68,7 +68,7 @@
 		    </form:select>		
             <form:errors path="type" cssClass="help-inline"/>
         </div>
-    </div>    
+    </div> 
     
     <spring:bind path="metric.unit">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
@@ -83,16 +83,16 @@
         </div>
     </div>    
 
-    <spring:bind path="metric.scale">
+    <spring:bind path="metric.measurementScale">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.scale"/>
+        <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="scale.id"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-   				<form:option value="" label="None"/>
-		    	<form:options items="${scales}" itemValue="id" itemLabel="name"/>
+   			<form:select path="measurementScale.id"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+   				<form:option value="-1" label="None"/>
+		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
-            <form:errors path="scale" cssClass="help-inline"/>
+            <form:errors path="measurementScale" cssClass="help-inline"/>
         </div>
     </div>  
 

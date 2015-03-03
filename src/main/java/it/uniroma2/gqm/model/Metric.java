@@ -47,8 +47,8 @@ public class Metric   extends BaseObject  implements Serializable {
 	private String name;
 	private String hypothesis;
 	private Unit unit;
-	private Scale scale;
 	private Project project;
+	private MeasurementScale measurementScale;
 	private MetricTypeEnum type;
 	private CollectingTypeEnum collectingType;
 	private SatisfyingConditionOperationEnum satisfyingConditionOperation;
@@ -131,16 +131,6 @@ public class Metric   extends BaseObject  implements Serializable {
 	}
 	public void setUnit(Unit unit) {
 		this.unit = unit;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "scale_id", nullable = true)		
-	public Scale getScale() {
-		return scale;
-	}
-	
-	public void setScale(Scale scale) {
-		this.scale = scale;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -251,7 +241,19 @@ public class Metric   extends BaseObject  implements Serializable {
 		this.measurements = measurements;
 	}
 	
-	@Transient
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "measurement_scale_id", nullable = false)
+	public MeasurementScale getMeasurementScale()
+   {
+   	 return measurementScale;
+   }
+	
+   public void setMeasurementScale(MeasurementScale measurementScale)
+   {
+   	 this.measurementScale = measurementScale;
+   }
+   
+@Transient
 	public boolean isConditionReached(){
 		boolean ret = false;
 		//Double value = null;
