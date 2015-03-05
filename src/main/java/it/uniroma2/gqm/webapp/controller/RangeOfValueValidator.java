@@ -29,7 +29,7 @@ public class RangeOfValueValidator implements Validator
 		  {
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "numberType", "numberType", "Range Set is a required field");
 				rov.setRange(true);
-				rov.setRangeValues(null);
+				rov.setRangeValues("none");
 		  } 
 		  else
 		  {
