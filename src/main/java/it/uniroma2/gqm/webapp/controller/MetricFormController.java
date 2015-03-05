@@ -17,6 +17,7 @@ import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.MetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
+import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
@@ -87,8 +88,8 @@ public class MetricFormController  extends BaseFormController {
     }
 
     public MetricFormController() {
-        setCancelView("redirect:metrics");
-        setSuccessView("redirect:metrics");
+        setCancelView("redirect:" + ViewName.metrics);
+        setSuccessView("redirect:" + ViewName.metrics);
     }
 
     @ModelAttribute
@@ -156,7 +157,7 @@ public class MetricFormController  extends BaseFormController {
             validator.validate(metric, errors);
             if (errors.hasErrors() && request.getParameter("delete") == null) {
             	// don't validate when deleting
-                return "metricform";
+                return ViewName.metricForm;
             }
         }
  

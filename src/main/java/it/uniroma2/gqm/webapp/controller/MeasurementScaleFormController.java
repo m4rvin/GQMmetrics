@@ -9,6 +9,7 @@ import it.uniroma2.gqm.service.DefaultOperationManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
+import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
@@ -50,8 +51,8 @@ public class MeasurementScaleFormController extends BaseFormController
 
 	 public MeasurementScaleFormController()
 	 {
-		  setCancelView("redirect:measurementScales");
-		  setSuccessView("redirect:measurementScales");
+		  setCancelView("redirect:" + ViewName.measurementScales);
+		  setSuccessView("redirect:" + ViewName.measurementScales);
 	 }
 
 	 @Autowired
@@ -114,7 +115,7 @@ public class MeasurementScaleFormController extends BaseFormController
 
 		  model.addAttribute("measurementScale", measurementScale);
 
-		  return "measurementScaleform";
+		return ViewName.measurementScaleForm;
 
 	 }
 
@@ -150,7 +151,7 @@ public class MeasurementScaleFormController extends BaseFormController
 					 System.out.println(measurementScale);
 					 if(measurementScale.getType() != null)
 						  populateModel(model, measurementScale.getType());
-					 return "measurementScaleform";
+					 return ViewName.measurementScaleForm;
 				}
 		  }
 		  

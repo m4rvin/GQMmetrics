@@ -6,6 +6,7 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.RangeOfValuesManager;
+import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ public class RangeOfValuesFormController extends BaseFormController
 
 	 public RangeOfValuesFormController()
 	 {
-		  setCancelView("redirect:rangeOfValues");
-		  setSuccessView("redirect:rangeOfValues");
+		  setCancelView("redirect:" + ViewName.rangeOfValues);
+		  setSuccessView("redirect:" + ViewName.rangeOfValues);
 	 }
 
 	 @Autowired
@@ -114,7 +115,7 @@ public class RangeOfValuesFormController extends BaseFormController
 
 		  model.addAttribute("rangeOfValues", rov);
 		  
-		  return "rangeOfValuesform";
+		  return ViewName.rangeOfValuesForm;
 	 }
 
 
@@ -132,7 +133,7 @@ public class RangeOfValuesFormController extends BaseFormController
 				{
 					 System.out.println(errors);
 					 System.out.println(rangeOfValues);
-					 return "rangeOfValuesform";
+					 return ViewName.rangeOfValuesForm;
 				}
 		  }
 		  
@@ -147,7 +148,7 @@ public class RangeOfValuesFormController extends BaseFormController
 					 }
 				
 				else
-					 return "rangeOfValuesform";
+					 return ViewName.rangeOfValuesForm;
 		  }
 		  
 		  System.out.println(rangeOfValues);
