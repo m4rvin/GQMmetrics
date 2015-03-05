@@ -35,6 +35,7 @@ public class RangeOfValues extends BaseObject
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private long id;
 
+	 @Column(unique=true)
 	 private String name;
 
 	 @Column(name = "is_default_range")

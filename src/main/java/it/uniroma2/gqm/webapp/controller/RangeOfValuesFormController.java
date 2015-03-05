@@ -162,7 +162,13 @@ public class RangeOfValuesFormController extends BaseFormController
 		  }
 		  catch(DataIntegrityViolationException e){
 			  System.err.println(e.getMessage());
-			  model.addAttribute("duplicate_value", "The range of values already exists on the database. Change some parameter and retry.");
+			  if(e.getMessage().contains("name")){
+				  model.addAttribute("duplicate_value", "A range of values with the same name already exists. Please change the name and retry.");
+
+			  }
+			  else{
+				  model.addAttribute("duplicate_value", "The range of values already exists in the database. Change some parameter and retry.");
+			  }
 			  return ViewName.rangeOfValuesForm;
 		  }
 		  status.setComplete();
