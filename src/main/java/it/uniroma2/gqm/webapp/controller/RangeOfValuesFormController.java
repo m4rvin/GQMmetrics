@@ -123,8 +123,10 @@ public class RangeOfValuesFormController extends BaseFormController
 	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, SessionStatus status, HttpSession session)
 	 {
         if (request.getParameter("cancel") != null)
-            return getCancelView();
-
+        {
+      		status.setComplete();
+      		return getCancelView();
+        }
 
 		  if (validator != null)
 		  { // validator is null during testing

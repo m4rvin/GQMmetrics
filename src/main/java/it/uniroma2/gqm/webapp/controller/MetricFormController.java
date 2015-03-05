@@ -47,6 +47,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @RequestMapping("/metricform*")
@@ -145,8 +146,7 @@ public class MetricFormController  extends BaseFormController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(Metric metric, BindingResult errors, HttpServletRequest request,
-                           HttpServletResponse response)
+    public String onSubmit(Metric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();
@@ -191,6 +191,7 @@ public class MetricFormController  extends BaseFormController {
             String key = (isNew) ? "metric.added" : "metric.updated";
             saveMessage(request, getText(key, locale));
         }
+        status.setComplete();
         return success;
     }
 

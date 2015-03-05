@@ -1530,7 +1530,7 @@
 			<value description="number_type">INTEGER_NUMBERS</value>
 			<value description="is_numeric">true</value>
 			<value description="is_range">true</value>
-			<value description="range_values">null</value>
+			<value description="range_values">none</value>
 			<value description="project_id">-1</value>		
 		</row>
 		<row>
@@ -1559,14 +1559,14 @@
 		</row>
 		<row>
 			<value description="rangeofvalues_id">4</value>
-			<value description="is_default_range">false</value>
+			<value description="is_default_range">true</value>
 			<value description="is_finite">true</value>
 			<value description="measurement_scale_type">3</value>
 			<value description="name">Real Numbers</value>
 			<value description="number_type">REAL_NUMBERS</value>
 			<value description="is_numeric">true</value>
 			<value description="is_range">true</value>
-			<value description="range_values">null</value>
+			<value description="range_values">none</value>
 			<value description="project_id">-1</value>		
 		</row>
  	</table> 
