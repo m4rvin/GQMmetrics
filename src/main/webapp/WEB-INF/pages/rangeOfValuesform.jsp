@@ -4,6 +4,13 @@
 <meta name="menu" content="DefinitionPhaseMenu" />
 </head>
 
+<style>
+.error-messages {
+    color: #FF0000;
+
+}
+</style>
+
 <div class="span2">
 	<h2>
 		<fmt:message key='rangeOfValuesDetail.heading' />
@@ -147,6 +154,11 @@
 					
 				</div>
 			
+		</div>
+		<div class="error-messages">
+		<c:if test="${not empty duplicate_value}">
+			<c:out value="${duplicate_value}"></c:out>
+		</c:if>
 		</div>
 
 		<div class="form-actions">

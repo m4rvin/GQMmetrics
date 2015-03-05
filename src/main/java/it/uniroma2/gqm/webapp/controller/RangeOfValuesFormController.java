@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -120,7 +121,7 @@ public class RangeOfValuesFormController extends BaseFormController
 
 
 	 @RequestMapping(method = RequestMethod.POST)
-	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, SessionStatus status, HttpSession session)
+	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, SessionStatus status, HttpSession session, Model model)
 	 {
         if (request.getParameter("cancel") != null)
         {
@@ -154,7 +155,14 @@ public class RangeOfValuesFormController extends BaseFormController
 		  }
 		  
 		  System.out.println(rangeOfValues);
-		  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+		  try{
+			  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+		  }
+		  catch(DataIntegrityViolationException e){
+			  System.err.println(e.getMessage());
+			  model.addAttribute("duplicate_value", "The range of values already exists on the database. Change some parameter and retry.");
+			  return ViewName.rangeOfValuesForm;
+		  }
 		  status.setComplete();
 		  return getSuccessView();
 	 }
