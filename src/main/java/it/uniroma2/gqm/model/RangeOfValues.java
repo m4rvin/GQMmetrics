@@ -189,7 +189,16 @@ public class RangeOfValues extends BaseObject
 		  if (this.defaultRange != ((RangeOfValues) o).defaultRange)
 				return false;
 		  else if (this.defaultRange && this.numberType.equals(((RangeOfValues) o).numberType))
+		  {
+				if(this.measurementScaleType != null)
+				{
+					 if(this.measurementScaleType == ((RangeOfValues) o).measurementScaleType)
+						  return true;
+					 else
+						  return false;
+				}
 				return true;
+		  }
 		  else if (!this.defaultRange)
 		  {
 				if (this.numeric != ((RangeOfValues) o).numeric)
