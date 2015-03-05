@@ -112,6 +112,8 @@ public class RangeOfValuesFormController extends BaseFormController
 				rov.setProject(currentProject);
 				rov.setDefaultRange(true);
 				rov.setNumeric(true);
+				rov.setNumberType("none");
+				rov.setRangeValues("none");
 		  }
 
 		  model.addAttribute("rangeOfValues", rov);
