@@ -212,8 +212,14 @@ public class RangeOfValues extends BaseObject
 						  return false;
 					 if(!this.range)
 						  return setEquality(this.rangeValues, ((RangeOfValues) o).rangeValues);
-					 else
-						  return rangeEquality(this.rangeValues, ((RangeOfValues)o).rangeValues, DefaultRangeOfValuesEnum.valueOf(this.numberType));	  
+					 else{
+						 try{
+							  return rangeEquality(this.rangeValues, ((RangeOfValues)o).rangeValues, DefaultRangeOfValuesEnum.valueOf(this.numberType));	
+						 }
+						 catch(IllegalArgumentException e){
+							 return false;
+						 }
+					 }
 				}
 		  }
 		  return false;
