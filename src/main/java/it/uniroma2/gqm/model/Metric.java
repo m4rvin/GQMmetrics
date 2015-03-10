@@ -371,8 +371,8 @@ public class Metric   extends BaseObject  implements Serializable {
 		result = prime * result
 				+ ((operation == null) ? 0 : operation.hashCode());
 		result = prime * result + ((project == null) ? 0 : project.hashCode());
-		result = prime * result
-				+ ((questions == null) ? 0 : questions.hashCode());
+	/*	result = prime * result
+				+ ((questions == null) ? 0 : questions.hashCode());*/
 		result = prime
 				* result
 				+ ((satisfyingConditionOperation == null) ? 0
@@ -485,7 +485,7 @@ public class Metric   extends BaseObject  implements Serializable {
 				+ measurementScale + ", type=" + type + ", collectingType="
 				+ collectingType + ", satisfyingConditionOperation="
 				+ satisfyingConditionOperation + ", metricOwner=" + metricOwner
-				+ ", questions=" + questions + ", metricA=" + metricA
+				+/* ", questions=" + questions + ", metricA=" + */metricA
 				+ ", metricB=" + metricB + ", operation=" + operation
 				+ ", actualValue=" + actualValue
 				+ ", satisfyingConditionValue=" + satisfyingConditionValue
