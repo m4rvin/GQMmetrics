@@ -77,9 +77,9 @@ public class RangeOfValuesFormController extends BaseFormController
 		  }
 				
 		  ArrayList<String> availableMeasurementScaleTypes = new ArrayList<String>();
-		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.INTERVAL.toString());
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.NOMINAL.toString());
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.ORDINAL.toString());
+		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.INTERVAL.toString());
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.RATIO.toString());
 		  model.addAttribute("availableMeasurementScaleTypes", availableMeasurementScaleTypes);
 
