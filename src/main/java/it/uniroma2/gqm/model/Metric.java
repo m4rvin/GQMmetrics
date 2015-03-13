@@ -489,7 +489,7 @@ public class Metric   extends BaseObject  implements Serializable {
 				+ ", metricB=" + metricB + ", operation=" + operation
 				+ ", actualValue=" + actualValue
 				+ ", satisfyingConditionValue=" + satisfyingConditionValue
-				+ ", measurements=" + measurements + "]";
+		/*		+ ", measurements=" + measurements*/ + "]";
 	}
 	
 }	
