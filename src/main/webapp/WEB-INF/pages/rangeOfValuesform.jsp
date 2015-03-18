@@ -11,7 +11,7 @@
 }
 </style>
 
-<div class="span2">
+<div id="info" class="span2">
 	<h2>
 		<fmt:message key='rangeOfValuesDetail.heading' />
 	</h2>
@@ -21,9 +21,7 @@
 			<fmt:message key="rangeOfValuesDetail.message" />
 		</c:otherwise>
 	</c:choose>
-	<p>
-		
-	</p>
+	
 	<%-- <p><fmt:message 	key="metric.goals.message"/></p>		
 	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${metric.metricOwner.fullName}</b>
 	
@@ -147,6 +145,7 @@
 							<appfuse:label styleClass="control-label" key="rangeOfValues.customValues" />
 							<div class="controls">
 								<form:input id="customValues" path="rangeValues" data-role="tagsinput" disabled="${used}" />
+								<a onclick="showInstructions()">Instructions</a>
 								<form:errors path="rangeValues" cssClass="help-inline" />
 							</div>
 						</div>
@@ -218,7 +217,8 @@
 	{
 		if($('#numeric1').is(':checked'))
 		{		
-			$('#numericRangeDiv').show();		
+			$('#numericRangeDiv').show();
+			
 		}
 		else
 		{
@@ -229,5 +229,30 @@
 		}
 	}
 	
+
+	
+	
+	function showInstructions(){
+		
+		if($('#range1').is(':checked'))
+		{
+			jQuery('<div/>', {
+			    id: 'dialogInstructions',
+			    title:"instructions",
+			    text: "To specify a valid range you have to use the following syntax: [start_value:end_value], where 'start_value' and 'end_value' must be consistent with the number type"
+			}).dialog();
+		}
+		else
+		{
+			jQuery('<div/>', {
+			    id: 'dialogInstructions',
+			    title:"instructions",
+			    text: "Insert elements one by one separating them by pressing Enter or inserting a comma (,) "
+			}).dialog();
+		}
+	}
+	
+	
+
 	
 </script>
