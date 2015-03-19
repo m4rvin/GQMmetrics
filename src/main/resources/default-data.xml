@@ -1236,7 +1236,7 @@
         <column>satisfying_condition_value</column>    
 <!--         
 <column>complexMetricType</column>
- -->                    
+                  
         <row>
             <value description="metric_id">1</value>
             <value description="project_id">1</value>
@@ -1253,11 +1253,11 @@
             <null/>
             <value description="collecting_type">SINGLE_VALUE</value>
             <value description="satisfying_condition_peration">LESS_OR_EQUAL</value>
-            <value description="satisfying_condition_value">260</value>
-<!--             
+            <value description="satisfying_condition_value">260</value>  
+         
 <value descrition="complexMetricType">simple</value>
- -->                        
-        </row>
+                       
+        </row>   --> 
         <!--
 		<row>
             <value description="metric_id">2</value>
