@@ -1205,6 +1205,18 @@
             <value description="operations"><![CDATA[=;!=;>;<;+;-;*;/]]></value>
         </row>                     
 	</table>
+	
+	<!--
+	 <table name="abstractmetric">
+		<column>metric_id</column>
+		<column>complexMetricType</column>
+		
+		<row>
+			<value description="metric_id">1</value>
+			<value descrition="complexMetricType">VALUE</value>
+		</row>
+	</table>
+	 -->
 	<table name="metric">
         <column>metric_id</column>
         <column>project_id</column>
@@ -1212,7 +1224,7 @@
         <column>name</column>        
         <column>hypothesis</column>
         <column>unit_id</column>
-        <column>scale_id</column>
+        <column>measurement_scale_id</column>
         <column>type</column>
         <column>mmdmo_id</column>
         <column>actual_value</column>
@@ -1221,15 +1233,18 @@
         <column>operation</column>
         <column>collecting_type</column>
         <column>satisfying_condition_peration</column>
-        <column>satisfying_condition_value</column>                
-        <!--<row>
+        <column>satisfying_condition_value</column>    
+<!--         
+<column>complexMetricType</column>
+ -->                    
+        <row>
             <value description="metric_id">1</value>
             <value description="project_id">1</value>
             <value description="code">DEVTIME</value>
-            <value description="name"><![CDATA[Development time]]></value>
+            <value description="name">myname</value>
             <value description="hypothesis">264</value>
             <value description="unit_id">-11</value>
-            <value description="scale_id">-4</value>
+            <value description="measurement_scale_id">1</value>
             <value description="type">SUBJECTIVE</value>
             <value description="mmdmo_id">9</value>
             <value description="actual_value">10</value>
@@ -1238,8 +1253,12 @@
             <null/>
             <value description="collecting_type">SINGLE_VALUE</value>
             <value description="satisfying_condition_peration">LESS_OR_EQUAL</value>
-            <value description="satisfying_condition_value">260</value>            
+            <value description="satisfying_condition_value">260</value>
+<!--             
+<value descrition="complexMetricType">simple</value>
+ -->                        
         </row>
+        <!--
 		<row>
             <value description="metric_id">2</value>
             <value description="project_id">1</value>

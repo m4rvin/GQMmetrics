@@ -1,27 +1,24 @@
 package it.uniroma2.gqm.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
 
 @Entity
@@ -43,10 +40,12 @@ import org.appfuse.model.User;
    			query = "select m from Metric m where m.measurementScale.id = :measurementScaleId"
 	 )
 })
-public class Metric   extends BaseObject  implements Serializable {
+
+@DiscriminatorValue("simple")
+@Table(name="Metric")
+public class Metric  extends AbstractMetric{
 
 	private static final long serialVersionUID = 7990600814484921752L;
-	private Long id;
 	private String code;
 	private String name;
 	private String hypothesis;
@@ -65,16 +64,8 @@ public class Metric   extends BaseObject  implements Serializable {
 	private Double satisfyingConditionValue;
 	private Set<Measurement> measurements= new HashSet<Measurement>();
 	
-	
-	@Id
-	@Column(name="metric_id")
-	@GeneratedValue(strategy = GenerationType.AUTO) 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
+	//TODO private enum complexMetricType???
 	
 	@Column(name="code", length=50,nullable=false)
 	public String getCode() {
@@ -348,6 +339,7 @@ public class Metric   extends BaseObject  implements Serializable {
 
 	@Override
 	public int hashCode() {
+		//FIXME metti id da super
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
@@ -357,7 +349,6 @@ public class Metric   extends BaseObject  implements Serializable {
 				+ ((collectingType == null) ? 0 : collectingType.hashCode());
 		result = prime * result
 				+ ((hypothesis == null) ? 0 : hypothesis.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime
 				* result
 				+ ((measurementScale == null) ? 0 : measurementScale.hashCode());
@@ -388,6 +379,7 @@ public class Metric   extends BaseObject  implements Serializable {
 	
 	@Override
 	public boolean equals(Object obj) {
+		//FIXME metti id da super
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -411,11 +403,6 @@ public class Metric   extends BaseObject  implements Serializable {
 			if (other.hypothesis != null)
 				return false;
 		} else if (!hypothesis.equals(other.hypothesis))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (measurementScale == null) {
 			if (other.measurementScale != null)
@@ -479,7 +466,7 @@ public class Metric   extends BaseObject  implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Metric [id=" + id + ", code=" + code + ", name=" + name
+		return "Metric [id=" + super.getId() + ", code=" + code + ", name=" + name
 				+ ", hypothesis=" + hypothesis + ", unit=" + unit
 				+ ", project=" + project + ", measurementScale="
 				+ measurementScale + ", type=" + type + ", collectingType="
