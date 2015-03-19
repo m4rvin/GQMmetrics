@@ -11,6 +11,7 @@
 		<mapping class="it.uniroma2.gqm.model.GoalQuestion"/>
 		<mapping class="it.uniroma2.gqm.model.Unit"/>
 		<mapping class="it.uniroma2.gqm.model.Metric"/>
+		<mapping class="it.uniroma2.gqm.model.CombinedMetric"/>
 		<mapping class="it.uniroma2.gqm.model.Scale"/>
 		<mapping class="it.uniroma2.gqm.model.QuestionMetric"/>
 		<mapping class="it.uniroma2.gqm.model.Strategy"/>

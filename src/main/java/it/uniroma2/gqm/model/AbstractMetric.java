@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -56,7 +58,10 @@ public abstract class AbstractMetric extends BaseObject
 	 protected Double actualValue;
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
-	 protected Set<Metric> componentOf;
+	 protected Set<AbstractMetric> composerFor;
+	 
+
+
 
 	 @Id
 	 @Column(name = "metric_id")
@@ -268,14 +273,19 @@ public abstract class AbstractMetric extends BaseObject
 		  this.measurementScale = measurementScale;
 	 }
 
-	 public Set<Metric> getComponentOf()
+	 @ManyToMany(fetch = FetchType.LAZY)
+	 @JoinTable(name = "metriccomposerfor_metriccomposedby",
+			 joinColumns = {@JoinColumn(name = "metriccomposerfor_id", referencedColumnName="metric_id")},
+				inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id", referencedColumnName="metric_id")}
+			  	)
+	 public Set<AbstractMetric> getComposerFor()
 	 {
-	 	 return componentOf;
+	 	 return composerFor;
 	 }
 
-	 public void setComponentOf(Set<Metric> componentOf)
+	 public void setComposedFor(Set<AbstractMetric> composedFor)
 	 {
-	 	 this.componentOf = componentOf;
+	 	 this.composerFor = composedFor;
 	 }
 
 	 @Transient
