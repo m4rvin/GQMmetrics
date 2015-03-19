@@ -1,6 +1,6 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.MetricManager;
 
@@ -35,7 +35,7 @@ public class MetricController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpSession session) throws Exception {
         Project currentProject = projectManager.getCurrentProject(session);
-		List<Metric> ret = metricManager.findByProject(currentProject);
+		List<SimpleMetric> ret = metricManager.findByProject(currentProject);
 		return new ModelAndView().addObject(ret);
 	}
 }

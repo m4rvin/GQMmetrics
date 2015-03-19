@@ -114,10 +114,10 @@ public class GoalManagerImpl extends GenericManagerImpl<Goal, Long> implements G
 	}
 	
 	@Override
-	public List<Metric> getMeasuredMetricByGoal(Goal goal) {
+	public List<SimpleMetric> getMeasuredMetricByGoal(Goal goal) {
 		Map<String, Object> maps = new Hashtable<String, Object>();
 		maps.put("goal_id", goal.getId());
-		List<Metric> metrics= metricDao.findByNamedQuery("findMeasuredMetric", maps);
+		List<SimpleMetric> metrics= metricDao.findByNamedQuery("findMeasuredMetric", maps);
 		return metrics;		
 	}
 	

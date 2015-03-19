@@ -2,7 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.BinaryElement;
 import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.BinaryTableManager;
 import it.uniroma2.gqm.service.GoalManager;
@@ -92,12 +92,12 @@ public class BinaryTableController {
 			
 			//Recupero tutte le metriche associate ad ogni MG
             for (Goal mg : mgs) {
-            	List<Metric> metrics = goalManager.getMeasuredMetricByGoal(mg);
+            	List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
             	
             	if (metrics.size() > 0) {
             		boolean satisfy = true;
 	            	//Calcolo valore di soddisfacimento (1 o 0)
-	                for(Metric m: metrics){
+	                for(SimpleMetric m: metrics){
 	                	satisfy &= metricManager.getSatisfaction(m);
 	                	satisfyAll &= satisfy;
 	                }
@@ -127,12 +127,12 @@ public class BinaryTableController {
 
 				//Recupero tutte le metriche associate ad ogni MG
 	            for (Goal mg : mgs) {
-	            	List<Metric> metrics = goalManager.getMeasuredMetricByGoal(mg);
+	            	List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
 	            	
 	            	boolean satisfy = true;
 	            	if(metrics.size() > 0){
   	            		//Calcolo valore di soddisfacimento (1 o 0)
-    	                for(Metric m: metrics){
+    	                for(SimpleMetric m: metrics){
     	                	satisfy &= metricManager.getSatisfaction(m);
     	                	satisfyAll &= satisfy;
     	                }

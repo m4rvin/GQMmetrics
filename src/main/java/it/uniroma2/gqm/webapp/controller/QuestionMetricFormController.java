@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
@@ -75,7 +75,7 @@ public class QuestionMetricFormController extends BaseFormController {
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
        
         if (!StringUtils.isBlank(questionId) && !StringUtils.isBlank(metricId)) {
-        	Metric metric = metricManager.get(new Long(metricId));
+        	SimpleMetric metric = metricManager.get(new Long(metricId));
         	Question question = questionManager.get(new Long(questionId));
         	ret = metricManager.getQuestionMetric(metric, question);
         }else {

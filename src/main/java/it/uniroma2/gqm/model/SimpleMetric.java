@@ -7,8 +7,8 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("simple")
-@Table(name = "Metric")
-public class Metric extends AbstractMetric
+@Table(name = "SimpleMetric")
+public class SimpleMetric extends AbstractMetric
 {
 
 	 private static final long serialVersionUID = 7990600814484921752L;
@@ -68,7 +68,7 @@ public class Metric extends AbstractMetric
 				return false;
 		  if (getClass() != obj.getClass())
 				return false;
-		  Metric other = (Metric) obj;
+		  SimpleMetric other = (SimpleMetric) obj;
 		  if (actualValue == null)
 		  {
 				if (other.actualValue != null)

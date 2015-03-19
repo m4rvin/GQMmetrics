@@ -2,7 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.MeasurementManager;
 import it.uniroma2.gqm.service.MetricManager;
@@ -125,7 +125,7 @@ public class MeasurementFormController extends BaseFormController {
 
     @InitBinder
     protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder) {
-    	binder.registerCustomEditor(Metric.class, "metric", new MetricEditorSupport());
+    	binder.registerCustomEditor(SimpleMetric.class, "metric", new MetricEditorSupport());
     }
 
     private class MetricEditorSupport extends PropertyEditorSupport {
@@ -133,7 +133,7 @@ public class MeasurementFormController extends BaseFormController {
 		public void setAsText(String text) throws IllegalArgumentException {
 			if(text != null && !StringUtils.isBlank(text)) {		
 				Long id = new Long(text);
-				Metric m = metricManager.get(id);
+				SimpleMetric m = metricManager.get(id);
 				setValue(m);
 			} else
 				setValue(null);

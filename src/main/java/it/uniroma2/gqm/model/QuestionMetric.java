@@ -48,7 +48,7 @@ public class QuestionMetric extends BaseObject {
 	}
 
 	@Transient
-	public Metric getMetric(){
+	public SimpleMetric getMetric(){
 		return this.pk.getMetric();
 	}
 

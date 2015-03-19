@@ -2,7 +2,7 @@ package it.uniroma2.gqm.dao.hibernate;
 
 import it.uniroma2.gqm.dao.MeasurementDao;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class MeasurementDaoHibernate extends GenericDaoHibernate<Measurement, Lo
     public MeasurementDaoHibernate() {
         super(Measurement.class);
     }
-    public List<Measurement> findMeasuremntsByMetric(Metric metric){
+    public List<Measurement> findMeasuremntsByMetric(SimpleMetric metric){
     	Query q =  getSession().getNamedQuery("findMeasuremntsByMetric").setLong("metric_id", metric.getId());
     	return q.list();
     }

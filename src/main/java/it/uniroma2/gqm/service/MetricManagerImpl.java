@@ -5,7 +5,7 @@ import it.uniroma2.gqm.dao.MetricDao;
 import it.uniroma2.gqm.dao.QuestionMetricDao;
 import it.uniroma2.gqm.model.GoalStatus;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 
 @Service("metricManager")
 @WebService(serviceName = "MetricService", endpointInterface = "it.uniroma2.gqm.service.MetricManager")
-public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implements MetricManager {
+public class MetricManagerImpl extends GenericManagerImpl<SimpleMetric, Long> implements MetricManager {
     private MetricDao metricDao;
     private QuestionMetricDao questionMetricDao;
     
@@ -38,7 +38,7 @@ public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implemen
         this.questionMetricDao = questionMetricDao;
     }
  
-    public List<Metric> findByProject(Project project) {
+    public List<SimpleMetric> findByProject(Project project) {
     	if(project !=null)
     		return metricDao.findByProject(project.getId());
     	else
@@ -46,7 +46,7 @@ public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implemen
     }
 
 	@Override
-	public QuestionMetric getQuestionMetric(Metric metric, Question question) {
+	public QuestionMetric getQuestionMetric(SimpleMetric metric, Question question) {
 		return questionMetricDao.getQuestionMetric(question.getId(), metric.getId());
 	}
 
@@ -86,12 +86,12 @@ public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implemen
 	}
 	
 	
-	public Metric findById(Long id){
+	public SimpleMetric findById(Long id){
 		return get(id);
 	}
 	
 	public List<Double> getMeasuredMetricValues(Long metricId){
-		Metric metric = get(metricId);
+		SimpleMetric metric = get(metricId);
 		List<Double> ret = new ArrayList<Double>();
 		Iterator<Measurement> it = metric.getMeasurements().iterator();
 		if(it.hasNext()){
@@ -104,7 +104,7 @@ public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implemen
 	}
 	
 	public List<String> getMetricInfo(Long metricId){
-		Metric metric = get(metricId);
+		SimpleMetric metric = get(metricId);
 		List<String> ret = new ArrayList<String>();
 		ret.add("Id: " + (metric.getId()) );
 		ret.add("Name: " + (metric.getName()));
@@ -117,7 +117,7 @@ public class MetricManagerImpl extends GenericManagerImpl<Metric, Long> implemen
 		return ret;
 	}
 	
-	public boolean getSatisfaction(Metric m){
+	public boolean getSatisfaction(SimpleMetric m){
 		return m.isConditionReached();
 	}
 }

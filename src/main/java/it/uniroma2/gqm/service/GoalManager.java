@@ -1,7 +1,7 @@
 package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface GoalManager extends GenericManager<Goal, Long> {
 	 * @return list of goal
 	 */
 	public List<Goal> getMeasuredGoal(Project currentProject);
-	public List<Metric> getMeasuredMetricByGoal(Goal goal);
+	public List<SimpleMetric> getMeasuredMetricByGoal(Goal goal);
 	public List<Goal> getOrganizationalGoal(Project currentProject);
 	public boolean rootExists(Project currentProject);
 	

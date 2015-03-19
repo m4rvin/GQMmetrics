@@ -3,7 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
@@ -95,9 +95,9 @@ public class MetricFormController  extends BaseFormController {
 
     @ModelAttribute
     @RequestMapping(method = RequestMethod.GET)
-    protected Metric showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
+    protected SimpleMetric showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
         String id = request.getParameter("id");
-        Metric ret = null;
+        SimpleMetric ret = null;
 
         Project currentProject = projectManager.getCurrentProject(session);
         
@@ -106,7 +106,7 @@ public class MetricFormController  extends BaseFormController {
         if (!StringUtils.isBlank(id)) {
             ret = metricManager.get(new Long(id));
         } else {
-        	ret = new Metric();
+        	ret = new SimpleMetric();
         	ret.setProject(currentProject);
         }
         
@@ -146,7 +146,7 @@ public class MetricFormController  extends BaseFormController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(Metric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+    public String onSubmit(SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();
@@ -220,7 +220,7 @@ public class MetricFormController  extends BaseFormController {
      * @param currentUser current user 
      * @return list of available questions
      */
-    private List<Question> makeAvailableQuestions(Metric metric, Project project,User currentUser){
+    private List<Question> makeAvailableQuestions(SimpleMetric metric, Project project,User currentUser){
     	List<Question> ret = new ArrayList<Question>();
     	//the question available are all the question associated with the goal for which the user is MMDM
     	for(Goal g:project.getGoals()){
@@ -246,7 +246,7 @@ public class MetricFormController  extends BaseFormController {
                 if (element != null) {
                 	String ids[] = ((String)element).split("\\|");
                 	Question question = questionManager.get(new Long(ids[0]));
-                    Metric metric = metricManager.get(new Long(ids[1]));
+                    SimpleMetric metric = metricManager.get(new Long(ids[1]));
                     QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);                  
                     if(questionMetric==null){
                     	questionMetric = new QuestionMetric();

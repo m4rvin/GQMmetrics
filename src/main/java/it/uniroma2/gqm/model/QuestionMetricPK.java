@@ -9,13 +9,13 @@ import javax.persistence.ManyToOne;
 public class QuestionMetricPK implements Serializable {
 	private static final long serialVersionUID = 8216954247562866404L;
 	private Question question;
-	private Metric metric;
+	private SimpleMetric metric;
 	
 	public QuestionMetricPK(){
 		;
 	}
 	
-	public QuestionMetricPK(Question q,Metric m){	
+	public QuestionMetricPK(Question q,SimpleMetric m){	
 		this.question = q;
 		this.metric = m;
 	}
@@ -29,10 +29,10 @@ public class QuestionMetricPK implements Serializable {
 	}
 	
 	@ManyToOne
-	public Metric getMetric() {
+	public SimpleMetric getMetric() {
 		return metric;
 	}
-	public void setMetric(Metric metric) {
+	public void setMetric(SimpleMetric metric) {
 		this.metric = metric;
 	}
 	@Override

@@ -1217,7 +1217,7 @@
 		</row>
 	</table>
 	 -->
-	<table name="metric">
+	<table name="simplemetric">
         <column>metric_id</column>
         <column>project_id</column>
         <column>code</column>

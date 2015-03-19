@@ -2,7 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.MeasurementManager;
 import it.uniroma2.gqm.service.MetricManager;
 
@@ -51,7 +51,7 @@ public class PieChartController {
 	@RequestMapping(value="/draw", method=RequestMethod.GET)
 	public void drawChart(HttpServletResponse response,
 			@RequestParam(required = false, value = "id") String id){
-		Metric m = metricManager.get(new Long(id));
+		SimpleMetric m = metricManager.get(new Long(id));
 
 		if(m.getCollectingType()== CollectingTypeEnum.MULTIPLE_VALUE){
 			drawLineChart(response,m);
@@ -61,7 +61,7 @@ public class PieChartController {
 	}
 	
 
-	public void drawLineChart(HttpServletResponse response,Metric m){
+	public void drawLineChart(HttpServletResponse response,SimpleMetric m){
 		response.setContentType("image/png");
 
 		List<Measurement> measurements = measurementManager.findMeasuremntsByMetric(m);
@@ -89,7 +89,7 @@ public class PieChartController {
 
 
 
-	public void drawBarChart(HttpServletResponse response, Metric m){
+	public void drawBarChart(HttpServletResponse response, SimpleMetric m){
 		
 		JFreeChart chart = ChartFactory.createBarChart(
                 "Measured Metrics", // chart title
@@ -131,7 +131,7 @@ public class PieChartController {
 		}
 	}
 	
-	private  CategoryDataset createDataset(Metric m) {
+	private  CategoryDataset createDataset(SimpleMetric m) {
 
 		List<Measurement> measurements = measurementManager.findMeasuremntsByMetric(m);
 		DefaultPieDataset dpd = new DefaultPieDataset();

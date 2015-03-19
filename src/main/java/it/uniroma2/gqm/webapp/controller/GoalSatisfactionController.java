@@ -3,7 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import java.util.List;
 
 import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.GoalManager;
 import it.uniroma2.gqm.service.MetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -52,7 +52,7 @@ public class GoalSatisfactionController {
 			Goal selectedGoal = goalManager.get(new Long(query));
 			model.addObject("currentGoal", selectedGoal);
 			
-			List<Metric> metrics = goalManager.getMeasuredMetricByGoal(selectedGoal);
+			List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(selectedGoal);
 			model.addObject("metrics", metrics);
 		}
 		model.addObject("availableMetrics", metricManager.getAll());		

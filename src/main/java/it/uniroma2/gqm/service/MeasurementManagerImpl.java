@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.uniroma2.gqm.dao.MeasurementDao;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 
 import org.appfuse.service.impl.GenericManagerImpl;
@@ -22,7 +22,7 @@ public class MeasurementManagerImpl  extends GenericManagerImpl<Measurement, Lon
         this.measurementDao = measurementDao;
     }
 
-    public List<Measurement> findMeasuremntsByMetric(Metric metric) {
+    public List<Measurement> findMeasuremntsByMetric(SimpleMetric metric) {
     	if(metric !=null)
     		return measurementDao.findMeasuremntsByMetric(metric);
     	else

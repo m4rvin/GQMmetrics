@@ -3,7 +3,7 @@ package it.uniroma2.gqm.dao.hibernate;
 import it.uniroma2.gqm.dao.MetricDao;
 import it.uniroma2.gqm.dao.QuestionDao;
 import it.uniroma2.gqm.model.GoalQuestion;
-import it.uniroma2.gqm.model.Metric;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.Scale;
@@ -18,21 +18,21 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("metricDao")
-public class MetricDaoHibernate extends GenericDaoHibernate<Metric, Long>  implements MetricDao {
+public class MetricDaoHibernate extends GenericDaoHibernate<SimpleMetric, Long>  implements MetricDao {
 		
     public MetricDaoHibernate() {
-        super(Metric.class);
+        super(SimpleMetric.class);
     }
  
-    public List<Metric> findByProject(Long id) {
+    public List<SimpleMetric> findByProject(Long id) {
     	Query q =  getSession().getNamedQuery("findMetricByProject").setLong("project_id", id);
     	return q.list();
     }
 
 	@Override
-	public Metric save(Metric object) {
+	public SimpleMetric save(SimpleMetric object) {
 		if(object.getId() != null){			
-			Metric mTemp = get(object.getId());
+			SimpleMetric mTemp = get(object.getId());
 			for(QuestionMetric qm: object.getQuestions()){
 				if(!mTemp.getQuestions().contains(qm)){
 					getSession().saveOrUpdate(qm);
@@ -56,7 +56,7 @@ public class MetricDaoHibernate extends GenericDaoHibernate<Metric, Long>  imple
 	}
 
    @Override
-   public List<Metric> findByMeasurementScale(Long id)
+   public List<SimpleMetric> findByMeasurementScale(Long id)
    {
    	 Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
    	 return q.list();

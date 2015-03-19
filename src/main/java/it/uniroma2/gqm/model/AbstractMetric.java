@@ -31,8 +31,8 @@ import org.appfuse.model.User;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from Metric m  where m.project.id= :project_id "), @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
-	  @NamedQuery(name = "findByMeasurementScale", query = "select m from Metric m where m.measurementScale.id = :measurementScaleId") })
+@NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from SimpleMetric m  where m.project.id= :project_id "), @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
+	  @NamedQuery(name = "findByMeasurementScale", query = "select m from SimpleMetric m where m.measurementScale.id = :measurementScaleId") })
 @DiscriminatorColumn(name = "complexMetricType")
 @Table(name = "AbstractMetric")
 public abstract class AbstractMetric extends BaseObject
@@ -52,8 +52,8 @@ public abstract class AbstractMetric extends BaseObject
 	 protected SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 protected User metricOwner;
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
-	 protected Metric metricA;
-	 protected Metric metricB;
+	 protected SimpleMetric metricA;
+	 protected SimpleMetric metricB;
 	 protected OperationEnum operation;
 	 protected Double actualValue;
 	 protected Double satisfyingConditionValue;
@@ -194,24 +194,24 @@ public abstract class AbstractMetric extends BaseObject
 
 	 @ManyToOne(fetch = FetchType.LAZY)
 	 @JoinColumn(name = "metric_a_id", nullable = true)
-	 public Metric getMetricA()
+	 public SimpleMetric getMetricA()
 	 {
 		  return metricA;
 	 }
 
-	 public void setMetricA(Metric metricA)
+	 public void setMetricA(SimpleMetric metricA)
 	 {
 		  this.metricA = metricA;
 	 }
 
 	 @ManyToOne(fetch = FetchType.LAZY)
 	 @JoinColumn(name = "metric_b_id", nullable = true)
-	 public Metric getMetricB()
+	 public SimpleMetric getMetricB()
 	 {
 		  return metricB;
 	 }
 
-	 public void setMetricB(Metric metricB)
+	 public void setMetricB(SimpleMetric metricB)
 	 {
 		  this.metricB = metricB;
 	 }
