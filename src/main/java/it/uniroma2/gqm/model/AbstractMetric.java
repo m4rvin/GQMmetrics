@@ -283,7 +283,7 @@ public abstract class AbstractMetric extends BaseObject
 	 	 return composerFor;
 	 }
 
-	 public void setComposedFor(Set<AbstractMetric> composedFor)
+	 public void setComposerFor(Set<AbstractMetric> composedFor)
 	 {
 	 	 this.composerFor = composedFor;
 	 }
