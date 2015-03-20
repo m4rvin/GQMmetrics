@@ -107,21 +107,21 @@
                 <arg key="question.project"/>
             </field>            
         </form>  
-		<form name="metric">
+		<form name="simpleMetric">
             <field property="project" depends="required">
-                <arg key="metric.project"/>
+                <arg key="simpleMetric.project"/>
             </field>
             <field property="measurementScale" depends="required">
-                <arg key="metric.measurementScale"/>
+                <arg key="simpleMetric.measurementScale"/>
             </field>
             <field property="code" depends="required">
-                <arg key="metric.code"/>
+                <arg key="simpleMetric.code"/>
             </field>
             <field property="name" depends="required">
-                <arg key="metric.name"/>
+                <arg key="simpleMetric.name"/>
             </field>            
             <field property="type" depends="required">
-                <arg key="metric.type"/>
+                <arg key="simpleMetric.type"/>
             </field>      
         </form>
         <form name="rangeOfValues">

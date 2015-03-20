@@ -36,6 +36,6 @@ public class MetricController {
 	public ModelAndView handleRequest(HttpSession session) throws Exception {
         Project currentProject = projectManager.getCurrentProject(session);
 		List<SimpleMetric> ret = metricManager.findByProject(currentProject);
-		return new ModelAndView().addObject(ret);
+		return new ModelAndView().addObject("metricList", ret);
 	}
 }

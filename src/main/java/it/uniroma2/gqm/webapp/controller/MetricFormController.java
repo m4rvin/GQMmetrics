@@ -145,7 +145,7 @@ public class MetricFormController  extends BaseFormController {
     }
 
     @RequestMapping(value = "/metricform", method = RequestMethod.POST)
-    public String onSubmit(/* FIXME aggiungere? @ModelAttribute("simpleMetric")*/ SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+    public String onSubmit(@ModelAttribute("simpleMetric") SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();
