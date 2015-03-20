@@ -50,7 +50,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@RequestMapping("/metricform*")
 @SessionAttributes({"currentProject","metric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class MetricFormController  extends BaseFormController {
 	@Autowired
@@ -93,8 +92,8 @@ public class MetricFormController  extends BaseFormController {
         setSuccessView("redirect:" + ViewName.metrics);
     }
 
-    @ModelAttribute
-    @RequestMapping(method = RequestMethod.GET)
+    @ModelAttribute("simpleMetric")
+    @RequestMapping(value = "/metricform", method = RequestMethod.GET)
     protected SimpleMetric showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
         String id = request.getParameter("id");
         SimpleMetric ret = null;
@@ -145,8 +144,8 @@ public class MetricFormController  extends BaseFormController {
         return ret;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+    @RequestMapping(value = "/metricform", method = RequestMethod.POST)
+    public String onSubmit(/* FIXME aggiungere? @ModelAttribute("simpleMetric")*/ SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();

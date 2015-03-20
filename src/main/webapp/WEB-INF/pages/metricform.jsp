@@ -9,12 +9,12 @@
     <h2><fmt:message key='metricDetail.heading'/></h2>
     <p><fmt:message key="metricDetail.message"/></p>	
 	<p><fmt:message key="metric.goals.message"/></p>		
-	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${metric.metricOwner.fullName}</b>
+	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${simpleMetric.metricOwner.fullName}</b>
 	
 	<p><fmt:message key="questionMetric.question.message"/></p>	
 	<ul>
-		<c:forEach var="m" items="${metric.questions}">
-			<li><a href="/questionmetricform?questionId=${m.question.id}&metricId=${m.metric.id}">${m.question.name} (${m.status})</a></li>			
+		<c:forEach var="m" items="${simpleMetric.questions}">
+			<li><a href="/questionmetricform?questionId=${m.question.id}&metricId=${m.simpleMetric.id}">${m.question.name} (${m.status})</a></li>			
 		</c:forEach>		    	
 	</ul>
 </div>
@@ -22,46 +22,46 @@
 
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="metric" method="post" action="metricform" id="metricForm" cssClass="well form-horizontal">
+    <form:form commandName="simpleMetric" method="post" action="metricform" id="metricForm" cssClass="well form-horizontal">
     <form:hidden path="id"/>
 
-    <spring:bind path="metric.project">
+    <spring:bind path="simpleMetric.project">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.project"/>
+        <appfuse:label styleClass="control-label" key="simpleMetric.project"/>
         <div class="controls">
-        	<form:select path="project.id" onchange=""  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
-					<form:option value="${metric.project.id}" label="${metric.project.name}"/>
+        	<form:select path="project.id" onchange=""  disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
+					<form:option value="${simpleMetric.project.id}" label="${simpleMetric.project.name}"/>
 			</form:select>  
             <form:errors path="project" cssClass="help-inline"/>
         </div>
     </div>
-    <spring:bind path="metric.code">
+    <spring:bind path="simpleMetric.code">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.code"/>
         <div class="controls">
-            <form:input path="code" id="code" maxlength="50" readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
+            <form:input path="code" id="code" maxlength="50" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
             <form:errors path="code" cssClass="help-inline"/>        
         </div>
     </div>
              
-    <spring:bind path="metric.name">
+    <spring:bind path="simpleMetric.name">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.name"/>
         <div class="controls">
-            <form:input path="name" id="name" maxlength="255" readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
+            <form:input path="name" id="name" maxlength="255" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
             <form:errors path="name" cssClass="help-inline"/>
         </div>
     </div>	    
     
-    <spring:bind path="metric.type">
+    <spring:bind path="simpleMetric.type">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.type"/>
         <div class="controls">
-   			<form:select path="type" multiple="false" disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+   			<form:select path="type" multiple="false" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
    				<form:option value="" label="None"/>
 		    	<form:options items="${availablesTypes}"/>
 		    </form:select>		
@@ -69,12 +69,12 @@
         </div>
     </div> 
     
-    <spring:bind path="metric.unit">
+    <spring:bind path="simpleMetric.unit">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.unit"/>
         <div class="controls">
-			<form:select path="unit.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="unit.id" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
    				<form:option value="" label="None"/>
 		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
 		    </form:select>		
@@ -82,12 +82,12 @@
         </div>
     </div>    
 
-    <spring:bind path="metric.measurementScale">
+    <spring:bind path="simpleMetric.measurementScale">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="measurementScale"  disabled="${metric.metricOwner ne currentUser && not empty metric.id}">
+   			<form:select path="measurementScale"  disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
    			   	<form:option value="" label="None"/>
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
@@ -95,12 +95,12 @@
         </div>
     </div>  
 
-    <spring:bind path="metric.metricA.id">
+    <spring:bind path="simpleMetric.metricA.id">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.metricA"/>
         <div class="controls">
-			<form:select path="metricA.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="metricA.id" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
 				<form:option value="" label="None"/>
 				<form:options items="${availableMetrics}" itemValue="id" itemLabel="code"/>
 		    </form:select>		
@@ -108,12 +108,12 @@
         </div>
     </div>
 
-    <spring:bind path="metric.operation">
+    <spring:bind path="simpleMetric.operation">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.operation"/>
         <div class="controls">
-			<form:select path="operation" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="operation" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
 				<form:option value="" label="None"/>
 				<form:option value="ADDITION"/>
 				<form:option value="DIVISION"/>
@@ -125,12 +125,12 @@
     </div>
 
 
-    <spring:bind path="metric.metricB.id">
+    <spring:bind path="simpleMetric.metricB.id">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.metricB"/>
         <div class="controls">
-			<form:select path="metricB.id" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="metricB.id" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
 				<form:option value="" label="None"/>
 				<form:options items="${availableMetrics}" itemValue="id" itemLabel="code"/>
 		    </form:select>		
@@ -139,32 +139,32 @@
     </div>
 
             
-    <spring:bind path="metric.hypothesis">
+    <spring:bind path="simpleMetric.hypothesis">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.hypothesis"/>
         <div class="controls">
-            <form:input path="hypothesis" id="hypothesis" maxlength="255" readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
+            <form:input path="hypothesis" id="hypothesis" maxlength="255" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
             <form:errors path="hypothesis" cssClass="help-inline"/>
         </div>
     </div>
     
-    <spring:bind path="metric.actualValue">
+    <spring:bind path="simpleMetric.actualValue">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.actualValue"/>
         <div class="controls">
-            <form:input path="actualValue" id="actualValue"  readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
+            <form:input path="actualValue" id="actualValue"  readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
             <form:errors path="actualValue" cssClass="help-inline"/>
         </div>
     </div>
     
-    <spring:bind path="metric.collectingType">
+    <spring:bind path="simpleMetric.collectingType">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.collectingType"/>
         <div class="controls">
-			<form:select path="collectingType" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="collectingType" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
 				<form:option value="SINGLE_VALUE" label="Single Value"/>
 				<form:option value="MULTIPLE_VALUE" label="Multiple Value"/>
 		    </form:select>		
@@ -172,12 +172,12 @@
         </div>
     </div>
 
-    <spring:bind path="metric.satisfyingConditionOperation">
+    <spring:bind path="simpleMetric.satisfyingConditionOperation">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.satisfyingConditionOperation"/>
         <div class="controls">
-			<form:select path="satisfyingConditionOperation" disabled="${metric.metricOwner ne currentUser && not empty metric.id}" >
+			<form:select path="satisfyingConditionOperation" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
 				<form:option value="NONE" label="None"/>
 				<form:option value="LESS" label="<"/>
 				<form:option value="LESS_OR_EQUAL" label="<="/>
@@ -189,18 +189,18 @@
         </div>
     </div>
 
-    <spring:bind path="metric.satisfyingConditionValue">
+    <spring:bind path="simpleMetric.satisfyingConditionValue">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.satisfyingConditionValue"/>
         <div class="controls">
-            <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${metric.metricOwner ne currentUser && not empty metric.id}"/>
+            <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
             <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
         </div>
     </div>
             
-	<c:if test="${not empty metric.id}">
-		<spring:bind path="metric.questions">
+	<c:if test="${not empty simpleMetric.id}">
+		<spring:bind path="simpleMetric.questions">
 			    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			    <appfuse:label styleClass="control-label" key="metric.questions"/>
 	        	<div class="controls">
@@ -208,7 +208,7 @@
 						<option value="">-- None --</option>
 						<c:forEach var="item" items="${availableQuestions}">
 							<c:set var="itemSelected" value="false" />
-							<c:forEach var="item2" items="${metric.questions}">	
+							<c:forEach var="item2" items="${simpleMetric.questions}">	
 								<c:choose>							
 									<c:when test="${item2.question eq item}">
 										<c:set var="itemSelected" value="true" />
@@ -217,10 +217,10 @@
 							</c:forEach>|
 							<c:choose>
 								<c:when test="${itemSelected eq true}">
-									<option value="${item.id}|${metric.id}" selected="selected">${item.text}</option>
+									<option value="${item.id}|${simpleMetric.id}" selected="selected">${item.text}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${item.id}|${metric.id}">${item.text}</option>
+									<option value="${item.id}|${simpleMetric.id}">${item.text}</option>
 								</c:otherwise>
 							</c:choose>												
 						</c:forEach>
@@ -247,11 +247,11 @@
 	</div>
        
     <div class="form-actions">
-        <c:if test="${metric.metricOwner eq currentUser || empty metric.id}">
+        <c:if test="${simpleMetric.metricOwner eq currentUser || empty simpleMetric.id}">
 			<button type="submit" class="btn btn-primary" name="save">
 			    <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
 			</button>
-			<c:if test="${metric.metricOwner eq currentUser}">	
+			<c:if test="${simpleMetric.metricOwner eq currentUser}">	
 				 <button type="submit" class="btn" name="delete">
 				     <i class="icon-trash"></i> <fmt:message key="button.delete"/>
 				</button>        

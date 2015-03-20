@@ -7,7 +7,9 @@
     <h2><fmt:message key='metricList.heading'/></h2>
     <div id="actions" class="form-actions">
         <a class="btn btn-primary" href="<c:url value='/metricform'/>">
-            <i class="icon-plus icon-white"></i> <fmt:message key="button.add"/></a>
+            <i class="icon-plus icon-white"></i> <fmt:message key="button.addsimplemetric"/></a>
+        <a class="btn btn-primary" href="<c:url value='/metricform'/>">
+            <i class="icon-plus icon-white"></i> <fmt:message key="button.addcombinedmetric"/></a>
         <a class="btn" href="<c:url value='/mainMenu'/>">
             <i class="icon-ok"></i> <fmt:message key="button.done"/></a>
     </div>
