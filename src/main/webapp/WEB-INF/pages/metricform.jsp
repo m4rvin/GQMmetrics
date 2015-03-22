@@ -8,8 +8,10 @@
 <div class="span2">
     <h2><fmt:message key='metricDetail.heading'/></h2>
     <p><fmt:message key="metricDetail.message"/></p>	
+<%-- 	
 	<p><fmt:message key="metric.goals.message"/></p>		
-	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${simpleMetric.metricOwner.fullName}</b>
+ --%>	
+ <p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${simpleMetric.metricOwner.fullName}</b>
 	
 	<p><fmt:message key="questionMetric.question.message"/></p>	
 	<ul>
@@ -28,7 +30,7 @@
     <spring:bind path="simpleMetric.project">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
-        <appfuse:label styleClass="control-label" key="simpleMetric.project"/>
+        <appfuse:label styleClass="control-label" key="metric.project"/>
         <div class="controls">
         	<form:select path="project.id" onchange=""  disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
 					<form:option value="${simpleMetric.project.id}" label="${simpleMetric.project.name}"/>

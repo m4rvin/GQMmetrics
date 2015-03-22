@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({"currentProject","metric","currentUser","units","scales","availableMetrics","measurementScales"})
+@SessionAttributes({"currentProject","simpleMetric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class MetricFormController  extends BaseFormController {
 	@Autowired
 	private MetricManager metricManager;
