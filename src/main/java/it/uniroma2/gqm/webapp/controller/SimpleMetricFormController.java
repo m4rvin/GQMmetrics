@@ -49,7 +49,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @SessionAttributes({"currentProject","simpleMetric","currentUser","units","scales","availableMetrics","measurementScales"})
-public class MetricFormController  extends BaseFormController {
+public class SimpleMetricFormController  extends BaseFormController {
 	@Autowired
 	private SimpleMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
@@ -85,7 +85,7 @@ public class MetricFormController  extends BaseFormController {
         this.measurementScaleManager = measurementScaleManager;
     }
 
-    public MetricFormController() {
+    public SimpleMetricFormController() {
         setCancelView("redirect:" + ViewName.metrics);
         setSuccessView("redirect:" + ViewName.metrics);
     }

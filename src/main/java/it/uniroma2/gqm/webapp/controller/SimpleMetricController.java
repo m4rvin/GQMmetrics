@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/metrics*")
-public class MetricController {
+public class SimpleMetricController {
     @Autowired
     private GenericMetricManager metricManager;
 
