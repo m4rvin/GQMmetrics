@@ -24,7 +24,7 @@
 
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
-    <form:form commandName="simpleMetric" method="post" action="metricform" id="metricForm" cssClass="well form-horizontal">
+    <form:form commandName="simpleMetric" method="post" action="simplemetricform" id="simpleMetricForm" cssClass="well form-horizontal">
     <form:hidden path="id"/>
 
     <spring:bind path="simpleMetric.project">
@@ -319,6 +319,6 @@
 	}
 	
     $(document).ready(function() {
-        $("input[type='text']:visible:enabled:first", document.forms['metricForm']).focus();
+        $("input[type='text']:visible:enabled:first", document.forms['simpleMetricForm']).focus();
     });
 </script>

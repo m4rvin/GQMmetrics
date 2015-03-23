@@ -10,8 +10,6 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.RangeOfValues;
-import it.uniroma2.gqm.model.Scale;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.MetricManager;
@@ -93,23 +91,23 @@ public class MetricFormController  extends BaseFormController {
     }
 
     @ModelAttribute("simpleMetric")
-    @RequestMapping(value = "/metricform", method = RequestMethod.GET)
+    @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.GET)
     protected SimpleMetric showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
         String id = request.getParameter("id");
-        SimpleMetric ret = null;
+        SimpleMetric metric = null;
 
         Project currentProject = projectManager.getCurrentProject(session);
         
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
         
         if (!StringUtils.isBlank(id)) {
-            ret = metricManager.get(new Long(id));
+            metric = metricManager.get(new Long(id));
         } else {
-        	ret = new SimpleMetric();
-        	ret.setProject(currentProject);
+        	metric = new SimpleMetric();
+        	metric.setProject(currentProject);
         }
         
-        List<Question> availableQuestions = makeAvailableQuestions(ret,projectManager.get(currentProject.getId()),currentUser);
+        List<Question> availableQuestions = makeAvailableQuestions(metric,projectManager.get(currentProject.getId()),currentUser);
         HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
         
         //per ogni question, recupero il goal mg a cui sono è associata e aggiungo nella hashmap l'og associato (se mg non "orfano")
@@ -141,10 +139,10 @@ public class MetricFormController  extends BaseFormController {
         //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
         model.addAttribute("availableQuestions", availableQuestions);
         model.addAttribute("map", map);
-        return ret;
+        return metric;
     }
 
-    @RequestMapping(value = "/metricform", method = RequestMethod.POST)
+    @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
     public String onSubmit(@ModelAttribute("simpleMetric") SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
@@ -156,7 +154,7 @@ public class MetricFormController  extends BaseFormController {
             validator.validate(metric, errors);
             if (errors.hasErrors() && request.getParameter("delete") == null) {
             	// don't validate when deleting
-                return ViewName.metricForm;
+                return ViewName.simpleMetricForm;
             }
         }
  
