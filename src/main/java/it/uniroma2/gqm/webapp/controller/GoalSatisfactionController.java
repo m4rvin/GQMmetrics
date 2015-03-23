@@ -1,12 +1,12 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import java.util.List;
-
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.SimpleMetric;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.GoalManager;
-import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
+
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,10 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 @SessionAttributes({"currentProject","goal","currentUser"})
 public class GoalSatisfactionController {
 	private GoalManager goalManager;
-	private SimpleMetricManager metricManager;
+	private ComplexMetricManager metricManager;
 	
 	@Autowired
-	public void setMetricManager(@Qualifier("metricManager") SimpleMetricManager metricManager) {
+	public void setMetricManager(@Qualifier("complexMetricManager") ComplexMetricManager metricManager) {
 		this.metricManager = metricManager;
 	}
 	
@@ -52,7 +52,7 @@ public class GoalSatisfactionController {
 			Goal selectedGoal = goalManager.get(new Long(query));
 			model.addObject("currentGoal", selectedGoal);
 			
-			List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(selectedGoal);
+			List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(selectedGoal);
 			model.addObject("metrics", metrics);
 		}
 		model.addObject("availableMetrics", metricManager.getAll());		

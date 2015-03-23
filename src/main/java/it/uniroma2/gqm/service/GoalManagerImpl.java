@@ -1,26 +1,30 @@
 package it.uniroma2.gqm.service;
 
 
-import org.appfuse.model.User;
-import org.appfuse.service.impl.GenericManagerImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import it.uniroma2.gqm.dao.*;
-import it.uniroma2.gqm.model.*;
+import it.uniroma2.gqm.dao.ComplexMetricDao;
+import it.uniroma2.gqm.dao.GoalDao;
+import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.Goal;
+import it.uniroma2.gqm.model.GoalStatus;
+import it.uniroma2.gqm.model.Project;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import org.appfuse.model.User;
+import org.appfuse.service.impl.GenericManagerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
  
 @Service("goalManager")
 public class GoalManagerImpl extends GenericManagerImpl<Goal, Long> implements GoalManager {
     GoalDao goalDao;
-    SimpleMetricDao metricDao;
+    ComplexMetricDao metricDao;
     
     @Autowired
-    public GoalManagerImpl(GoalDao goalDao,SimpleMetricDao metricDao) {
+    public GoalManagerImpl(GoalDao goalDao, ComplexMetricDao metricDao) {
         super(goalDao);
         this.goalDao = goalDao;
         this.metricDao = metricDao;
@@ -114,10 +118,10 @@ public class GoalManagerImpl extends GenericManagerImpl<Goal, Long> implements G
 	}
 	
 	@Override
-	public List<SimpleMetric> getMeasuredMetricByGoal(Goal goal) {
+	public List<AbstractMetric> getMeasuredMetricByGoal(Goal goal) {
 		Map<String, Object> maps = new Hashtable<String, Object>();
 		maps.put("goal_id", goal.getId());
-		List<SimpleMetric> metrics= metricDao.findByNamedQuery("findMeasuredMetric", maps);
+		List<AbstractMetric> metrics= metricDao.findByNamedQuery("findMeasuredMetric", maps);
 		return metrics;		
 	}
 	

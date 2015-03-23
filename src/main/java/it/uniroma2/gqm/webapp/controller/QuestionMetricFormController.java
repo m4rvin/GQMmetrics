@@ -1,5 +1,14 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.Question;
+import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.service.ComplexMetricManager;
+import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.service.QuestionManager;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -7,18 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it.uniroma2.gqm.model.SimpleMetric;
-import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.model.Question;
-import it.uniroma2.gqm.model.QuestionMetric;
-import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.service.SimpleMetricManager;
-import it.uniroma2.gqm.service.ProjectManager;
-import it.uniroma2.gqm.service.QuestionManager;
-
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
-import org.appfuse.service.GenericManager;
 import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,7 +37,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class QuestionMetricFormController extends BaseFormController {
 
     @Autowired
-    private SimpleMetricManager metricManager;
+    private ComplexMetricManager metricManager;
     
     @Autowired
     private QuestionManager questionManager;
@@ -75,7 +74,7 @@ public class QuestionMetricFormController extends BaseFormController {
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
        
         if (!StringUtils.isBlank(questionId) && !StringUtils.isBlank(metricId)) {
-        	SimpleMetric metric = metricManager.get(new Long(metricId));
+        	AbstractMetric metric = metricManager.get(new Long(metricId));
         	Question question = questionManager.get(new Long(questionId));
         	ret = metricManager.getQuestionMetric(metric, question);
         }else {

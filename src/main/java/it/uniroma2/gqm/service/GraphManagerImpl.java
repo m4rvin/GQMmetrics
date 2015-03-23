@@ -1,9 +1,9 @@
 package it.uniroma2.gqm.service;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.BinaryTable;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 
@@ -50,12 +50,12 @@ public class GraphManagerImpl extends GenericManagerImpl<BinaryTable, Long> impl
 				if(q.getMetrics().size() > 0) {
 					
 					tree += ", \"children\":[";
-					Set<SimpleMetric> metrics = new HashSet<SimpleMetric>();
+					Set<AbstractMetric> metrics = new HashSet<AbstractMetric>();
 					for(QuestionMetric qm : q.getMetrics()) {
 						metrics.add(qm.getMetric());
 					}
 					int j = 0;
-					for (SimpleMetric m : metrics) {
+					for (AbstractMetric m : metrics) {
 						if(j != 0)
 							tree +=",";
 						tree += "{\"parent\":\""+q.getName()+"\",\"name\":\""+m.getName()+"\"";

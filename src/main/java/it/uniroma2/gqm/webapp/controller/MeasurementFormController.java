@@ -1,11 +1,10 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import it.uniroma2.gqm.model.Goal;
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementManager;
-import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import java.beans.PropertyEditorSupport;
@@ -35,7 +34,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes({"currentProject","measurement","currentUser","availableMetrics"})
 public class MeasurementFormController extends BaseFormController {
 	@Autowired
-	private SimpleMetricManager metricManager;
+	private ComplexMetricManager metricManager;
     
     @Autowired
     private MeasurementManager measurementManager;
@@ -125,7 +124,7 @@ public class MeasurementFormController extends BaseFormController {
 
     @InitBinder
     protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder) {
-    	binder.registerCustomEditor(SimpleMetric.class, "metric", new MetricEditorSupport());
+    	binder.registerCustomEditor(AbstractMetric.class, "metric", new MetricEditorSupport());
     }
 
     private class MetricEditorSupport extends PropertyEditorSupport {
@@ -133,7 +132,7 @@ public class MeasurementFormController extends BaseFormController {
 		public void setAsText(String text) throws IllegalArgumentException {
 			if(text != null && !StringUtils.isBlank(text)) {		
 				Long id = new Long(text);
-				SimpleMetric m = metricManager.get(id);
+				AbstractMetric m = metricManager.get(id);
 				setValue(m);
 			} else
 				setValue(null);

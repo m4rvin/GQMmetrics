@@ -1,10 +1,10 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.SimpleMetric;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementManager;
-import it.uniroma2.gqm.service.SimpleMetricManager;
 
 import java.awt.Font;
 import java.io.IOException;
@@ -22,15 +22,12 @@ import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.jfree.ui.TextAnchor;
-import org.jfree.util.Rotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +40,7 @@ public class PieChartController {
 
     
     @Autowired
-    private SimpleMetricManager metricManager;
+    private ComplexMetricManager metricManager;
     
     @Autowired
     private MeasurementManager measurementManager;
@@ -51,7 +48,7 @@ public class PieChartController {
 	@RequestMapping(value="/draw", method=RequestMethod.GET)
 	public void drawChart(HttpServletResponse response,
 			@RequestParam(required = false, value = "id") String id){
-		SimpleMetric m = metricManager.get(new Long(id));
+		AbstractMetric m = metricManager.get(new Long(id));
 
 		if(m.getCollectingType()== CollectingTypeEnum.MULTIPLE_VALUE){
 			drawLineChart(response,m);
@@ -61,7 +58,7 @@ public class PieChartController {
 	}
 	
 
-	public void drawLineChart(HttpServletResponse response,SimpleMetric m){
+	public void drawLineChart(HttpServletResponse response, AbstractMetric m){
 		response.setContentType("image/png");
 
 		List<Measurement> measurements = measurementManager.findMeasuremntsByMetric(m);
@@ -89,7 +86,7 @@ public class PieChartController {
 
 
 
-	public void drawBarChart(HttpServletResponse response, SimpleMetric m){
+	public void drawBarChart(HttpServletResponse response, AbstractMetric m){
 		
 		JFreeChart chart = ChartFactory.createBarChart(
                 "Measured Metrics", // chart title
@@ -131,7 +128,7 @@ public class PieChartController {
 		}
 	}
 	
-	private  CategoryDataset createDataset(SimpleMetric m) {
+	private  CategoryDataset createDataset(AbstractMetric m) {
 
 		List<Measurement> measurements = measurementManager.findMeasuremntsByMetric(m);
 		DefaultPieDataset dpd = new DefaultPieDataset();

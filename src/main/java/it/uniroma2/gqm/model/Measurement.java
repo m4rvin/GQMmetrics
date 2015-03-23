@@ -44,7 +44,7 @@ import org.hibernate.search.annotations.Indexed;
 public class Measurement extends BaseObject implements Serializable {
 	private static final long serialVersionUID = 5045073708418494229L;
 	private Long id;
-	private SimpleMetric metric;
+	private AbstractMetric metric;
 	private Date collectingDate;
 	private String collectingTime;
 	private Date timestamp;
@@ -65,11 +65,11 @@ public class Measurement extends BaseObject implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "metric_id", nullable = false)
-	public SimpleMetric getMetric() {
+	public AbstractMetric getMetric() {
 		return metric;
 	}
 
-	public void setMetric(SimpleMetric metric) {
+	public void setMetric(AbstractMetric metric) {
 		this.metric = metric;
 	}
 

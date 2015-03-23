@@ -1,13 +1,13 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.BinaryElement;
 import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.BinaryTableManager;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.GoalManager;
 import it.uniroma2.gqm.service.GridManager;
-import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class BinaryTableController {
 	
 	@Autowired
     private GoalManager goalManager;
-	private SimpleMetricManager metricManager;
+	private ComplexMetricManager metricManager;
 	private UserManager userManager;
 	private GridManager gridManager;
 	private ProjectManager projectManager = null;
@@ -46,7 +46,7 @@ public class BinaryTableController {
 	private BinaryTableManager binaryManager;
 	
 	@Autowired
-    public void setMetricManager(@Qualifier("metricManager") SimpleMetricManager metricManager) {
+    public void setMetricManager(@Qualifier("complexMetricManager") ComplexMetricManager metricManager) {
         this.metricManager = metricManager;
     }
 
@@ -92,12 +92,12 @@ public class BinaryTableController {
 			
 			//Recupero tutte le metriche associate ad ogni MG
             for (Goal mg : mgs) {
-            	List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
+            	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
             	
             	if (metrics.size() > 0) {
             		boolean satisfy = true;
 	            	//Calcolo valore di soddisfacimento (1 o 0)
-	                for(SimpleMetric m: metrics){
+	                for(AbstractMetric m: metrics){
 	                	satisfy &= metricManager.getSatisfaction(m);
 	                	satisfyAll &= satisfy;
 	                }
@@ -127,12 +127,12 @@ public class BinaryTableController {
 
 				//Recupero tutte le metriche associate ad ogni MG
 	            for (Goal mg : mgs) {
-	            	List<SimpleMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
+	            	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
 	            	
 	            	boolean satisfy = true;
 	            	if(metrics.size() > 0){
   	            		//Calcolo valore di soddisfacimento (1 o 0)
-    	                for(SimpleMetric m: metrics){
+    	                for(AbstractMetric m: metrics){
     	                	satisfy &= metricManager.getSatisfaction(m);
     	                	satisfyAll &= satisfy;
     	                }
