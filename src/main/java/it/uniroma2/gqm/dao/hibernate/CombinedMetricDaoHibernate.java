@@ -1,31 +1,32 @@
 package it.uniroma2.gqm.dao.hibernate;
 
-import it.uniroma2.gqm.dao.GenericMetricDao;
-import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.dao.CombinedMetricDao;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.QuestionMetric;
 
 import java.util.List;
+
 import org.appfuse.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("genericMetricDao")
-public class GenericMetricDaoHibernate extends GenericDaoHibernate<AbstractMetric, Long>  implements GenericMetricDao {
+@Repository("combinedMetricDao")
+public class CombinedMetricDaoHibernate extends GenericDaoHibernate<CombinedMetric, Long>  implements CombinedMetricDao {
 		
-    public GenericMetricDaoHibernate() {
-        super(AbstractMetric.class);
+    public CombinedMetricDaoHibernate() {
+        super(CombinedMetric.class);
     }
  
-    public List<AbstractMetric> findByProject(Long id) {
+    public List<CombinedMetric> findByProject(Long id) {
     	Query q =  getSession().getNamedQuery("findMetricByProject").setLong("project_id", id);
     	return q.list();
     }
 
 	@Override
-	public AbstractMetric save(AbstractMetric object) {
+	public CombinedMetric save(CombinedMetric object) {
 		if(object.getId() != null){			
-			AbstractMetric mTemp = get(object.getId());
+			CombinedMetric mTemp = get(object.getId());
 			for(QuestionMetric qm: object.getQuestions()){
 				if(!mTemp.getQuestions().contains(qm)){
 					getSession().saveOrUpdate(qm);
@@ -49,7 +50,7 @@ public class GenericMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	}
 
    @Override
-   public List<AbstractMetric> findByMeasurementScale(Long id)
+   public List<CombinedMetric> findByMeasurementScale(Long id)
    {
    	 Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
    	 return q.list();

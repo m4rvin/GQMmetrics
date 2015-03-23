@@ -1,13 +1,12 @@
 package it.uniroma2.gqm.service;
 
 
-import it.uniroma2.gqm.dao.GenericMetricDao;
-import it.uniroma2.gqm.dao.SimpleMetricDao;
+import it.uniroma2.gqm.dao.CombinedMetricDao;
 import it.uniroma2.gqm.dao.QuestionMetricDao;
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.GoalStatus;
 import it.uniroma2.gqm.model.Measurement;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
@@ -27,20 +26,20 @@ import org.appfuse.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("genericMetricManager")
+@Service("combinedMetricManager")
 //@WebService(serviceName = "GenericMetricService", endpointInterface = "it.uniroma2.gqm.service.MetricManager")
-public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric, Long> implements GenericMetricManager {
-    private GenericMetricDao metricDao;
+public class CombinedMetricManagerImpl extends GenericManagerImpl<CombinedMetric, Long> implements CombinedMetricManager {
+    private CombinedMetricDao metricDao;
     private QuestionMetricDao questionMetricDao;
     
     @Autowired
-    public GenericMetricManagerImpl(GenericMetricDao metricDao, QuestionMetricDao questionMetricDao) {
+    public CombinedMetricManagerImpl(CombinedMetricDao metricDao, QuestionMetricDao questionMetricDao) {
         super(metricDao);
         this.metricDao = metricDao;
         this.questionMetricDao = questionMetricDao;
     }
  
-    public List<AbstractMetric> findByProject(Project project) {
+    public List<CombinedMetric> findByProject(Project project) {
     	if(project !=null)
     		return metricDao.findByProject(project.getId());
     	else
@@ -48,7 +47,7 @@ public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
     }
 
 	@Override
-	public QuestionMetric getQuestionMetric(AbstractMetric metric, Question question) {
+	public QuestionMetric getQuestionMetric(CombinedMetric metric, Question question) {
 		return questionMetricDao.getQuestionMetric(question.getId(), metric.getId());
 	}
 
@@ -88,12 +87,12 @@ public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	}
 	
 	
-	public AbstractMetric findById(Long id){
+	public CombinedMetric findById(Long id){
 		return get(id);
 	}
 	
 	public List<Double> getMeasuredMetricValues(Long metricId){
-		AbstractMetric metric = get(metricId);
+		CombinedMetric metric = get(metricId);
 		List<Double> ret = new ArrayList<Double>();
 		Iterator<Measurement> it = metric.getMeasurements().iterator();
 		if(it.hasNext()){
@@ -106,7 +105,7 @@ public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	}
 	
 	public List<String> getMetricInfo(Long metricId){
-		AbstractMetric metric = get(metricId);
+		CombinedMetric metric = get(metricId);
 		List<String> ret = new ArrayList<String>();
 		ret.add("Id: " + (metric.getId()) );
 		ret.add("Name: " + (metric.getName()));
@@ -119,7 +118,7 @@ public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		return ret;
 	}
 	
-	public boolean getSatisfaction(AbstractMetric m){
+	public boolean getSatisfaction(CombinedMetric m){
 		return m.isConditionReached();
 	}
 

@@ -2,9 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.service.GenericMetricManager;
-
-
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import java.util.List;
@@ -21,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/metrics*")
-public class SimpleMetricController {
+public class ComplexMetricController {
     @Autowired
-    private GenericMetricManager metricManager;
+    private ComplexMetricManager metricManager;
 
     private ProjectManager projectManager = null;
     

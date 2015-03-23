@@ -22,9 +22,8 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Unit;
-import it.uniroma2.gqm.service.GenericMetricManager;
+import it.uniroma2.gqm.service.CombinedMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
@@ -56,7 +55,7 @@ public class CombinedMetricFormController extends BaseFormController {
 
 	
 	@Autowired
-	private GenericMetricManager metricManager;
+	private CombinedMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
     private MeasurementScaleManager measurementScaleManager = null;
 
@@ -107,7 +106,7 @@ public class CombinedMetricFormController extends BaseFormController {
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
         
         if (!StringUtils.isBlank(id)) {
-            metric = (CombinedMetric) metricManager.get(new Long(id));
+            metric = metricManager.get(new Long(id));
         } else {
         	metric = new CombinedMetric();
         	metric.setProject(currentProject);
@@ -228,7 +227,7 @@ public class CombinedMetricFormController extends BaseFormController {
                 if (element != null) {
                 	String ids[] = ((String)element).split("\\|");
                 	Question question = questionManager.get(new Long(ids[0]));
-                    CombinedMetric metric = (CombinedMetric) metricManager.get(new Long(ids[1]));
+                    CombinedMetric metric = metricManager.get(new Long(ids[1]));
                     QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);                  
                     if(questionMetric==null){
                     	questionMetric = new QuestionMetric();
