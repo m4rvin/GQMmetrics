@@ -1,8 +1,8 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import it.uniroma2.gqm.model.SimpleMetric;
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.GenericMetricManager;
 
 
 import it.uniroma2.gqm.service.ProjectManager;
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/metrics*")
 public class MetricController {
     @Autowired
-    private MetricManager metricManager;
+    private GenericMetricManager metricManager;
 
     private ProjectManager projectManager = null;
     
@@ -35,7 +35,7 @@ public class MetricController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpSession session) throws Exception {
         Project currentProject = projectManager.getCurrentProject(session);
-		List<SimpleMetric> ret = metricManager.findByProject(currentProject);
+		List<AbstractMetric> ret = metricManager.findByProject(currentProject);
 		return new ModelAndView().addObject("metricList", ret);
 	}
 }

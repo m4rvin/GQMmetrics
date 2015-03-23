@@ -124,6 +124,24 @@
                 <arg key="simpleMetric.type"/>
             </field>      
         </form>
+        <form name="combinedMetric">
+            <field property="project" depends="required">
+                <arg key="combinedMetric.project"/>
+            </field>
+            <field property="measurementScale" depends="required">
+                <arg key="combinedMetric.measurementScale"/>
+            </field>
+            <field property="code" depends="required">
+                <arg key="combinedMetric.code"/>
+            </field>
+            <field property="name" depends="required">
+                <arg key="combinedMetric.name"/>
+            </field>            
+            <field property="type" depends="required">
+                <arg key="combinedMetric.type"/>
+            </field>      
+        </form>
+        
         <form name="rangeOfValues">
         	<field property="project" depends="required">
                 <arg key="rangeOfValues.project"/>
