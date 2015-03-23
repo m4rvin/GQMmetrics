@@ -12,7 +12,7 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
 
@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class QuestionMetricFormController extends BaseFormController {
 
     @Autowired
-    private MetricManager metricManager;
+    private SimpleMetricManager metricManager;
     
     @Autowired
     private QuestionManager questionManager;

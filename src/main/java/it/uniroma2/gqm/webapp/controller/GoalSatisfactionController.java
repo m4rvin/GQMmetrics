@@ -5,7 +5,7 @@ import java.util.List;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.GoalManager;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import javax.servlet.http.HttpSession;
@@ -25,10 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 @SessionAttributes({"currentProject","goal","currentUser"})
 public class GoalSatisfactionController {
 	private GoalManager goalManager;
-	private MetricManager metricManager;
+	private SimpleMetricManager metricManager;
 	
 	@Autowired
-	public void setMetricManager(@Qualifier("metricManager") MetricManager metricManager) {
+	public void setMetricManager(@Qualifier("metricManager") SimpleMetricManager metricManager) {
 		this.metricManager = metricManager;
 	}
 	

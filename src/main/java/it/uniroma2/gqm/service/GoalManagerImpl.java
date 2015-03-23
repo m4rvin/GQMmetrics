@@ -17,10 +17,10 @@ import java.util.Map;
 @Service("goalManager")
 public class GoalManagerImpl extends GenericManagerImpl<Goal, Long> implements GoalManager {
     GoalDao goalDao;
-    MetricDao metricDao;
+    SimpleMetricDao metricDao;
     
     @Autowired
-    public GoalManagerImpl(GoalDao goalDao,MetricDao metricDao) {
+    public GoalManagerImpl(GoalDao goalDao,SimpleMetricDao metricDao) {
         super(goalDao);
         this.goalDao = goalDao;
         this.metricDao = metricDao;

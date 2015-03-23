@@ -2,7 +2,7 @@ package it.uniroma2.gqm.service;
 
 
 import it.uniroma2.gqm.dao.GenericMetricDao;
-import it.uniroma2.gqm.dao.MetricDao;
+import it.uniroma2.gqm.dao.SimpleMetricDao;
 import it.uniroma2.gqm.dao.QuestionMetricDao;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.GoalStatus;
@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("genericMetricManager")
-@WebService(serviceName = "GenericMetricService", endpointInterface = "it.uniroma2.gqm.service.MetricManager")
+//@WebService(serviceName = "GenericMetricService", endpointInterface = "it.uniroma2.gqm.service.MetricManager")
 public class GenericMetricManagerImpl extends GenericManagerImpl<AbstractMetric, Long> implements GenericMetricManager {
     private GenericMetricDao metricDao;
     private QuestionMetricDao questionMetricDao;

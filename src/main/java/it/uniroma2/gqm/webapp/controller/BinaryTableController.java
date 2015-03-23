@@ -7,7 +7,7 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.BinaryTableManager;
 import it.uniroma2.gqm.service.GoalManager;
 import it.uniroma2.gqm.service.GridManager;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class BinaryTableController {
 	
 	@Autowired
     private GoalManager goalManager;
-	private MetricManager metricManager;
+	private SimpleMetricManager metricManager;
 	private UserManager userManager;
 	private GridManager gridManager;
 	private ProjectManager projectManager = null;
@@ -46,7 +46,7 @@ public class BinaryTableController {
 	private BinaryTableManager binaryManager;
 	
 	@Autowired
-    public void setMetricManager(@Qualifier("metricManager") MetricManager metricManager) {
+    public void setMetricManager(@Qualifier("metricManager") SimpleMetricManager metricManager) {
         this.metricManager = metricManager;
     }
 

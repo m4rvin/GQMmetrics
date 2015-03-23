@@ -4,7 +4,7 @@ import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.MeasurementManager;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 
 import java.awt.Font;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class PieChartController {
 
     
     @Autowired
-    private MetricManager metricManager;
+    private SimpleMetricManager metricManager;
     
     @Autowired
     private MeasurementManager measurementManager;

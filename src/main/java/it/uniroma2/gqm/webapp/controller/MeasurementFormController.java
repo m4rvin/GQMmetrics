@@ -5,7 +5,7 @@ import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.MeasurementManager;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import java.beans.PropertyEditorSupport;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes({"currentProject","measurement","currentUser","availableMetrics"})
 public class MeasurementFormController extends BaseFormController {
 	@Autowired
-	private MetricManager metricManager;
+	private SimpleMetricManager metricManager;
     
     @Autowired
     private MeasurementManager measurementManager;

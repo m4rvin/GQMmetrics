@@ -1,6 +1,6 @@
 package it.uniroma2.gqm.dao.hibernate;
 
-import it.uniroma2.gqm.dao.MetricDao;
+import it.uniroma2.gqm.dao.SimpleMetricDao;
 import it.uniroma2.gqm.dao.QuestionDao;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.SimpleMetric;
@@ -17,10 +17,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("metricDao")
-public class MetricDaoHibernate extends GenericDaoHibernate<SimpleMetric, Long>  implements MetricDao {
+@Repository("simpleMetricDao")
+public class SimpleMetricDaoHibernate extends GenericDaoHibernate<SimpleMetric, Long>  implements SimpleMetricDao {
 		
-    public MetricDaoHibernate() {
+    public SimpleMetricDaoHibernate() {
         super(SimpleMetric.class);
     }
  

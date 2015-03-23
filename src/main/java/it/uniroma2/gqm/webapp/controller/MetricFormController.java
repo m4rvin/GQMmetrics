@@ -12,7 +12,7 @@ import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
@@ -51,7 +51,7 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes({"currentProject","simpleMetric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class MetricFormController  extends BaseFormController {
 	@Autowired
-	private MetricManager metricManager;
+	private SimpleMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
     private MeasurementScaleManager measurementScaleManager = null;
 

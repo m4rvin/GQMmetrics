@@ -1,7 +1,7 @@
 package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.Project;
-import it.uniroma2.gqm.service.MetricManager;
+import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/projectselection*")
 public class ProjectSelectionController {
     @Autowired
-    private MetricManager metricManager;
+    private SimpleMetricManager metricManager;
 
     private ProjectManager projectManager = null;
     

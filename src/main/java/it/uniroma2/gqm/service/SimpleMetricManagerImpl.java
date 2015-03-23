@@ -1,7 +1,7 @@
 package it.uniroma2.gqm.service;
 
 
-import it.uniroma2.gqm.dao.MetricDao;
+import it.uniroma2.gqm.dao.SimpleMetricDao;
 import it.uniroma2.gqm.dao.QuestionMetricDao;
 import it.uniroma2.gqm.model.GoalStatus;
 import it.uniroma2.gqm.model.Measurement;
@@ -26,13 +26,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("metricManager")
-@WebService(serviceName = "MetricService", endpointInterface = "it.uniroma2.gqm.service.MetricManager")
-public class MetricManagerImpl extends GenericManagerImpl<SimpleMetric, Long> implements MetricManager {
-    private MetricDao metricDao;
+@WebService(serviceName = "MetricService", endpointInterface = "it.uniroma2.gqm.service.SimpleMetricManager")
+public class SimpleMetricManagerImpl extends GenericManagerImpl<SimpleMetric, Long> implements SimpleMetricManager {
+    private SimpleMetricDao metricDao;
     private QuestionMetricDao questionMetricDao;
     
     @Autowired
-    public MetricManagerImpl(MetricDao metricDao, QuestionMetricDao questionMetricDao) {
+    public SimpleMetricManagerImpl(SimpleMetricDao metricDao, QuestionMetricDao questionMetricDao) {
         super(metricDao);
         this.metricDao = metricDao;
         this.questionMetricDao = questionMetricDao;

@@ -1,7 +1,7 @@
 package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.dao.MeasurementScaleDao;
-import it.uniroma2.gqm.dao.MetricDao;
+import it.uniroma2.gqm.dao.SimpleMetricDao;
 import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.Project;
 
@@ -16,7 +16,7 @@ public class MeasurementScaleManagerImpl extends GenericManagerImpl<MeasurementS
 {
 
 	 private MeasurementScaleDao measurementScaleDao;
-	 private MetricDao metricDao;
+	 private SimpleMetricDao metricDao;
 
 	 @Autowired
 	 public MeasurementScaleManagerImpl(MeasurementScaleDao measurementScaleDao)
@@ -26,7 +26,7 @@ public class MeasurementScaleManagerImpl extends GenericManagerImpl<MeasurementS
 	 }
 
 	 @Autowired
-	 public void setMetricDao(MetricDao metricDao)
+	 public void setMetricDao(SimpleMetricDao metricDao)
 	 {
 		  this.metricDao = metricDao;
 	 }
