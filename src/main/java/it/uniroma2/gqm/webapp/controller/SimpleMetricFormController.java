@@ -3,16 +3,16 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Unit;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
-import it.uniroma2.gqm.service.SimpleMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
@@ -51,7 +51,7 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes({"currentProject","simpleMetric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class SimpleMetricFormController  extends BaseFormController {
 	@Autowired
-	private SimpleMetricManager metricManager;
+	private ComplexMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
     private MeasurementScaleManager measurementScaleManager = null;
 
@@ -101,7 +101,7 @@ public class SimpleMetricFormController  extends BaseFormController {
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
         
         if (!StringUtils.isBlank(id)) {
-            metric = metricManager.get(new Long(id));
+            metric = metricManager.findSimpleMetricById(new Long(id));
         } else {
         	metric = new SimpleMetric();
         	metric.setProject(currentProject);
@@ -133,9 +133,9 @@ public class SimpleMetricFormController  extends BaseFormController {
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
         availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
         model.addAttribute("availablesTypes",availablesTypes);
-        model.addAttribute("availableMetrics",metricManager.findByProject(currentProject));
+        model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
         
-        System.out.println("availableMetrics ------>" + metricManager.findByProject(currentProject));
+        System.out.println("availableMetrics ------>" + metricManager.findAllByProject(currentProject));
         //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
         model.addAttribute("availableQuestions", availableQuestions);
         model.addAttribute("map", map);
@@ -176,12 +176,10 @@ public class SimpleMetricFormController  extends BaseFormController {
         	} else {
         		metric.setUnit(null);
             }
-        	metric.setMetricA(metric.getMetricA()!=null && metric.getMetricA().getId() != null ? 
-        				metricManager.get(metric.getMetricA().getId()) 
-        				: null);
-        	metric.setMetricB(metric.getMetricB()!=null && metric.getMetricB().getId() != null ? 
-    				metricManager.get(metric.getMetricB().getId()) 
-    				: null);
+        	//FIXME
+        	metric.setMetricA(null);
+        	//FIXME
+        	metric.setMetricB(null);
         	
         	System.out.println("\n\n" + metric + "\n\n");
         	metricManager.save(metric);
@@ -243,7 +241,7 @@ public class SimpleMetricFormController  extends BaseFormController {
                 if (element != null) {
                 	String ids[] = ((String)element).split("\\|");
                 	Question question = questionManager.get(new Long(ids[0]));
-                    SimpleMetric metric = metricManager.get(new Long(ids[1]));
+                    SimpleMetric metric = metricManager.findSimpleMetricById(new Long(ids[1]));
                     QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);                  
                     if(questionMetric==null){
                     	questionMetric = new QuestionMetric();

@@ -13,6 +13,7 @@ import org.appfuse.dao.GenericDao;
 public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long> {
 
 	//generic query
+	public List<AbstractMetric> findAllMetricByProject(Project project);
 	public List<AbstractMetric> findByMeasurementScale(Long id);
 	
 	//SimpleMetric related query

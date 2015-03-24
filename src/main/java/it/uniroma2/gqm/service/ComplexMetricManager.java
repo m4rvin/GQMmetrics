@@ -15,6 +15,7 @@ import org.appfuse.service.GenericManager;
 public interface ComplexMetricManager extends GenericManager<AbstractMetric, Long> {
 	
 	//generic query
+	public List<AbstractMetric> findAllByProject(Project project);
 	public QuestionMetric getQuestionMetric(AbstractMetric metric,Question question);
 	public List<String> getAvailableStatus(QuestionMetric questionMetric, User user);
 	public QuestionMetric saveQuestionMetric(QuestionMetric questionMetric);

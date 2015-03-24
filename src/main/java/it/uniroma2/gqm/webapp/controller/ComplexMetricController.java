@@ -1,11 +1,14 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.ProjectManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class ComplexMetricController {
     @Autowired
     private ComplexMetricManager metricManager;
-
     private ProjectManager projectManager = null;
     
     @Autowired
@@ -33,7 +35,11 @@ public class ComplexMetricController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpSession session) throws Exception {
         Project currentProject = projectManager.getCurrentProject(session);
-		List<AbstractMetric> ret = metricManager.findByProject(currentProject);
-		return new ModelAndView().addObject("metricList", ret);
+		List<SimpleMetric> simpleMetrics = metricManager.findSimpleMetricByProject(currentProject);
+		List<CombinedMetric> combinedMetrics = metricManager.findCombinedMetricByProject(currentProject);
+		Map<String, Object> modelmap = new HashMap<String, Object>();
+		modelmap.put("simpleMetrics", simpleMetrics);
+		modelmap.put("combinedMetrics", combinedMetrics);
+		return new ModelAndView().addAllObjects(modelmap);
 	}
 }

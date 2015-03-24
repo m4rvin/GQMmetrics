@@ -77,7 +77,7 @@ public class MeasurementFormController extends BaseFormController {
         }
         model.addAttribute("currentProject",currentProject);
         model.addAttribute("currentUser",currentUser);        
-        model.addAttribute("availableMetrics",metricManager.findByProject(currentProject));
+        model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
         return ret;
     }
     

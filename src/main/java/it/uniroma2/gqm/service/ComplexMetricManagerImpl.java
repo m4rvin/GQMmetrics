@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.jws.WebService;
+
 import org.appfuse.model.User;
 import org.appfuse.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("complexMetricManager")
+@WebService(serviceName = "complexmetricservice", endpointInterface = "it.uniroma2.gqm.service.ComplexMetricManager")
 public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric, Long> implements ComplexMetricManager {
 
     private ComplexMetricDao metricDao;
@@ -34,6 +37,12 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
     }
 	
 
+	@Override
+	public List<AbstractMetric> findAllByProject(Project project) {
+		return metricDao.findAllMetricByProject(project);
+	}
+
+	
 	@Override
 	public QuestionMetric getQuestionMetric(AbstractMetric metric,
 			Question question) {
@@ -127,5 +136,4 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	public CombinedMetric findCombinedMetricById(Long id) {
 		return metricDao.findCombinedMetricById(id);
 	}
-
 }

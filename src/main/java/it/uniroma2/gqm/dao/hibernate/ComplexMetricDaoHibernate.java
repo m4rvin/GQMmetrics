@@ -24,6 +24,12 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	//generic queries
 	
 	@Override
+	public List<AbstractMetric> findAllMetricByProject(Project project) {
+		Query q = getSession().getNamedQuery("findMetricByProject").setLong("project_id", project.getId());
+		return q.list();
+	}
+	
+	@Override
 	public List<AbstractMetric> findByMeasurementScale(Long id)
 	{
 		Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
@@ -57,5 +63,4 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	public CombinedMetric findCombinedMetricById(Long id) {
 		return (CombinedMetric) this.get(id);
 	}
-	
 }

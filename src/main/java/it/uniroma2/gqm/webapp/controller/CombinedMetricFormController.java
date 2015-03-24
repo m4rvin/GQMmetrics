@@ -1,17 +1,5 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
@@ -23,11 +11,23 @@ import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.Unit;
-import it.uniroma2.gqm.service.CombinedMetricManager;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.service.QuestionManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
+
+import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
@@ -55,7 +55,7 @@ public class CombinedMetricFormController extends BaseFormController {
 
 	
 	@Autowired
-	private CombinedMetricManager metricManager;
+	private ComplexMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
     private MeasurementScaleManager measurementScaleManager = null;
 
@@ -106,7 +106,7 @@ public class CombinedMetricFormController extends BaseFormController {
         User currentUser = userManager.getUserByUsername(request.getRemoteUser());
         
         if (!StringUtils.isBlank(id)) {
-            metric = metricManager.get(new Long(id));
+            metric = metricManager.findCombinedMetricById(new Long(id));
         } else {
         	metric = new CombinedMetric();
         	metric.setProject(currentProject);
@@ -138,9 +138,9 @@ public class CombinedMetricFormController extends BaseFormController {
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
         availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
         model.addAttribute("availablesTypes",availablesTypes);
-        model.addAttribute("availableMetrics",metricManager.findByProject(currentProject));
+        model.addAttribute("availableMetrics",metricManager.findCombinedMetricByProject(currentProject));
         
-        System.out.println("availableMetrics ------>" + metricManager.findByProject(currentProject));
+        System.out.println("availableMetrics ------>" + metricManager.findCombinedMetricByProject(currentProject));
         //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
         model.addAttribute("availableQuestions", availableQuestions);
         model.addAttribute("map", map);
@@ -227,7 +227,7 @@ public class CombinedMetricFormController extends BaseFormController {
                 if (element != null) {
                 	String ids[] = ((String)element).split("\\|");
                 	Question question = questionManager.get(new Long(ids[0]));
-                    CombinedMetric metric = metricManager.get(new Long(ids[1]));
+                    CombinedMetric metric = metricManager.findCombinedMetricById(new Long(ids[1]));
                     QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);                  
                     if(questionMetric==null){
                     	questionMetric = new QuestionMetric();

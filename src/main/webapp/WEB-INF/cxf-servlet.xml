@@ -15,8 +15,10 @@
 
     <jaxws:endpoint id="userService" implementor="#userManager" address="/UserService"/>
     
-	<jaxws:endpoint id="metricService" implementor="#metricManager" address="/MetricService"/>
-    <!-- Add new endpoints for additional services you'd like to expose -->
+<!-- correggi e riabilita se richiesto	<jaxws:endpoint id="complexmetricservice" implementor="#metricManager" address="/MetricService"/>
+ -->  
+ 
+   <!-- Add new endpoints for additional services you'd like to expose -->
     
     <jaxrs:server address="/api">
         <jaxrs:features>
