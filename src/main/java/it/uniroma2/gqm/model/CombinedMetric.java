@@ -8,12 +8,17 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @DiscriminatorValue("combined")
 @Table(name = "CombinedMetric")
+@NamedQueries({
+	@NamedQuery(name = "findCombinedMetricByProject", query = "select m from CombinedMetric m where m.project.id= :project_id"),
+})
 public class CombinedMetric extends AbstractMetric {
 
 	/**

@@ -3,11 +3,16 @@ package it.uniroma2.gqm.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("simple")
 @Table(name = "SimpleMetric")
+@NamedQueries({
+	@NamedQuery(name = "findSimpleMetricByProject", query = "select m from SimpleMetric m where m.project.id= :project_id"),
+})
 public class SimpleMetric extends AbstractMetric
 {
 

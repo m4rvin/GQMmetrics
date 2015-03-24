@@ -33,7 +33,7 @@ import org.appfuse.model.User;
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), 
 				@NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
-				@NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId") 
+				@NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId")
 })
 @DiscriminatorColumn(name = "complexMetricType")
 @Table(name = "AbstractMetric")
