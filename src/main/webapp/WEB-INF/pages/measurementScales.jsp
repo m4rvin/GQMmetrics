@@ -8,6 +8,9 @@
 		 border:none;
 		 background-color:transparent; 
 	}
+	.row-fluid .span10 {
+	  margin-left: 0px;
+	}
 </style>
 <div class="span10">
 	<h2>
