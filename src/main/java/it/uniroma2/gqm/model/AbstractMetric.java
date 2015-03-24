@@ -55,9 +55,6 @@ public abstract class AbstractMetric extends BaseObject
 	 protected SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 protected User metricOwner;
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
-	 protected SimpleMetric metricA;
-	 protected SimpleMetric metricB;
-	 protected OperationEnum operation;
 	 protected Double actualValue;
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
@@ -195,42 +192,7 @@ public abstract class AbstractMetric extends BaseObject
 		  this.questions = questions;
 	 }
 
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name = "metric_a_id", nullable = true)
-	 public SimpleMetric getMetricA()
-	 {
-		  return metricA;
-	 }
-
-	 public void setMetricA(SimpleMetric metricA)
-	 {
-		  this.metricA = metricA;
-	 }
-
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name = "metric_b_id", nullable = true)
-	 public SimpleMetric getMetricB()
-	 {
-		  return metricB;
-	 }
-
-	 public void setMetricB(SimpleMetric metricB)
-	 {
-		  this.metricB = metricB;
-	 }
-
-	 @Enumerated(EnumType.STRING)
-	 @Column(name = "operation", length = 50, nullable = true)
-	 public OperationEnum getOperation()
-	 {
-		  return operation;
-	 }
-
-	 public void setOperation(OperationEnum operation)
-	 {
-		  this.operation = operation;
-	 }
-
+	
 	 @Column(name = "actual_value")
 	 public Double getActualValue()
 	 {
@@ -346,7 +308,7 @@ public abstract class AbstractMetric extends BaseObject
 					}
 				} else {
 					// It's a composite metrics...
-					if(metricA != null && metricA.getId() != null && 
+				/*if(metricA != null && metricA.getId() != null && 
 							metricB != null && metricB.getId() != null && 
 							operation != null){ 
 						//System.out.println("Metric: " + this.getCode() + " 9" + " value= "  + value);
@@ -360,7 +322,7 @@ public abstract class AbstractMetric extends BaseObject
 							value = metricA.getMeasuredValue() * metricB.getMeasuredValue();
 						}
 						//System.out.println("Metric: " + this.getCode() + " 10" + " value= "  + value);
-					} else {
+					}*/ 
 						//System.out.println("Metric: " + this.getCode() + " 11" + " value= "  + value);
 						if(measurements!=null){
 							//System.out.println("Metric: " + this.getCode() + " 12" + " value= "  + value);
@@ -381,7 +343,7 @@ public abstract class AbstractMetric extends BaseObject
 								//System.out.println("Metric: " + this.getCode() + " 16" + " value= "  + value);
 							}
 						}
-					}				
+									
 				}						
 			}catch(Exception ex){
 				return  Double.NaN;
@@ -391,20 +353,6 @@ public abstract class AbstractMetric extends BaseObject
 			return value;
 		}
 		
-		@Transient
-		public String getFormula(){
-			String formula = "None";
-			if(operation == OperationEnum.ADDITION) {
-				formula = metricA.getCode().concat(" ").concat("+").concat(" ").concat(metricB.getCode());
-			}else if(operation == OperationEnum.DIVISION) {
-				formula = metricA.getCode().concat(" ").concat("/").concat(" ").concat(metricB.getCode());
-			}else if(operation == OperationEnum.SUBTRACTION) {
-				formula = metricA.getCode().concat(" ").concat("-").concat(" ").concat(metricB.getCode());
-			}else if(operation == OperationEnum.MULTIPLICATION) {
-				formula = metricA.getCode().concat(" ").concat("*").concat(" ").concat(metricB.getCode());
-			}
-			return formula;
-		}
 		
 		
 

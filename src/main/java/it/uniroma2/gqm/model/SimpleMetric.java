@@ -40,13 +40,11 @@ public class SimpleMetric extends AbstractMetric
 					+ ((measurementScale == null) ? 0 : measurementScale.hashCode());
 			result = prime * result
 					+ ((measurements == null) ? 0 : measurements.hashCode());
-			result = prime * result + ((metricA == null) ? 0 : metricA.hashCode());
-			result = prime * result + ((metricB == null) ? 0 : metricB.hashCode());
+			
 			result = prime * result
 					+ ((metricOwner == null) ? 0 : metricOwner.hashCode());
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			result = prime * result
-					+ ((operation == null) ? 0 : operation.hashCode());
+			
 			result = prime * result + ((project == null) ? 0 : project.hashCode());
 		/*	result = prime * result
 					+ ((questions == null) ? 0 : questions.hashCode());*/
@@ -106,18 +104,7 @@ public class SimpleMetric extends AbstractMetric
 					 return false;
 		  } else if (!measurements.equals(other.measurements))
 				return false;
-		  if (metricA == null)
-		  {
-				if (other.metricA != null)
-					 return false;
-		  } else if (!metricA.equals(other.metricA))
-				return false;
-		  if (metricB == null)
-		  {
-				if (other.metricB != null)
-					 return false;
-		  } else if (!metricB.equals(other.metricB))
-				return false;
+		 
 		  if (metricOwner == null)
 		  {
 				if (other.metricOwner != null)
@@ -130,8 +117,7 @@ public class SimpleMetric extends AbstractMetric
 					 return false;
 		  } else if (!name.equals(other.name))
 				return false;
-		  if (operation != other.operation)
-				return false;
+		 
 		  if (project == null)
 		  {
 				if (other.project != null)

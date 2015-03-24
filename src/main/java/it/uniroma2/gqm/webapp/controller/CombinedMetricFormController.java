@@ -183,11 +183,7 @@ public class CombinedMetricFormController extends BaseFormController {
         	} else {
         		metric.setUnit(null);
             }
-        	//FIXME
-        	metric.setMetricA(null);
-        	//FIXME
-        	metric.setMetricB(null);
-        	
+       
         	System.out.println("\n\n" + metric + "\n\n");
         	metricManager.save(metric);
             String key = (isNew) ? "metric.added" : "metric.updated";

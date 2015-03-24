@@ -96,51 +96,7 @@
             <form:errors path="measurementScale" cssClass="help-inline"/>
         </div>
     </div>  
-
-    <spring:bind path="combinedMetric.metricA.id">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.metricA"/>
-        <div class="controls">
-			<form:select path="metricA.id" disabled="${combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id}" >
-				<form:option value="" label="None"/>
-				<form:options items="${availableMetrics}" itemValue="id" itemLabel="code"/>
-		    </form:select>		
-            <form:errors path="metricA" cssClass="help-inline"/>            
-        </div>
-    </div>
-
-    <spring:bind path="combinedMetric.operation">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.operation"/>
-        <div class="controls">
-			<form:select path="operation" disabled="${combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id}" >
-				<form:option value="" label="None"/>
-				<form:option value="ADDITION"/>
-				<form:option value="DIVISION"/>
-				<form:option value="SUBTRACTION"/>
-				<form:option value="MULTIPLICATION"/>
-		    </form:select>		
-            <form:errors path="operation" cssClass="help-inline"/>            
-        </div>
-    </div>
-
-
-    <spring:bind path="combinedMetric.metricB.id">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.metricB"/>
-        <div class="controls">
-			<form:select path="metricB.id" disabled="${combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id}" >
-				<form:option value="" label="None"/>
-				<form:options items="${availableMetrics}" itemValue="id" itemLabel="code"/>
-		    </form:select>		
-            <form:errors path="metricB" cssClass="help-inline"/>            
-        </div>
-    </div>
-
-            
+  
     <spring:bind path="combinedMetric.hypothesis">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
