@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -169,7 +170,20 @@ public class MeasurementScaleFormController extends BaseFormController
 					 return "measurementScaleform";
 		  }
 		  System.out.println(measurementScale);
-		  this.measurementScaleManager.save(measurementScale);
+		  try{
+			  this.measurementScaleManager.save(measurementScale);
+		  }
+		  catch(DataIntegrityViolationException e){
+			  System.err.println(e.getMessage());
+			  if(e.getMessage().contains("name")){
+				  model.addAttribute("duplicate_value", "A measurement scale with the same name already exists. Please change the name and retry.");
+
+			  }
+			  else{
+				  model.addAttribute("duplicate_value", "The measurement scale already exists in the database. Change some parameter and retry.");
+			  }
+			  return ViewName.measurementScaleForm;
+		  }
 		  return getSuccessView();
 	 }
 
