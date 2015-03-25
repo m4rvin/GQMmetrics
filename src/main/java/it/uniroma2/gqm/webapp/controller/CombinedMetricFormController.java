@@ -177,6 +177,8 @@ public class CombinedMetricFormController extends BaseFormController {
         Locale locale = request.getLocale();
  
         if (request.getParameter("delete") != null) {
+      		for(AbstractMetric m : metric.getComposedBy())
+      			 m.removeComposerFor(metric);
            metricManager.remove(metric.getId());
             saveMessage(request, getText("metric.deleted", locale));
         } else {
@@ -199,7 +201,7 @@ public class CombinedMetricFormController extends BaseFormController {
         	}
        	*/
         	System.out.println("\n\n" + metric + "\n\n");
-        	
+
         	metricManager.save(metric);
         	
             String key = (isNew) ? "metric.added" : "metric.updated";
