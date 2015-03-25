@@ -258,6 +258,7 @@ public abstract class AbstractMetric extends BaseObject
 		  this.composerFor.add(metric);
 	 }
 	 
+	 @Transient
 	 public boolean isEresable()
 	 {
 		  return this.questions.size() == 0 && this.composerFor.size() == 0;

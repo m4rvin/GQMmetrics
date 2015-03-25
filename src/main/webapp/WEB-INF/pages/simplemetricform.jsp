@@ -32,7 +32,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.project"/>
         <div class="controls">
-        	<form:select path="project.id" onchange=""  disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
+        	<form:select path="project.id" onchange=""  disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
 					<form:option value="${simpleMetric.project.id}" label="${simpleMetric.project.name}"/>
 			</form:select>  
             <form:errors path="project" cssClass="help-inline"/>
@@ -43,7 +43,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.code"/>
         <div class="controls">
-            <form:input path="code" id="code" maxlength="50" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
+            <form:input path="code" id="code" maxlength="50" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="code" cssClass="help-inline"/>        
         </div>
     </div>
@@ -53,7 +53,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.name"/>
         <div class="controls">
-            <form:input path="name" id="name" maxlength="255" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
+            <form:input path="name" id="name" maxlength="255" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="name" cssClass="help-inline"/>
         </div>
     </div>	    
@@ -63,7 +63,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.type"/>
         <div class="controls">
-   			<form:select path="type" multiple="false" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
+   			<form:select path="type" multiple="false" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
    				<form:option value="" label="None"/>
 		    	<form:options items="${availablesTypes}"/>
 		    </form:select>		
@@ -76,7 +76,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.unit"/>
         <div class="controls">
-			<form:select path="unit.id" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
+			<form:select path="unit.id" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
    				<form:option value="" label="None"/>
 		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
 		    </form:select>		
@@ -89,7 +89,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="measurementScale"  disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}">
+   			<form:select path="measurementScale"  disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
    			   	<form:option value="" label="None"/>
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
@@ -104,7 +104,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.hypothesis"/>
         <div class="controls">
-            <form:input path="hypothesis" id="hypothesis" maxlength="255" readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
+            <form:input path="hypothesis" id="hypothesis" maxlength="255" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="hypothesis" cssClass="help-inline"/>
         </div>
     </div>
@@ -114,7 +114,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.actualValue"/>
         <div class="controls">
-            <form:input path="actualValue" id="actualValue"  readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
+            <form:input path="actualValue" id="actualValue"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="actualValue" cssClass="help-inline"/>
         </div>
     </div>
@@ -124,7 +124,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.collectingType"/>
         <div class="controls">
-			<form:select path="collectingType" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
+			<form:select path="collectingType" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
 				<form:option value="SINGLE_VALUE" label="Single Value"/>
 				<form:option value="MULTIPLE_VALUE" label="Multiple Value"/>
 		    </form:select>		
@@ -137,7 +137,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.satisfyingConditionOperation"/>
         <div class="controls">
-			<form:select path="satisfyingConditionOperation" disabled="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}" >
+			<form:select path="satisfyingConditionOperation" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
 				<form:option value="NONE" label="None"/>
 				<form:option value="LESS" label="<"/>
 				<form:option value="LESS_OR_EQUAL" label="<="/>
@@ -154,7 +154,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.satisfyingConditionValue"/>
         <div class="controls">
-            <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id}"/>
+            <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
         </div>
     </div>
