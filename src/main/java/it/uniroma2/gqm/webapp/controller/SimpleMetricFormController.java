@@ -28,6 +28,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
@@ -40,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,212 +50,265 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({"currentProject","simpleMetric","currentUser","units","scales","availableMetrics","measurementScales"})
-public class SimpleMetricFormController  extends BaseFormController {
-	@Autowired
-	private ComplexMetricManager metricManager;
-    private GenericManager<Unit, Long> unitManager = null;
-    private MeasurementScaleManager measurementScaleManager = null;
+@SessionAttributes({ "currentProject", "simpleMetric", "currentUser", "units", "scales", "availableMetrics", "measurementScales" })
+public class SimpleMetricFormController extends BaseFormController
+{
+	 @Autowired
+	 private ComplexMetricManager metricManager;
+	 private GenericManager<Unit, Long> unitManager = null;
+	 private MeasurementScaleManager measurementScaleManager = null;
+	 private MetricValidator customValidator;
+	 
+	 @Autowired
+	 private QuestionManager questionManager;
+	 private UserManager userManager = null;
+	 private ProjectManager projectManager = null;
 
-	@Autowired
-	private QuestionManager questionManager;
-	private UserManager userManager = null;
-	private ProjectManager projectManager = null;
-    
-    @Autowired
-    public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager) {
-        this.projectManager = projectManager;
-    }
-    
-    @Autowired
-    public void setQuestionManager(@Qualifier("questionManager") QuestionManager questionManager) {
-        this.questionManager = questionManager;
-    }
+	 @Autowired
+	 public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager)
+	 {
+		  this.projectManager = projectManager;
+	 }
 
-    @Autowired
-    public void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
-    
-    @Autowired
-    public void setUnitManager(@Qualifier("unitManager") GenericManager<Unit, Long> unitManager) {
-        this.unitManager = unitManager;
-    }
-        
-    @Autowired
-    public void setMeasurementScaleManager(@Qualifier("measurementScaleManager") MeasurementScaleManager measurementScaleManager) {
-        this.measurementScaleManager = measurementScaleManager;
-    }
+	 @Autowired
+	 public void setQuestionManager(@Qualifier("questionManager") QuestionManager questionManager)
+	 {
+		  this.questionManager = questionManager;
+	 }
 
-    public SimpleMetricFormController() {
-        setCancelView("redirect:" + ViewName.metrics);
-        setSuccessView("redirect:" + ViewName.metrics);
-    }
+	 @Autowired
+	 public void setUserManager(UserManager userManager)
+	 {
+		  this.userManager = userManager;
+	 }
 
-    @ModelAttribute("simpleMetric")
-    @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.GET)
-    protected SimpleMetric showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
-        String id = request.getParameter("id");
-        SimpleMetric metric = null;
+	 @Autowired
+	 public void setUnitManager(@Qualifier("unitManager") GenericManager<Unit, Long> unitManager)
+	 {
+		  this.unitManager = unitManager;
+	 }
 
-        Project currentProject = projectManager.getCurrentProject(session);
-        
-        User currentUser = userManager.getUserByUsername(request.getRemoteUser());
-        
-        if (!StringUtils.isBlank(id)) {
-            metric = metricManager.findSimpleMetricById(new Long(id));
-            model.addAttribute("used", !metric.isEresable());
-        } else {
-        	metric = new SimpleMetric();
-        	metric.setProject(currentProject);
-        }
-        
-        List<Question> availableQuestions = makeAvailableQuestions(metric,projectManager.get(currentProject.getId()),currentUser);
-        HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
-        
-        //per ogni question, recupero il goal mg a cui sono è associata e aggiungo nella hashmap l'og associato (se mg non "orfano")
-        for (Question q : availableQuestions) {
-        	Set<Goal> relatedOGs = new HashSet<Goal>();
-        	for (GoalQuestion gq : q.getGoals()) { //gli mg a cui la question è stata associata
-        		Goal associatedOG = gq.getGoal().getAssociatedOG();
-        		
-        		if(associatedOG != null) {
-        			relatedOGs.add(associatedOG);
-        		}
-			}
-        	if(relatedOGs.size() > 0)
-        		map.put(q.getId(), relatedOGs);
-		}
-        
-        model.addAttribute("currentProject",currentProject);
-        model.addAttribute("currentUser",currentUser);
-        model.addAttribute("units",unitManager.getAll());
-        model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
-        
-        ArrayList<String> availablesTypes = new ArrayList<String>();
-        availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
-        availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
-        model.addAttribute("availablesTypes",availablesTypes);
-       // model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
-        
-      //  System.out.println("availableMetrics ------>" + metricManager.findAllByProject(currentProject));
-        //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
-        model.addAttribute("availableQuestions", availableQuestions);
-        model.addAttribute("map", map);
-        return metric;
-    }
+	 @Autowired
+	 public void setMeasurementScaleManager(@Qualifier("measurementScaleManager") MeasurementScaleManager measurementScaleManager)
+	 {
+		  this.measurementScaleManager = measurementScaleManager;
+	 }
+	 
+	 @Autowired
+	 public void setCustomValidator(@Qualifier("metricValidator") MetricValidator validator)
+	 {
+		  this.customValidator = validator;
+	 }
 
-    @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
-    public String onSubmit(@ModelAttribute("simpleMetric") SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
-    throws Exception {
-        if (request.getParameter("cancel") != null) {
-            return getCancelView();
-        }
-        
-                
-        if (validator != null) { // validator is null during testing
-            validator.validate(metric, errors);
-            if (errors.hasErrors() && request.getParameter("delete") == null) {
-            	// don't validate when deleting
-                return ViewName.simpleMetricForm;
-            }
-        }
- 
-        log.debug("entering 'onSubmit' method...");
- 
-        boolean isNew = (metric.getId() == null);
-        String success = getSuccessView();
-        Locale locale = request.getLocale();
- 
-        if (request.getParameter("delete") != null) {
-           metricManager.remove(metric.getId());
-            saveMessage(request, getText("metric.deleted", locale));
-        } else {
-        	if(metric.getMetricOwner()==null)
-        		metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
-        	
-        	if(metric.getUnit() != null && metric.getUnit().getId() != null){
-        		metric.setUnit(unitManager.get(metric.getUnit().getId()));
-        	} else {
-        		metric.setUnit(null);
-            }
-        	
-        	System.out.println("\n\n" + metric + "\n\n");
-        	metricManager.save(metric);
-            String key = (isNew) ? "metric.added" : "metric.updated";
-            saveMessage(request, getText(key, locale));
-        }
-        status.setComplete();
-        return success;
-    }
 
-    @InitBinder
-    protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.class) {
-            protected Object convertElement(Object element) {
-                if (element != null) {
-                    Long id = new Long((String)element);
-                    Unit u = unitManager.get(id);
-                    return u;
-                }
-                return null;
-            }
-        });
-    }    
-   
-    @InitBinder
-    protected void initBinder2(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(MeasurementScale.class, "measurementScale", new MeasurementScaleEditorSupport());
-    }
+	 public SimpleMetricFormController()
+	 {
+		  setCancelView("redirect:" + ViewName.metrics);
+		  setSuccessView("redirect:" + ViewName.metrics);
+	 }
 
-    /**
-     * The question available are all the question associated with the goal for which the user is MMDM
-     * @param metric current metric
-     * @param currentUser current user 
-     * @return list of available questions
-     */
-    private List<Question> makeAvailableQuestions(SimpleMetric metric, Project project,User currentUser){
-    	List<Question> ret = new ArrayList<Question>();
-    	//the question available are all the question associated with the goal for which the user is MMDM
-    	for(Goal g:project.getGoals()){
-    		System.out.println("goals: " + project.getGoals());
-    		System.out.println("g.getMMDMMembers(): " + g.getMMDMMembers());
-    		if(g.getMMDMMembers().contains(currentUser)){
-    			System.out.println("g.getQuestions(): " + g.getQuestions());
-    			for(GoalQuestion gq:g.getQuestions()){
-    				ret.add(gq.getQuestion());
-    			}
-    		}
-    	}
+	 @ModelAttribute("simpleMetric")
+	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.GET)
+	 protected SimpleMetric showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
+	 {
+		  String id = request.getParameter("id");
+		  SimpleMetric metric = null;
 
-    	return ret;
-    }
-    
-    @InitBinder
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Set.class, "questions", new CustomCollectionEditor(Set.class) {
-        	
-            protected Object convertElement(Object element) {
-            	System.out.println("Element: " + element);
-                if (element != null) {
-                	String ids[] = ((String)element).split("\\|");
-                	Question question = questionManager.get(new Long(ids[0]));
-                    SimpleMetric metric = metricManager.findSimpleMetricById(new Long(ids[1]));
-                    QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);                  
-                    if(questionMetric==null){
-                    	questionMetric = new QuestionMetric();
-                    	questionMetric.setPk(new QuestionMetricPK(question,metric));
-                    	questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
-                    }
-                    return questionMetric;
-                }
-                return null;
-            }
-        });
-    }  
-    
-    
-    private class MeasurementScaleEditorSupport extends PropertyEditorSupport
+		  Project currentProject = projectManager.getCurrentProject(session);
+
+		  User currentUser = userManager.getUserByUsername(request.getRemoteUser());
+
+		  if (!StringUtils.isBlank(id))
+		  {
+				metric = metricManager.findSimpleMetricById(new Long(id));
+				model.addAttribute("used", !metric.isEresable());
+		  } else
+		  {
+				metric = new SimpleMetric();
+				metric.setProject(currentProject);
+		  }
+
+		  List<Question> availableQuestions = makeAvailableQuestions(metric, projectManager.get(currentProject.getId()), currentUser);
+		  HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
+
+		  // per ogni question, recupero il goal mg a cui sono è associata e
+		  // aggiungo nella hashmap l'og associato (se mg non "orfano")
+		  for (Question q : availableQuestions)
+		  {
+				Set<Goal> relatedOGs = new HashSet<Goal>();
+				for (GoalQuestion gq : q.getGoals())
+				{ // gli mg a cui la question è stata associata
+					 Goal associatedOG = gq.getGoal().getAssociatedOG();
+
+					 if (associatedOG != null)
+					 {
+						  relatedOGs.add(associatedOG);
+					 }
+				}
+				if (relatedOGs.size() > 0)
+					 map.put(q.getId(), relatedOGs);
+		  }
+
+		  model.addAttribute("currentProject", currentProject);
+		  model.addAttribute("currentUser", currentUser);
+		  model.addAttribute("units", unitManager.getAll());
+		  model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
+
+		  ArrayList<String> availablesTypes = new ArrayList<String>();
+		  availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
+		  availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
+		  model.addAttribute("availablesTypes", availablesTypes);
+		  // model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
+
+		  // System.out.println("availableMetrics ------>" +
+		  // metricManager.findAllByProject(currentProject));
+		  // model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
+		  model.addAttribute("availableQuestions", availableQuestions);
+		  model.addAttribute("map", map);
+		  return metric;
+	 }
+
+	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
+	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status) throws Exception
+	 {
+		  if (request.getParameter("cancel") != null)
+		  {
+				return getCancelView();
+		  }
+
+		  if (validator != null)
+		  { // validator is null during testing
+				validator.validate(metric, errors);
+				if (errors.hasErrors() && request.getParameter("delete") == null)
+				{
+					 // don't validate when deleting
+					 return ViewName.simpleMetricForm;
+				}
+		  }
+
+		  log.debug("entering 'onSubmit' method...");
+
+		  boolean isNew = (metric.getId() == null);
+		  String success = getSuccessView();
+		  Locale locale = request.getLocale();
+
+		  if (request.getParameter("delete") != null)
+		  {
+				metricManager.remove(metric.getId());
+				saveMessage(request, getText("metric.deleted", locale));
+		  } else
+		  {
+				if (metric.getMetricOwner() == null)
+					 metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
+
+				if (metric.getUnit() != null && metric.getUnit().getId() != null)
+				{
+					 metric.setUnit(unitManager.get(metric.getUnit().getId()));
+				} else
+				{
+					 metric.setUnit(null);
+				}
+
+				System.out.println("\n\n" + metric + "\n\n");
+				metricManager.save(metric);
+				String key = (isNew) ? "metric.added" : "metric.updated";
+				saveMessage(request, getText(key, locale));
+		  }
+		  status.setComplete();
+		  return success;
+	 }
+	 
+	 @InitBinder(value="simpleMetric")
+	 public void initBinder(WebDataBinder binder)
+	 {
+		  binder.setValidator(this.customValidator);
+	 }
+
+	 @InitBinder
+	 protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder)
+	 {
+		  binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.class)
+		  {
+				protected Object convertElement(Object element)
+				{
+					 if (element != null)
+					 {
+						  Long id = new Long((String) element);
+						  Unit u = unitManager.get(id);
+						  return u;
+					 }
+					 return null;
+				}
+		  });
+	 }
+
+	 @InitBinder
+	 protected void initBinder2(HttpServletRequest request, ServletRequestDataBinder binder)
+	 {
+		  binder.registerCustomEditor(MeasurementScale.class, "measurementScale", new MeasurementScaleEditorSupport());
+	 }
+
+	 /**
+	  * The question available are all the question associated with the goal for
+	  * which the user is MMDM
+	  * 
+	  * @param metric
+	  *            current metric
+	  * @param currentUser
+	  *            current user
+	  * @return list of available questions
+	  */
+	 private List<Question> makeAvailableQuestions(SimpleMetric metric, Project project, User currentUser)
+	 {
+		  List<Question> ret = new ArrayList<Question>();
+		  // the question available are all the question associated with the goal
+		  // for which the user is MMDM
+		  for (Goal g : project.getGoals())
+		  {
+				System.out.println("goals: " + project.getGoals());
+				System.out.println("g.getMMDMMembers(): " + g.getMMDMMembers());
+				if (g.getMMDMMembers().contains(currentUser))
+				{
+					 System.out.println("g.getQuestions(): " + g.getQuestions());
+					 for (GoalQuestion gq : g.getQuestions())
+					 {
+						  ret.add(gq.getQuestion());
+					 }
+				}
+		  }
+
+		  return ret;
+	 }
+
+	 @InitBinder
+	 protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+	 {
+		  binder.registerCustomEditor(Set.class, "questions", new CustomCollectionEditor(Set.class)
+		  {
+
+				protected Object convertElement(Object element)
+				{
+					 System.out.println("Element: " + element);
+					 if (element != null)
+					 {
+						  String ids[] = ((String) element).split("\\|");
+						  Question question = questionManager.get(new Long(ids[0]));
+						  SimpleMetric metric = metricManager.findSimpleMetricById(new Long(ids[1]));
+						  QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);
+						  if (questionMetric == null)
+						  {
+								questionMetric = new QuestionMetric();
+								questionMetric.setPk(new QuestionMetricPK(question, metric));
+								questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
+						  }
+						  return questionMetric;
+					 }
+					 return null;
+				}
+		  });
+	 }
+
+	 private class MeasurementScaleEditorSupport extends PropertyEditorSupport
 	 {
 
 		  @Override
@@ -261,11 +316,11 @@ public class SimpleMetricFormController  extends BaseFormController {
 		  {
 				if (text != null && !text.equals(""))
 				{
-					MeasurementScale measurementScale = null;
+					 MeasurementScale measurementScale = null;
 					 try
 					 {
-						 measurementScale = measurementScaleManager.get(new Long(text));
-						 setValue(measurementScale);
+						  measurementScale = measurementScaleManager.get(new Long(text));
+						  setValue(measurementScale);
 					 } catch (Exception e)
 					 {
 						  System.out.println(e);

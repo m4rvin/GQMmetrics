@@ -158,6 +158,16 @@
             <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
         </div>
     </div>
+    
+    <spring:bind path="simpleMetric.formula">
+    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+    </spring:bind>
+        <appfuse:label styleClass="control-label" key="metric.formula"/>
+        <div class="controls">
+            <form:input path="formula" id="Metricformula"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
+            <form:errors path="formula" cssClass="help-inline"/>
+        </div>
+    </div>
             
 	<c:if test="${not empty simpleMetric.id}">
 		<spring:bind path="simpleMetric.questions">

@@ -26,7 +26,7 @@ public class MetricValidator implements Validator
 	 @Override
 	 public boolean supports(Class<?> clazz)
 	 {
-		  return clazz.equals(SimpleMetric.class) && clazz.equals(CombinedMetric.class);
+		  return SimpleMetric.class.equals(clazz) || CombinedMetric.class.equals(clazz);
 	 }
 
 	 @Override
@@ -35,33 +35,37 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 
 		  String formula = metric.getFormula();
-		  Set<String> metrics = getUsedMetrics(formula);
+		  if(formula != null && formula.length() > 0)
+		  {
+				Set<String> metrics = getUsedMetrics(formula);
 
-		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
-		  Map<String, Double> fakeValues = new HashMap<String, Double>();
-		  for (String m : metrics)
-		  {
-				expressionBuilder.variable(m);
-				fakeValues.put(m, 1.0);
-		  }
-		  try
-		  {
-				Expression expr = expressionBuilder.build().setVariables(fakeValues);
-				ValidationResult validator = expr.validate();
-				if (!validator.isValid())
-				{
-					 for (String error : validator.getErrors())
-					 {
-						  errors.rejectValue("formula", "formula", error);
-					 }
+				  ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
+				  Map<String, Double> fakeValues = new HashMap<String, Double>();
+				  for (String m : metrics)
+				  {
+						expressionBuilder.variable(m);
+						fakeValues.put(m, 1.0);
+				  }
+				  try
+				  {
+						Expression expr = expressionBuilder.build().setVariables(fakeValues);
+						ValidationResult validator = expr.validate();
+						if (!validator.isValid())
+						{
+							 for (String error : validator.getErrors())
+							 {
+								  errors.rejectValue("formula", "formula", error);
+							 }
 
-					 return;
-				}
-		  } catch (IllegalArgumentException e)
-		  {
-				errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
-				return;
+							 return;
+						}
+				  } catch (IllegalArgumentException e)
+				  {
+						errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
+						return;
+				  }
 		  }
+		  
 	 }
 
 	 public static Set<String> getUsedMetrics(String formula)
