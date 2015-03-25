@@ -204,6 +204,19 @@
   		</c:forEach>
 	</div>
        
+       
+       
+        <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
+        <div class="controls">
+			<select multiple ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
+				<c:forEach items="${availableMetricComposers}" var="composer">
+					<option value="${composer.name}">${composer.name}</option>
+				</c:forEach>	
+		    </select>		
+        </div>
+       
+       
+       
     <div class="form-actions">
 <%--         <c:if test="${combinedMetric.metricOwner eq currentUser || empty combinedMetric.id}">
 			<button type="submit" class="btn btn-primary" name="save">

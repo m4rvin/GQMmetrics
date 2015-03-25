@@ -11,7 +11,6 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
@@ -51,7 +50,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 
 @Controller
-@SessionAttributes({"currentProject","combinedMetric","currentUser","units","scales","availableMetrics","measurementScales"})
+@SessionAttributes({"currentProject","combinedMetric","currentUser","units","scales","availableMetrics","measurementScales", "availableMetricComposers"})
 
 public class CombinedMetricFormController extends BaseFormController {
 
@@ -131,12 +130,15 @@ public class CombinedMetricFormController extends BaseFormController {
         	if(relatedOGs.size() > 0)
         		map.put(q.getId(), relatedOGs);
 		}
-        
+    	Set<AbstractMetric> availableMetricComposers = new HashSet<AbstractMetric>(this.metricManager.findAllByProject(metric.getProject()));
+    	
+    	model.addAttribute("availableMetricComposers", availableMetricComposers);
+    	
         model.addAttribute("currentProject",currentProject);
         model.addAttribute("currentUser",currentUser);
         model.addAttribute("units",unitManager.getAll());
         model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
-        
+
         ArrayList<String> availablesTypes = new ArrayList<String>();
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
         availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
@@ -187,6 +189,7 @@ public class CombinedMetricFormController extends BaseFormController {
         		metric.setUnit(null);
             }
         	
+        	/* TEST per combinedMetric relationship
         	Set<AbstractMetric> mSet = new HashSet<AbstractMetric>(this.metricManager.findSimpleMetricByProject(metric.getProject()));
         	mSet.addAll(this.metricManager.findCombinedMetricByProject(metric.getProject()));
         	
@@ -194,9 +197,8 @@ public class CombinedMetricFormController extends BaseFormController {
         	{
         		 metric.addComposedBy(m);
         	}
-       	
+       	*/
         	System.out.println("\n\n" + metric + "\n\n");
-        	//metricManager.saveCombinedMetric(metric);
         	
         	metricManager.save(metric);
         	
