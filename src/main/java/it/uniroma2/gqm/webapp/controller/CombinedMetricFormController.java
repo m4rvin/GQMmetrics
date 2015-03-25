@@ -11,7 +11,6 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
@@ -175,6 +174,8 @@ public class CombinedMetricFormController extends BaseFormController {
         Locale locale = request.getLocale();
  
         if (request.getParameter("delete") != null) {
+      		for(AbstractMetric m : metric.getComposedBy())
+      			 m.removeComposerFor(metric);
            metricManager.remove(metric.getId());
             saveMessage(request, getText("metric.deleted", locale));
         } else {
@@ -187,16 +188,15 @@ public class CombinedMetricFormController extends BaseFormController {
         		metric.setUnit(null);
             }
         	
-        	Set<AbstractMetric> mSet = new HashSet<AbstractMetric>(this.metricManager.findSimpleMetricByProject(metric.getProject()));
-        	mSet.addAll(this.metricManager.findCombinedMetricByProject(metric.getProject()));
-        	
-       	for(AbstractMetric m : mSet)
-        	{
-        		 metric.addComposedBy(m);
-        	}
-       	
         	System.out.println("\n\n" + metric + "\n\n");
         	//metricManager.saveCombinedMetric(metric);
+        	
+        	metric.setFormula("og(_metric2_ + _2_) + _3_");
+        	
+        	MetricValidator v = new MetricValidator();
+        	v.validate(metric, errors);
+        	
+        	
         	
         	metricManager.save(metric);
         	

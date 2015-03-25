@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -60,6 +59,7 @@ public abstract class AbstractMetric extends BaseObject
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor;
+	 protected String formula;
 
 	 @Id
 	 @Column(name = "metric_id")
@@ -189,6 +189,17 @@ public abstract class AbstractMetric extends BaseObject
 	 {
 		  this.questions = questions;
 	 }
+	 
+	 @Column(name = "metric_formula")
+	 public String getFormula()
+	 {
+	 	 return formula;
+	 }
+
+	 public void setFormula(String formula)
+	 {
+	 	 this.formula = formula;
+	 }
 
 	 @Column(name = "actual_value")
 	 public Double getActualValue()
@@ -242,7 +253,7 @@ public abstract class AbstractMetric extends BaseObject
 	 // inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id",
 	 // referencedColumnName="metric_id")}
 	 // )
-	 @ManyToMany(mappedBy = "composedBy")
+	 @ManyToMany(mappedBy = "composedBy", fetch = FetchType.EAGER)
 	 public Set<CombinedMetric> getComposerFor()
 	 {
 		  return composerFor;
@@ -256,6 +267,11 @@ public abstract class AbstractMetric extends BaseObject
 	 public void addComposerFor(CombinedMetric metric)
 	 {
 		  this.composerFor.add(metric);
+	 }
+	 
+	 public void removeComposerFor(CombinedMetric metric)
+	 {
+		  this.composerFor.remove(metric);
 	 }
 	 
 	 @Transient
