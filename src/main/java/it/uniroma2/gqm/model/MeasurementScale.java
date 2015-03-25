@@ -1,10 +1,8 @@
 package it.uniroma2.gqm.model;
 
 
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.appfuse.model.BaseObject;
 
@@ -42,6 +41,8 @@ public class MeasurementScale extends BaseObject {
 	@Column(name = "measurementScale_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	@Column(unique = true)
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
