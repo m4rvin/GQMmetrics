@@ -1,5 +1,6 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
@@ -10,6 +11,7 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
@@ -183,9 +185,20 @@ public class CombinedMetricFormController extends BaseFormController {
         	} else {
         		metric.setUnit(null);
             }
-       
+        	
+        	Set<AbstractMetric> mSet = new HashSet<AbstractMetric>(this.metricManager.findSimpleMetricByProject(metric.getProject()));
+        	mSet.addAll(this.metricManager.findCombinedMetricByProject(metric.getProject()));
+        	
+       	for(AbstractMetric m : mSet)
+        	{
+        		 metric.addComposedBy(m);
+        	}
+       	
         	System.out.println("\n\n" + metric + "\n\n");
+        	//metricManager.saveCombinedMetric(metric);
+        	
         	metricManager.save(metric);
+        	
             String key = (isNew) ? "metric.added" : "metric.updated";
             saveMessage(request, getText(key, locale));
         }

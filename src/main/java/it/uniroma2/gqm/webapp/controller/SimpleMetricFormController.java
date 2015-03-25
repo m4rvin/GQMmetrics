@@ -133,9 +133,9 @@ public class SimpleMetricFormController  extends BaseFormController {
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
         availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
         model.addAttribute("availablesTypes",availablesTypes);
-        model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
+       // model.addAttribute("availableMetrics",metricManager.findAllByProject(currentProject));
         
-        System.out.println("availableMetrics ------>" + metricManager.findAllByProject(currentProject));
+      //  System.out.println("availableMetrics ------>" + metricManager.findAllByProject(currentProject));
         //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
         model.addAttribute("availableQuestions", availableQuestions);
         model.addAttribute("map", map);

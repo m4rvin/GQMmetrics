@@ -32,5 +32,6 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	//CombinedMetric related query
 	public List<CombinedMetric> findCombinedMetricByProject(Project project);
 	public CombinedMetric findCombinedMetricById(Long id);
+	public void saveCombinedMetric(CombinedMetric metric);
 	
 }

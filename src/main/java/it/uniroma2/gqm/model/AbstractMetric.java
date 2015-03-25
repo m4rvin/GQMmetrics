@@ -58,7 +58,7 @@ public abstract class AbstractMetric extends BaseObject
 	 protected Double actualValue;
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
-	 protected Set<AbstractMetric> composerFor;
+	 protected Set<CombinedMetric> composerFor;
 	 
 
 
@@ -238,20 +238,23 @@ public abstract class AbstractMetric extends BaseObject
 		  this.measurementScale = measurementScale;
 	 }
 
-	 @ManyToMany(fetch = FetchType.LAZY)
-	 @JoinTable(name = "metriccomposerfor_metriccomposedby",
-			 joinColumns = {@JoinColumn(name = "metriccomposerfor_id", referencedColumnName="metric_id")},
-				inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id", referencedColumnName="metric_id")}
-			  	)
-	 public Set<AbstractMetric> getComposerFor()
+//	 @ManyToMany(fetch = FetchType.LAZY)
+//	 @JoinTable(name = "metriccomposerfor_metriccomposedby",
+//			 joinColumns = {@JoinColumn(name = "metriccomposerfor_id", referencedColumnName="metric_id")},
+//				inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id", referencedColumnName="metric_id")}
+//			  	)
+	 @ManyToMany(mappedBy = "composedBy")
+	 public Set<CombinedMetric> getComposerFor()
 	 {
 	 	 return composerFor;
 	 }
 
-	 public void setComposerFor(Set<AbstractMetric> composedFor)
+	 public void setComposerFor(Set<CombinedMetric> composedFor)
 	 {
 	 	 this.composerFor = composedFor;
 	 }
+	 
+	 abstract public void addComposerFor(CombinedMetric metric);
 
 	 @Transient
 		public boolean isConditionReached(){
@@ -352,11 +355,5 @@ public abstract class AbstractMetric extends BaseObject
 			System.out.println("Metric: " + this.getCode() + " 17" + " value= "  + value);
 			return value;
 		}
-		
-		
-		
-
-		
-		
 
 }

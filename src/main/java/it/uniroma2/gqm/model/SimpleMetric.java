@@ -156,6 +156,12 @@ public class SimpleMetric extends AbstractMetric
 	 {
 		  return "SimpleMetric : [ id=" + this.id + ", name=" + this.name+" ]"; 
 	 }
+
+	 @Override
+	 public void addComposerFor(CombinedMetric metric)
+	 {
+		  this.composerFor.add(metric);	  
+	 }
 	 
 
 }
