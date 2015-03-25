@@ -1,6 +1,5 @@
 package it.uniroma2.gqm.model;
 
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -10,56 +9,41 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("simple")
 @Table(name = "SimpleMetric")
-@NamedQueries({
-	@NamedQuery(name = "findSimpleMetricByProject", query = "select m from SimpleMetric m where m.project.id= :project_id"),
-})
+@NamedQueries({ @NamedQuery(name = "findSimpleMetricByProject", query = "select m from SimpleMetric m where m.project.id= :project_id"), })
 public class SimpleMetric extends AbstractMetric
 {
 
 	 private static final long serialVersionUID = 7990600814484921752L;
-	 
-	 
+
 	 // TODO private enum complexMetricType???
-	 
-	 
- 
+
 	 @Override
-		public int hashCode() {
-			//FIXME metti id da super
-			final int prime = 31;
-			int result = 1;
-			result = prime * result
-					+ ((actualValue == null) ? 0 : actualValue.hashCode());
-			result = prime * result + ((code == null) ? 0 : code.hashCode());
-			result = prime * result
-					+ ((collectingType == null) ? 0 : collectingType.hashCode());
-			result = prime * result
-					+ ((hypothesis == null) ? 0 : hypothesis.hashCode());
-			result = prime
-					* result
-					+ ((measurementScale == null) ? 0 : measurementScale.hashCode());
-			result = prime * result
-					+ ((measurements == null) ? 0 : measurements.hashCode());
-			
-			result = prime * result
-					+ ((metricOwner == null) ? 0 : metricOwner.hashCode());
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			
-			result = prime * result + ((project == null) ? 0 : project.hashCode());
-		/*	result = prime * result
-					+ ((questions == null) ? 0 : questions.hashCode());*/
-			result = prime
-					* result
-					+ ((satisfyingConditionOperation == null) ? 0
-							: satisfyingConditionOperation.hashCode());
-			result = prime
-					* result
-					+ ((satisfyingConditionValue == null) ? 0
-							: satisfyingConditionValue.hashCode());
-			result = prime * result + ((type == null) ? 0 : type.hashCode());
-			result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-			return result;
-		}
+	 public int hashCode()
+	 {
+		  // FIXME metti id da super
+		  final int prime = 31;
+		  int result = 1;
+		  result = prime * result + ((actualValue == null) ? 0 : actualValue.hashCode());
+		  result = prime * result + ((code == null) ? 0 : code.hashCode());
+		  result = prime * result + ((collectingType == null) ? 0 : collectingType.hashCode());
+		  result = prime * result + ((hypothesis == null) ? 0 : hypothesis.hashCode());
+		  result = prime * result + ((measurementScale == null) ? 0 : measurementScale.hashCode());
+		  result = prime * result + ((measurements == null) ? 0 : measurements.hashCode());
+
+		  result = prime * result + ((metricOwner == null) ? 0 : metricOwner.hashCode());
+		  result = prime * result + ((name == null) ? 0 : name.hashCode());
+
+		  result = prime * result + ((project == null) ? 0 : project.hashCode());
+		  /*
+		   * result = prime * result + ((questions == null) ? 0 :
+		   * questions.hashCode());
+		   */
+		  result = prime * result + ((satisfyingConditionOperation == null) ? 0 : satisfyingConditionOperation.hashCode());
+		  result = prime * result + ((satisfyingConditionValue == null) ? 0 : satisfyingConditionValue.hashCode());
+		  result = prime * result + ((type == null) ? 0 : type.hashCode());
+		  result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		  return result;
+	 }
 
 	 @Override
 	 public boolean equals(Object obj)
@@ -104,7 +88,7 @@ public class SimpleMetric extends AbstractMetric
 					 return false;
 		  } else if (!measurements.equals(other.measurements))
 				return false;
-		 
+
 		  if (metricOwner == null)
 		  {
 				if (other.metricOwner != null)
@@ -117,7 +101,7 @@ public class SimpleMetric extends AbstractMetric
 					 return false;
 		  } else if (!name.equals(other.name))
 				return false;
-		 
+
 		  if (project == null)
 		  {
 				if (other.project != null)
@@ -149,19 +133,10 @@ public class SimpleMetric extends AbstractMetric
 		  return true;
 	 }
 
-
-
 	 @Override
 	 public String toString()
 	 {
-		  return "SimpleMetric : [ id=" + this.id + ", name=" + this.name+" ]"; 
+		  return "SimpleMetric : [ id=" + this.id + ", name=" + this.name + " ]";
 	 }
-
-	 @Override
-	 public void addComposerFor(CombinedMetric metric)
-	 {
-		  this.composerFor.add(metric);	  
-	 }
-	 
 
 }

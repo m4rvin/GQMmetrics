@@ -31,11 +31,8 @@ import org.appfuse.model.User;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQueries({ 
-	@NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), 
-	@NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
-	@NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId")
-})
+@NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
+		  @NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId") })
 @DiscriminatorColumn(name = "complexMetricType")
 @Table(name = "AbstractMetric")
 public abstract class AbstractMetric extends BaseObject
@@ -48,7 +45,11 @@ public abstract class AbstractMetric extends BaseObject
 	 protected String name;
 	 protected Project project;
 	 protected MetricTypeEnum type;
-	 protected CollectingTypeEnum collectingType;  // va definito nella classe astratta, viene forzato ad essere single value al momento della creazione sulla view
+	 protected CollectingTypeEnum collectingType; // va definito nella classe
+																 // astratta, viene forzato ad
+																 // essere single value al
+																 // momento della creazione
+																 // sulla view
 	 protected String hypothesis;
 	 protected Unit unit;
 	 protected MeasurementScale measurementScale;
@@ -59,9 +60,6 @@ public abstract class AbstractMetric extends BaseObject
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor;
-	 
-
-
 
 	 @Id
 	 @Column(name = "metric_id")
@@ -192,7 +190,6 @@ public abstract class AbstractMetric extends BaseObject
 		  this.questions = questions;
 	 }
 
-	
 	 @Column(name = "actual_value")
 	 public Double getActualValue()
 	 {
@@ -238,122 +235,159 @@ public abstract class AbstractMetric extends BaseObject
 		  this.measurementScale = measurementScale;
 	 }
 
-//	 @ManyToMany(fetch = FetchType.LAZY)
-//	 @JoinTable(name = "metriccomposerfor_metriccomposedby",
-//			 joinColumns = {@JoinColumn(name = "metriccomposerfor_id", referencedColumnName="metric_id")},
-//				inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id", referencedColumnName="metric_id")}
-//			  	)
+	 // @ManyToMany(fetch = FetchType.LAZY)
+	 // @JoinTable(name = "metriccomposerfor_metriccomposedby",
+	 // joinColumns = {@JoinColumn(name = "metriccomposerfor_id",
+	 // referencedColumnName="metric_id")},
+	 // inverseJoinColumns = {@JoinColumn(name = "metriccomposedby_id",
+	 // referencedColumnName="metric_id")}
+	 // )
 	 @ManyToMany(mappedBy = "composedBy")
 	 public Set<CombinedMetric> getComposerFor()
 	 {
-	 	 return composerFor;
+		  return composerFor;
 	 }
 
 	 public void setComposerFor(Set<CombinedMetric> composedFor)
 	 {
-	 	 this.composerFor = composedFor;
+		  this.composerFor = composedFor;
+	 }
+
+	 public void addComposerFor(CombinedMetric metric)
+	 {
+		  this.composerFor.add(metric);
 	 }
 	 
-	 abstract public void addComposerFor(CombinedMetric metric);
+	 public boolean isEresable()
+	 {
+		  return this.questions.size() == 0 && this.composerFor.size() == 0;
+	 }
 
 	 @Transient
-		public boolean isConditionReached(){
-			boolean ret = false;
-			//Double value = null;
-			if(this.satisfyingConditionValue != null  && this.satisfyingConditionOperation != null 
-					&& satisfyingConditionOperation != SatisfyingConditionOperationEnum.NONE){
-				switch (this.satisfyingConditionOperation){
-					case EQUAL:
-						ret = this.getMeasuredValue() == this.satisfyingConditionValue;
-						break;
-					case GREATER_OR_EQUAL:
-						ret = this.getMeasuredValue() >= this.satisfyingConditionValue;
-						break;
-					case GREATHER:
-						ret = this.getMeasuredValue() > this.satisfyingConditionValue;
-						break;
-					case LESS:
-						ret = this.getMeasuredValue() < this.satisfyingConditionValue;
-						break;
-					case LESS_OR_EQUAL:
-						ret = this.getMeasuredValue() <= this.satisfyingConditionValue;
-						break;
-					case NONE:
-						break;
+	 public boolean isConditionReached()
+	 {
+		  boolean ret = false;
+		  // Double value = null;
+		  if (this.satisfyingConditionValue != null && this.satisfyingConditionOperation != null && satisfyingConditionOperation != SatisfyingConditionOperationEnum.NONE)
+		  {
+				switch (this.satisfyingConditionOperation)
+				{
+				case EQUAL:
+					 ret = this.getMeasuredValue() == this.satisfyingConditionValue;
+					 break;
+				case GREATER_OR_EQUAL:
+					 ret = this.getMeasuredValue() >= this.satisfyingConditionValue;
+					 break;
+				case GREATHER:
+					 ret = this.getMeasuredValue() > this.satisfyingConditionValue;
+					 break;
+				case LESS:
+					 ret = this.getMeasuredValue() < this.satisfyingConditionValue;
+					 break;
+				case LESS_OR_EQUAL:
+					 ret = this.getMeasuredValue() <= this.satisfyingConditionValue;
+					 break;
+				case NONE:
+					 break;
 				}
-			}
-			return ret;
-		}
-		
-		@Transient
-		public Double getMeasuredValue(){
-			Double value = Double.NaN;
-			try {
-				//System.out.println("Metric: " + this.getCode() + " 1" + " value= "  + value);
-				if(collectingType == CollectingTypeEnum.MULTIPLE_VALUE ){
-					//System.out.println("Metric: " + this.getCode() + " 2" + " value= "  + value);
-					if(measurements!=null){
-						//System.out.println("Metric: " + this.getCode() + " 3" + " value= "  + value);
-						Iterator<Measurement> it = measurements.iterator();
-						int n = 0;
-						double sum = 0;
-						//System.out.println("Metric: " + this.getCode() + " 4" + " value= "  + value);
-						while (it.hasNext()) {
-							//System.out.println("Metric: " + this.getCode() + " 5" + " value= "  + value);
-							Double v = ((Measurement) it.next()).getValue();	
-							//System.out.println("Metric: " + this.getCode() + " 6" + " value= "  + value);
-							n++;
-							sum+=v;
-						}
-						//System.out.println("Metric: " + this.getCode() + " 7" + " value= "  + value);
-						value = sum/n;
-						//System.out.println("Metric: " + this.getCode() + " 8" + " value= "  + value);
-					}
-				} else {
-					// It's a composite metrics...
-				/*if(metricA != null && metricA.getId() != null && 
-							metricB != null && metricB.getId() != null && 
-							operation != null){ 
-						//System.out.println("Metric: " + this.getCode() + " 9" + " value= "  + value);
-						if(operation == OperationEnum.ADDITION) {
-							value = metricA.getMeasuredValue() + metricB.getMeasuredValue();
-						}else if(operation == OperationEnum.DIVISION) {
-							value = metricA.getMeasuredValue() / metricB.getMeasuredValue();
-						}else if(operation == OperationEnum.SUBTRACTION) {
-							value = metricA.getMeasuredValue() - metricB.getMeasuredValue();
-						}else if(operation == OperationEnum.MULTIPLICATION) {
-							value = metricA.getMeasuredValue() * metricB.getMeasuredValue();
-						}
-						//System.out.println("Metric: " + this.getCode() + " 10" + " value= "  + value);
-					}*/ 
-						//System.out.println("Metric: " + this.getCode() + " 11" + " value= "  + value);
-						if(measurements!=null){
-							//System.out.println("Metric: " + this.getCode() + " 12" + " value= "  + value);
-							Iterator<Measurement> it = measurements.iterator();
-							int n = 0;
-							double sum = 0;
-							//System.out.println("Metric: " + this.getCode() + " 13" + " value= "  + value);
-							
-							while (it.hasNext()) {
-								//System.out.println("Metric: " + this.getCode() + " 14" + " value= "  + value);
-								Double v = ((Measurement) it.next()).getValue();						
+		  }
+		  return ret;
+	 }
+
+	 @Transient
+	 public Double getMeasuredValue()
+	 {
+		  Double value = Double.NaN;
+		  try
+		  {
+				// System.out.println("Metric: " + this.getCode() + " 1" +
+				// " value= " + value);
+				if (collectingType == CollectingTypeEnum.MULTIPLE_VALUE)
+				{
+					 // System.out.println("Metric: " + this.getCode() + " 2" +
+					 // " value= " + value);
+					 if (measurements != null)
+					 {
+						  // System.out.println("Metric: " + this.getCode() + " 3" +
+						  // " value= " + value);
+						  Iterator<Measurement> it = measurements.iterator();
+						  int n = 0;
+						  double sum = 0;
+						  // System.out.println("Metric: " + this.getCode() + " 4" +
+						  // " value= " + value);
+						  while (it.hasNext())
+						  {
+								// System.out.println("Metric: " + this.getCode() + " 5"
+								// + " value= " + value);
+								Double v = ((Measurement) it.next()).getValue();
+								// System.out.println("Metric: " + this.getCode() + " 6"
+								// + " value= " + value);
 								n++;
-								sum+=v;
-							}
-							if(n>0){
-								//System.out.println("Metric: " + this.getCode() + " 15" + " value= "  + value);
-								value = sum/n;
-								//System.out.println("Metric: " + this.getCode() + " 16" + " value= "  + value);
-							}
-						}
-									
-				}						
-			}catch(Exception ex){
-				return  Double.NaN;
-			}
-			
-			System.out.println("Metric: " + this.getCode() + " 17" + " value= "  + value);
-			return value;
-		}
+								sum += v;
+						  }
+						  // System.out.println("Metric: " + this.getCode() + " 7" +
+						  // " value= " + value);
+						  value = sum / n;
+						  // System.out.println("Metric: " + this.getCode() + " 8" +
+						  // " value= " + value);
+					 }
+				} else
+				{
+					 // It's a composite metrics...
+					 /*
+					  * if(metricA != null && metricA.getId() != null && metricB !=
+					  * null && metricB.getId() != null && operation != null){
+					  * //System.out.println("Metric: " + this.getCode() + " 9" +
+					  * " value= " + value); if(operation == OperationEnum.ADDITION)
+					  * { value = metricA.getMeasuredValue() +
+					  * metricB.getMeasuredValue(); }else if(operation ==
+					  * OperationEnum.DIVISION) { value = metricA.getMeasuredValue()
+					  * / metricB.getMeasuredValue(); }else if(operation ==
+					  * OperationEnum.SUBTRACTION) { value =
+					  * metricA.getMeasuredValue() - metricB.getMeasuredValue();
+					  * }else if(operation == OperationEnum.MULTIPLICATION) { value =
+					  * metricA.getMeasuredValue() * metricB.getMeasuredValue(); }
+					  * //System.out.println("Metric: " + this.getCode() + " 10" +
+					  * " value= " + value); }
+					  */
+					 // System.out.println("Metric: " + this.getCode() + " 11" +
+					 // " value= " + value);
+					 if (measurements != null)
+					 {
+						  // System.out.println("Metric: " + this.getCode() + " 12" +
+						  // " value= " + value);
+						  Iterator<Measurement> it = measurements.iterator();
+						  int n = 0;
+						  double sum = 0;
+						  // System.out.println("Metric: " + this.getCode() + " 13" +
+						  // " value= " + value);
+
+						  while (it.hasNext())
+						  {
+								// System.out.println("Metric: " + this.getCode() +
+								// " 14" + " value= " + value);
+								Double v = ((Measurement) it.next()).getValue();
+								n++;
+								sum += v;
+						  }
+						  if (n > 0)
+						  {
+								// System.out.println("Metric: " + this.getCode() +
+								// " 15" + " value= " + value);
+								value = sum / n;
+								// System.out.println("Metric: " + this.getCode() +
+								// " 16" + " value= " + value);
+						  }
+					 }
+
+				}
+		  } catch (Exception ex)
+		  {
+				return Double.NaN;
+		  }
+
+		  System.out.println("Metric: " + this.getCode() + " 17" + " value= " + value);
+		  return value;
+	 }
 
 }

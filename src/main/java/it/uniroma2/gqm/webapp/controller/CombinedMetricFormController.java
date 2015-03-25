@@ -109,6 +109,7 @@ public class CombinedMetricFormController extends BaseFormController {
         
         if (!StringUtils.isBlank(id)) {
             metric = metricManager.findCombinedMetricById(new Long(id));
+            model.addAttribute("used", metric.isEresable());
         } else {
         	metric = new CombinedMetric();
         	metric.setProject(currentProject);

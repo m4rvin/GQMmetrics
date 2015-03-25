@@ -102,6 +102,7 @@ public class SimpleMetricFormController  extends BaseFormController {
         
         if (!StringUtils.isBlank(id)) {
             metric = metricManager.findSimpleMetricById(new Long(id));
+            model.addAttribute("used", metric.isEresable());
         } else {
         	metric = new SimpleMetric();
         	metric.setProject(currentProject);
