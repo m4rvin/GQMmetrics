@@ -141,9 +141,6 @@ public class CombinedMetricFormController extends BaseFormController {
         	if(relatedOGs.size() > 0)
         		map.put(q.getId(), relatedOGs);
 		}
-    	Set<AbstractMetric> availableMetricComposers = new HashSet<AbstractMetric>(this.metricManager.findAllByProject(metric.getProject()));
-    	
-    	model.addAttribute("availableMetricComposers", availableMetricComposers);
     	
         model.addAttribute("currentProject",currentProject);
         model.addAttribute("currentUser",currentUser);
@@ -163,18 +160,19 @@ public class CombinedMetricFormController extends BaseFormController {
         return metric;
     }
 
+    /**
+     * Retrieve the metrics that are compatible with the combined metric being created.
+     * @param request
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = ViewName.combinedMetricFormAjax, method = RequestMethod.GET)
     public String getConsistentMetrics(HttpServletRequest request)
     {
-   	  String measurementScaleType = request.getParameter("type");
-   	  if (!StringUtils.isBlank(measurementScaleType))
-   	  {
-   			JSONArray ret = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.valueOf(measurementScaleType));
-   			System.out.println("Query result: " + ret.toString());
-   			return ret.toString();
-   	  }
-   	  return null;
+    	MeasurementScaleTypeEnum measurementScaleType = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId"))).getType();
+		JSONArray ret = this.metricManager.findByMeasurementScaleType(measurementScaleType);
+		System.out.println("Query result of combinedMetricFormAjax: " + ret.toString());
+		return ret.toString();
     }
     
     

@@ -89,7 +89,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="measurementScale"  disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}">
+   			<form:select path="measurementScale" onchange="loadAvailableMetricComposers();" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}">
    			   	<form:option value="" label="None"/>
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
@@ -220,9 +220,25 @@
        
         <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
         <div class="controls">
-			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField();" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
+			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField()" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
 				<c:forEach items="${availableMetricComposers}" var="composer">
-					<option value="${composer.name}">${composer.name}</option>
+<%-- 					<option value="${composer.name}">${composer.name}</option>
+ --%>					
+					<c:forEach items="${availableMetricComposers}" var="availablecomposer">
+						<c:forEach items="${combinedMetric.composedBy}" var="savedcomposer">
+							<c:choose>
+								<c:when test="${savedcomposer.name == availablecomposer.name}">
+									<form:option value="${availablecomposer.name}" label="${availablecomposer.name}"
+										selected="selected" />
+								</c:when>
+								<c:otherwise>
+									<form:option value="${availablecomposer.name}" label="${availablecomposer.name}" />
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+					</c:forEach>
+						
 				</c:forEach>	
 		    </select>		
         </div>
@@ -264,6 +280,11 @@
     </form:form>
 </div>
 <script type="text/javascript">
+
+	$(document).ready(function() {
+	    $("input[type='text']:visible:enabled:first", document.forms['combinedMetricForm']).focus();
+	});
+	
 
 	function showIMBox(){
 		
@@ -316,10 +337,44 @@
 	  return result;
 	}
 	
-    $(document).ready(function() {
-        $("input[type='text']:visible:enabled:first", document.forms['combinedMetricForm']).focus();
-    });
     
+    
+    function loadAvailableMetricComposers(){
+    	var currentLength = document.getElementById('availableMetricComposersList').length;
+		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
+		{
+			while (currentLength > 0) {
+				$('#availableMetricComposersList option:eq(0)').remove();
+				currentLength = currentLength - 1;
+			}
+		}
+
+		var id = $("#measurementScale").val();
+		if (id != "") //valore non nullo
+		{
+			$.ajax({
+				type : "GET",
+				url : "combinedmetricformAjax",
+				data : {
+					measurementScaleId : id
+				},
+				contentType : "application/json",
+				success : function(response) {
+					var JSONMetricComposerNames = JSON.parse(response);
+
+					$.each(JSONMetricComposerNames, function() {
+						$('#availableMetricComposersList').append(
+								$("<option></option>").attr("value", this)
+										.text(this));
+					});
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+		}
+
+    }
     
     // Retrieve the value associated to the selected metric ant put it into the formula text area field
     function putSelectedMetricIntoFormulaField(){
