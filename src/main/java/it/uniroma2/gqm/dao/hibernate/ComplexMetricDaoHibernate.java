@@ -3,6 +3,7 @@ package it.uniroma2.gqm.dao.hibernate;
 import it.uniroma2.gqm.dao.ComplexMetricDao;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -69,5 +70,12 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	 public CombinedMetric findCombinedMetricById(Long id)
 	 {
 		  return (CombinedMetric) this.get(id);
+	 }
+
+	 @Override
+	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 {
+		 Query q = getSession().getNamedQuery("findByMeasurementScaleType").setLong("type", type.ordinal());
+		 return q.list();
 	 }
 }

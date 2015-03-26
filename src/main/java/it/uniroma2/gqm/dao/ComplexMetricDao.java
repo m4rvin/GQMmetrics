@@ -2,6 +2,7 @@ package it.uniroma2.gqm.dao;
 
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -26,5 +27,7 @@ public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long>
 	 public List<CombinedMetric> findCombinedMetricByProject(Project project);
 
 	 public CombinedMetric findCombinedMetricById(Long id);
+	 
+	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
 
 }

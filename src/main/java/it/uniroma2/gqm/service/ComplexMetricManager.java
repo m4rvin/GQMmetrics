@@ -1,16 +1,18 @@
 package it.uniroma2.gqm.service;
 
-import java.util.List;
-
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.SimpleMetric;
 
+import java.util.List;
+
 import org.appfuse.model.User;
 import org.appfuse.service.GenericManager;
+import org.json.JSONArray;
 
 public interface ComplexMetricManager extends GenericManager<AbstractMetric, Long> {
 	
@@ -32,6 +34,6 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	//CombinedMetric related query
 	public List<CombinedMetric> findCombinedMetricByProject(Project project);
 	public CombinedMetric findCombinedMetricById(Long id);
-	public void saveCombinedMetric(CombinedMetric metric);
+	public JSONArray findByMeasurementScaleType(MeasurementScaleTypeEnum type);
 	
 }

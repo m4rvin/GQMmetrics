@@ -6,6 +6,7 @@ import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.GoalStatus;
 import it.uniroma2.gqm.model.Measurement;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
@@ -19,6 +20,7 @@ import javax.jws.WebService;
 
 import org.appfuse.model.User;
 import org.appfuse.service.impl.GenericManagerImpl;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -152,8 +154,12 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 }
 
 	 @Override
-	 public void saveCombinedMetric(CombinedMetric metric)
+	 public JSONArray findByMeasurementScaleType(MeasurementScaleTypeEnum type)
 	 {
-		 metricDao.saveCombinedMetric(metric);
+		  if(type != null)
+		  {
+				return new JSONArray(this.metricDao.findByMeasurementScaleType(type));
+		  }
+		  return null;
 	 }
 }

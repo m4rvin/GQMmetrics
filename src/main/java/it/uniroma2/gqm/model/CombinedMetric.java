@@ -16,7 +16,8 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("combined")
 @Table(name = "CombinedMetric")
-@NamedQueries({ @NamedQuery(name = "findCombinedMetricByProject", query = "select m from CombinedMetric m where m.project.id= :project_id"), })
+@NamedQueries({ @NamedQuery(name = "findCombinedMetricByProject", query = "select m from CombinedMetric m where m.project.id= :project_id"),
+	 				})
 public class CombinedMetric extends AbstractMetric
 {
 

@@ -5,6 +5,7 @@ import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
@@ -35,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
 import org.appfuse.service.GenericManager;
 import org.appfuse.service.UserManager;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -47,13 +49,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 
 @Controller
 @SessionAttributes({"currentProject","combinedMetric","currentUser","units","scales","availableMetrics","measurementScales", "availableMetricComposers"})
-
 public class CombinedMetricFormController extends BaseFormController {
 
 	
@@ -161,6 +163,19 @@ public class CombinedMetricFormController extends BaseFormController {
         return metric;
     }
 
+    @ResponseBody
+    @RequestMapping(value = ViewName.combinedMetricFormAjax, method = RequestMethod.GET)
+    public String getConsistentMetrics(HttpServletRequest request)
+    {
+   	  String measurementScaleType = request.getParameter("type");
+   	  if (!StringUtils.isBlank(measurementScaleType))
+   	  {
+   			JSONArray ret = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.valueOf(measurementScaleType));
+   			System.out.println("Query result: " + ret.toString());
+   			return ret.toString();
+   	  }
+   	  return null;
+    }
     
     
     @RequestMapping(value = ViewName.combinedMetricForm, method = RequestMethod.POST)
