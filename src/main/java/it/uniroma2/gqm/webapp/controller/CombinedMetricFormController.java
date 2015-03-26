@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +61,7 @@ public class CombinedMetricFormController extends BaseFormController {
 	private ComplexMetricManager metricManager;
     private GenericManager<Unit, Long> unitManager = null;
     private MeasurementScaleManager measurementScaleManager = null;
+    private MetricValidator customValidator;
 
 	@Autowired
 	private QuestionManager questionManager;
@@ -89,6 +92,12 @@ public class CombinedMetricFormController extends BaseFormController {
     public void setMeasurementScaleManager(@Qualifier("measurementScaleManager") MeasurementScaleManager measurementScaleManager) {
         this.measurementScaleManager = measurementScaleManager;
     }
+    
+    @Autowired
+	 public void setCustomValidator(@Qualifier("metricValidator") MetricValidator validator)
+	 {
+		  this.customValidator = validator;
+	 }
 
     public CombinedMetricFormController() {
         setCancelView("redirect:" + ViewName.metrics);
@@ -155,7 +164,7 @@ public class CombinedMetricFormController extends BaseFormController {
     
     
     @RequestMapping(value = ViewName.combinedMetricForm, method = RequestMethod.POST)
-    public String onSubmit(@ModelAttribute("combinedMetric") CombinedMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+    public String onSubmit(@ModelAttribute("combinedMetric") @Valid CombinedMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();
@@ -211,6 +220,12 @@ public class CombinedMetricFormController extends BaseFormController {
         return success;
     }
 
+    
+    @InitBinder(value="combinedMetric")
+	 public void initBinder(WebDataBinder binder)
+	 {
+		  binder.setValidator(this.customValidator);
+	 }
     
     
     @InitBinder
