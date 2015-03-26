@@ -163,6 +163,7 @@
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
             <form:input path="formula" id="Metricformula"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
+            <a onclick="showFormulaInputInstructions()">Instructions</a>
             <form:errors path="formula" cssClass="help-inline"/>
         </div>
     </div>
@@ -330,4 +331,12 @@
 		formulaValue += "_" + selectBox.value + "_";
 		formulaInputArea.value = formulaValue;
     }
+    
+	function showFormulaInputInstructions(){
+		jQuery('<div/>', {
+		    id: 'dialogInstructions',
+		    title:"formula input instructions",
+		    text: "Insert your formula operations as a text. Click on the metric you wish to add from the list of available metrics below."
+		}).dialog();
+	}
 </script>
