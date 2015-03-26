@@ -156,6 +156,16 @@
             <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
         </div>
     </div>
+    
+    <spring:bind path="combinedMetric.formula">
+    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+    </spring:bind>
+        <appfuse:label styleClass="control-label" key="metric.formula"/>
+        <div class="controls">
+            <form:input path="formula" id="Metricformula"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
+            <form:errors path="formula" cssClass="help-inline"/>
+        </div>
+    </div>
             
 	<c:if test="${not empty combinedMetric.id}">
 		<spring:bind path="combinedMetric.questions">
@@ -208,7 +218,7 @@
        
         <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
         <div class="controls">
-			<select multiple ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
+			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField();" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
 				<c:forEach items="${availableMetricComposers}" var="composer">
 					<option value="${composer.name}">${composer.name}</option>
 				</c:forEach>	
@@ -287,7 +297,7 @@
 		}
 	}
 	
-	// Return an array of the selected opion values
+	// Return an array of the selected option values
 	// select is an HTML select element
 	function getSelectValues(select) {
 	  var result = [];
@@ -307,4 +317,17 @@
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['combinedMetricForm']).focus();
     });
+    
+    
+    // Retrieve the value associated to the selected metric ant put it into the formula text area field
+    function putSelectedMetricIntoFormulaField(){
+		var selectBox = document.getElementById("availableMetricComposersList");
+		var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+		var selectBox = document.getElementById("availableMetricComposersList");
+		var formulaInputArea =  document.getElementById("Metricformula");
+		var formulaValue= formulaInputArea.value;
+		formulaValue += "_" + selectBox.value + "_";
+		formulaInputArea.value = formulaValue;
+    }
 </script>
