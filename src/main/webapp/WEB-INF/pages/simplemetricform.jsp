@@ -16,7 +16,7 @@
 	<p><fmt:message key="questionMetric.question.message"/></p>	
 	<ul>
 		<c:forEach var="m" items="${simpleMetric.questions}">
-			<li><a href="/questionmetricform?questionId=${m.question.id}&metricId=${m.simpleMetric.id}">${m.question.name} (${m.status})</a></li>			
+			<li><a href="/questionmetricform?questionId=${m.question.id}&metricId=${m.metric.id}">${m.question.name} (${m.status})</a></li>			
 		</c:forEach>		    	
 	</ul>
 </div>
