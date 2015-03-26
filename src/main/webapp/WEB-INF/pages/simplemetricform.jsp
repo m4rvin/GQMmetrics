@@ -228,7 +228,7 @@
 			</c:if>
         </c:if> --%>
         
-         <c:if test="${(simpleMetric.metricOwner eq currentUser || empty simpleMetric.id) && (not used)}">
+         <c:if test="${(simpleMetric.metricOwner eq currentUser || empty simpleMetric.id)}">
 			<button type="submit" class="btn btn-primary" name="save">
 				<i class="icon-ok icon-white"></i>
 				<fmt:message key="button.save" />
