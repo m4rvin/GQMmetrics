@@ -163,8 +163,9 @@
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
             <form:input path="formula" id="Metricformula"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
+            <form:errors path="formula" cssClass="help-inline"/><br>
             <a onclick="showFormulaInputInstructions()">Instructions</a>
-            <form:errors path="formula" cssClass="help-inline"/>
+            
         </div>
     </div>
             
@@ -336,7 +337,7 @@
 		jQuery('<div/>', {
 		    id: 'dialogInstructions',
 		    title:"formula input instructions",
-		    text: "Insert your formula operations as a text. Click on the metric you wish to add from the list of available metrics below."
+		    text: "Insert your formula operations as a text. Click on the metric you wish to add from the list of available metrics below. Refer to the current value as _this_"
 		}).dialog();
 	}
 </script>

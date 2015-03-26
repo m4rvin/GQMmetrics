@@ -124,7 +124,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.collectingType"/>
         <div class="controls">
-			<form:select path="collectingType" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
+			<form:select path="collectingType" onchange="var that = this;showAggregator(that)" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
 				<form:option value="SINGLE_VALUE" label="Single Value"/>
 				<form:option value="MULTIPLE_VALUE" label="Multiple Value"/>
 		    </form:select>		
@@ -135,7 +135,7 @@
     <spring:bind path="simpleMetric.satisfyingConditionOperation">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.satisfyingConditionOperation"/>
+        <appfuse:label styleClass="control-label" key="metric.satisfyingCondishowtionOperation"/>
         <div class="controls">
 			<form:select path="satisfyingConditionOperation" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
 				<form:option value="NONE" label="None"/>
@@ -165,8 +165,22 @@
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
             <form:input path="formula" id="Metricformula"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
-            <form:errors path="formula" cssClass="help-inline"/>
+           <form:errors path="formula" cssClass="help-inline"/><br>
+            <a onclick="showFormulaInputInstructions()">Instructions</a>
+            
         </div>
+    </div>
+    
+    <div id="aggregatorDiv" style="display:none;">
+	    <spring:bind path="simpleMetric.aggregator">
+	    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+	    </spring:bind>
+	        <appfuse:label styleClass="control-label" key="metric.aggregator"/>
+	        <div class="controls">
+	            <form:input path="aggregator" id="MetricAggregator"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
+	           <form:errors path="aggregator" cssClass="help-inline"/><br>
+	        </div>
+	    </div>
     </div>
             
 	<c:if test="${not empty simpleMetric.id}">
@@ -302,4 +316,19 @@
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['simpleMetricForm']).focus();
     });
+    
+    function showFormulaInputInstructions(){
+		jQuery('<div/>', {
+		    id: 'dialogInstructions',
+		    title:"formula input instructions",
+		    text: "Insert your formula operations as a text. Refer to the current value as _this_"
+		}).dialog();
+	}
+    
+    function showAggregator(that) { 	
+    	if(that.value === "MULTIPLE_VALUE")
+    		$('#aggregatorDiv').show();
+    	else
+    		$('#aggregatorDiv').hide();
+    }
 </script>
