@@ -17,13 +17,13 @@ public class MetricServiceTest extends BaseControllerTestCase
 	 @Test
 	 public void testFindMetricByMeasurementScaleType()
 	 {
-		  JSONArray metrics = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.INTERVAL);
+		  JSONArray metrics = this.metricManager.findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum.INTERVAL);
 		  Assert.assertEquals(1, metrics.length());
-		  metrics = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.RATIO);
+		  metrics = this.metricManager.findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum.RATIO);
 		  Assert.assertEquals(2, metrics.length());
-		  metrics = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.ORDINAL);
+		  metrics = this.metricManager.findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum.ORDINAL);
 		  Assert.assertEquals(0, metrics.length());
-		  metrics = this.metricManager.findByMeasurementScaleType(MeasurementScaleTypeEnum.NOMINAL);
+		  metrics = this.metricManager.findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum.NOMINAL);
 		  Assert.assertEquals(2, metrics.length());
 	 }
 	 

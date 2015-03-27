@@ -221,25 +221,26 @@
         <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
         <div class="controls">
 			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField()" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
-				<c:forEach items="${availableMetricComposers}" var="composer">
-<%-- 					<option value="${composer.name}">${composer.name}</option>
- --%>					
 					<c:forEach items="${availableMetricComposers}" var="availablecomposer">
-						<c:forEach items="${combinedMetric.composedBy}" var="savedcomposer">
+						<c:set var="found" value="false"></c:set>
+							<c:forEach items="${combinedMetric.composedBy}" var="savedcomposer">
+								<c:choose>
+									<c:when test="${availablecomposer == savedcomposer.name}">
+										<c:set var="found" value="true"></c:set>
+									</c:when>
+								</c:choose>
+							</c:forEach>
 							<c:choose>
-								<c:when test="${savedcomposer.name == availablecomposer.name}">
-									<form:option value="${availablecomposer.name}" label="${availablecomposer.name}"
-										selected="selected" />
+								<c:when test="${found}">
+									<option value="${availablecomposer}"
+										label="${availablecomposer}" selected="selected" />
 								</c:when>
 								<c:otherwise>
-									<form:option value="${availablecomposer.name}" label="${availablecomposer.name}" />
+									<option value="${availablecomposer}"
+										label="${availablecomposer}" />
 								</c:otherwise>
 							</c:choose>
-						</c:forEach>
-						
 					</c:forEach>
-						
-				</c:forEach>	
 		    </select>		
         </div>
        

@@ -34,6 +34,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	//CombinedMetric related query
 	public List<CombinedMetric> findCombinedMetricByProject(Project project);
 	public CombinedMetric findCombinedMetricById(Long id);
-	public JSONArray findByMeasurementScaleType(MeasurementScaleTypeEnum type);
+	public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
+	public JSONArray findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum type);
 	
 }

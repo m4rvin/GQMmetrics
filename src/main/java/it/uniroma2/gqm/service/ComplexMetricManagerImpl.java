@@ -152,9 +152,19 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 {
 		  return metricDao.findCombinedMetricById(id);
 	 }
+	 
+	 @Override
+	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 {
+		  if(type != null)
+		  {
+				return this.metricDao.findByMeasurementScaleType(type);
+		  }
+		  return null;
+	 }
 
 	 @Override
-	 public JSONArray findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 public JSONArray findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum type)
 	 {
 		  if(type != null)
 		  {

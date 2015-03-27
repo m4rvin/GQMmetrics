@@ -55,7 +55,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 
 @Controller
-@SessionAttributes({"currentProject","combinedMetric","currentUser","units","scales","availableMetrics","measurementScales", "availableMetricComposers"})
+@SessionAttributes({"currentProject","combinedMetric","currentUser","units","scales","availableMetrics","measurementScales"})
 public class CombinedMetricFormController extends BaseFormController {
 
 	
@@ -120,6 +120,9 @@ public class CombinedMetricFormController extends BaseFormController {
         if (!StringUtils.isBlank(id)) {
             metric = metricManager.findCombinedMetricById(new Long(id));
             model.addAttribute("used", !metric.isEresable());
+            MeasurementScale measurementScale = metric.getMeasurementScale();
+			if(measurementScale != null && measurementScale.getType() != null)
+				  populateModel(model, measurementScale.getType());
         } else {
         	metric = new CombinedMetric();
         	metric.setProject(currentProject);
@@ -151,9 +154,9 @@ public class CombinedMetricFormController extends BaseFormController {
         availablesTypes.add(MetricTypeEnum.OBJECTIVE.toString());
         availablesTypes.add(MetricTypeEnum.SUBJECTIVE.toString());
         model.addAttribute("availablesTypes",availablesTypes);
-        model.addAttribute("availableMetrics",metricManager.findCombinedMetricByProject(currentProject));
         
-        System.out.println("availableMetrics ------>" + metricManager.findCombinedMetricByProject(currentProject));
+        //model.addAttribute("availableMetrics",metricManager.findCombinedMetricByProject(currentProject));
+        //System.out.println("availableMetrics ------>" + metricManager.findCombinedMetricByProject(currentProject));
         //model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
         model.addAttribute("availableQuestions", availableQuestions);
         model.addAttribute("map", map);
@@ -170,24 +173,30 @@ public class CombinedMetricFormController extends BaseFormController {
     public String getConsistentMetrics(HttpServletRequest request)
     {
     	MeasurementScaleTypeEnum measurementScaleType = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId"))).getType();
-		JSONArray ret = this.metricManager.findByMeasurementScaleType(measurementScaleType);
+		JSONArray ret = this.metricManager.findByMeasurementScaleTypeJSONized(measurementScaleType);
 		System.out.println("Query result of combinedMetricFormAjax: " + ret.toString());
 		return ret.toString();
     }
     
     
     @RequestMapping(value = ViewName.combinedMetricForm, method = RequestMethod.POST)
-    public String onSubmit(@ModelAttribute("combinedMetric") @Valid CombinedMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status)
+    public String onSubmit(@ModelAttribute("combinedMetric") @Valid CombinedMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model)
     throws Exception {
         if (request.getParameter("cancel") != null) {
             return getCancelView();
         }
         
+       
                 
         if (validator != null) { // validator is null during testing
             validator.validate(metric, errors);
             if (errors.hasErrors() && request.getParameter("delete") == null) {
             	// don't validate when deleting
+            	System.out.println(errors);
+				System.out.println(metric);
+				MeasurementScale measurementScale = metric.getMeasurementScale();
+				if(measurementScale != null && measurementScale.getType() != null)
+					  populateModel(model, measurementScale.getType());
                 return ViewName.combinedMetricForm;
             }
         }
@@ -333,4 +342,11 @@ public class CombinedMetricFormController extends BaseFormController {
 
     	return ret;
     }
+    
+    
+    private void populateModel(Model model, MeasurementScaleTypeEnum type)
+	{
+    	 List<CombinedMetric> availableMetricComposers = this.metricManager.findByMeasurementScaleType(type);
+		 model.addAttribute("availableMetricComposers", availableMetricComposers);
+	}
 }
