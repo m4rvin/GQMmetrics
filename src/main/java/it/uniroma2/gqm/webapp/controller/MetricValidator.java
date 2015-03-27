@@ -30,24 +30,24 @@ public class MetricValidator implements Validator
 	 static
 	 {
 		  operations = new HashMap<String, String>();
-		  operations.put("modulo", "(abs)\\(.+\\)");
-		  operations.put("arccosine", "(acos)\\(.+\\)");
-		  operations.put("arcsine", "(asin)\\(.+\\)");
-		  operations.put("arctangent", "(atan)\\(.+\\)");
-		  operations.put("cubic root", "(cbrt)\\(.+\\)");
-		  operations.put("nearest upper integer", "(ceil)\\(.+\\)");
-		  operations.put("cosine", "(cosh)\\(.+\\)");
-		  operations.put("hyperbolic cosine", "(cosh)\\(.+\\)");
-		  operations.put("exponentiation", "(exp)\\(.+\\)");
-		  operations.put("nearest lower integer", "(floor)\\(.+\\)");
-		  operations.put("natural logarithm", "(log)\\(.+\\)");
-		  operations.put("base 10 logarithm", "(log10)\\(.+\\)");
-		  operations.put("base 2 logarithm", "(log2)\\(.+\\)");
-		  operations.put("sine", "(sin)\\(.+\\)");
-		  operations.put("hyperbolic sine", "(sinh)\\(.+\\)");
-		  operations.put("square root", "(sqrt)\\(.+\\)");
-		  operations.put("tangent", "(tan)\\(.+\\)");
-		  operations.put("hyperbolic tangent", "(tanh)\\(.+\\)");
+		  operations.put("modulo", "(abs)\\([^)]+\\)");
+		  operations.put("arccosine", "(acos)\\([^)]+\\)");
+		  operations.put("arcsine", "(asin)\\([^)]+\\)");
+		  operations.put("arctangent", "(atan)\\([^)]+\\)");
+		  operations.put("cubic root", "(cbrt)\\([^)]+\\)");
+		  operations.put("nearest upper integer", "(ceil)\\([^)]+\\)");
+		  operations.put("cosine", "(cosh)\\([^)]+\\)");
+		  operations.put("hyperbolic cosine", "(cosh)\\([^)]+\\)");
+		  operations.put("exponentiation", "(exp)\\([^.]+\\)");
+		  operations.put("nearest lower integer", "(floor)\\([^)]+\\)");
+		  operations.put("natural logarithm", "(log)\\([^)]+\\)");
+		  operations.put("base 10 logarithm", "(log10)\\([^)]+\\)");
+		  operations.put("base 2 logarithm", "(log2)\\([^)]+\\)");
+		  operations.put("sine", "(sin)\\([^)]+\\)");
+		  operations.put("hyperbolic sine", "(sinh)\\([^)]+\\)");
+		  operations.put("square root", "(sqrt)\\([^)]+\\)");
+		  operations.put("tangent", "(tan)\\([^)]+\\)");
+		  operations.put("hyperbolic tangent", "(tanh)\\([^)]+\\)");
 		  operations.put("multiplication", "[*|x]{1}");
 		  operations.put("addition", "(\\+){1}");
 		  operations.put("subtraction", "(-){1}");
@@ -103,6 +103,7 @@ public class MetricValidator implements Validator
 					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
 					 return;
 				}
+				formula = formula.replaceAll("(_){1}[a-zA-Z_0-9]+(_){1}", "");
 				//Valida le operazioni accettate
 				if(metric.getMeasurementScale() != null)
 				{
