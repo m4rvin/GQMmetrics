@@ -45,12 +45,12 @@ public class MeasurementScale extends BaseObject {
 	@Column(unique = true)
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rangeofvalues_id")
 	private RangeOfValues rangeOfValues;
 	
 	@Column(name = "supported_operations")
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "MeasurementScale_DefaultOperation",
 				joinColumns = {@JoinColumn(name = "measurementScale_id")},
 				inverseJoinColumns = {@JoinColumn(name = "defaultoperation_id")}

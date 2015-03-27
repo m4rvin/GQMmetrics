@@ -2,6 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
+import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.HashMap;
@@ -19,9 +20,43 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.google.common.collect.ImmutableMap;
+
 @Component(value = "metricValidator")
 public class MetricValidator implements Validator
 {
+	 
+	 private static Map<String, String> operations;
+	 static
+	 {
+		  operations = new HashMap<String, String>();
+		  operations.put("modulo", "(abs)\\(.+\\)");
+		  operations.put("arccosine", "(acos)\\(.+\\)");
+		  operations.put("arcsine", "(asin)\\(.+\\)");
+		  operations.put("arctangent", "(atan)\\(.+\\)");
+		  operations.put("cubic root", "(cbrt)\\(.+\\)");
+		  operations.put("nearest upper integer", "(ceil)\\(.+\\)");
+		  operations.put("cosine", "(cosh)\\(.+\\)");
+		  operations.put("hyperbolic cosine", "(cosh)\\(.+\\)");
+		  operations.put("exponentiation", "(exp)\\(.+\\)");
+		  operations.put("nearest lower integer", "(floor)\\(.+\\)");
+		  operations.put("natural logarithm", "(log)\\(.+\\)");
+		  operations.put("base 10 logarithm", "(log10)\\(.+\\)");
+		  operations.put("base 2 logarithm", "(log2)\\(.+\\)");
+		  operations.put("sine", "(sin)\\(.+\\)");
+		  operations.put("hyperbolic sine", "(sinh)\\(.+\\)");
+		  operations.put("square root", "(sqrt)\\(.+\\)");
+		  operations.put("tangent", "(tan)\\(.+\\)");
+		  operations.put("hyperbolic tangent", "(tanh)\\(.+\\)");
+		  operations.put("multiplication", "[*|x]{1}");
+		  operations.put("addition", "(\\+){1}");
+		  operations.put("subtraction", "(-){1}");
+		  operations.put("ratio", "[%|/]{1}");
+		  operations.put("membership", "(@){1}");
+		  operations.put("greater than", "(>){1}");
+		  operations.put("lower than", "(<){1}");
+		  operations.put("equal", "(=){1}");
+	 }
 
 	 @Override
 	 public boolean supports(Class<?> clazz)
@@ -35,7 +70,8 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 
 		  String formula = metric.getFormula();
-		  if (formula != null && formula.length() > 0)
+		  formula = formula.replaceAll(" ", "");
+		  if (formula != null && formula.length() > 0) //valida prima la sintassi e poi le operazioni all'interno
 		  {
 				Set<String> metrics = new HashSet<String>();
 				
@@ -67,8 +103,19 @@ public class MetricValidator implements Validator
 					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
 					 return;
 				}
+				//Valida le operazioni accettate
+				if(metric.getMeasurementScale() != null)
+				{
+					 for(DefaultOperation operation : metric.getMeasurementScale().getOperations())
+						{
+						    String regex = operations.get(operation.getOperation());
+							 formula = formula.replaceAll(regex, "");
+						}
+						if(formula.length() > 0 && !formula.matches("[\\d|\\.]*"))
+							 errors.rejectValue("formula", "formula", "Usage of not allowed operations");
+						return;
+				}	
 		  }
-
 	 }
 
 	 public static Set<String> getUsedMetrics(String formula)
