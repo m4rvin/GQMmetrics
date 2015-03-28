@@ -172,4 +172,12 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  }
 		  return null;
 	 }
+
+	 @Override
+	 public AbstractMetric findMetricByName(String name) throws IndexOutOfBoundsException
+	 {
+		  if(name != null)
+				return this.metricDao.findMetricByName(name);
+		  return null;
+	 }	
 }

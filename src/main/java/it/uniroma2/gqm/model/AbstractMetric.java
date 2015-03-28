@@ -32,7 +32,8 @@ import org.appfuse.model.User;
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
 		  @NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId"),
-		  @NamedQuery(name = "findByMeasurementScaleType", query = "select m.name from AbstractMetric m where m.measurementScale.type = :type")})
+		  @NamedQuery(name = "findByMeasurementScaleType", query = "select m.name from AbstractMetric m where m.measurementScale.type = :type"),
+		  @NamedQuery(name = "findMetricByName", query = "select m from AbstractMetric m where m.name = :name")})
 @DiscriminatorColumn(name = "complexMetricType")
 @Table(name = "AbstractMetric")
 public class AbstractMetric extends BaseObject
@@ -416,11 +417,9 @@ public class AbstractMetric extends BaseObject
 		  result = prime * result + ((actualValue == null) ? 0 : actualValue.hashCode());
 		  result = prime * result + ((code == null) ? 0 : code.hashCode());
 		  result = prime * result + ((collectingType == null) ? 0 : collectingType.hashCode());
-		  result = prime * result + ((composerFor == null) ? 0 : composerFor.hashCode());
 		  result = prime * result + ((formula == null) ? 0 : formula.hashCode());
 		  result = prime * result + ((hypothesis == null) ? 0 : hypothesis.hashCode());
 		  result = prime * result + ((id == null) ? 0 : id.hashCode());
-		  result = prime * result + ((measurementScale == null) ? 0 : measurementScale.hashCode());
 		  result = prime * result + ((measurements == null) ? 0 : measurements.hashCode());
 		  result = prime * result + ((metricOwner == null) ? 0 : metricOwner.hashCode());
 		  result = prime * result + ((name == null) ? 0 : name.hashCode());

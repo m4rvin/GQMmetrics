@@ -24,6 +24,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	public List<Double> getMeasuredMetricValues(Long metricId);
 	public List<String> getMetricInfo(Long metricId);
 	public boolean getSatisfaction(AbstractMetric m);
+	public AbstractMetric findMetricByName(String name);
 	
 
 	//SimpleMetric related query

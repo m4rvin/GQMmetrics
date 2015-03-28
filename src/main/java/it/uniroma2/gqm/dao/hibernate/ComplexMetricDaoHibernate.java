@@ -41,6 +41,13 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 		  Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
 		  return q.list();
 	 }
+	 
+	 @Override
+	 public AbstractMetric findMetricByName(String name) throws IndexOutOfBoundsException
+	 {
+		  Query q = getSession().getNamedQuery("findMetricByName").setString("name", name);
+		  return (AbstractMetric) q.list().get(0);
+	 }
 
 	 // SimpleMetric related queries
 
