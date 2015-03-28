@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableMap;
 @Component(value = "metricValidator")
 public class MetricValidator implements Validator
 {
-	 
+
 	 private static Map<String, String> operations;
 	 static
 	 {
@@ -71,11 +71,13 @@ public class MetricValidator implements Validator
 
 		  String formula = metric.getFormula();
 		  formula = formula.replaceAll(" ", "");
-		  if (formula != null && formula.length() > 0) //valida prima la sintassi e poi le operazioni all'interno
+		  if (formula != null && formula.length() > 0) // valida prima la sintassi
+																	  // e poi le operazioni
+																	  // all'interno
 		  {
 				Set<String> metrics = new HashSet<String>();
-				
-				if(metric instanceof CombinedMetric)
+
+				if (metric instanceof CombinedMetric)
 					 metrics = getUsedMetrics(formula);
 
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
@@ -103,26 +105,32 @@ public class MetricValidator implements Validator
 					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
 					 return;
 				}
-				formula = formula.replaceAll("(_){1}[a-zA-Z_0-9]+(_){1}", "");
-				//Valida le operazioni accettate
-				if(metric.getMeasurementScale() != null)
+				formula = formula.replaceAll("(_){1}[^_]+(_){1}", "&");
+				// Valida le operazioni accettate
+				
+				boolean multiplication = false;
+				
+				if (metric.getMeasurementScale() != null)
 				{
-					 for(DefaultOperation operation : metric.getMeasurementScale().getOperations())
-						{
-						    String regex = operations.get(operation.getOperation());
-							 formula = formula.replaceAll(regex, "");
-						}
-						if(formula.length() > 0 && !formula.matches("[\\d|\\.]*"))
-							 errors.rejectValue("formula", "formula", "Usage of not allowed operations");
-						return;
-				}	
+					 for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
+					 {
+						  String regex = operations.get(operation.getOperation());
+						  formula = formula.replaceAll(regex, "&");
+						  if(operation.getOperation().equals("multiplication"))
+								multiplication = true;
+					 }
+
+					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&]*")) || (findImplicitMultiplication(formula) && !multiplication))
+						  errors.rejectValue("formula", "formula", "Usage of not allowed operations");
+					 return;
+				}
 		  }
 	 }
 
 	 public static Set<String> getUsedMetrics(String formula)
 	 {
 		  Set<String> metrics = new HashSet<String>();
-		  Pattern pattern = Pattern.compile("(_){1}[a-zA-Z_0-9]+(_){1}");
+		  Pattern pattern = Pattern.compile("(_){1}[^_]+(_){1}");
 		  Matcher matcher = pattern.matcher(formula);
 
 		  while (matcher.find())
@@ -131,6 +139,14 @@ public class MetricValidator implements Validator
 		  }
 
 		  return metrics;
+	 }
+	 
+	 public static boolean findImplicitMultiplication(String formula)
+	 {
+		  Pattern pattern = Pattern.compile("(&){2}|\\d+(&)|(&)\\d+");
+		  Matcher matcher = pattern.matcher(formula);
+
+		  return matcher.find();
 	 }
 
 }
