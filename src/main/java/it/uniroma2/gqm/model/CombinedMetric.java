@@ -16,8 +16,7 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("combined")
 @Table(name = "CombinedMetric")
-@NamedQueries({ @NamedQuery(name = "findCombinedMetricByProject", query = "select m from CombinedMetric m where m.project.id= :project_id"),
-	 				})
+@NamedQueries({ @NamedQuery(name = "findCombinedMetricByProject", query = "select m from CombinedMetric m where m.project.id= :project_id"), })
 public class CombinedMetric extends AbstractMetric
 {
 
@@ -39,8 +38,11 @@ public class CombinedMetric extends AbstractMetric
 
 	 public void addComposedBy(AbstractMetric metric)
 	 {
-		  this.composedBy.add(metric);
-		  metric.addComposerFor(this);
+		  if (!this.composedBy.contains(metric))
+		  {
+				this.composedBy.add(metric);
+				metric.addComposerFor(this);
+		  }
 	 }
 
 	 @Override
@@ -77,7 +79,5 @@ public class CombinedMetric extends AbstractMetric
 				return false;
 		  return true;
 	 }
-
-	 
 
 }
