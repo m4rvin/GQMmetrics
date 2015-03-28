@@ -30,24 +30,24 @@ public class MetricValidator implements Validator
 	 static
 	 {
 		  operations = new HashMap<String, String>();
-		  operations.put("modulo", "(abs)\\([^)]+\\)");
-		  operations.put("arccosine", "(acos)\\([^)]+\\)");
-		  operations.put("arcsine", "(asin)\\([^)]+\\)");
-		  operations.put("arctangent", "(atan)\\([^)]+\\)");
-		  operations.put("cubic root", "(cbrt)\\([^)]+\\)");
-		  operations.put("nearest upper integer", "(ceil)\\([^)]+\\)");
-		  operations.put("cosine", "(cosh)\\([^)]+\\)");
-		  operations.put("hyperbolic cosine", "(cosh)\\([^)]+\\)");
-		  operations.put("exponentiation", "(exp)\\([^.]+\\)");
-		  operations.put("nearest lower integer", "(floor)\\([^)]+\\)");
-		  operations.put("natural logarithm", "(log)\\([^)]+\\)");
-		  operations.put("base 10 logarithm", "(log10)\\([^)]+\\)");
-		  operations.put("base 2 logarithm", "(log2)\\([^)]+\\)");
-		  operations.put("sine", "(sin)\\([^)]+\\)");
-		  operations.put("hyperbolic sine", "(sinh)\\([^)]+\\)");
-		  operations.put("square root", "(sqrt)\\([^)]+\\)");
-		  operations.put("tangent", "(tan)\\([^)]+\\)");
-		  operations.put("hyperbolic tangent", "(tanh)\\([^)]+\\)");
+		  operations.put("modulo", "abs");
+		  operations.put("arccosine", "acos");
+		  operations.put("arcsine", "asin");
+		  operations.put("arctangent", "atan");
+		  operations.put("cubic root", "cbrt");
+		  operations.put("nearest upper integer", "ceil");
+		  operations.put("cosine", "cos");
+		  operations.put("hyperbolic cosine", "cosh");
+		  operations.put("exponentiation", "exp");
+		  operations.put("nearest lower integer", "floor");
+		  operations.put("natural logarithm", "log");
+		  operations.put("base 10 logarithm", "log10");
+		  operations.put("base 2 logarithm", "log2");
+		  operations.put("sine", "sin");
+		  operations.put("hyperbolic sine", "sinh");
+		  operations.put("square root", "sqrt");
+		  operations.put("tangent", "tan");
+		  operations.put("hyperbolic tangent", "tanh");
 		  operations.put("multiplication", "[*|x]{1}");
 		  operations.put("addition", "(\\+){1}");
 		  operations.put("subtraction", "(-){1}");
@@ -105,7 +105,7 @@ public class MetricValidator implements Validator
 					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
 					 return;
 				}
-				formula = formula.replaceAll("(_){1}[^_]+(_){1}", "&");
+				formula = formula.replaceAll("(_){1}[^_]+(_){1}", "%"); //elimina le metriche
 				// Valida le operazioni accettate
 				
 				boolean multiplication = false;
@@ -115,12 +115,12 @@ public class MetricValidator implements Validator
 					 for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
 					 {
 						  String regex = operations.get(operation.getOperation());
-						  formula = formula.replaceAll(regex, "&");
+						  formula = formula.replaceAll(regex, "&"); //elimina le operazioni lasciando le parentesi
 						  if(operation.getOperation().equals("multiplication"))
 								multiplication = true;
 					 }
 
-					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&]*")) || (findImplicitMultiplication(formula) && !multiplication))
+					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,]*")) || (findImplicitMultiplication(formula) && !multiplication))
 						  errors.rejectValue("formula", "formula", "Usage of not allowed operations");
 					 return;
 				}
@@ -143,7 +143,7 @@ public class MetricValidator implements Validator
 	 
 	 public static boolean findImplicitMultiplication(String formula)
 	 {
-		  Pattern pattern = Pattern.compile("(&){2}|\\d+(&)|(&)\\d+");
+		  Pattern pattern = Pattern.compile("(%){2}|\\d+(%)|(%)\\d+|\\d+(&)|(&)\\d+|\\)\\d+|\\)(%)");
 		  Matcher matcher = pattern.matcher(formula);
 
 		  return matcher.find();
