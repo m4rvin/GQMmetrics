@@ -124,7 +124,6 @@
         <div class="controls">
 			<form:select path="collectingType" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
 				<form:option value="SINGLE_VALUE" label="Single Value"/>
-				<form:option value="MULTIPLE_VALUE" label="Multiple Value"/>
 		    </form:select>		
             <form:errors path="collectingType" cssClass="help-inline"/>            
         </div>
