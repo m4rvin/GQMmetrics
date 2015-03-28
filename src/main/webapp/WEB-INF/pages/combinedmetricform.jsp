@@ -341,6 +341,7 @@
     
     
     function loadAvailableMetricComposers(){
+    	$('#Metricformula').val("");
     	var currentLength = document.getElementById('availableMetricComposersList').length;
 		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
 		{
@@ -387,6 +388,7 @@
 		var formulaValue= formulaInputArea.value;
 		formulaValue += "_" + selectBox.value + "_";
 		formulaInputArea.value = formulaValue;
+		$('#Metricformula').focus();
     }
     
 	function showFormulaInputInstructions(){
