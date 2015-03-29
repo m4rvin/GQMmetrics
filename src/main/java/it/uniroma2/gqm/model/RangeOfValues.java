@@ -1,7 +1,10 @@
 package it.uniroma2.gqm.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -21,9 +24,7 @@ import javax.persistence.UniqueConstraint;
 import org.appfuse.model.BaseObject;
 
 @Entity
-@Table(name = "range_of_values",
-		 uniqueConstraints = @UniqueConstraint(columnNames={"measurement_scale_type","number_type","range_values"})
-		  )
+@Table(name = "range_of_values", uniqueConstraints = @UniqueConstraint(columnNames = { "measurement_scale_type", "number_type", "range_values" }))
 @NamedQueries({ @NamedQuery(name = "findRangeOfValuesByProject", query = "select r from RangeOfValues r where r.project.id= :project_id "), @NamedQuery(name = "findRangeOfValuesBySupportedMeasurementScale", query = "select r.id, r.name from RangeOfValues r where r.measurementScaleType >= :measurementScaleType"), @NamedQuery(name = "findRangeOfValuesOBJBySupportedMeasurementScale", query = "select r from RangeOfValues r where r.measurementScaleType >= :measurementScaleType") })
 public class RangeOfValues extends BaseObject
 {
@@ -35,7 +36,7 @@ public class RangeOfValues extends BaseObject
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private long id;
 
-	 @Column(unique=true)
+	 @Column(unique = true)
 	 private String name;
 
 	 @Column(name = "is_default_range")
@@ -179,6 +180,96 @@ public class RangeOfValues extends BaseObject
 		  return result;
 	 }
 
+	 public boolean isIncluded(RangeOfValues other)
+	 {
+		  if (this.defaultRange != other.isDefaultRange())
+				return false;
+
+		  if (this.defaultRange) // default range ----> natural < integer < real
+				return DefaultRangeOfValuesEnum.valueOf(this.rangeValues).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getRangeValues()).ordinal();
+
+		  else
+		  // custom range
+		  {
+				if (this.numeric != other.isNumeric())
+					 return false;
+
+				if (!this.numeric || (!this.range && !other.isRange())) // non
+																						  // numeric
+																						  // or both
+																						  // non range
+				{
+					 List<String> values = Arrays.asList(this.rangeValues.split(","));
+					 List<String> otherValues = Arrays.asList(other.getRangeValues().split(","));
+					 for (String value : values)
+					 {
+						  if (!otherValues.contains(value))
+								return false;
+					 }
+					 return true;
+				} else
+				// numeric
+				{
+					 if (!this.range && other.isRange())
+					 {
+						  String[] ranges = other.getRangeValues().split(",");
+						  String[] values = this.rangeValues.split(",");
+						  for (String value : values)
+						  {
+								boolean found = false;
+								for (String range : ranges)
+								{
+									 Range r = new Range(range);
+									 if (r.includes(Double.valueOf(value), DefaultRangeOfValuesEnum.valueOf(other.numberType)))
+									 {
+										  found = true;
+										  break;
+									 }
+								}
+								if (!found)
+									 return false;
+						  }
+						  return true;
+
+					 } else if (this.range && !other.isRange())
+					 {
+						  String[] ranges = this.rangeValues.split(",");
+
+						  List<Double> otherList = RangeOfValues.getOrderedListOfDoubles(other.getRangeValues());
+						  
+						  for (String range : ranges)
+						  {
+								Range r = new Range(range);
+								if (!r.isIncluded(otherList, DefaultRangeOfValuesEnum.valueOf(this.numberType)))
+									 return false;
+						  }
+						  return true;
+					 } else
+					 {
+						  String[] otherRanges = other.getRangeValues().split(",");
+						  String[] myRanges = this.rangeValues.split(",");
+						  for (String myRange : myRanges)
+						  {
+								boolean found = false;
+								Range myR = new Range(myRange);
+								for (String otherRange : otherRanges)
+								{
+									 Range otherR = new Range(otherRange);
+									 if (otherR.includes(myR, DefaultRangeOfValuesEnum.valueOf(this.numberType), DefaultRangeOfValuesEnum.valueOf(other.getNumberType())))
+									 {
+										  found = true;
+										  break;
+									 }
+								}
+								if(!found)
+									 return false;
+						  }
+						  return true;
+					 }
+				}
+		  }
+	 }
+
 	 @Override
 	 public boolean equals(Object o)
 	 {
@@ -191,16 +282,15 @@ public class RangeOfValues extends BaseObject
 				return false;
 		  else if (this.defaultRange && this.numberType.equals(((RangeOfValues) o).numberType))
 		  {
-				if(this.measurementScaleType != null)
+				if (this.measurementScaleType != null)
 				{
-					 if(this.measurementScaleType == ((RangeOfValues) o).measurementScaleType)
+					 if (this.measurementScaleType == ((RangeOfValues) o).measurementScaleType)
 						  return true;
 					 else
 						  return false;
 				}
 				return true;
-		  }
-		  else if (!this.defaultRange)
+		  } else if (!this.defaultRange)
 		  {
 				if (this.numeric != ((RangeOfValues) o).numeric)
 					 return false;
@@ -208,28 +298,31 @@ public class RangeOfValues extends BaseObject
 					 return this.rangeValues.equals(((RangeOfValues) o).rangeValues);
 				else
 				{
-					 if(this.range != ((RangeOfValues) o).range)
+					 if (this.range != ((RangeOfValues) o).range)
 						  return false;
-					 if(!this.range)
+					 if (!this.range)
 						  return setEquality(this.rangeValues, ((RangeOfValues) o).rangeValues);
-					 else{
-						 try{
-							  return rangeEquality(this.rangeValues, ((RangeOfValues)o).rangeValues, DefaultRangeOfValuesEnum.valueOf(this.numberType));	
-						 }
-						 catch(IllegalArgumentException e){
-							 return false;
-						 }
+					 else
+					 {
+						  try
+						  {
+								return rangeEquality(this.rangeValues, ((RangeOfValues) o).rangeValues, DefaultRangeOfValuesEnum.valueOf(this.numberType));
+						  } catch (IllegalArgumentException e)
+						  {
+								return false;
+						  }
 					 }
 				}
 		  }
 		  return false;
 		  // TESTME
 	 }
-	 
+
 	 /*
-	  * Returns true if the sets are equivalent, i.e. if they contains the same elements
+	  * Returns true if the sets are equivalent, i.e. if they contains the same
+	  * elements
 	  */
-	 
+
 	 @Transient
 	 public static boolean setEquality(String set1, String set2)
 	 {
@@ -248,7 +341,7 @@ public class RangeOfValues extends BaseObject
 	 {
 		  Range firstRange = new RangeOfValues.Range(range1.split(",")[0]);
 		  Range secondRange = new RangeOfValues.Range(range2.split(",")[0]);
-		  
+
 		  if (firstRange.equals(secondRange))
 				return true;
 		  if (range1.equals("") || range2.equals(""))
@@ -271,7 +364,7 @@ public class RangeOfValues extends BaseObject
 					 range2 = "";
 				}
 				rangeEquality(range1, range2, type);
-		  }	  
+		  }
 
 		  if (firstRange.getFirst() != secondRange.getFirst())
 				return false;
@@ -279,28 +372,27 @@ public class RangeOfValues extends BaseObject
 		  {
 				switch (type)
 				{
-					case REAL_NUMBERS:
-						 firstRange.setFirst(secondRange.getLast());
-						 break;
-					default:
-						 firstRange.setFirst(secondRange.getLast() + 1);
-						 break;
+				case REAL_NUMBERS:
+					 firstRange.setFirst(secondRange.getLast());
+					 break;
+				default:
+					 firstRange.setFirst(secondRange.getLast() + 1);
+					 break;
 				}
 				range1 = deleteFirstRange(range1);
 				range2 = deleteFirstRange(range2);
 				range1 = firstRange.toString() + "," + range1;
 				return rangeEquality(range1, range2, type);
-		  }
-		  else
+		  } else
 		  {
 				switch (type)
 				{
-					case REAL_NUMBERS:
-						 secondRange.setFirst(firstRange.getLast());
-						 break;
-					default:
-						 secondRange.setFirst(firstRange.getLast() + 1);
-						 break;
+				case REAL_NUMBERS:
+					 secondRange.setFirst(firstRange.getLast());
+					 break;
+				default:
+					 secondRange.setFirst(firstRange.getLast() + 1);
+					 break;
 				}
 				range1 = deleteFirstRange(range1);
 				range2 = deleteFirstRange(range2);
@@ -310,18 +402,30 @@ public class RangeOfValues extends BaseObject
 
 	 }
 
+	 private static List<Double> getOrderedListOfDoubles(String range)
+	 {
+		  String[] rangeArr = range.split(",");
+		  List<Double> ret = new ArrayList<Double>();
+		  for (String r : rangeArr)
+		  {
+				ret.add(Double.parseDouble(r));
+		  }
+		  Collections.sort(ret);
+		  return ret;
+	 }
+
 	 /*
-	  * Deletes the first occurrence of a range pattern from a valid range of values string
+	  * Deletes the first occurrence of a range pattern from a valid range of
+	  * values string
 	  */
-	 @Transient
 	 private static String deleteFirstRange(String range)
 	 {
-		  int commaIndex = range.indexOf(","); 
-		  if(range.indexOf(",") == -1)//only one range pattern
+		  int commaIndex = range.indexOf(",");
+		  if (range.indexOf(",") == -1)// only one range pattern
 				return "";
 		  return range.substring(commaIndex + 1);
 	 }
-	 
+
 	 private static class Range
 	 {
 
@@ -386,6 +490,45 @@ public class RangeOfValues extends BaseObject
 		  public String toString()
 		  {
 				return "[" + this.first + ":" + this.last + "]";
+		  }
+
+		  public boolean includes(Double number, DefaultRangeOfValuesEnum type)
+		  {
+				if (this.getFirst() > number || this.getLast() < number)
+					 return false;
+				else
+				{
+					 if (type == DefaultRangeOfValuesEnum.INTEGER_NUMBERS || type == DefaultRangeOfValuesEnum.NATURAL_NUMBERS)
+					 {
+						  if (number % 1 == 0) // number is a whole
+								return true;
+						  else
+								return false;
+					 } else
+						  return true;
+				}
+		  }
+
+		  public boolean isIncluded(List<Double> list, DefaultRangeOfValuesEnum type)
+		  {
+				if (type == DefaultRangeOfValuesEnum.REAL_NUMBERS)
+					 return false;
+				for (double i = this.getFirst(); i < this.getLast() + 1; i++)
+				{
+					 if (!list.contains(i))
+						  return false;
+				}
+				return true;
+		  }
+
+		  public boolean includes(Range other, DefaultRangeOfValuesEnum otherType, DefaultRangeOfValuesEnum myType)
+		  {
+				if (otherType == DefaultRangeOfValuesEnum.REAL_NUMBERS && myType != DefaultRangeOfValuesEnum.REAL_NUMBERS)
+					 return false;
+				if (other.getFirst() >= this.getFirst() && other.getLast() <= this.getLast())
+					 return true;
+				else
+					 return false;
 		  }
 	 }
 }
