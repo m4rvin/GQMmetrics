@@ -143,7 +143,7 @@ public class MetricValidator implements Validator
 	 
 	 public static boolean findImplicitMultiplication(String formula)
 	 {
-		  Pattern pattern = Pattern.compile("(%){2}|\\d+(%)|(%)\\d+|\\d+(&)|(&)\\d+|\\)\\d+|\\)(%)");
+		  Pattern pattern = Pattern.compile("(%){2}|\\d+(%)|(%)\\d+|\\d+(&)|(&)\\d+|\\)\\d+|\\)(%)|\\)(&)");
 		  Matcher matcher = pattern.matcher(formula);
 
 		  return matcher.find();
