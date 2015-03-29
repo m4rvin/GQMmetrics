@@ -182,14 +182,21 @@ public class RangeOfValues extends BaseObject
 
 	 public boolean isIncluded(RangeOfValues other)
 	 {
-		  if (this.defaultRange != other.isDefaultRange())
-				return false;
-
-		  if (this.defaultRange) // default range ----> natural < integer < real
+		  if (this.defaultRange && other.isDefaultRange()) //both default range. Just check the inclusion natural < integer < real
 				return DefaultRangeOfValuesEnum.valueOf(this.rangeValues).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getRangeValues()).ordinal();
-
+ 
+		  else if(this.defaultRange && !other.isDefaultRange()) //always false, a default range can't be included in a custom range (default ranges are only numeric)
+				return false;
+		  
+		  else if(!this.defaultRange && other.isDefaultRange())
+		  {
+				if(!this.isNumeric()) //default range are numeric. a non numeric range can't be included in a numeric one
+					 return false;
+				else //both numeric, just check the number type of the custom one
+					 return DefaultRangeOfValuesEnum.valueOf(this.numberType).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getRangeValues()).ordinal();
+		  }
 		  else
-		  // custom range
+		  // both custom range
 		  {
 				if (this.numeric != other.isNumeric())
 					 return false;
@@ -236,7 +243,7 @@ public class RangeOfValues extends BaseObject
 						  String[] ranges = this.rangeValues.split(",");
 
 						  List<Double> otherList = RangeOfValues.getOrderedListOfDoubles(other.getRangeValues());
-						  
+
 						  for (String range : ranges)
 						  {
 								Range r = new Range(range);
@@ -261,7 +268,7 @@ public class RangeOfValues extends BaseObject
 										  break;
 									 }
 								}
-								if(!found)
+								if (!found)
 									 return false;
 						  }
 						  return true;
