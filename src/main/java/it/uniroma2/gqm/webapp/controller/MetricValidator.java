@@ -118,7 +118,8 @@ public class MetricValidator implements Validator
 						 
 						  if(operation.getOperation().equals("addition") || operation.getOperation().equals("ratio") ||
 									 operation.getOperation().equals("subtraction") || operation.getOperation().equals("multiplication") || 
-									 operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
+									 operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || 
+									 operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
 								formula = formula.replaceAll(regex, "?");
 						  else
 								formula = formula.replaceAll(regex, "&"); 
