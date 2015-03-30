@@ -20,7 +20,9 @@ public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long>
 	 
 	 public AbstractMetric findMetricByName(String name);
 	 
-	 public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
+	 public List<AbstractMetric> findMetricByMeasurementScaleType(MeasurementScaleTypeEnum type);
+
+	 public List<AbstractMetric> findMetricByMeasurementScaleTypeExludingOneById(MeasurementScaleTypeEnum type, Long metricToExcludeId);
 
 	 // SimpleMetric related query
 	 public List<SimpleMetric> findSimpleMetricByProject(Project project);

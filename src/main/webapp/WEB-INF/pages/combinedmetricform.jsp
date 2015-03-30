@@ -355,14 +355,16 @@
 			}
 		}
 
-		var id = $("#measurementScale").val();
-		if (id != "") //valore non nullo
+		var msrmntScaleId = $("#measurementScale").val();
+		var metricId = GetURLParameter("id");
+		if (msrmntScaleId != "") //valore non nullo
 		{
 			$.ajax({
 				type : "GET",
 				url : "combinedmetricformAjax",
 				data : {
-					measurementScaleId : id
+					measurementScaleId : msrmntScaleId,
+					metricToExcludeId : metricId
 				},
 				contentType : "application/json",
 				success : function(response) {
@@ -401,5 +403,21 @@
 		    title:"formula input instructions",
 		    text: "Insert your formula operations as a text. Click on the metric you wish to add from the list of available metrics below. Refer to the current value as _this_"
 		}).dialog();
+	}
+	
+	// get param from the URL
+	function GetURLParameter(sParam)
+	{
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    for (var i = 0; i < sURLVariables.length; i++)
+	    {
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam)
+	        {
+	            return sParameterName[1];
+	        }
+	    }
+	    return null;
 	}
 </script>

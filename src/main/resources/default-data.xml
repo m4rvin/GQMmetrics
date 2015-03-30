@@ -1498,7 +1498,7 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">5</value>
-			<value description = "operation">decimal logaritm</value>
+			<value description = "operation">natural logarithm</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">3</value>
 		</row>
@@ -1629,6 +1629,10 @@
 			<value description="measurementScale_id">1</value>
 			<value description="defaultoperation_id">8</value>
 		</row>
+		<row>
+			<value description="measurementScale_id">1</value>
+			<value description="defaultoperation_id">5</value>
+		</row>
 		
 		<row>
 			<value description="measurementScale_id">2</value>
@@ -1638,6 +1642,7 @@
 			<value description="measurementScale_id">2</value>
 			<value description="defaultoperation_id">2</value>
 		</row>
+		
 
 		<!-- <row> <value description="measurementScale_id"></value> <value description="defaultoperation_id"></value> 
 			</row> -->
