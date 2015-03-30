@@ -193,7 +193,7 @@ public class RangeOfValues extends BaseObject
 				if(!this.isNumeric()) //default range are numeric. a non numeric range can't be included in a numeric one
 					 return false;
 				else //both numeric, just check the number type of the custom one
-					 return DefaultRangeOfValuesEnum.valueOf(this.numberType).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getRangeValues()).ordinal();
+					 return DefaultRangeOfValuesEnum.valueOf(this.numberType).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getNumberType()).ordinal();
 		  }
 		  else
 		  // both custom range
