@@ -142,8 +142,8 @@
 				<form:option value="LESS" label="<"/>
 				<form:option value="LESS_OR_EQUAL" label="<="/>
 				<form:option value="EQUAL" label="="/>
-				<form:option value="GREATHER" label=">"/>
 				<form:option value="GREATER_OR_EQUAL" label=">="/>
+				<form:option value="GREATER" label=">"/>
 		    </form:select>		
             <form:errors path="satisfyingConditionOperation" cssClass="help-inline"/>            
         </div>
