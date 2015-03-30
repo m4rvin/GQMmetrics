@@ -50,9 +50,16 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	 }
 	 
 	 @Override
-	 public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 public List<AbstractMetric> findMetricByMeasurementScaleType(MeasurementScaleTypeEnum type)
 	 {
 		 Query q = getSession().getNamedQuery("findMetricByMeasurementScaleType").setLong("type", type.ordinal());
+		 return q.list();
+	 }
+	 
+	 @Override
+	 public List<AbstractMetric> findMetricByMeasurementScaleTypeExludingOneById(MeasurementScaleTypeEnum type, Long metricToExcludeId)
+	 {
+		 Query q = getSession().getNamedQuery("findMetricByMeasurementScaleTypeExludingOneById").setLong("type", type.ordinal()).setLong("id", metricToExcludeId);
 		 return q.list();
 	 }
 

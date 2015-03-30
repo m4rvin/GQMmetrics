@@ -125,11 +125,12 @@ public class CombinedMetricFormController extends BaseFormController
 
 		  if (!StringUtils.isBlank(id))
 		  {
+			  	model.addAttribute("metricInEditingId", id);
 				metric = metricManager.findCombinedMetricById(new Long(id));
 				model.addAttribute("used", !metric.isEresable());
 				MeasurementScale measurementScale = metric.getMeasurementScale();
 				if (measurementScale != null && measurementScale.getType() != null)
-					 populateModel(model, measurementScale);
+					 populateModel(model, measurementScale,  metric.getId());
 		  } else
 		  {
 				metric = new CombinedMetric();
@@ -188,7 +189,12 @@ public class CombinedMetricFormController extends BaseFormController
 	 public String getConsistentMetrics(HttpServletRequest request)
 	 {
 		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
-		  List<AbstractMetric> metricsSet = this.metricManager.findByMeasurementScaleType(measurementScale.getType());
+		  Long metricId = (request.getParameter("metricToExcludeId")!= "" ? new Long(request.getParameter("metricToExcludeId")) : null);
+		  List<AbstractMetric> metricsSet;
+		  if(metricId == null)
+			  metricsSet = this.metricManager.findMetricByMeasurementScaleType(measurementScale.getType());
+		  else
+			  metricsSet = this.metricManager.findMetricByMeasurementScaleTypeExludingOneById(measurementScale.getType(), metricId);
 		  
 		  metricsSet = this.filterByRangeOfValues(measurementScale, metricsSet);
 		  
@@ -218,7 +224,7 @@ public class CombinedMetricFormController extends BaseFormController
 					 System.out.println(metric);
 					 MeasurementScale measurementScale = metric.getMeasurementScale();
 					 if (measurementScale != null && measurementScale.getType() != null)
-						  populateModel(model, measurementScale);
+						  populateModel(model, measurementScale, metric.getId());
 					 return ViewName.combinedMetricForm;
 				}
 		  }
@@ -258,7 +264,7 @@ public class CombinedMetricFormController extends BaseFormController
 				 * 
 				 * for(AbstractMetric m : mSet) { metric.addComposedBy(m); }
 				 */
-				populateModel(model, metric.getMeasurementScale());
+				populateModel(model, metric.getMeasurementScale(), metric.getId());
 				
 				Set<String> composedByMetricNames = MetricValidator.getUsedMetrics(metric.getFormula());
 
@@ -412,9 +418,13 @@ public class CombinedMetricFormController extends BaseFormController
 		  return ret;
 	 }
 
-	 private void populateModel(Model model, MeasurementScale measurementScale)
+	 private void populateModel(Model model, MeasurementScale measurementScale, Long metricId)
 	 {
-		  List<AbstractMetric> availableMetricComposers = this.metricManager.findByMeasurementScaleType(measurementScale.getType());
+		  List<AbstractMetric> availableMetricComposers;
+		  if(metricId != null)
+			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleTypeExludingOneById(measurementScale.getType(), metricId);
+		  else
+			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleType(measurementScale.getType());
 		  availableMetricComposers = this.filterByRangeOfValues(measurementScale, availableMetricComposers);
 		  model.addAttribute("availableMetricComposers", availableMetricComposers);
 	 }
