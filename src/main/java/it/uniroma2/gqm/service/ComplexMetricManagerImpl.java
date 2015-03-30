@@ -154,7 +154,7 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 }
 	 
 	 @Override
-	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
 	 {
 		  if(type != null)
 		  {
@@ -162,7 +162,7 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  }
 		  return null;
 	 }
-
+/*
 	 @Override
 	 public JSONArray findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum type)
 	 {
@@ -172,7 +172,7 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  }
 		  return null;
 	 }
-
+*/
 	 @Override
 	 public AbstractMetric findMetricByName(String name) throws IndexOutOfBoundsException
 	 {

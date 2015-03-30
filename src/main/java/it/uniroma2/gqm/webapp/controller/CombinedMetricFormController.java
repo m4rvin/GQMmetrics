@@ -23,6 +23,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -128,7 +129,7 @@ public class CombinedMetricFormController extends BaseFormController
 				model.addAttribute("used", !metric.isEresable());
 				MeasurementScale measurementScale = metric.getMeasurementScale();
 				if (measurementScale != null && measurementScale.getType() != null)
-					 populateModel(model, measurementScale.getType());
+					 populateModel(model, measurementScale);
 		  } else
 		  {
 				metric = new CombinedMetric();
@@ -186,8 +187,15 @@ public class CombinedMetricFormController extends BaseFormController
 	 @RequestMapping(value = ViewName.combinedMetricFormAjax, method = RequestMethod.GET)
 	 public String getConsistentMetrics(HttpServletRequest request)
 	 {
-		  MeasurementScaleTypeEnum measurementScaleType = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId"))).getType();
-		  JSONArray ret = this.metricManager.findByMeasurementScaleTypeJSONized(measurementScaleType);
+		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
+		  List<AbstractMetric> metricsSet = this.metricManager.findByMeasurementScaleType(measurementScale.getType());
+		  
+		  metricsSet = this.filterByRangeOfValues(measurementScale, metricsSet);
+		  
+		  JSONArray ret = new JSONArray();
+		  for(AbstractMetric m : metricsSet)
+				ret.put(m.getName());
+		  
 		  System.out.println("Query result of combinedMetricFormAjax: " + ret.toString());
 		  return ret.toString();
 	 }
@@ -210,7 +218,7 @@ public class CombinedMetricFormController extends BaseFormController
 					 System.out.println(metric);
 					 MeasurementScale measurementScale = metric.getMeasurementScale();
 					 if (measurementScale != null && measurementScale.getType() != null)
-						  populateModel(model, measurementScale.getType());
+						  populateModel(model, measurementScale);
 					 return ViewName.combinedMetricForm;
 				}
 		  }
@@ -250,21 +258,21 @@ public class CombinedMetricFormController extends BaseFormController
 				 * 
 				 * for(AbstractMetric m : mSet) { metric.addComposedBy(m); }
 				 */
-				populateModel(model, metric.getMeasurementScale().getType());
+				populateModel(model, metric.getMeasurementScale());
 				
-				Set<String> composedByMetricName = MetricValidator.getUsedMetrics(metric.getFormula());
+				Set<String> composedByMetricNames = MetricValidator.getUsedMetrics(metric.getFormula());
 
-				List<String> availableMetricNames = (ArrayList<String>) model.asMap().get("availableMetricComposers");
+				List<AbstractMetric> availableMetrics = (ArrayList<AbstractMetric>) model.asMap().get("availableMetricComposers");
 
-				for (String metricName : composedByMetricName)
+				for (String metricName : composedByMetricNames)
 				{
 					 boolean found = false;
 					 metricName = metricName.replaceAll("_", "");
-					 for (String m : availableMetricNames)
+					 for (AbstractMetric m : availableMetrics)
 					 {
-						  if (m.equals(metricName))
+						  if (m.getName().equals(metricName))
 						  {
-								metric.addComposedBy(this.metricManager.findMetricByName(m));
+								metric.addComposedBy(m);
 								found = true;
 								break;
 						  }
@@ -404,9 +412,22 @@ public class CombinedMetricFormController extends BaseFormController
 		  return ret;
 	 }
 
-	 private void populateModel(Model model, MeasurementScaleTypeEnum type)
+	 private void populateModel(Model model, MeasurementScale measurementScale)
 	 {
-		  List<CombinedMetric> availableMetricComposers = this.metricManager.findByMeasurementScaleType(type);
+		  List<AbstractMetric> availableMetricComposers = this.metricManager.findByMeasurementScaleType(measurementScale.getType());
+		  availableMetricComposers = this.filterByRangeOfValues(measurementScale, availableMetricComposers);
 		  model.addAttribute("availableMetricComposers", availableMetricComposers);
+	 }
+	 
+	 private List<AbstractMetric> filterByRangeOfValues(MeasurementScale currentMeasurementScale, List<AbstractMetric> rawList)
+	 {
+		  Iterator<AbstractMetric> it = rawList.iterator();
+		  while(it.hasNext())
+		  {
+				AbstractMetric m = it.next();
+				if(!m.getMeasurementScale().getRangeOfValues().isIncluded(currentMeasurementScale.getRangeOfValues()))
+					 it.remove();
+		  }
+		  return rawList;
 	 }
 }

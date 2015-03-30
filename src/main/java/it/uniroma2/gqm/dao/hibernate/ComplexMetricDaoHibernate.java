@@ -41,12 +41,19 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 		  Query q = getSession().getNamedQuery("findByMeasurementScale").setLong("measurementScaleId", id);
 		  return q.list();
 	 }
-	 
+
 	 @Override
 	 public AbstractMetric findMetricByName(String name) throws IndexOutOfBoundsException
 	 {
 		  Query q = getSession().getNamedQuery("findMetricByName").setString("name", name);
 		  return (AbstractMetric) q.list().get(0);
+	 }
+	 
+	 @Override
+	 public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
+	 {
+		 Query q = getSession().getNamedQuery("findMetricByMeasurementScaleType").setLong("type", type.ordinal());
+		 return q.list();
 	 }
 
 	 // SimpleMetric related queries
@@ -79,10 +86,4 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 		  return (CombinedMetric) this.get(id);
 	 }
 
-	 @Override
-	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type)
-	 {
-		 Query q = getSession().getNamedQuery("findByMeasurementScaleType").setLong("type", type.ordinal());
-		 return q.list();
-	 }
 }

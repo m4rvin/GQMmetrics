@@ -183,7 +183,7 @@ public class RangeOfValues extends BaseObject
 	 public boolean isIncluded(RangeOfValues other)
 	 {
 		  if (this.defaultRange && other.isDefaultRange()) //both default range. Just check the inclusion natural < integer < real
-				return DefaultRangeOfValuesEnum.valueOf(this.rangeValues).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getRangeValues()).ordinal();
+				return DefaultRangeOfValuesEnum.valueOf(this.numberType).ordinal() <= DefaultRangeOfValuesEnum.valueOf(other.getNumberType()).ordinal();
  
 		  else if(this.defaultRange && !other.isDefaultRange()) //always false, a default range can't be included in a custom range (default ranges are only numeric)
 				return false;

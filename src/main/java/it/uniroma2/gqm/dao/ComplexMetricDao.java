@@ -19,6 +19,8 @@ public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long>
 	 public List<AbstractMetric> findByMeasurementScale(Long id);
 	 
 	 public AbstractMetric findMetricByName(String name);
+	 
+	 public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
 
 	 // SimpleMetric related query
 	 public List<SimpleMetric> findSimpleMetricByProject(Project project);
@@ -30,6 +32,6 @@ public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long>
 
 	 public CombinedMetric findCombinedMetricById(Long id);
 	 
-	 public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
+	
 
 }

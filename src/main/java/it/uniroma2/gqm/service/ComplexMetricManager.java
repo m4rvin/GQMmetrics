@@ -25,6 +25,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	public List<String> getMetricInfo(Long metricId);
 	public boolean getSatisfaction(AbstractMetric m);
 	public AbstractMetric findMetricByName(String name);
+	public List<AbstractMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
 	
 
 	//SimpleMetric related query
@@ -35,7 +36,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	//CombinedMetric related query
 	public List<CombinedMetric> findCombinedMetricByProject(Project project);
 	public CombinedMetric findCombinedMetricById(Long id);
-	public List<CombinedMetric> findByMeasurementScaleType(MeasurementScaleTypeEnum type);
-	public JSONArray findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum type);
+	
+	//public JSONArray findByMeasurementScaleTypeJSONized(MeasurementScaleTypeEnum type);
 	
 }
