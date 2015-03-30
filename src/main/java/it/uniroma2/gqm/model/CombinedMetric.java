@@ -45,6 +45,12 @@ public class CombinedMetric extends AbstractMetric
 		  }
 	 }
 
+	 public void removeComposedBy(AbstractMetric metric)
+	 {
+		  this.composedBy.remove(metric);
+		  metric.removeComposerFor(this);
+	 }
+	 
 	 @Override
 	 public String toString()
 	 {

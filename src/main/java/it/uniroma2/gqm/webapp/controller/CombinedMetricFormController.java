@@ -243,6 +243,14 @@ public class CombinedMetricFormController extends BaseFormController
 				saveMessage(request, getText("metric.deleted", locale));
 		  } else
 		  {
+				
+				if(metric.getComposedBy().size() > 0) //== not isNew --->  during editing I want to delete the old references to the composer metrics
+				{
+					 for(AbstractMetric m : metric.getComposedBy())
+						  metric.removeComposedBy(m);
+				}
+				
+				
 				if (metric.getMetricOwner() == null)
 					 metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
 
