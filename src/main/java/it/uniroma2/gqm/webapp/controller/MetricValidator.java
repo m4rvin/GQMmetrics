@@ -55,7 +55,7 @@ public class MetricValidator implements Validator
 		  operations.put("membership", "(@){1}");
 		  operations.put("greater than", "(>){1}");
 		  operations.put("lower than", "(<){1}");
-		  operations.put("equal", "(=){1}");
+		  operations.put("equality", "(=){1}");
 	 }
 
 	 @Override
@@ -115,12 +115,18 @@ public class MetricValidator implements Validator
 					 for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
 					 {
 						  String regex = operations.get(operation.getOperation());
-						  formula = formula.replaceAll(regex, "&"); //elimina le operazioni lasciando le parentesi
+						 
+						  if(operation.getOperation().equals("addition") || operation.getOperation().equals("ratio") ||
+									 operation.getOperation().equals("subtraction") || operation.getOperation().equals("multiplication") || 
+									 operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
+								formula = formula.replaceAll(regex, "?");
+						  else
+								formula = formula.replaceAll(regex, "&"); 
 						  if(operation.getOperation().equals("multiplication"))
 								multiplication = true;
 					 }
 
-					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,]*")) || (findImplicitMultiplication(formula) && !multiplication))
+					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,|\\?]*")) || (findImplicitMultiplication(formula) && !multiplication))
 						  errors.rejectValue("formula", "formula", "Usage of not allowed operations");
 					 return;
 				}
