@@ -1223,7 +1223,6 @@
         <column>code</column>
         <column>name</column>        
         <column>hypothesis</column>
-        <column>unit_id</column>
         <column>measurement_scale_id</column>
         <column>type</column>
         <column>mmdmo_id</column>
@@ -1243,7 +1242,6 @@
             <value description="code">DEVTIME</value>
             <value description="name">myname</value>
             <value description="hypothesis">264</value>
-            <value description="unit_id">-11</value>
             <value description="measurement_scale_id">1</value>
             <value description="type">SUBJECTIVE</value>
             <value description="mmdmo_id">9</value>
@@ -1596,12 +1594,14 @@
 	<column>measurementScale_type</column>
 	<column>project_id</column>
 	<column>rangeofvalues_id</column>
+	<column>unit_id</column>
 	<row>
 		<value description="measurementScale_id">1</value>
 		<value description="name">measurement scale A</value>
 		<value description="measurementScale_type">3</value>
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">4</value>
+		<value description="unit_id">-3</value>
 	</row>
 	<row>
 		<value description="measurementScale_id">2</value>
@@ -1609,6 +1609,7 @@
 		<value description="measurementScale_type">2</value>
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">1</value>
+		<value description="unit_id">-3</value>
 	</row>
 	
 	<!-- <row> <value description="measurementScale_id"></value> <value description="name"></value> 

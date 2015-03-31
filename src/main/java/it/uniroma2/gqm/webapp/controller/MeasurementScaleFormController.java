@@ -97,6 +97,8 @@ public class MeasurementScaleFormController extends BaseFormController
 		  {
 				this.projectManager.getCurrentProject(session);
 		  }
+		  List<Unit> units = this.unitManager.getAll();
+		  model.addAttribute("units", units);
 	 }
 
 	 @RequestMapping(value = "/measurementScaleform*", method = RequestMethod.GET)
@@ -180,13 +182,13 @@ public class MeasurementScaleFormController extends BaseFormController
 				else
 					 return "measurementScaleform";
 		  }
-		  if (measurementScale.getMeasurementUnit() != null && measurementScale.getMeasurementUnit().getId() != null)
+		  /*if (measurementScale.getMeasurementUnit() != null && measurementScale.getMeasurementUnit().getId() != null)
 			{
 				measurementScale.setMeasurementUnit(unitManager.get(measurementScale.getMeasurementUnit().getId()));
 			} else
 			{
 				 measurementScale.setMeasurementUnit(null);
-			}
+			}*/
 		  
 		  System.out.println(measurementScale);
 		  try{
@@ -279,10 +281,8 @@ public class MeasurementScaleFormController extends BaseFormController
 		  List<RangeOfValues> rovs = this.rangeOfValuesManager.findBySupportedMeasurementScaleOBJ(type);
 		  model.addAttribute("supportedRangeOfValues", rovs);
 
-		  List<DefaultOperation> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
-		  model.addAttribute("supportedOperations", ret);
-		  
-		  
+		  List<DefaultOperation> defops = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
+		  model.addAttribute("supportedOperations", defops);
 	 }
 
 }

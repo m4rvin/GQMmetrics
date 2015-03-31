@@ -10,7 +10,6 @@ import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.SimpleMetric;
-import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -51,12 +50,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({ "currentProject", "simpleMetric", "currentUser", "units", "scales", "availableMetrics", "measurementScales", "availableQuestions" })
+@SessionAttributes({ "currentProject", "simpleMetric", "currentUser", "scales", "availableMetrics", "measurementScales", "availableQuestions" })
 public class SimpleMetricFormController extends BaseFormController
 {
 	 @Autowired
 	 private ComplexMetricManager metricManager;
-	 private GenericManager<Unit, Long> unitManager = null;
 	 private MeasurementScaleManager measurementScaleManager = null;
 	 private MetricValidator customValidator;
 	 
@@ -81,12 +79,6 @@ public class SimpleMetricFormController extends BaseFormController
 	 public void setUserManager(UserManager userManager)
 	 {
 		  this.userManager = userManager;
-	 }
-
-	 @Autowired
-	 public void setUnitManager(@Qualifier("unitManager") GenericManager<Unit, Long> unitManager)
-	 {
-		  this.unitManager = unitManager;
 	 }
 
 	 @Autowired
@@ -152,7 +144,6 @@ public class SimpleMetricFormController extends BaseFormController
 
 		  model.addAttribute("currentProject", currentProject);
 		  model.addAttribute("currentUser", currentUser);
-		  model.addAttribute("units", unitManager.getAll());
 		  model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
 
 		  ArrayList<String> availablesTypes = new ArrayList<String>();
@@ -234,23 +225,6 @@ public class SimpleMetricFormController extends BaseFormController
 		  binder.setValidator(this.customValidator);
 	 }
 
-	 @InitBinder
-	 protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder)
-	 {
-		  binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.class)
-		  {
-				protected Object convertElement(Object element)
-				{
-					 if (element != null)
-					 {
-						  Long id = new Long((String) element);
-						  Unit u = unitManager.get(id);
-						  return u;
-					 }
-					 return null;
-				}
-		  });
-	 }
 
 	 @InitBinder
 	 protected void initBinder2(HttpServletRequest request, ServletRequestDataBinder binder)

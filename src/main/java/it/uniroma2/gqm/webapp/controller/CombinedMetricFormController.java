@@ -11,7 +11,6 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -55,13 +54,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({ "currentProject", "combinedMetric", "currentUser", "units", "scales", "measurementScales" })
+@SessionAttributes({ "currentProject", "combinedMetric", "currentUser", "scales", "measurementScales" })
 public class CombinedMetricFormController extends BaseFormController
 {
 
 	 @Autowired
 	 private ComplexMetricManager metricManager;
-	 private GenericManager<Unit, Long> unitManager = null;
 	 private MeasurementScaleManager measurementScaleManager = null;
 	 private MetricValidator customValidator;
 
@@ -86,12 +84,6 @@ public class CombinedMetricFormController extends BaseFormController
 	 public void setUserManager(UserManager userManager)
 	 {
 		  this.userManager = userManager;
-	 }
-
-	 @Autowired
-	 public void setUnitManager(@Qualifier("unitManager") GenericManager<Unit, Long> unitManager)
-	 {
-		  this.unitManager = unitManager;
 	 }
 
 	 @Autowired
@@ -160,7 +152,6 @@ public class CombinedMetricFormController extends BaseFormController
 
 		  model.addAttribute("currentProject", currentProject);
 		  model.addAttribute("currentUser", currentUser);
-		  model.addAttribute("units", unitManager.getAll());
 		  model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
 
 		  ArrayList<String> availablesTypes = new ArrayList<String>();
