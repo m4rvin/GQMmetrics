@@ -172,6 +172,9 @@
              <field property="operations" depends="required">
                 <arg key="measurementScale.operations"/>
             </field>
+            <field property="measurementUnit" depends="required">
+                <arg key="measurementScale.measurementUnit"/>
+            </field>
         </form>
         
     </formset>

@@ -5,6 +5,7 @@ import it.uniroma2.gqm.model.MeasurementScale;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.RangeOfValues;
+import it.uniroma2.gqm.model.Unit;
 import it.uniroma2.gqm.service.DefaultOperationManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -20,8 +21,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.appfuse.service.GenericManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +43,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-@SessionAttributes({ "measurementScale", "currentProject" })
+@SessionAttributes({ "measurementScale", "currentProject", "units" })
 public class MeasurementScaleFormController extends BaseFormController
 {
 
 	 private RangeOfValuesManager rangeOfValuesManager;
 	 private DefaultOperationManager defaultOperationManager;
 	 private MeasurementScaleManager measurementScaleManager;
+	 private GenericManager<Unit, Long> unitManager = null;
 
 	 private ProjectManager projectManager = null;
 
@@ -72,6 +76,12 @@ public class MeasurementScaleFormController extends BaseFormController
 	 public void setRangeOfValuesManager(@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager)
 	 {
 		  this.rangeOfValuesManager = rangeOfValuesManager;
+	 }
+	 
+	 @Autowired
+	 public void setUnitManager(@Qualifier("unitManager") GenericManager<Unit, Long> unitManager)
+	 {
+		  this.unitManager = unitManager;
 	 }
 
 	 @Autowired
@@ -112,6 +122,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  {
 				measurementScale = new MeasurementScale();
 				measurementScale.setProject(currentProject);
+				model.addAttribute("units", unitManager.getAll());
 		  }
 
 		  model.addAttribute("measurementScale", measurementScale);
@@ -138,7 +149,7 @@ public class MeasurementScaleFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(value = "/measurementScaleform*", method = RequestMethod.POST)
-	 public String onSubmit(@ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, Model model)
+	 public String onSubmit(@Valid @ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, Model model)
 	 {
 		  if (request.getParameter("cancel") != null)
 				return getCancelView();
@@ -169,6 +180,14 @@ public class MeasurementScaleFormController extends BaseFormController
 				else
 					 return "measurementScaleform";
 		  }
+		  if (measurementScale.getMeasurementUnit() != null && measurementScale.getMeasurementUnit().getId() != null)
+			{
+				measurementScale.setMeasurementUnit(unitManager.get(measurementScale.getMeasurementUnit().getId()));
+			} else
+			{
+				 measurementScale.setMeasurementUnit(null);
+			}
+		  
 		  System.out.println(measurementScale);
 		  try{
 			  this.measurementScaleManager.save(measurementScale);
@@ -191,7 +210,8 @@ public class MeasurementScaleFormController extends BaseFormController
 	 public void initBinder(WebDataBinder binder)
 	 {
 
-		  binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues", new MeasurementScaleEditorSupport());
+		  binder.registerCustomEditor(RangeOfValues.class, "rangeOfValues", new RangeOfValuesEditorSupport());
+		  binder.registerCustomEditor(Unit.class, "measurementUnit", new MeasurementUnitEditorSupport());
 		  binder.registerCustomEditor(Set.class, "operations", new CustomCollectionEditor(Set.class)
 		  {
 				@Override
@@ -203,7 +223,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  });
 	 }
 
-	 private class MeasurementScaleEditorSupport extends PropertyEditorSupport
+	 private class RangeOfValuesEditorSupport extends PropertyEditorSupport
 	 {
 
 		  @Override
@@ -229,6 +249,30 @@ public class MeasurementScaleFormController extends BaseFormController
 				// FIXME error
 		  }
 	 }
+	 
+	 private class MeasurementUnitEditorSupport extends PropertyEditorSupport
+	 {
+		  @Override
+		  public void setAsText(String text)
+		  {
+				if (text != null && !text.equals(""))
+				{
+					 Unit unit = null;
+					 try
+					 {
+						  unit = unitManager.get(new Long(text));
+						  setValue(unit);
+					 }
+					 catch(Exception e)
+					 {
+						  System.out.println(e);
+						  setValue(null);
+					 }
+				}
+				else
+					 setValue(null);
+		  }
+	 }
 
 	 private void populateModel(Model model, MeasurementScaleTypeEnum type)
 	 {
@@ -237,6 +281,8 @@ public class MeasurementScaleFormController extends BaseFormController
 
 		  List<DefaultOperation> ret = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
 		  model.addAttribute("supportedOperations", ret);
+		  
+		  
 	 }
 
 }

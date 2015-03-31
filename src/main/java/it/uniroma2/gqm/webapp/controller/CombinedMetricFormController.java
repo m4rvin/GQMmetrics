@@ -310,24 +310,6 @@ public class CombinedMetricFormController extends BaseFormController
 	 }
 
 	 @InitBinder
-	 protected void initUnitBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-	 {
-		  binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.class)
-		  {
-				protected Object convertElement(Object element)
-				{
-					 if (element != null)
-					 {
-						  Long id = new Long((String) element);
-						  Unit u = unitManager.get(id);
-						  return u;
-					 }
-					 return null;
-				}
-		  });
-	 }
-
-	 @InitBinder
 	 protected void initMeasurementScaleBinder(HttpServletRequest request, ServletRequestDataBinder binder)
 	 {
 		  binder.registerCustomEditor(MeasurementScale.class, "measurementScale", new MeasurementScaleEditorSupport());

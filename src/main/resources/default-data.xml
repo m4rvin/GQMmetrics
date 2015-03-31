@@ -1063,7 +1063,7 @@
         <column>physical</column>
         <column>base_unit</column>
         <column>multiples</column>        
-        <!--<row>
+        <row>
             <value description="unit_id">-1</value>
             <value description="name">Radial</value>                       
             <value description="symbol">rad</value>
@@ -1150,7 +1150,7 @@
             <value description="physical">time</value>
             <value description="base_unit">F</value>
             <value description="multiples">86400</value>
-        </row>-->                                                                      
+        </row>                                                                   
 	</table>
     <table name="scale">
         <column>scale_id</column>

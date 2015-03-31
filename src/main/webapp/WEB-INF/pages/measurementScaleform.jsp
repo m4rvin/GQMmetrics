@@ -11,11 +11,11 @@
 	</h2>
 	<p>
 		<c:choose>
-		<c:when test="${used}">You cannot modify the selected Measurement Scale, it is already attached to a Metric</c:when>
-		<c:otherwise>
-			<fmt:message key="measurementScaleDetail.message" />
-		</c:otherwise>
-	</c:choose>
+			<c:when test="${used}">You cannot modify the selected Measurement Scale, it is already attached to a Metric</c:when>
+			<c:otherwise>
+				<fmt:message key="measurementScaleDetail.message" />
+			</c:otherwise>
+		</c:choose>
 	</p>
 	<%-- <p><fmt:message key="metric.goals.message"/></p>		
 	<p><fmt:message key="metric.owner.message"/></p><b>&nbsp;&nbsp;&nbsp;${metric.metricOwner.fullName}</b>
@@ -58,8 +58,22 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.name" />
 				<div class="controls">
-					<form:input path="name" id="name" maxlength="255" readonly="${used}" />
+					<form:input path="name" id="name" maxlength="100"
+						readonly="${used}" />
 					<form:errors path="name" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+
+		<spring:bind path="measurementScale.description">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label"
+					key="measurementScale.description" />
+				<div class="controls">
+					<form:input path="description" id="name" maxlength="1000"
+						readonly="${used}" />
+					<form:errors path="description" cssClass="help-inline" />
 				</div>
 			</div>
 		</spring:bind>
@@ -79,6 +93,20 @@
 				</div>
 			</div>
 		</spring:bind>
+
+		<spring:bind path="measurementScale.measurementUnit">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="measurementScale.measurementUnit" />
+				<div class="controls">
+					<form:select path="measurementUnit.id" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
+						<form:option value="" label="None" />
+						<form:options items="${units}" itemValue="id" itemLabel="name" />
+					</form:select>
+					<form:errors path="measurementUnit" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+
 
 		<spring:bind path="measurementScale.rangeOfValues">
 			<div
@@ -124,12 +152,11 @@
 							</c:forEach>
 							<c:choose>
 								<c:when test="${found}">
-									<form:option value="${i.id}"
-										label="${i.operation}" selected="selected" />
+									<form:option value="${i.id}" label="${i.operation}"
+										selected="selected" />
 								</c:when>
 								<c:otherwise>
-									<form:option value="${i.id}"
-										label="${i.operation}" />
+									<form:option value="${i.id}" label="${i.operation}" />
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -140,9 +167,9 @@
 		</spring:bind>
 
 		<div class="error-messages">
-		<c:if test="${not empty duplicate_value}">
-			<c:out value="${duplicate_value}"></c:out>
-		</c:if>
+			<c:if test="${not empty duplicate_value}">
+				<c:out value="${duplicate_value}"></c:out>
+			</c:if>
 		</div>
 
 
@@ -152,10 +179,10 @@
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
-					<button type="submit" class="btn" name="delete">
-						<i class="icon-trash"></i>
-						<fmt:message key="button.delete" />
-					</button>
+				<button type="submit" class="btn" name="delete">
+					<i class="icon-trash"></i>
+					<fmt:message key="button.delete" />
+				</button>
 			</c:if>
 			<button type="submit" class="btn" name="cancel">
 				<i class="icon-remove"></i>
