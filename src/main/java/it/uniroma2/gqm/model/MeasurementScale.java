@@ -15,12 +15,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import org.appfuse.model.BaseObject;
 
 @Entity
-@Table(name = "measurement_scale")
+@Table(name="measurement_scale", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "measurementScale_type", "rangeofvalues_id" }))
 @NamedQueries({ @NamedQuery(name = "findMeasurementScaleByProject", query = "select m from MeasurementScale m where m.project.id = :project_id"), @NamedQuery(name = "findMeasurementScaleByRangeOfValues", query = "select m from MeasurementScale m where m.rangeOfValues.id = :rangeofvalues_id") })
 public class MeasurementScale extends BaseObject
 {
