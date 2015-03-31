@@ -1591,6 +1591,7 @@
  	<table name="measurement_scale">
 	<column>measurementScale_id</column>
 	<column>name</column>
+	<column>description</column>
 	<column>measurementScale_type</column>
 	<column>project_id</column>
 	<column>rangeofvalues_id</column>
@@ -1598,6 +1599,7 @@
 	<row>
 		<value description="measurementScale_id">1</value>
 		<value description="name">measurement scale A</value>
+		<value description="description">description for measurement scale A</value>
 		<value description="measurementScale_type">3</value>
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">4</value>
@@ -1606,6 +1608,7 @@
 	<row>
 		<value description="measurementScale_id">2</value>
 		<value description="name">measurement scale B</value>
+		<value description="description">description for measurement scale B</value>
 		<value description="measurementScale_type">2</value>
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">1</value>
