@@ -255,13 +255,6 @@ public class CombinedMetricFormController extends BaseFormController
 				if (metric.getMetricOwner() == null)
 					 metric.setMetricOwner(userManager.getUserByUsername(request.getRemoteUser()));
 
-				if (metric.getUnit() != null && metric.getUnit().getId() != null)
-				{
-					 metric.setUnit(unitManager.get(metric.getUnit().getId()));
-				} else
-				{
-					 metric.setUnit(null);
-				}
 
 				/*
 				 * TEST per combinedMetric relationship Set<AbstractMetric> mSet =
