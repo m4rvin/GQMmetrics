@@ -114,8 +114,6 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  List<String> ret = new ArrayList<String>();
 		  ret.add("Id: " + (metric.getId()));
 		  ret.add("Name: " + (metric.getName()));
-		  if (metric.getUnit() != null)
-				ret.add("Unit: " + (metric.getUnit().getName()));
 		  ret.add("Type: " + (metric.getType()));
 
 		  // TODO measurement scale

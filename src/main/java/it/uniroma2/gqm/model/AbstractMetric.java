@@ -53,7 +53,6 @@ public class AbstractMetric extends BaseObject
 																 // momento della creazione
 																 // sulla view
 	 protected String hypothesis;
-	 protected Unit unit;
 	 protected MeasurementScale measurementScale;
 	 protected SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 protected User metricOwner;
@@ -144,18 +143,6 @@ public class AbstractMetric extends BaseObject
 	 public void setHypothesis(String hypothesis)
 	 {
 		  this.hypothesis = hypothesis;
-	 }
-
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name = "unit_id", nullable = true)
-	 public Unit getUnit()
-	 {
-		  return unit;
-	 }
-
-	 public void setUnit(Unit unit)
-	 {
-		  this.unit = unit;
 	 }
 
 	 @Enumerated(EnumType.STRING)
@@ -298,7 +285,7 @@ public class AbstractMetric extends BaseObject
 				case GREATER_OR_EQUAL:
 					 ret = this.getMeasuredValue() >= this.satisfyingConditionValue;
 					 break;
-				case GREATHER:
+				case GREATER:
 					 ret = this.getMeasuredValue() > this.satisfyingConditionValue;
 					 break;
 				case LESS:
@@ -428,7 +415,6 @@ public class AbstractMetric extends BaseObject
 		  result = prime * result + ((satisfyingConditionOperation == null) ? 0 : satisfyingConditionOperation.hashCode());
 		  result = prime * result + ((satisfyingConditionValue == null) ? 0 : satisfyingConditionValue.hashCode());
 		  result = prime * result + ((type == null) ? 0 : type.hashCode());
-		  result = prime * result + ((unit == null) ? 0 : unit.hashCode());
 		  return result;
 	 }
 
@@ -525,12 +511,6 @@ public class AbstractMetric extends BaseObject
 		  } else if (!satisfyingConditionValue.equals(other.satisfyingConditionValue))
 				return false;
 		  if (type != other.type)
-				return false;
-		  if (unit == null)
-		  {
-				if (other.unit != null)
-					 return false;
-		  } else if (!unit.equals(other.unit))
 				return false;
 		  return true;
 	 }

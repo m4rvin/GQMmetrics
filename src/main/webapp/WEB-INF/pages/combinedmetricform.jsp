@@ -103,19 +103,6 @@
         </div>
     </div> 
     
-    <spring:bind path="combinedMetric.unit">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.unit"/>
-        <div class="controls">
-			<form:select path="unit.id" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
-   				<form:option value="" label="None"/>
-		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
-		    </form:select>		
-            <form:errors path="unit" cssClass="help-inline"/>
-        </div>
-    </div>    
-
     <spring:bind path="combinedMetric.measurementScale">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>

@@ -105,19 +105,6 @@
         </div>
     </div> 
     
-    <spring:bind path="simpleMetric.unit">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.unit"/>
-        <div class="controls">
-			<form:select path="unit.id" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
-   				<form:option value="" label="None"/>
-		    	<form:options items="${units}" itemValue="id" itemLabel="name" />
-		    </form:select>		
-            <form:errors path="unit" cssClass="help-inline"/>
-        </div>
-    </div>    
-
     <spring:bind path="simpleMetric.measurementScale">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
