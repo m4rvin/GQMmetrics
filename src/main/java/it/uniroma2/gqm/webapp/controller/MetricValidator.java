@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javassist.expr.Instanceof;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.ValidationResult;
@@ -70,16 +71,58 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 
 		  String formula = metric.getFormula();
-		  formula = formula.replaceAll(" ", "");
-		  if (formula != null && formula.length() > 0) // valida prima la sintassi
-																	  // e poi le operazioni
-																	  // all'interno
+		  
+		  if (metric instanceof SimpleMetric && !findThisMetric(formula))
 		  {
-				Set<String> metrics = new HashSet<String>();
+				errors.rejectValue("formula", "formula", "Missing reference to _this_ value");
+				return;
+		  }
 
-				if (metric instanceof CombinedMetric)
+		  if (!validateFormulaSyntax(formula, metric.getClass(), errors))
+				return;
+			
+		  formula = formula.replaceAll("(_){1}[^_]+(_){1}", "%"); // elimina le
+																					 // metriche
+		  // Valida le operazioni accettate
+
+		  boolean multiplication = false;
+
+		  if (metric.getMeasurementScale() != null)
+		  {
+				for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
+				{
+					 String regex = operations.get(operation.getOperation());
+
+					 if (operation.getOperation().equals("addition") || operation.getOperation().equals("ratio") || operation.getOperation().equals("subtraction") || operation.getOperation().equals("multiplication") || operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
+						  formula = formula.replaceAll(regex, "?");
+					 else
+						  formula = formula.replaceAll(regex, "&");
+					 if (operation.getOperation().equals("multiplication"))
+						  multiplication = true;
+				}
+
+				if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,|\\?]*")) || (findImplicitMultiplication(formula) && !multiplication))
+					 errors.rejectValue("formula", "formula", "Usage of not allowed operations");
+				return;
+		  }
+	 }
+
+	 public static boolean validateFormulaSyntax(String formula, Class<?> metricClass, Errors errors)
+	 {
+
+		  formula = formula.replaceAll(" ", "");
+		  if (formula != null && formula.length() > 0)
+		  {
+				Set<String> metrics;
+
+				if (metricClass.equals(CombinedMetric.class))
 					 metrics = getUsedMetrics(formula);
-
+				else //metrica semplice, aggiungi solo _this_ in modo da scartare eventuali variabili inserite dall'utente 
+				{
+					metrics = new HashSet<String>();
+					metrics.add("_this_");
+				}
+				
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
 				Map<String, Double> fakeValues = new HashMap<String, Double>();
 				for (String m : metrics)
@@ -98,40 +141,15 @@ public class MetricValidator implements Validator
 								errors.rejectValue("formula", "formula", error);
 						  }
 
-						  return;
+						  return false;
 					 }
 				} catch (IllegalArgumentException e)
 				{
 					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
-					 return;
-				}
-				formula = formula.replaceAll("(_){1}[^_]+(_){1}", "%"); //elimina le metriche
-				// Valida le operazioni accettate
-				
-				boolean multiplication = false;
-				
-				if (metric.getMeasurementScale() != null)
-				{
-					 for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
-					 {
-						  String regex = operations.get(operation.getOperation());
-						 
-						  if(operation.getOperation().equals("addition") || operation.getOperation().equals("ratio") ||
-									 operation.getOperation().equals("subtraction") || operation.getOperation().equals("multiplication") || 
-									 operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || 
-									 operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
-								formula = formula.replaceAll(regex, "?");
-						  else
-								formula = formula.replaceAll(regex, "&"); 
-						  if(operation.getOperation().equals("multiplication"))
-								multiplication = true;
-					 }
-
-					 if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,|\\?]*")) || (findImplicitMultiplication(formula) && !multiplication))
-						  errors.rejectValue("formula", "formula", "Usage of not allowed operations");
-					 return;
+					 return false;
 				}
 		  }
+		  return true;
 	 }
 
 	 public static Set<String> getUsedMetrics(String formula)
@@ -147,10 +165,19 @@ public class MetricValidator implements Validator
 
 		  return metrics;
 	 }
-	 
+
 	 public static boolean findImplicitMultiplication(String formula)
 	 {
 		  Pattern pattern = Pattern.compile("(%){2}|\\d+(%)|(%)\\d+|\\d+(&)|(&)\\d+|\\)\\d+|\\)(%)|\\)(&)");
+		  Matcher matcher = pattern.matcher(formula);
+
+		  return matcher.find();
+	 }
+
+	 public static boolean findThisMetric(String formula)
+	 {
+		  Pattern pattern = Pattern.compile("(_){1}(this){1}(_){1}");
+
 		  Matcher matcher = pattern.matcher(formula);
 
 		  return matcher.find();
