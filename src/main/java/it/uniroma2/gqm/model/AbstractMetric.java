@@ -24,6 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
@@ -36,7 +37,7 @@ import org.appfuse.model.User;
 		  @NamedQuery(name = "findMetricByMeasurementScaleTypeExludingOneById", query = "select m from AbstractMetric m where m.measurementScale.type = :type AND m.id <> :id" ),
 		  @NamedQuery(name = "findMetricByName", query = "select m from AbstractMetric m where m.name = :name")})
 @DiscriminatorColumn(name = "complexMetricType")
-@Table(name = "AbstractMetric")
+@Table(name = "AbstractMetric", uniqueConstraints = @UniqueConstraint(columnNames = { "type", "measurement_scale_id", "collecting_type", "metric_formula"}))
 public class AbstractMetric extends BaseObject
 {
 
@@ -87,7 +88,7 @@ public class AbstractMetric extends BaseObject
 		  this.code = code;
 	 }
 
-	 @Column(name = "name", length = 255, nullable = false)
+	 @Column(name = "name", length = 255, nullable = false, unique = true)
 	 public String getName()
 	 {
 		  return name;

@@ -37,6 +37,7 @@ import org.appfuse.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -169,7 +170,7 @@ public class SimpleMetricFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
-	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status) throws Exception
+	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
 	 {
 		  if (request.getParameter("cancel") != null)
 		  {
@@ -203,7 +204,23 @@ public class SimpleMetricFormController extends BaseFormController
 
 
 				System.out.println("\n\n" + metric + "\n\n");
-				metricManager.save(metric);
+				
+				try{
+					  this.metricManager.save(metric);
+				}
+				catch(DataIntegrityViolationException e){
+					  System.err.println(e.getMessage());
+					  if(e.getMessage().contains("name")){
+						  model.addAttribute("duplicate_value", "A simple metric with the same name already exists. Please change the name and retry.");
+
+					  }
+					  else{
+						  model.addAttribute("duplicate_value", "The simple metric already exists in the database. Change some parameter and retry.");
+					  }
+					  return ViewName.simpleMetricForm;
+				}
+				
+				
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));
 		  }

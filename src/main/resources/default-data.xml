@@ -1623,15 +1623,15 @@
 		
 		<row>
 			<value description="measurementScale_id">1</value>
-			<value description="defaultoperation_id">7</value>
-		</row>
-		<row>
-			<value description="measurementScale_id">1</value>
-			<value description="defaultoperation_id">8</value>
+			<value description="defaultoperation_id">1</value>
 		</row>
 		<row>
 			<value description="measurementScale_id">1</value>
 			<value description="defaultoperation_id">5</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">1</value>
+			<value description="defaultoperation_id">7</value>
 		</row>
 		
 		<row>

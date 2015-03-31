@@ -163,8 +163,8 @@
 				<form:option value="LESS" label="<"/>
 				<form:option value="LESS_OR_EQUAL" label="<="/>
 				<form:option value="EQUAL" label="="/>
-				<form:option value="GREATHER" label=">"/>
 				<form:option value="GREATER_OR_EQUAL" label=">="/>
+				<form:option value="GREATER" label=">"/>
 		    </form:select>		
             <form:errors path="satisfyingConditionOperation" cssClass="help-inline"/>            
         </div>
@@ -249,6 +249,13 @@
 	
 	        	</c:forEach>
   		</c:forEach>
+	</div>
+       
+       
+    <div class="error-messages">
+		<c:if test="${not empty duplicate_value}">
+			<c:out value="${duplicate_value}"></c:out>
+		</c:if>
 	</div>
        
     <div class="form-actions">
