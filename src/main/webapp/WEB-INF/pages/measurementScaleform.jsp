@@ -107,32 +107,6 @@
 			</div>
 		</spring:bind>
 
-
-		<spring:bind path="measurementScale.rangeOfValues">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-				<appfuse:label styleClass="control-label"
-					key="measurementScale.rangeOfValues" />
-				<div class="controls">
-					<form:select path="rangeOfValues" onchange="" disabled="${used}">
-						<form:option value="" label="None" />
-						<c:forEach items="${supportedRangeOfValues}" var="rov">
-							<c:choose>
-								<c:when test="${measurementScale.rangeOfValues.id == rov.id}">
-									<form:option value="${rov.id}" label="${rov.name}"
-										selected="selected" />
-								</c:when>
-								<c:otherwise>
-									<form:option value="${rov.id}" label="${rov.name}" />
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-					<form:errors path="rangeOfValues" cssClass="help-inline" />
-				</div>
-			</div>
-		</spring:bind>
-
 		<spring:bind path="measurementScale.operations">
 			<div
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
@@ -165,7 +139,34 @@
 				</div>
 			</div>
 		</spring:bind>
+		
 
+		<spring:bind path="measurementScale.rangeOfValues">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label"
+					key="measurementScale.rangeOfValues" />
+				<div class="controls">
+					<form:select path="rangeOfValues" onchange="" disabled="${used}">
+						<form:option value="" label="None" />
+						<c:forEach items="${supportedRangeOfValues}" var="rov">
+							<c:choose>
+								<c:when test="${measurementScale.rangeOfValues.id == rov.id}">
+									<form:option value="${rov.id}" label="${rov.name}"
+										selected="selected" />
+								</c:when>
+								<c:otherwise>
+									<form:option value="${rov.id}" label="${rov.name}" />
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</form:select>
+					<form:errors path="rangeOfValues" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+
+		
 		<div class="error-messages">
 			<c:if test="${not empty duplicate_value}">
 				<c:out value="${duplicate_value}"></c:out>
