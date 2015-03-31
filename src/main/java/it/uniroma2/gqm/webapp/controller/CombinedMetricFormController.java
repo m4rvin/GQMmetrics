@@ -41,6 +41,7 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -301,7 +302,20 @@ public class CombinedMetricFormController extends BaseFormController
 
 				System.out.println("\n\n" + metric + "\n\n");
 
-				metricManager.save(metric);
+				try{
+					  this.metricManager.save(metric);
+				}
+				catch(DataIntegrityViolationException e){
+					  System.err.println(e.getMessage());
+					  if(e.getMessage().contains("name")){
+						  model.addAttribute("duplicate_value", "A combined metric with the same name already exists. Please change the name and retry.");
+
+					  }
+					  else{
+						  model.addAttribute("duplicate_value", "The combined metric already exists in the database. Change some parameter and retry.");
+					  }
+					  return ViewName.combinedMetricForm;
+				}
 
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));
@@ -319,7 +333,18 @@ public class CombinedMetricFormController extends BaseFormController
 	 @InitBinder
 	 protected void initUnitBinder(HttpServletRequest request, ServletRequestDataBinder binder)
 	 {
-		  binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.class)
+		  binder.registerCustomEditor(List.class, "unit", new CustomCollectionEditor(List.clas
+				  return questionMetric;
+			 }
+			 return null;
+		}
+  });
+}
+
+private class MeasurementScaleEditorSupport extends PropertyEditorSupport
+{
+  @Override
+  public void setAsText(String text)s)
 		  {
 				protected Object convertElement(Object element)
 				{

@@ -245,7 +245,11 @@
 	</div>
        
        
-       
+    <div class="error-messages">
+		<c:if test="${not empty duplicate_value}">
+			<c:out value="${duplicate_value}"></c:out>
+		</c:if>
+	</div>
       
        
        

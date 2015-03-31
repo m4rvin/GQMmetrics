@@ -230,6 +230,13 @@
   		</c:forEach>
 	</div>
        
+       
+    <div class="error-messages">
+		<c:if test="${not empty duplicate_value}">
+			<c:out value="${duplicate_value}"></c:out>
+		</c:if>
+	</div>
+       
     <div class="form-actions">
     <%--     <c:if test="${simpleMetric.metricOwner eq currentUser || empty simpleMetric.id}">
 			<button type="submit" class="btn btn-primary" name="save">

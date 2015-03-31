@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 import org.appfuse.model.BaseObject;
 
 @Entity
-@Table(name="measurement_scale")
+@Table(name="measurement_scale", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "measurementScale_type", "rangeofvalues_id" }))
 @NamedQueries({
 	@NamedQuery(
 			  name = "findMeasurementScaleByProject",
