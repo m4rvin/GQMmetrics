@@ -101,7 +101,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  model.addAttribute("units", units);
 	 }
 
-	 @RequestMapping(value = "/measurementScaleform*", method = RequestMethod.GET)
+	 @RequestMapping(value = ViewName.measurementScaleForm, method = RequestMethod.GET)
 	 protected String showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
 
@@ -133,7 +133,7 @@ public class MeasurementScaleFormController extends BaseFormController
 
 	 }
 
-	 @RequestMapping(value = "/measurementScaleformAjax", method = RequestMethod.GET)
+	 @RequestMapping(value = ViewName.measurementScaleForm + "Ajax", method = RequestMethod.GET)
 	 @ResponseBody
 	 public String getConsistentValues(HttpServletRequest request)
 	 {
@@ -150,7 +150,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  return null;
 	 }
 
-	 @RequestMapping(value = "/measurementScaleform*", method = RequestMethod.POST)
+	 @RequestMapping(value = ViewName.measurementScaleForm, method = RequestMethod.POST)
 	 public String onSubmit(@Valid @ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, Model model)
 	 {
 		  if (request.getParameter("cancel") != null)
@@ -180,7 +180,7 @@ public class MeasurementScaleFormController extends BaseFormController
 					 }
 				
 				else
-					 return "measurementScaleform";
+					 return ViewName.measurementScaleForm;
 		  }
 		  /*if (measurementScale.getMeasurementUnit() != null && measurementScale.getMeasurementUnit().getId() != null)
 			{
