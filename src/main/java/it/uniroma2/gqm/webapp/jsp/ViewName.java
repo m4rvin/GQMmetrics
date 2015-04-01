@@ -15,4 +15,6 @@ public class ViewName {
 	public static final String rangeOfValues = "rangeOfValues";
 	public static final String rangeOfValuesForm = "rangeOfValuesform";
 	
+	public static final String measurementForm = "measurementform";
+
 }

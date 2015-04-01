@@ -6,6 +6,7 @@ import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementManager;
 import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Locale;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-@RequestMapping("/measurementform*")
+@RequestMapping(ViewName.measurementForm)
 @SessionAttributes({"currentProject","measurement","currentUser","availableMetrics"})
 public class MeasurementFormController extends BaseFormController {
 	@Autowired
@@ -93,13 +94,13 @@ public class MeasurementFormController extends BaseFormController {
         if (validator != null) { // validator is null during testing
             validator.validate(measurement, errors);
             if (errors.hasErrors() && request.getParameter("delete") == null) { // don't validate when deleting
-                return "measurementform";
+                return ViewName.measurementForm;
             }
         }
  
         if(measurement.getMetric() == null) {
         	errors.rejectValue("metric", "metric", "Metric field cannot be blank!"); 
-        	return "measurementform";
+        	return ViewName.measurementForm;
         }
         
         log.debug("entering 'onSubmit' method...");
