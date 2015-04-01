@@ -133,7 +133,7 @@ public class MeasurementScaleFormController extends BaseFormController
 
 	 }
 
-	 @RequestMapping(value = ViewName.measurementScaleForm + "Ajax", method = RequestMethod.GET)
+	 @RequestMapping(value = ViewName.measurementScaleFormAjax, method = RequestMethod.GET)
 	 @ResponseBody
 	 public String getConsistentValues(HttpServletRequest request)
 	 {
