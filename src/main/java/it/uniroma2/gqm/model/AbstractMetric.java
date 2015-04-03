@@ -63,7 +63,8 @@ public class AbstractMetric extends BaseObject
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor;
 	 protected String formula;
-
+	 protected MetricOutputValueTypeEnum outputValueType;
+	 
 	 @Id
 	 @Column(name = "metric_id")
 	 @GeneratedValue(strategy = GenerationType.AUTO)
@@ -235,6 +236,18 @@ public class AbstractMetric extends BaseObject
 	 public void setMeasurementScale(MeasurementScale measurementScale)
 	 {
 		  this.measurementScale = measurementScale;
+	 }
+
+	 @Column
+	 @Enumerated(EnumType.STRING)
+	 public MetricOutputValueTypeEnum getOutputValueType()
+	 {
+	 	 return outputValueType;
+	 }
+
+	 public void setOutputValueType(MetricOutputValueTypeEnum outputValueType)
+	 {
+	 	 this.outputValueType = outputValueType;
 	 }
 
 	 // @ManyToMany(fetch = FetchType.LAZY)

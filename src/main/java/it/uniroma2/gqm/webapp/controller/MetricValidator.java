@@ -3,6 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.DefaultOperation;
+import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.HashMap;
@@ -12,175 +13,252 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javassist.expr.Instanceof;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.ValidationResult;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.google.common.collect.ImmutableMap;
-
 @Component(value = "metricValidator")
 public class MetricValidator implements Validator
 {
+	 
+	 private static final String FORMULA_FIELD = "formula";
 
-	 private static Map<String, String> operations;
-	 static
-	 {
-		  operations = new HashMap<String, String>();
-		  operations.put("modulo", "abs");
-		  operations.put("arccosine", "acos");
-		  operations.put("arcsine", "asin");
-		  operations.put("arctangent", "atan");
-		  operations.put("cubic root", "cbrt");
-		  operations.put("nearest upper integer", "ceil");
-		  operations.put("cosine", "cos");
-		  operations.put("hyperbolic cosine", "cosh");
-		  operations.put("exponentiation", "exp");
-		  operations.put("nearest lower integer", "floor");
-		  operations.put("natural logarithm", "log");
-		  operations.put("base 10 logarithm", "log10");
-		  operations.put("base 2 logarithm", "log2");
-		  operations.put("sine", "sin");
-		  operations.put("hyperbolic sine", "sinh");
-		  operations.put("square root", "sqrt");
-		  operations.put("tangent", "tan");
-		  operations.put("hyperbolic tangent", "tanh");
-		  operations.put("multiplication", "[*|x]{1}");
-		  operations.put("addition", "(\\+){1}");
-		  operations.put("subtraction", "(-){1}");
-		  operations.put("ratio", "[%|/]{1}");
-		  operations.put("membership", "(@){1}");
-		  operations.put("greater than", "(>){1}");
-		  operations.put("lower than", "(<){1}");
-		  operations.put("equality", "(=){1}");
-	 }
+	 private static final String METRIC_PATTERN = "_[^_]+_";
+	 private static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
+	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
+	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
+	 private static final String MEMBERSHIP_PATTERN = "#{1}\"{1}[^\"]+\"{1}";
+	 private static final String VALID_RESULT_PATTERN = "[\\d|\\.|\\)|\\(|\\,|£|\\?|\\$]*";
+	 
+	 private static final String METRIC_REPLACEMENT = "\\$";
+	 private static final String OPERATION_REPLACEMENT = "£";
+	 private static final String MEMBERSHIP_REPLACEMENT = "?$";
+	 private static final String OPERATOR_REPLACEMENT = "\\?";
+	 
+	 private static final String _THIS_ = "_this_";
+	 
+	 private static final String MISSING_THIS_ERROR = "Missing reference to _this_ value";
+	 private static final String SYNTAX_ERROR = "Syntax errors in formula declaration";
+	 private static final String INVALID_MEMBERSHIP_ERROR = "Invalid use of membership operator";
+	 private static final String MISSING_MEASUREMENT_SCALE_ERROR = "Missing measurement scale, validation of formula is not possible";
+	 private static final String INVALID_OPERATIONS_ERROR = "Usage of invalid operations";
+	 private static final String CLASS_OUT_OF_RANGE_ERROR = "Entity class out of range of values";
+	 
+	 
+	 @Autowired
+	 private FormulaHandler handler;
 
 	 @Override
 	 public boolean supports(Class<?> clazz)
 	 {
 		  return SimpleMetric.class.equals(clazz) || CombinedMetric.class.equals(clazz);
 	 }
-
+	 
 	 @Override
 	 public void validate(Object target, Errors errors)
 	 {
 		  AbstractMetric metric = (AbstractMetric) target;
 
 		  String formula = metric.getFormula();
-		  
-		  if (metric instanceof SimpleMetric && !findThisMetric(formula))
+
+		  formula = formula.replaceAll(" ", "");
+
+		  if (metric instanceof SimpleMetric && extractPattern(formula, THIS_PATTERN, 0).size() == 0)
 		  {
-				errors.rejectValue("formula", "formula", "Missing reference to _this_ value");
+				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, MISSING_THIS_ERROR);
 				return;
 		  }
 
 		  if (!validateFormulaSyntax(formula, metric.getClass(), errors))
 				return;
-			
-		  formula = formula.replaceAll("(_){1}[^_]+(_){1}", "%"); // elimina le
-																					 // metriche
-		  // Valida le operazioni accettate
 
-		  boolean multiplication = false;
-
-		  if (metric.getMeasurementScale() != null)
-		  {
-				for (DefaultOperation operation : metric.getMeasurementScale().getOperations())
-				{
-					 String regex = operations.get(operation.getOperation());
-
-					 if (operation.getOperation().equals("addition") || operation.getOperation().equals("ratio") || operation.getOperation().equals("subtraction") || operation.getOperation().equals("multiplication") || operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than)") || operation.getOperation().equals("equality)"))
-						  formula = formula.replaceAll(regex, "?");
-					 else
-						  formula = formula.replaceAll(regex, "&");
-					 if (operation.getOperation().equals("multiplication"))
-						  multiplication = true;
-				}
-
-				if ((formula.length() > 0 && !formula.matches("[\\d|\\.|&|%|\\)|\\(|\\,|\\?]*")) || (findImplicitMultiplication(formula) && !multiplication))
-					 errors.rejectValue("formula", "formula", "Usage of not allowed operations");
-				return;
-		  }
+		  formula = formula.replaceAll(METRIC_PATTERN, METRIC_REPLACEMENT); 
+		  
+		  checkAllowedOperationsAndOperators(formula, metric, errors);
 	 }
 
+	 
+	 /**
+	  * Check if the formula is well written
+	  * @param formula formula whose syntax has to be checked
+	  * @param metricClass class of the input metric
+	  * @param errors Map where to save possible errors
+	  * @return true no errors occurred, false otherwise
+	  */
 	 public static boolean validateFormulaSyntax(String formula, Class<?> metricClass, Errors errors)
 	 {
 
-		  formula = formula.replaceAll(" ", "");
 		  if (formula != null && formula.length() > 0)
 		  {
 				Set<String> metrics;
+				Set<String> entityClasses = extractPattern(formula, ENTITY_CLASS_PATTERN, 1);
 
 				if (metricClass.equals(CombinedMetric.class))
-					 metrics = getUsedMetrics(formula);
-				else //metrica semplice, aggiungi solo _this_ in modo da scartare eventuali variabili inserite dall'utente 
+					 metrics = extractPattern(formula, ENTITY_CLASS_PATTERN, 0);
+				else //if metric is a simple metric remove only _this_ reference
 				{
-					metrics = new HashSet<String>();
-					metrics.add("_this_");
+					 metrics = new HashSet<String>();
+					 metrics.add(_THIS_);
 				}
 				
-				ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
 				Map<String, Double> fakeValues = new HashMap<String, Double>();
+				for(String e : entityClasses)
+				{
+					 fakeValues.put(e, 1.0);
+				}
 				for (String m : metrics)
 				{
-					 expressionBuilder.variable(m);
 					 fakeValues.put(m, 1.0);
 				}
+
+				formula = formula.replaceAll("\"", "");
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder(formula);
+				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
+				
 				try
 				{
+					 expressionBuilder.variables(entityClasses).variables(metrics);
 					 Expression expr = expressionBuilder.build().setVariables(fakeValues);
 					 ValidationResult validator = expr.validate();
 					 if (!validator.isValid())
 					 {
 						  for (String error : validator.getErrors())
 						  {
-								errors.rejectValue("formula", "formula", error);
+								errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, error);
 						  }
 
 						  return false;
 					 }
 				} catch (IllegalArgumentException e)
 				{
-					 errors.rejectValue("formula", "formula", "Syntax errors in formula declaration");
+					 errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, SYNTAX_ERROR);
 					 return false;
 				}
+				return true;
 		  }
-		  return true;
+		  return false;
 	 }
-
-	 public static Set<String> getUsedMetrics(String formula)
+	 
+	 /**
+	  * Check if the formula contains only allows operations and operators
+	  * @param formula formula whose operators and operations have to be checked
+	  * @param metric AbstractMetric the formula belongs to
+	  * @param errors Map where to save possible errors
+	  * @return
+	  */
+	 public boolean checkAllowedOperationsAndOperators(String formula, AbstractMetric metric, Errors errors )
 	 {
-		  Set<String> metrics = new HashSet<String>();
-		  Pattern pattern = Pattern.compile("(_){1}[^_]+(_){1}");
+		  boolean multiplication = false;
+
+		  if (metric.getMeasurementScale() != null)
+		  {
+				for (DefaultOperation operation : metric.getMeasurementScale().getOperations()) //iterate over all the allowed operators and operations
+				{
+					 if (operation.getOperation().equals("multiplication"))
+						  multiplication = true;
+					 
+					 String regex;
+					 try //retrive the regex from the operations map
+					 {
+						  regex = this.handler.getOperations().get(operation.getOperation());
+						  formula = formula.replaceAll(regex, OPERATION_REPLACEMENT); //replace the operation with £
+						  
+					 } catch (Exception e) //the operation is an operator
+					 {
+						  regex = this.handler.getOperators().get(operation.getOperation());
+						  
+						  //membership custom validation
+						  if (operation.getOperation().equals("membership")) 
+						  {
+								int membershipCount = StringUtils.countMatches(formula, "#");
+								Set<String> membershipPatterns = extractPattern(formula, MEMBERSHIP_PATTERN, 0); //extract every membership pattern
+								if(membershipPatterns.size() != membershipCount) //check if there are the same number of # and classes
+								{
+									 errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, INVALID_MEMBERSHIP_ERROR);
+									 return false;
+								}
+
+								for(String pattern : membershipPatterns)
+								{
+									 if(!checkMembershipValidity(pattern, metric)) //check if the pattern is valid, i.e. the class is inside the range of values
+									 {
+										  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, CLASS_OUT_OF_RANGE_ERROR);
+										  return false;
+									 }
+										 
+									 else
+										  formula = formula.replace(pattern, MEMBERSHIP_REPLACEMENT); //replace the pattern with ?$ (in order to check implicit multiplication)
+								}						
+						  }
+						  //regular operator substitution
+						  else
+								formula = formula.replaceAll(regex, OPERATOR_REPLACEMENT);  //replace the operator with ?
+					 }
+				}
+				if ((formula.length() > 0 && !formula.matches(VALID_RESULT_PATTERN)) || matchPattern(formula, MULTIPLICATION_PATTERN) && !multiplication)
+				{
+					 errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, INVALID_OPERATIONS_ERROR);
+					 return false;
+				}
+				return true;
+		  }
+		  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, MISSING_MEASUREMENT_SCALE_ERROR);
+		  return false;
+	 
+	 }
+	 
+	 /**
+	  * Generic function to extract a given pattern from a string(formula)
+	  * @param formula
+	  * @param patternToExtract
+	  * @return Set<String>
+	  */
+	 public static Set<String> extractPattern(String formula, String patternToExtract, int group)
+	 {
+		  Set<String> result = new HashSet<String>();
+		  Pattern pattern = Pattern.compile(patternToExtract);
 		  Matcher matcher = pattern.matcher(formula);
 
 		  while (matcher.find())
 		  {
-				metrics.add(matcher.group());
+				result.add(matcher.group(group));
 		  }
-
-		  return metrics;
+		  return result;
 	 }
-
-	 public static boolean findImplicitMultiplication(String formula)
+	 
+	 /**
+	  * Generic function to match a given pattern on a string(formula)
+	  * @param formula
+	  * @param patternToMatch
+	  * @return true if a match is found, false otherwise
+	  */
+	 public static boolean matchPattern(String formula, String patternToMatch)
 	 {
-		  Pattern pattern = Pattern.compile("(%){2}|\\d+(%)|(%)\\d+|\\d+(&)|(&)\\d+|\\)\\d+|\\)(%)|\\)(&)");
+		  Pattern pattern = Pattern.compile(patternToMatch);
 		  Matcher matcher = pattern.matcher(formula);
 
-		  return matcher.find();
+		  boolean result = matcher.find();
+		  return result;
 	 }
-
-	 public static boolean findThisMetric(String formula)
+	 
+	 /**
+	  * 
+	  * @param pattern the pattern to be checked i.e. #"entityclass"
+	  * @param metric the current metric
+	  * @return true id entityClass is an acceptable value according to the metric, i.e if entityClass in inside metric's range of values, false otherwise
+	  */
+	 public static boolean checkMembershipValidity(String pattern, AbstractMetric metric)
 	 {
-		  Pattern pattern = Pattern.compile("(_){1}(this){1}(_){1}");
-
-		  Matcher matcher = pattern.matcher(formula);
-
-		  return matcher.find();
+		  String entityClass = pattern.replace("#", "");
+		  entityClass = entityClass.replaceAll("\"", "");
+		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
+		  return rov.isIncluded(entityClass, true);	  
 	 }
 
 }
