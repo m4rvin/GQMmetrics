@@ -99,7 +99,7 @@ public class MeasurementFormController extends BaseFormController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(@Valid Measurement measurement, BindingResult errors, HttpServletRequest request,
+    public String onSubmit(@ModelAttribute("measurement") @Valid Measurement measurement, BindingResult errors, HttpServletRequest request,
                            HttpServletResponse response)
     throws Exception {
         if (request.getParameter("cancel") != null) {

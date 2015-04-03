@@ -176,6 +176,20 @@
                 <arg key="measurementScale.measurementUnit"/>
             </field>
         </form>
+         <form name="measurement">
+        	<field property="metric.id" depends="required">
+                <arg key="measurement.metric"/>
+            </field>
+            <field property="collectingDate" depends="required">
+                <arg key="measurement.collectingDate"/>
+            </field>
+            <field property="collectingTime" depends="required">
+                <arg key="measurement.collectingTime"/>
+            </field>
+             <field property="value" depends="required">
+                <arg key="measurement.value"/>
+            </field>
+        </form>
         
     </formset>
 </form-validation>
