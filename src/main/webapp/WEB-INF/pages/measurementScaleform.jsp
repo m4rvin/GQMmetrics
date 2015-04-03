@@ -95,10 +95,13 @@
 		</spring:bind>
 
 		<spring:bind path="measurementScale.measurementUnit">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-				<appfuse:label styleClass="control-label" key="measurementScale.measurementUnit" />
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label"
+					key="measurementScale.measurementUnit" />
 				<div class="controls">
-					<form:select path="measurementUnit" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
+					<form:select path="measurementUnit"
+						disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
 						<form:option value="" label="None" />
 						<form:options items="${units}" itemValue="id" itemLabel="name" />
 					</form:select>
@@ -139,7 +142,7 @@
 				</div>
 			</div>
 		</spring:bind>
-		
+
 
 		<spring:bind path="measurementScale.rangeOfValues">
 			<div
@@ -166,7 +169,7 @@
 			</div>
 		</spring:bind>
 
-		
+
 		<div class="error-messages">
 			<c:if test="${not empty duplicate_value}">
 				<c:out value="${duplicate_value}"></c:out>
