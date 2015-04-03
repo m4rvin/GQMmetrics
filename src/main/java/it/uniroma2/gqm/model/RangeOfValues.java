@@ -255,9 +255,9 @@ public class RangeOfValues extends BaseObject
 		  }
 		  else
 		  {
-				if(!this.numeric) //is not numeric and implicitly not range
+				if(!this.numeric) //is not numeric and implicitly not range. It check only values as input (output values are always boolean and must not be checked)
 				{   
-					 String stringValue = (String) value;
+					 String stringValue = (String) value; //it is always as input, so we need only to cast.
 					 List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
 					 return rangeList.contains(stringValue);
 				}
@@ -265,9 +265,14 @@ public class RangeOfValues extends BaseObject
 				{
 					 if(!this.range) //is not range
 					 { 
-						  String stringValue = (String) value;
-						  List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
-						  return rangeList.contains(stringValue);
+						 String stringValue;
+						 if(asMeasurementInput)
+							 stringValue = (String) value;
+						 else //the Object contains a Double object, so we need to create the String object
+							 stringValue = String.valueOf(value);
+						 List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
+						 return rangeList.contains(stringValue);
+						
 					 }
 					 else //is range
 					 {
@@ -290,7 +295,22 @@ public class RangeOfValues extends BaseObject
 				}		
 		  }
 	 }
+
+	 /**
+	  * Retrieve the Double value associated to the specified Object {@code value} for (NOT defaultRange && NOT numeric)
+	  * @param value The value from which retrieve the associated Double
+	  * @return The Double related value of the String {@code value}
+	  * @throws NumberFormatException
+	  */
+	 public Double getStringValueAsNumberByIndex(String value)
+	 {	
+		 //NOT defaultRange && NOT numeric. (always an input value, so a String)
+		  String stringValue = (String) value;
+		  List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
+		  return new Double(rangeList.indexOf(stringValue));
+	 }
 	 
+
 	 public boolean isIncluded(RangeOfValues other)
 	 {
 		  if (this.defaultRange && other.isDefaultRange()) //both default range. Just check the inclusion natural < integer < real

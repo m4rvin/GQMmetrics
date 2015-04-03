@@ -48,7 +48,7 @@ public class Measurement extends BaseObject implements Serializable {
 	private Date collectingDate;
 	private String collectingTime;
 	private Date timestamp;
-	private Double value;
+	private String value;
 	private User measurementOwner;
 	
 	@Id
@@ -86,11 +86,11 @@ public class Measurement extends BaseObject implements Serializable {
 	
 	@Column(name = "value")
 	@Field
-	public Double getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(Double value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

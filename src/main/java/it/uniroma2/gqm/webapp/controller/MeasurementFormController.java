@@ -14,6 +14,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @RequestMapping(ViewName.measurementForm)
 @SessionAttributes({"currentProject","measurement","currentUser","availableMetrics"})
 public class MeasurementFormController extends BaseFormController {
+	
 	@Autowired
 	private ComplexMetricManager metricManager;
     
@@ -43,6 +46,8 @@ public class MeasurementFormController extends BaseFormController {
 	private UserManager userManager = null;
 	private ProjectManager projectManager = null;
     
+	private MeasurementValidator customValidator;
+	
     @Autowired
     public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager) {
         this.projectManager = projectManager;
@@ -55,12 +60,23 @@ public class MeasurementFormController extends BaseFormController {
     }
     
 
-    public MeasurementFormController() {
+    public MeasurementValidator getCustomValidator() {
+		return customValidator;
+	}
+
+
+    @Autowired
+	public void setCustomValidator(@Qualifier("measurementValidator") MeasurementValidator customValidator) {
+		this.customValidator = customValidator;
+	}
+
+
+	public MeasurementFormController() {
         setCancelView("redirect:measurements");
         setSuccessView("redirect:measurements");
     }
 
-    @ModelAttribute
+    @ModelAttribute("measurement")
     @RequestMapping(method = RequestMethod.GET)
     protected Measurement showForm(HttpServletRequest request,HttpSession session, Model model) throws Exception {
         String id = request.getParameter("id");
@@ -83,7 +99,7 @@ public class MeasurementFormController extends BaseFormController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(Measurement measurement, BindingResult errors, HttpServletRequest request,
+    public String onSubmit(@Valid Measurement measurement, BindingResult errors, HttpServletRequest request,
                            HttpServletResponse response)
     throws Exception {
         if (request.getParameter("cancel") != null) {
@@ -123,6 +139,12 @@ public class MeasurementFormController extends BaseFormController {
         return success;
     }
 
+    @InitBinder(value = "measurement")
+	public void initBinder(WebDataBinder binder)
+	{
+    	binder.setValidator(this.customValidator);
+	}
+    
     @InitBinder
     protected void initBinder1(HttpServletRequest request, ServletRequestDataBinder binder) {
     	binder.registerCustomEditor(AbstractMetric.class, "metric", new MetricEditorSupport());

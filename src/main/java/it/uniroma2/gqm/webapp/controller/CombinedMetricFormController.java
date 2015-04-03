@@ -262,6 +262,7 @@ public class CombinedMetricFormController extends BaseFormController
 
 				List<AbstractMetric> availableMetrics = (ArrayList<AbstractMetric>) model.asMap().get("availableMetricComposers");
 
+				//check used composer metrics are compatible with the metric to bea created
 				for (String metricName : composedByMetricNames)
 				{
 					 boolean found = false;
