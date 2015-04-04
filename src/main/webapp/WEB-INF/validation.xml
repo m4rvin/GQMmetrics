@@ -125,7 +125,10 @@
             </field>
             <field property="formula" depends="required">
                 <arg key="simpleMetric.formula"/>
-            </field>        
+            </field>
+            <field property="outputValueType" depends="required">
+                <arg key="simpleMetric.outputValueType"/>
+            </field>
         </form>
         <form name="combinedMetric">
             <field property="project" depends="required">
@@ -142,6 +145,9 @@
             </field>            
             <field property="type" depends="required">
                 <arg key="combinedMetric.type"/>
+            </field>
+            <field property="outputValueType" depends="required">
+                <arg key="simpleMetric.outputValueType"/>
             </field>      
         </form>
         

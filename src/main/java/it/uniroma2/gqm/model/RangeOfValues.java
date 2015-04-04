@@ -217,9 +217,9 @@ public class RangeOfValues extends BaseObject
 						  try
 						  {
 								return rangeEquality(this.rangeValues, ((RangeOfValues) o).rangeValues, DefaultRangeOfValuesEnum.valueOf(this.numberType));
-						  } catch (IllegalArgumentException e)
+						  } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException a) //in case of rangeEquality called on error submit with values not consistent
 						  {
-								return false;
+								return this.rangeValues.equals(((RangeOfValues)o).rangeValues);
 						  }
 					 }
 				}

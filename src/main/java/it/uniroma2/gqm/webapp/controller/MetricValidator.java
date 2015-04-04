@@ -32,7 +32,7 @@ public class MetricValidator implements Validator
 	 private static final String METRIC_PATTERN = "_[^_]+_";
 	 private static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
-	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
+	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
 	 private static final String MEMBERSHIP_PATTERN = "#{1}\"{1}[^\"]+\"{1}";
 	 private static final String VALID_RESULT_PATTERN = "[\\d|\\.|\\)|\\(|\\,|£|\\?|\\$]*";
 	 
@@ -100,7 +100,7 @@ public class MetricValidator implements Validator
 				Set<String> entityClasses = extractPattern(formula, ENTITY_CLASS_PATTERN, 1);
 
 				if (metricClass.equals(CombinedMetric.class))
-					 metrics = extractPattern(formula, ENTITY_CLASS_PATTERN, 0);
+					 metrics = extractPattern(formula, METRIC_PATTERN, 0);
 				else //if metric is a simple metric remove only _this_ reference
 				{
 					 metrics = new HashSet<String>();
