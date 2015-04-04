@@ -102,27 +102,27 @@ public class MeasurementFormController extends BaseFormController {
     public String onSubmit(@ModelAttribute("measurement") @Valid Measurement measurement, BindingResult errors, HttpServletRequest request,
                            HttpServletResponse response)
     throws Exception {
+    	
         if (request.getParameter("cancel") != null) {
             return getCancelView();
         }
         
-                
-        if (validator != null) { // validator is null during testing
+        //check errors in tag-validated fields
+        if (errors.hasErrors() && request.getParameter("delete") == null) { // don't validate when deleting
+            return ViewName.measurementForm;
+        }
+        
+        //check errors using custom validator
+        if (validator != null) { // validator is null during testing ???
             validator.validate(measurement, errors);
             if (errors.hasErrors() && request.getParameter("delete") == null) { // don't validate when deleting
+            	//TODO fill model to give back already inserted values
                 return ViewName.measurementForm;
             }
         }
  
-        if(measurement.getMetric() == null) {
-        	errors.rejectValue("metric", "metric", "Metric field cannot be blank!"); 
-        	return ViewName.measurementForm;
-        }
         
-        log.debug("entering 'onSubmit' method...");
- 
         boolean isNew = (measurement.getId() == null);
-        String success = getSuccessView();
         Locale locale = request.getLocale();
  
         if (request.getParameter("delete") != null) {
@@ -136,13 +136,15 @@ public class MeasurementFormController extends BaseFormController {
             String key = (isNew) ? "measurement.added" : "measurement.updated";
             saveMessage(request, getText(key, locale));
         }
+        String success = getSuccessView();
         return success;
     }
 
-    @InitBinder(value = "measurement")
-	public void initBinder(WebDataBinder binder)
+    @InitBinder/*(value = "measurement")*/
+	public void initBinder()
 	{
-    	binder.setValidator(this.customValidator);
+    	//overwrite default validator from basecontroller autowiring
+    	validator = this.customValidator;
 	}
     
     @InitBinder

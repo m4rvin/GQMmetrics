@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
@@ -23,6 +24,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Indexed
@@ -44,11 +47,19 @@ import org.hibernate.search.annotations.Indexed;
 public class Measurement extends BaseObject implements Serializable {
 	private static final long serialVersionUID = 5045073708418494229L;
 	private Long id;
+	
+	@NotNull
 	private AbstractMetric metric;
+	@NotNull
 	private Date collectingDate;
+	@NotBlank
 	private String collectingTime;
+	
 	private Date timestamp;
+	
+	@NotBlank
 	private String value;
+	
 	private User measurementOwner;
 	
 	@Id
