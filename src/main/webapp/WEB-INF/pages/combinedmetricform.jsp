@@ -179,6 +179,20 @@
         </div>
     </div>
     
+    <spring:bind path="combinedMetric.outputValueType">
+    	<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+        	<appfuse:label styleClass="control-label" key="metric.outputValueType"/>
+       		<div class="controls">
+           		<form:select path="outputValueType" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
+           			<form:option value="" label="None" />
+           			<form:option value="NUMERIC" label="NUMERIC" />
+           			<form:option value="BOOLEAN" label="BOOLEAN" />
+          			</form:select>
+           		<form:errors path="outputValueType" cssClass="help-inline"/><br>          
+       		</div>
+   		</div>
+    </spring:bind>
+    
     <spring:bind path="combinedMetric.formula">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
