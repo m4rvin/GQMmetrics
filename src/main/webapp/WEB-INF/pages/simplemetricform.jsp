@@ -20,43 +20,42 @@
 		</c:forEach>		    	
 	</ul>
 	
-	<p style="text-align:justify;text-justify:auto;"><fmt:message key="metric.syntax"/>
+	<p style="text-align:justify;text-justify:auto;"><fmt:message key="metric.syntax"/></p>
 	<br>
-	<div>Addition = <fmt:message key="addition"/></div>
-	<div>And = <fmt:message key="and"/></div>
-	<div>Arc cosine = <fmt:message key="arccosine"/></div>
-	<div>Arc sine = <fmt:message key="arcsine"/></div>
-	<div>Arc tangent = <fmt:message key="arctangent"/></div>
-	<div>Base 2 logarithm = <fmt:message key="base2logarithm"/></div>
-	<div>Base 10 logarithm = <fmt:message key="base10logarithm"/></div>
-	<div>Cubic root = <fmt:message key="cbrt"/></div>
-	<div>Cosine = <fmt:message key="cosine"/></div>
-	<div>Equality = <fmt:message key="equality"/></div>
-	<div>Exponentiation = <fmt:message key="exponentiation"/></div>
-	<div>Greater than = <fmt:message key="greater_than"/></div>
-	<div>Greater or equal than = <fmt:message key="greater_equal_than"/></div>
-	<div>Hyperbolic cosine = <fmt:message key="hyperbolic_cosine"/></div>
-	<div>Hyperbolic sine = <fmt:message key="hyperbolic_sine"/></div>
-	<div>Hyperbolic tangent = <fmt:message key="hyperbolic_tangent"/></div>
-	<div>Lower than = <fmt:message key="lower_than"/></div>
-	<div>Lower or equal than = <fmt:message key="lower_equal_than"/></div>
-	<div>Membership = <fmt:message key="membership"/></div>
-	<div>Multiplication= <fmt:message key="multiplication"/></div>
-	<div>Modulo = <fmt:message key="modulo"/></div>
-	<div>Natural logarithm = <fmt:message key="natural_logarithm"/></div>
-	<div>Nearest lower integer = <fmt:message key="nearest_lower_integer"/></div>
-	<div>Nearest upper integer = <fmt:message key="nearest_upper_integer"/></div>
-	<div>Or = <fmt:message key="or"/></div>
-	<div>Ratio = <fmt:message key="ratio"/></div>
-	<div>Sine = <fmt:message key="sine"/></div>
-	<div>Square root = <fmt:message key="square_root"/></div>
-	<div>Subtraction = <fmt:message key="subtraction"/></div>
-	<div>Tangent = <fmt:message key="tangent"/></div>
+	<div style="font-style:italic;">
+		<div>Addition = <fmt:message key="addition"/></div>
+		<div>And = <fmt:message key="and"/></div>
+		<div>Arc cosine = <fmt:message key="arccosine"/></div>
+		<div>Arc sine = <fmt:message key="arcsine"/></div>
+		<div>Arc tangent = <fmt:message key="arctangent"/></div>
+		<div>Base 2 logarithm = <fmt:message key="base2logarithm"/></div>
+		<div>Base 10 logarithm = <fmt:message key="base10logarithm"/></div>
+		<div>Cubic root = <fmt:message key="cbrt"/></div>
+		<div>Cosine = <fmt:message key="cosine"/></div>
+		<div>Equality = <fmt:message key="equality"/></div>
+		<div>Exponentiation = <fmt:message key="exponentiation"/></div>
+		<div>Greater than = <fmt:message key="greater_than"/></div>
+		<div>Greater or equal than = <fmt:message key="greater_equal_than"/></div>
+		<div>Hyperbolic cosine = <fmt:message key="hyperbolic_cosine"/></div>
+		<div>Hyperbolic sine = <fmt:message key="hyperbolic_sine"/></div>
+		<div>Hyperbolic tangent = <fmt:message key="hyperbolic_tangent"/></div>
+		<div>Lower than = <fmt:message key="lower_than"/></div>
+		<div>Lower or equal than = <fmt:message key="lower_equal_than"/></div>
+		<div>Membership = <fmt:message key="membership"/></div>
+		<div>Multiplication= <fmt:message key="multiplication"/></div>
+		<div>Modulo = <fmt:message key="modulo"/></div>
+		<div>Natural logarithm = <fmt:message key="natural_logarithm"/></div>
+		<div>Nearest lower integer = <fmt:message key="nearest_lower_integer"/></div>
+		<div>Nearest upper integer = <fmt:message key="nearest_upper_integer"/></div>
+		<div>Or = <fmt:message key="or"/></div>
+		<div>Ratio = <fmt:message key="ratio"/></div>
+		<div>Sine = <fmt:message key="sine"/></div>
+		<div>Square root = <fmt:message key="square_root"/></div>
+		<div>Subtraction = <fmt:message key="subtraction"/></div>
+		<div>Tangent = <fmt:message key="tangent"/></div>
+	</div>
 	<br>
-		<div style="color:#0000FF;">Where <b>y</b> refers to a valid value.</div>	
-	</p>
-	
-
+	<div style="color:#0000FF;">Where <b>y</b> refers to a valid value.</div>	
 </div>
 
 
