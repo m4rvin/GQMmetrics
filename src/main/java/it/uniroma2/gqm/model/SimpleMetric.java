@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Entity
 @DiscriminatorValue("simple")
 @Table(name = "SimpleMetric")
-@NamedQueries({ @NamedQuery(name = "findSimpleMetricByProject", query = "select m from SimpleMetric m where m.project.id= :project_id"), })
+@NamedQueries({ 
+	@NamedQuery(name = "findSimpleMetricByProject", query = "select m from SimpleMetric m where m.project.id= :project_id"),
+	@NamedQuery(name = "findMeasurableSimpleMetricByProject", query = "select m from AbstractMetric m inner join m.questions qm " + " inner join qm.pk.question q  " + " inner join q.goals qg " + " inner join qg.pk.goal g " + " where g.project.id= :project_id")
+})
 public class SimpleMetric extends AbstractMetric
 {
 

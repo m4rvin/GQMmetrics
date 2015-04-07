@@ -32,6 +32,8 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	//SimpleMetric related query
 	public List<SimpleMetric> findSimpleMetricByProject(Project project);
 	public SimpleMetric findSimpleMetricById(Long id);
+	public List<SimpleMetric> findMeasureableSimpleMetricByProject(Project project);
+
 	
 	
 	//CombinedMetric related query

@@ -78,6 +78,12 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 		  return (SimpleMetric) this.get(id);
 	 }
 
+	 @Override
+	 public List<SimpleMetric>  findMeasureableSimpleMetricByProject(Project project) {
+		  Query q = getSession().getNamedQuery("findMeasurableSimpleMetricByProject").setLong("project_id", project.getId());
+		  return q.list();
+	 }
+
 	 // CombinedMetric related queries
 
 	 @Override
@@ -92,5 +98,6 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 	 {
 		  return (CombinedMetric) this.get(id);
 	 }
+
 
 }

@@ -28,6 +28,9 @@ public interface ComplexMetricDao extends GenericDao<AbstractMetric, Long>
 	 public List<SimpleMetric> findSimpleMetricByProject(Project project);
 
 	 public SimpleMetric findSimpleMetricById(Long id);
+	 
+	 public List<SimpleMetric>  findMeasureableSimpleMetricByProject(Project project);
+
 
 	 // CombinedMetric related query
 	 public List<CombinedMetric> findCombinedMetricByProject(Project project);

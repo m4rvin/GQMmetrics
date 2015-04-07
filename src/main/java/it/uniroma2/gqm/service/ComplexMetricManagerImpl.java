@@ -138,6 +138,12 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 {
 		  return metricDao.findSimpleMetricById(id);
 	 }
+	 
+	 @Override
+	 public List<SimpleMetric> findMeasureableSimpleMetricByProject(
+			Project project) {
+		 return metricDao.findMeasureableSimpleMetricByProject(project);
+	 }
 
 	 @Override
 	 public List<CombinedMetric> findCombinedMetricByProject(Project project)
@@ -187,5 +193,6 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  if(name != null)
 				return this.metricDao.findMetricByName(name);
 		  return null;
-	 }	
+	 }
+
 }
