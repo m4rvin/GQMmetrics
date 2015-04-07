@@ -1398,12 +1398,16 @@
         <column>metric_id</column>
         <column>question_id</column>
         <column>status</column>
-        <!--<row>
+        <column>refinement</column>
+        
+        <row>
             <value description="metric_id">1</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+            
         </row>     
-        <row>
+        <!--<row>
             <value description="metric_id">1</value>
             <value description="question_id">2</value>
             <value description="status">APPROVED</value>
