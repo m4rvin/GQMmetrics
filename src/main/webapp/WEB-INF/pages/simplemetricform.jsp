@@ -114,7 +114,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.measurementScale"/>
         <div class="controls">
-   			<form:select path="measurementScale"  disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
+   			<form:select path="measurementScale"  disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" onclick="retriveAggregators()">
    			   	<form:option value="" label="None"/>
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
@@ -149,7 +149,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.collectingType"/>
         <div class="controls">
-			<form:select path="collectingType" onchange="var that = this;showAggregator(that)" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
+			<form:select path="collectingType" onchange="showAggregator(); retriveAggregators()" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
 				<form:option value="SINGLE_VALUE" label="Single Value"/>
 				<form:option value="MULTIPLE_VALUE" label="Multiple Value"/>
 		    </form:select>		
@@ -176,20 +176,19 @@
 
     <spring:bind path="simpleMetric.satisfyingConditionValue">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.satisfyingConditionValue"/>
         <div class="controls">
             <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
         </div>
     </div>
+    </spring:bind>
     
     <spring:bind path="simpleMetric.outputValueType">
     	<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
         	<appfuse:label styleClass="control-label" key="metric.outputValueType"/>
        		<div class="controls">
-           		<form:select path="outputValueType" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
-           			<form:option value="" label="None" />
+           		<form:select path="outputValueType" onclick="retriveAggregators()" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
            			<form:option value="NUMERIC" label="NUMERIC" />
            			<form:option value="BOOLEAN" label="BOOLEAN" />
           			</form:select>
@@ -212,14 +211,26 @@
     
     <div id="aggregatorDiv" style="display:none;">
 	    <spring:bind path="simpleMetric.aggregator">
-	    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+		    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+		        <appfuse:label styleClass="control-label" key="metric.aggregator"/>
+		        <div class="controls">
+					<form:select path="aggregator" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
+					<form:option label="None" value="" />
+		            <c:forEach items="${availableAggregators}" var="availableAggregator">
+		            	<c:choose>
+		            		<c:when test="${availableAggregator == simpleMetric.aggregator}">
+		            			<option value="${availableAggregator}" label="${availableAggregator}" selected="selected" />
+		            		</c:when>
+		            		<c:otherwise>
+		            			<option value="${availableAggregator}" label="${availableAggregator}" />
+		            		</c:otherwise>
+		            	</c:choose>
+		            </c:forEach>
+		            </form:select>
+		            <form:errors path="aggregator" cssClass="help-inline"/><br>
+		        </div>
+		    </div>
 	    </spring:bind>
-	        <appfuse:label styleClass="control-label" key="metric.aggregator"/>
-	        <div class="controls">
-	            <form:input path="aggregator" id="MetricAggregator"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
-	           <form:errors path="aggregator" cssClass="help-inline"/><br>
-	        </div>
-	    </div>
     </div>
             
 	<c:if test="${not empty simpleMetric.id}">
@@ -308,6 +319,9 @@
 </div>
 <script type="text/javascript">
 
+
+	
+
 	function showIMBox(){
 		
 		var e = document.getElementById("questions");
@@ -361,6 +375,7 @@
 	
     $(document).ready(function() {
         $("input[type='text']:visible:enabled:first", document.forms['simpleMetricForm']).focus();
+        showAggregator();
     });
     
     function showFormulaInputInstructions(){
@@ -371,10 +386,52 @@
 		    }).dialog();
 	}
     
-    function showAggregator(that) { 	
-    	if(that.value === "MULTIPLE_VALUE")
+    function showAggregator() { 	
+    	if($('#collectingType').val() === "MULTIPLE_VALUE")
     		$('#aggregatorDiv').show();
     	else
     		$('#aggregatorDiv').hide();
     }
+    
+    function retriveAggregators()
+    {
+    	if($('#aggregatorDiv').css('display') == 'block') //aggregator div visible
+    	{
+    		$.each($('#aggregator option'), function() {
+    				if(this.value !== "")
+    					this.remove();
+    		});    		
+    		var msrmntScaleId = $("#measurementScale").val();
+    		var outputType = $('#outputValueType').val();
+    		
+    		if (msrmntScaleId != "") //valore non nullo
+    		{
+    			$.ajax({
+    				type : "GET",
+    				url : "simplemetricformAjax",
+    				data : {
+    					measurementScaleId : msrmntScaleId,
+    					outputValueType : outputType
+    				},
+    				contentType : "application/json",
+    				success : function(response) {
+    					var JSONAggregatorNames = JSON.parse(response);
+    					console.log(JSONAggregatorNames);
+
+    					$.each(JSONAggregatorNames, function() {
+    						$('#aggregator').append(
+    								$("<option></option>").attr("value", this)
+    										.text(this));
+    					}); 
+    				},
+    				error : function(error) {
+    					console.log(error);
+    				}
+    			});
+    		}
+
+    	}
+    }
+    
+    
 </script>

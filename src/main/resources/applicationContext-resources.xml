@@ -34,4 +34,7 @@
     
     <bean id="formulaHandler" class="it.uniroma2.gqm.webapp.controller.FormulaHandler" autowire="byType">
     </bean>
+    
+    <bean id="aggregatorHandler" class="it.uniroma2.gqm.webapp.controller.AggregatorHandler" autowire="byType">
+    </bean>
 </beans>

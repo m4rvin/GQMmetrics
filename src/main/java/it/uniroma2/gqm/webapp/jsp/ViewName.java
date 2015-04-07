@@ -4,6 +4,7 @@ public class ViewName {
 	
 	public static final String metrics = "metrics";
 	public static final String simpleMetricForm = "simplemetricform";
+	public static final String simpleMetricFormAjax = "simplemetricformAjax";
 	public static final String combinedMetricForm = "combinedmetricform";
 	public static final String combinedMetricFormAjax = "combinedmetricformAjax";
 
