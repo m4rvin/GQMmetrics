@@ -1,14 +1,17 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
@@ -18,6 +21,7 @@ import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,10 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import net.sf.ehcache.search.aggregator.Aggregator;
+
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
 import org.appfuse.service.GenericManager;
 import org.appfuse.service.UserManager;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -46,6 +53,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -115,6 +123,7 @@ public class SimpleMetricFormController extends BaseFormController
 		  {
 				metric = metricManager.findSimpleMetricById(new Long(id));
 				model.addAttribute("used", !metric.isEresable());
+				populateModel(model, metric);
 		  } else
 		  {
 				metric = new SimpleMetric();
@@ -159,6 +168,45 @@ public class SimpleMetricFormController extends BaseFormController
 		  model.addAttribute("map", map);
 		  return metric;
 	 }
+	 /**
+	  * Return a JSONArray with the aggregators available with the selected measurement scale
+	  * @param request 
+	  * @return JSONArray response to String
+	  */
+	 @ResponseBody
+	 @RequestMapping(value = ViewName.simpleMetricFormAjax, method = RequestMethod.GET)
+	 public String getConsistentAggregators(HttpServletRequest request)
+	 {
+		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
+		  String outputValueType = request.getParameter("outputValueType");
+		  
+		  RangeOfValues rov = measurementScale.getRangeOfValues();
+		  
+		  JSONArray ret = new JSONArray();
+		  
+		  String[] numericAggregators = {"Max Value", "Min Value", "Counter", "Sum", "Average Value", "Variance"};
+		  String[] nonNumericAggregators = {"Max Value", "Min Value", "Counter"};
+		  String[] booleanAggregators = {"And", "Or"};
+		  
+		  if(rov.isNumeric())
+		  {
+				for(String aggregator : numericAggregators)
+					 ret.put(aggregator);
+		  }
+		  else
+		  {
+				for(String aggregator : nonNumericAggregators)
+					 ret.put(aggregator);
+		  }
+		  
+		  if(MetricOutputValueTypeEnum.valueOf(outputValueType) == MetricOutputValueTypeEnum.BOOLEAN)
+		  {
+				for(String aggregator : booleanAggregators)
+					 ret.put(aggregator);
+		  }
+		  System.out.println(ret);
+		  return ret.toString();
+	 }
 
 	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
 	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
@@ -174,6 +222,7 @@ public class SimpleMetricFormController extends BaseFormController
 				if (errors.hasErrors() && request.getParameter("delete") == null)
 				{
 					 // don't validate when deleting
+					 populateModel(model, metric);
 					 return ViewName.simpleMetricForm;
 				}
 		  }
@@ -317,6 +366,27 @@ public class SimpleMetricFormController extends BaseFormController
 				}
 				// FIXME error
 		  }
+	 }
+	 
+	 private void populateModel(Model model, SimpleMetric metric)
+	 {
+		  String[] numericAggregators = {"Max Value", "Min Value", "Counter", "Sum", "Average Value", "Variance"};
+		  String[] nonNumericAggregators = {"Max Value", "Min Value", "Counter"};
+		  String[] booleanAggregators = {"And", "Or"};
+		  
+		  List<String> availableAggregators = new ArrayList<String>();
+		  MeasurementScale ms = metric.getMeasurementScale();
+		  if(ms != null)
+		  {
+				if(ms.getRangeOfValues().isNumeric())
+						availableAggregators.addAll(Arrays.asList(numericAggregators));
+				  else
+						availableAggregators.addAll(Arrays.asList(nonNumericAggregators));
+		  }
+		  if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
+				availableAggregators.addAll(Arrays.asList(booleanAggregators));
+		  
+		  model.addAttribute("availableAggregators", availableAggregators);
 	 }
 
 }
