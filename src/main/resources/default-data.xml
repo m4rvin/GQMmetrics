@@ -576,19 +576,69 @@
 		<column>context</column>
 		<column>viewpoint</column>
 		<column>impact_of_variation</column>
-		<!--<column>interpretation_model</column>-->
 		<column>status</column>
 		<column>go_id</column>
 		<column>ge_id</column>
 		<column>refinement</column>
-		<column>strategy_id</column>
 		<column>activity</column>
 		<column>object</column>
 		<column>magnitude</column>
 		<column>timeframe</column>
 		<column>constraints</column>
-		<column>relations</column>
-		<column>parent_id</column>	
+		<column>associatedOG_goal_id</column>
+		<column>orgParent_goal_id</column>
+		<column>ostrategyParent_strategy_id</column>
+		
+		<row>
+            <value description="goal_id">1</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Travel time]]></value>
+            <value description="type">0</value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"></value>
+            <value description="viewpoint"></value>
+            <value description="impact_of_variation"></value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity">activity</value>
+            <value description="object">object</value>
+            <value description="magnitude">magnitude</value>
+            <value description="timeframe">2</value>
+            <value description="constraints">constraints</value>
+            <!-- <value description="associatedOG_goal_id">NULL</value>
+            <value description="orgParent_goal_id">NULL</value>
+            <value description="ostrategyParent_strategy_id">NULL</value> -->
+        </row>
+        
+        <row>
+            <value description="goal_id">2</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Travel time]]></value>
+            <value description="type">1</value>            
+            <value description="subject"><![CDATA[Rail service]]></value>
+            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
+            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
+            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
+            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity"></value>
+            <value description="object"></value>
+            <value description="magnitude"></value>
+            <value description="timeframe"></value>
+            <value description="constraints"></value>
+            <value description="associatedOG_goal_id">1</value>
+            <!-- <value description="orgParent_goal_id">null</value>
+            <value description="ostrategyParent_strategy_id">null</value> -->
+        </row>
+		
         <!--<row>
             <value description="goal_id">-1</value>
             <value description="project_id">-1</value>
@@ -820,15 +870,15 @@
     <table name="goal_qs">
         <column>goal_id</column>
         <column>user_id</column>
-        <!--<row>
-            <value description="goal_id">-3</value>
+        <row>
+            <value description="goal_id">2</value>
             <value description="user_id">7</value>
         </row>
         <row>
-            <value description="goal_id">-3</value>
+            <value description="goal_id">2</value>
             <value description="user_id">8</value>
         </row>
-        <row>
+        <!--<row>
             <value description="goal_id">-5</value>
             <value description="user_id">7</value>
         </row>
@@ -864,15 +914,15 @@
     <table name="goal_mmdm">
         <column>goal_id</column>
         <column>user_id</column>
-        <!--<row>
-            <value description="goal_id">-3</value>
+        <row>
+            <value description="goal_id">2</value>
             <value description="user_id">9</value>
         </row>
         <row>
-            <value description="goal_id">-3</value>
+            <value description="goal_id">2</value>
             <value description="user_id">10</value>
         </row>
-        <row>
+        <!--<row>
             <value description="goal_id">-5</value>
             <value description="user_id">9</value>
         </row>
@@ -908,15 +958,15 @@
     <table name="goal_vote">
         <column>goal_id</column>
         <column>user_id</column>
-        <!--<row>
-            <value description="goal_id">-2</value>
-            <value description="user_id">2</value>
-        </row>   
         <row>
             <value description="goal_id">1</value>
             <value description="user_id">1</value>
-        </row>
+        </row>   
         <row>
+            <value description="goal_id">1</value>
+            <value description="user_id">2</value>
+        </row>
+        <!--<row>
             <value description="goal_id">1</value>
             <value description="user_id">2</value>
         </row>     
@@ -935,14 +985,14 @@
         <column>text</column>
         <column>project_id</column>
         <column>qso_id</column>
-        <!--<row>
-            <value description="question_id">-1</value>
+        <row>
+            <value description="question_id">1</value>
             <value description="name"><![CDATA[Number of train]]></value>
             <value description="text"><![CDATA[How many trains run from 7 to 10?]]></value>
             <value description="project_id">-1</value>
             <value description="qso_id">7</value>
         </row>
-        <row>
+        <!--<row>
             <value description="question_id">-2</value>
             <value description="name"><![CDATA[Trip duration]]></value>
             <value description="text"><![CDATA[How long a journey between Rome and Albano?]]></value>
@@ -1010,12 +1060,14 @@
         <column>question_id</column>
         <column>goal_id</column>
         <column>status</column>
-        <!--<row>
-            <value description="question_id">-1</value>
-            <value description="goal_id">-5</value>
-            <value description="status">PROPOSED</value>                       
-        </row>
+        <column>refinement</column>
         <row>
+            <value description="question_id">1</value>
+            <value description="goal_id">2</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <!--<row>
             <value description="question_id">-1</value>
             <value description="goal_id">-3</value>
             <value description="status">PROPOSED</value>                       
