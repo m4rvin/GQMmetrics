@@ -1258,33 +1258,49 @@
         </row>                     
 	</table>
 	
-	<!--
-	 <table name="abstractmetric">
+	
+	 <table name="simplemetric">
 		<column>metric_id</column>
-		<column>complexMetricType</column>
+        <column>aggregator</column>
 		
 		<row>
 			<value description="metric_id">1</value>
-			<value descrition="complexMetricType">VALUE</value>
+			<!--<value descritpion="aggregator" ></value> -->        	        	
 		</row>
 	</table>
-	 -->
-	<table name="simplemetric">
+	
+	<table name="abstractmetric">
         <column>metric_id</column>
-        <column>project_id</column>
-        <column>code</column>
-        <column>name</column>        
-        <column>hypothesis</column>
-        <column>measurement_scale_id</column>
-        <column>type</column>
-        <column>mmdmo_id</column>
         <column>actual_value</column>
-        <column>metric_a_id</column>
-        <column>metric_b_id</column>
-        <column>operation</column>
+        <column>code</column>
         <column>collecting_type</column>
-        <column>satisfying_condition_peration</column>
+        <column>metric_formula</column>
+        <column>hypothesis</column>
+        <column>name</column>        
+		<column>outputValueType</column>
+       	<column>satisfying_condition_peration</column>
         <column>satisfying_condition_value</column>    
+     	<column>type</column>
+        <column>measurement_scale_id</column>
+        <column>mmdmo_id</column>
+        <column>project_id</column>
+        
+        <row>
+        	<value descritpion="metric_id" >1</value>
+        	<value descritpion="actual_value" >2</value>
+			<value descritpion="code" >metric s1b</value>
+        	<value descritpion="collecting_type" >SINGLE_VALUE</value>
+        	<value descritpion="metric_formula" >_this_</value>
+        	<value descritpion="hypothesis" >hyp</value>
+        	<value descritpion="name" >metric s1b</value>
+        	<value descritpion="outputValueType" >NUMERIC</value>
+        	<value descritpion="satisfying_condition_peration" >LESS</value>
+        	<value descritpion="satisfying_condition_value" >1</value>
+        	<value descritpion="type" >OBJECTIVE</value>
+        	<value descritpion="measurement_scale_id" >2</value>
+        	<value descritpion="mmdmo_id" >9</value>
+        	<value descritpion="project_id" >-1</value>
+        </row>
 <!--         
 <column>complexMetricType</column>
                   
