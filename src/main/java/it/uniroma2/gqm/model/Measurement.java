@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.NotEmpty;
             name = "findMeasuremntsByMetric",
             query = "select m from Measurement m  where m.metric.id= :metric_id order by m.collectingDate, m.collectingTime "
     ),
-    @NamedQuery(
+    /*@NamedQuery(
             name = "findMeasurementByProject",
             query = "select distinct m from Measurement m inner join m.metric mt " +
             		"inner join mt.questions qm " + 
@@ -42,6 +42,11 @@ import org.hibernate.validator.constraints.NotEmpty;
             		"inner join q.goals gq " +
             		"inner join gq.pk.goal g " +
             		"where g.project.id= :project_id"
+    )*/
+    @NamedQuery(
+            name = "findMeasurementByProject",
+            query = "select distinct m from Measurement m inner join m.metric mt " +
+            		"where mt.project.id= :project_id"
     )
 })
 public class Measurement extends BaseObject implements Serializable {
