@@ -42,7 +42,7 @@ public class MeasurementValidator implements Validator {
 			checkFormulaEvaluation(measurement, errors);
 		}
 		catch(NumberFormatException e){
-			 errors.rejectValue("incompatible value type", "incompatible value type", INCOMPATIBLE_VALUE_TYPE);
+			 errors.rejectValue("value", "incompatible value type", INCOMPATIBLE_VALUE_TYPE);
 			 return;
 		}
 	}
@@ -57,7 +57,7 @@ public class MeasurementValidator implements Validator {
 		
 		//Check input compatibility
 		if(!rov.isIncluded(input_value, true)){ //input not valid
-			 errors.rejectValue("incompatible input value", "incompatible input value", INCOMPATIBLE_SYMBOL_IN_INPUT_VALUE);
+			 errors.rejectValue("value", "incompatible input value", INCOMPATIBLE_SYMBOL_IN_INPUT_VALUE);
 			 return false;
 		}
 		
@@ -88,7 +88,7 @@ public class MeasurementValidator implements Validator {
 				ValidationResult validator = expr.validate();
 				if (!validator.isValid()) {
 					for (String error : validator.getErrors()) {
-						errors.rejectValue("formula", "formula", error);
+						errors.rejectValue(null, "formula", error);
 					}
 					return false;
 				}
@@ -102,19 +102,19 @@ public class MeasurementValidator implements Validator {
 				
 				//Check output compatibility
 				if(!rov.isIncluded(result, false)){ //output not valid
-					 errors.rejectValue("incompatible output value", "incompatible output value", INCOMPATIBLE_SYMBOL_IN_OUTPUT_VALUE);
+					 errors.rejectValue("value", "incompatible output value", INCOMPATIBLE_SYMBOL_IN_OUTPUT_VALUE);
 					 return false;
 				}
 				else
 					return true;
 				
 			} catch (IllegalArgumentException e) {
-				errors.rejectValue("formula", "formula",
+				errors.rejectValue(null, "formula",
 						"Syntax errors in formula declaration");
 				return false;
 			}
 		}
-		errors.rejectValue("inexisting formula", "inexisting formula", "inexisting formula");
+		errors.rejectValue(null, "inexisting formula", "inexisting formula");
 		return false;
 	}
 
