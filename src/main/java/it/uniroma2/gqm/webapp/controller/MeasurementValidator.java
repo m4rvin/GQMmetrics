@@ -3,6 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.MeasurementManager;
@@ -126,12 +127,13 @@ public class MeasurementValidator implements Validator {
 				values.put("_this_", value);
 			
 			try {
+				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
 				Expression expr = expressionBuilder.build().setVariables(
 						values);
 				ValidationResult validator = expr.validate();
 				if (!validator.isValid()) {
 					for (String error : validator.getErrors()) {
-						errors.rejectValue(null, "formula", error);
+						errors.rejectValue("metric", "formula", error);
 					}
 					return false;
 				}
@@ -144,7 +146,7 @@ public class MeasurementValidator implements Validator {
 				//TODO FIXME membership o altre operazioni strane vanno valutate in altro modo!!
 				
 				//Check output compatibility
-				if(!rov.isIncluded(result, false)){ //output not valid
+				if(metric.getOutputValueType() != MetricOutputValueTypeEnum.BOOLEAN && !rov.isIncluded(result, false)){ //output not valid
 					 errors.rejectValue("value", "incompatible output value", INCOMPATIBLE_SYMBOL_IN_OUTPUT_VALUE);
 					 return false;
 				}
@@ -152,12 +154,12 @@ public class MeasurementValidator implements Validator {
 					return true;
 				
 			} catch (IllegalArgumentException e) {
-				errors.rejectValue(null, "formula",
+				errors.rejectValue("metric", "formula",
 						"Syntax errors in formula declaration");
 				return false;
 			}
 		}
-		errors.rejectValue(null, "inexisting formula", "inexisting formula");
+		errors.rejectValue("metric", "inexisting formula", "inexisting formula");
 		return false;
 	}
 

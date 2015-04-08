@@ -44,11 +44,11 @@ public class FormulaHandler
 		  operators.put("membership", "(#){1}");
 		  operators.put("greater than", "(>){1}");
 		  operators.put("lower than", "(<){1}");
-		  operators.put("greater_equal than", "(>=){1}");
-		  operators.put("lower_equal than", "(<=){1}");
+		  operators.put("greater or equal than", "(>=){1}");
+		  operators.put("lower or equal than", "(<=){1}");
 		  operators.put("equality", "(=){1}");
 		  operators.put("and", "(&&){1}");
-		  operators.put("or", "(||){1}");
+		  operators.put("or", "(\\|\\|){1}");
 
 	 }
 
@@ -75,7 +75,7 @@ public class FormulaHandler
 	 {
 		  List<Operator> operators = new ArrayList<Operator>();
 
-		  Operator equality = new Operator("=", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator equality = new Operator("=", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 
 				@Override
@@ -87,7 +87,7 @@ public class FormulaHandler
 
 		  operators.add(equality);
 
-		  Operator greater = new Operator(">", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator greater = new Operator(">", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -98,7 +98,7 @@ public class FormulaHandler
 
 		  operators.add(greater);
 
-		  Operator greater_equal = new Operator(">=", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator greater_equal = new Operator(">=", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -109,7 +109,7 @@ public class FormulaHandler
 
 		  operators.add(greater_equal);
 
-		  Operator lower = new Operator("<", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator lower = new Operator("<", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -120,7 +120,7 @@ public class FormulaHandler
 
 		  operators.add(lower);
 
-		  Operator lower_equal = new Operator("<=", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator lower_equal = new Operator("<=", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -131,25 +131,25 @@ public class FormulaHandler
 
 		  operators.add(lower_equal);
 
-		  Operator and = new Operator("&&", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator and = new Operator("&&", 2, true, Operator.PRECEDENCE_POWER - 2)
 		  {
 				@Override
 				public double apply(double... args)
 				{
-					 if (args[0] != 1 || args[0] != 0 || args[1] != 1 || args[1] != 0)
+					 if ((args[0] != 1 && args[0] != 0) || (args[1] != 1 && args[1] != 0))
 						  throw new IllegalArgumentException("Expected boolean operands, got integer ones");
-					 return ((args[0] == 1) && (args[1] == 1)) ? 1 : 0;
+					 return ((args[0] == 1.0d) && (args[1] == 1.0d)) ? 1 : 0;
 				}
 		  };
 
 		  operators.add(and);
 
-		  Operator or = new Operator("||", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator or = new Operator("||", 2, true, Operator.PRECEDENCE_POWER - 2)
 		  {
 				@Override
 				public double apply(double... args)
 				{
-					 if (args[0] != 1 || args[0] != 0 || args[1] != 1 || args[1] != 0)
+					 if ((args[0] != 1 && args[0] != 0) || (args[1] != 1 && args[1] != 0))
 						  throw new IllegalArgumentException("Expected boolean operands, got integer ones");
 					 return ((args[0] == 1) || (args[1] == 1)) ? 1 : 0;
 				}
@@ -157,7 +157,7 @@ public class FormulaHandler
 
 		  operators.add(or);
 
-		  Operator membership = new Operator("#", 2, true, Operator.PRECEDENCE_POWER + 1)
+		  Operator membership = new Operator("#", 2, true, Operator.PRECEDENCE_POWER - 1)
 		  {
 				@Override
 				public double apply(double... args)
