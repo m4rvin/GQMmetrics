@@ -1,6 +1,7 @@
 package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.service.ComplexMetricManager;
@@ -9,6 +10,7 @@ import it.uniroma2.gqm.service.ProjectManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,7 +133,16 @@ public class MeasurementFormController extends BaseFormController {
         	if(measurement.getMeasurementOwner()==null)
         		measurement.setMeasurementOwner(userManager.getUserByUsername(request.getRemoteUser()));
             
-        	measurementManager.save(measurement);
+        	//a single value metric must have only one associated measurement. Otherwise save every measurements.
+        	if(measurement.getMetric().getCollectingType().equals(CollectingTypeEnum.SINGLE_VALUE))
+        	{
+        		List<Measurement> saved_measurement = measurementManager.findMeasuremntsByMetric(measurement.getMetric());
+        		if(saved_measurement.size() > 0){//there is a saved measurement. Overwrite it.
+        			measurementManager.remove(saved_measurement.get(0).getId());
+        		}
+        	}
+    		measurementManager.save(measurement);
+
             String key = (isNew) ? "measurement.added" : "measurement.updated";
             saveMessage(request, getText(key, locale));
         }
