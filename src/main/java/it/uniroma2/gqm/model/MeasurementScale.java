@@ -56,7 +56,7 @@ public class MeasurementScale extends BaseObject
 	 @JoinColumn(name = "project_id", nullable = false)
 	 private Project project;
 
-	 @ManyToOne(fetch = FetchType.LAZY)
+	 @ManyToOne(fetch = FetchType.EAGER)
 	 @JoinColumn(name = "unit_id", nullable = true)
 	 private Unit measurementUnit;
 

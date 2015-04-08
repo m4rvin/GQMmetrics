@@ -226,7 +226,7 @@ public class AbstractMetric extends BaseObject
 		  this.measurements = measurements;
 	 }
 
-	 @ManyToOne(fetch = FetchType.LAZY)
+	 @ManyToOne(fetch = FetchType.EAGER)
 	 @JoinColumn(name = "measurement_scale_id", nullable = false)
 	 public MeasurementScale getMeasurementScale()
 	 {
