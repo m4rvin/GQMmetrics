@@ -1,10 +1,9 @@
 package it.uniroma2.gqm.webapp.controller;
 
-import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.Aggregator;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
-import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
@@ -33,11 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.sf.ehcache.search.aggregator.Aggregator;
-
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
-import org.appfuse.service.GenericManager;
 import org.appfuse.service.UserManager;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,15 +174,12 @@ public class SimpleMetricFormController extends BaseFormController
 	 public String getConsistentAggregators(HttpServletRequest request)
 	 {
 		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
-		  String outputValueType = request.getParameter("outputValueType");
-		  
 		  RangeOfValues rov = measurementScale.getRangeOfValues();
 		  
 		  JSONArray ret = new JSONArray();
 		  
-		  String[] numericAggregators = {"Max Value", "Min Value", "Counter", "Sum", "Average Value", "Variance"};
-		  String[] nonNumericAggregators = {"Max Value", "Min Value", "Counter"};
-		  String[] booleanAggregators = {"And", "Or"};
+		  String[] numericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString(), Aggregator.SUM.toString(), Aggregator.AVG.toString(), Aggregator.VARIANCE.toString()};
+		  String[] nonNumericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString()};
 		  
 		  if(rov.isNumeric())
 		  {
@@ -199,11 +192,6 @@ public class SimpleMetricFormController extends BaseFormController
 					 ret.put(aggregator);
 		  }
 		  
-		  if(MetricOutputValueTypeEnum.valueOf(outputValueType) == MetricOutputValueTypeEnum.BOOLEAN)
-		  {
-				for(String aggregator : booleanAggregators)
-					 ret.put(aggregator);
-		  }
 		  System.out.println(ret);
 		  return ret.toString();
 	 }
@@ -370,9 +358,8 @@ public class SimpleMetricFormController extends BaseFormController
 	 
 	 private void populateModel(Model model, SimpleMetric metric)
 	 {
-		  String[] numericAggregators = {"Max Value", "Min Value", "Counter", "Sum", "Average Value", "Variance"};
-		  String[] nonNumericAggregators = {"Max Value", "Min Value", "Counter"};
-		  String[] booleanAggregators = {"And", "Or"};
+		  String[] numericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString(), Aggregator.SUM.toString(), Aggregator.AVG.toString(), Aggregator.VARIANCE.toString()};
+		  String[] nonNumericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString()};
 		  
 		  List<String> availableAggregators = new ArrayList<String>();
 		  MeasurementScale ms = metric.getMeasurementScale();
@@ -383,8 +370,6 @@ public class SimpleMetricFormController extends BaseFormController
 				  else
 						availableAggregators.addAll(Arrays.asList(nonNumericAggregators));
 		  }
-		  if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
-				availableAggregators.addAll(Arrays.asList(booleanAggregators));
 		  
 		  model.addAttribute("availableAggregators", availableAggregators);
 	 }
