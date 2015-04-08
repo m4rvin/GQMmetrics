@@ -2,6 +2,8 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.Aggregator;
 
+import java.util.List;
+
 public class AggregatorHandler
 {
 	 /**
@@ -11,7 +13,7 @@ public class AggregatorHandler
 	  * @return the result of the aggreagtion method
 	  * @throws IllegalArgumentExeption if aggregatorName is not a valid aggregator name
 	  */
-	 public static double executeAggregator(String aggregatorName, double... args)
+	 public static Double executeAggregator(String aggregatorName, List<Double> args)
 	 {
 		  switch(Aggregator.valueOf(aggregatorName))
 		  {
@@ -35,10 +37,10 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 private static double executeSumAggregator(double... args)
+	 private static double executeSumAggregator(List<Double> args)
 	 {
-		  double result = 0d;
-		  for(double arg : args)
+		  Double result = 0d;
+		  for(Double arg : args)
 		  {
 				result += arg;
 		  }
@@ -50,11 +52,11 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 private static double executeAvgValueAggregator(double... args)
+	 private static Double executeAvgValueAggregator(List<Double> args)
 	 {
-		  double result = 0d;
-		  int length = args.length;
-		  for(double arg : args)
+		  Double result = 0d;
+		  int length = args.size();
+		  for(Double arg : args)
 		  {
 				result += arg;
 		  }
@@ -66,10 +68,10 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 private static double executeMaxValueAggregator(double... args)
+	 private static Double executeMaxValueAggregator(List<Double> args)
 	 {
-		  double result = args[0];
-		  for(double arg : args)
+		  Double result = args.get(0);
+		  for(Double arg : args)
 		  {
 				if(arg > result)
 					 result = arg;
@@ -82,10 +84,10 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 private static double executeMinValueAggregator(double... args)
+	 private static Double executeMinValueAggregator(List<Double> args)
 	 {
-		  double result = args[0];
-		  for(double arg : args)
+		  Double result = args.get(0);
+		  for(Double arg : args)
 		  {
 				if(arg < result)
 					 result = arg;
@@ -98,15 +100,15 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 private static double executeVarianceAggregator(double... args)
+	 private static Double executeVarianceAggregator(List<Double> args)
 	 {
-		  double avgValue = AggregatorHandler.executeAvgValueAggregator(args);
-		  double temp = 0d;
-		  for(double arg : args)
+		  Double avgValue = AggregatorHandler.executeAvgValueAggregator(args);
+		  Double temp = 0d;
+		  for(Double arg : args)
 		  {
 				temp = (arg - avgValue) * (arg - avgValue);
 		  }
-		  return temp/(args.length - 1);
+		  return temp/(args.size() - 1);
 	 }
  
 	 /**
