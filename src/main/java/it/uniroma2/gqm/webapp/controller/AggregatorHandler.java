@@ -1,14 +1,41 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.Aggregator;
+
 public class AggregatorHandler
 {
-
+	 /**
+	  * Execute the correct aggregation method and return its result
+	  * @param aggregatorName name of the aggregator to be executed, it must be a valid aggregator name
+	  * @param args list of measured values
+	  * @return the result of the aggreagtion method
+	  * @throws IllegalArgumentExeption if aggregatorName is not a valid aggregator name
+	  */
+	 public static double executeAggregator(String aggregatorName, double... args)
+	 {
+		  switch(Aggregator.valueOf(aggregatorName))
+		  {
+   		  case AVG:
+   				return AggregatorHandler.executeAvgValueAggregator(args);
+   		  case SUM:
+   				return AggregatorHandler.executeSumAggregator(args);
+   		  case VARIANCE:
+   				return AggregatorHandler.executeVarianceAggregator(args);
+   		  case MAX_VALUE:
+   				return AggregatorHandler.executeMaxValueAggregator(args);
+   		  case MIN_VALUE:
+   				return AggregatorHandler.executeMinValueAggregator(args);
+   		  default:
+   				throw new IllegalArgumentException();
+		  }
+	 }
+	 
 	 /**
 	  * Returns the sum of the measured values
 	  * @param args
 	  * @return
 	  */
-	 public static double executeSumAggregator(double... args)
+	 private static double executeSumAggregator(double... args)
 	 {
 		  double result = 0d;
 		  for(double arg : args)
@@ -23,7 +50,7 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 public static double executeAvgValueAggregator(double... args)
+	 private static double executeAvgValueAggregator(double... args)
 	 {
 		  double result = 0d;
 		  int length = args.length;
@@ -39,7 +66,7 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 public static double executeMaxValueAggregator(double... args)
+	 private static double executeMaxValueAggregator(double... args)
 	 {
 		  double result = args[0];
 		  for(double arg : args)
@@ -55,7 +82,7 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 public static double executeMinValueAggregator(double... args)
+	 private static double executeMinValueAggregator(double... args)
 	 {
 		  double result = args[0];
 		  for(double arg : args)
@@ -71,7 +98,7 @@ public class AggregatorHandler
 	  * @param args
 	  * @return
 	  */
-	 public static double executeVarianceAggregator(double... args)
+	 private static double executeVarianceAggregator(double... args)
 	 {
 		  double avgValue = AggregatorHandler.executeAvgValueAggregator(args);
 		  double temp = 0d;
@@ -81,13 +108,13 @@ public class AggregatorHandler
 		  }
 		  return temp/(args.length - 1);
 	 }
-	 
+ 
 	 /**
 	  * Return the count of the occurrence of the value passed as first argument (args[0])
 	  * @param args
 	  * @return
 	  */
-	 public static int executeCounterAggregator(double... args)
+/*	 private static int executeCounterAggregator(double... args)
 	 {
 		  double valueToBeCounted = args[0];
 		  int counter = 0;
@@ -97,35 +124,6 @@ public class AggregatorHandler
 					 counter++;
 		  }
 		  return counter;
-	 }
-	 
-	 /**
-	  * Returns the boolean AND value of the measured ones
-	  * @param args
-	  * @return
-	  */
-	 public static double executeAndAggregator(double... args)
-	 {
-		  for(double arg : args)
-		  {
-				if(arg == 0.0d)
-					 return 0.0d;
-		  }
-		  return 1.0d;
-	 }
-	 
-	 /**
-	  * Returns the boolean OR value of the measured ones
-	  * @param args
-	  * @return
-	  */
-	 public static double executeOrAggregator(double... args)
-	 {
-		  for(double arg : args)
-		  {
-				if(arg == 1.0d)
-					 return 1.0d;
-		  }
-		  return 0.0d;
-	 }
+
+	 } */
 }

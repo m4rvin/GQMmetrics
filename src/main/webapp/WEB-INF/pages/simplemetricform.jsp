@@ -187,7 +187,7 @@
     	<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
         	<appfuse:label styleClass="control-label" key="metric.outputValueType"/>
        		<div class="controls">
-           		<form:select path="outputValueType" onclick="retriveAggregators()" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
+           		<form:select path="outputValueType" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
            			<form:option value="NUMERIC" label="NUMERIC" />
            			<form:option value="BOOLEAN" label="BOOLEAN" />
           			</form:select>
@@ -401,7 +401,6 @@
     					this.remove();
     		});    		
     		var msrmntScaleId = $("#measurementScale").val();
-    		var outputType = $('#outputValueType').val();
     		
     		if (msrmntScaleId != "") //valore non nullo
     		{
@@ -410,7 +409,6 @@
     				url : "simplemetricformAjax",
     				data : {
     					measurementScaleId : msrmntScaleId,
-    					outputValueType : outputType
     				},
     				contentType : "application/json",
     				success : function(response) {
