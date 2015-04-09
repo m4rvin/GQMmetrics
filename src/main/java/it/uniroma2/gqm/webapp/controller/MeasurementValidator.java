@@ -146,6 +146,14 @@ public class MeasurementValidator implements Validator {
 				//TODO FIXME membership o altre operazioni strane vanno valutate in altro modo!!
 				
 				//Check output compatibility
+				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN){
+					if(result == 0 || result == 1) //a boolean result must be 0 (false) or 1 (true)
+						return true;
+					else{
+						 errors.rejectValue("value", "incompatible output value", INCOMPATIBLE_SYMBOL_IN_OUTPUT_VALUE);
+						 return false;
+					}
+				}
 				if(metric.getOutputValueType() != MetricOutputValueTypeEnum.BOOLEAN && !rov.isIncluded(result, false)){ //output not valid
 					 errors.rejectValue("value", "incompatible output value", INCOMPATIBLE_SYMBOL_IN_OUTPUT_VALUE);
 					 return false;
