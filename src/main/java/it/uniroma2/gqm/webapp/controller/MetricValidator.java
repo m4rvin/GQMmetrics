@@ -39,7 +39,7 @@ public class MetricValidator implements Validator
 	 private static final String METRIC_REPLACEMENT = "\\$";
 	 private static final String OPERATION_REPLACEMENT = "£";
 	 private static final String MEMBERSHIP_REPLACEMENT = "?$";
-	 private static final String OPERATOR_REPLACEMENT = "\\?";
+	 private static final String OPERATOR_REPLACEMENT = "?";
 	 
 	 private static final String _THIS_ = "_this_";
 	 
@@ -198,7 +198,18 @@ public class MetricValidator implements Validator
 						  }
 						  //regular operator substitution
 						  else
-								formula = formula.replaceAll(regex, OPERATOR_REPLACEMENT);  //replace the operator with ?
+						  {
+								Pattern pattern = Pattern.compile(regex);
+								Matcher regexMatcher = pattern.matcher(formula);
+								
+								while(regexMatcher.find())
+								{
+									 String match = formula.substring(regexMatcher.start(), regexMatcher.end());
+									 match = match.replace(regexMatcher.group(1), OPERATOR_REPLACEMENT);
+									 formula = formula.replace(formula.substring(regexMatcher.start(), regexMatcher.end()), match);
+								}
+									 
+						  }
 					 }
 				}
 				if ((formula.length() > 0 && !formula.matches(VALID_RESULT_PATTERN)) || matchPattern(formula, MULTIPLICATION_PATTERN) && !multiplication)
