@@ -3,6 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.DefaultOperation;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -39,7 +40,7 @@ public class MetricValidator implements Validator
 	 private static final String METRIC_REPLACEMENT = "\\$";
 	 private static final String OPERATION_REPLACEMENT = "£";
 	 private static final String MEMBERSHIP_REPLACEMENT = "?$";
-	 private static final String OPERATOR_REPLACEMENT = "\\?";
+	 private static final String OPERATOR_REPLACEMENT = "?";
 	 
 	 private static final String _THIS_ = "_this_";
 	 
@@ -198,7 +199,23 @@ public class MetricValidator implements Validator
 						  }
 						  //regular operator substitution
 						  else
-								formula = formula.replaceAll(regex, OPERATOR_REPLACEMENT);  //replace the operator with ?
+						  {
+								Pattern pattern = Pattern.compile(regex);
+								Matcher regexMatcher = pattern.matcher(formula);
+								
+								while(regexMatcher.find())
+								{
+									 if(!isConsistentOutput(metric, operation.getOperation()))
+									  {
+											errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "Formula not consistent with output type");
+											return false;
+									  }
+									 String match = formula.substring(regexMatcher.start(), regexMatcher.end());
+									 match = match.replace(regexMatcher.group(1), OPERATOR_REPLACEMENT);
+									 formula = formula.replace(formula.substring(regexMatcher.start(), regexMatcher.end()), match);
+								}
+									 
+						  }
 					 }
 				}
 				if ((formula.length() > 0 && !formula.matches(VALID_RESULT_PATTERN)) || matchPattern(formula, MULTIPLICATION_PATTERN) && !multiplication)
@@ -259,6 +276,16 @@ public class MetricValidator implements Validator
 		  entityClass = entityClass.replaceAll("\"", "");
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
 		  return rov.isIncluded(entityClass, true);	  
+	 }
+	 
+	 public boolean isConsistentOutput(AbstractMetric metric, String operator)
+	 {
+		  if(!operator.equals("addition") && !operator.equals("subtraction") && !operator.equals("multiplication") && !operator.equals("ratio")) //boolean operator
+		  {
+				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.NUMERIC)
+					 return false;
+		  }
+		  return true;
 	 }
 
 }

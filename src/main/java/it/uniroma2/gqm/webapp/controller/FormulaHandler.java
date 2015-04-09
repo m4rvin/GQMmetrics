@@ -37,7 +37,7 @@ public class FormulaHandler
 		  operations.put("square root", "sqrt");
 		  operations.put("tangent", "tan");
 		  operations.put("hyperbolic tangent", "tanh");
-		  operators.put("multiplication", "[*|x]{1}");
+		  operators.put("multiplication", "([*|x]){1}");
 		  operators.put("addition", "(\\+){1}");
 		  operators.put("subtraction", "(-){1}");
 		  operators.put("ratio", "([%|/]){1}");
