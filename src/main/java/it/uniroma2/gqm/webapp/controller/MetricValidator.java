@@ -31,7 +31,9 @@ public class MetricValidator implements Validator
 	 private static final String FORMULA_FIELD = "formula";
 
 	 private static final String METRIC_PATTERN = "_[^_]+_";
-	 private static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
+	 
+	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
+	 
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
 	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
 	 private static final String MEMBERSHIP_PATTERN = "#{1}\"{1}[^\"]+\"{1}";
