@@ -258,7 +258,10 @@ public class RangeOfValues extends BaseObject
 		  }
 		  else
 		  {
-				if(!this.numeric) //is not numeric and implicitly not range. It check only values as input (output values are always boolean and must not be checked)
+				if(!this.numeric && !asMeasurementInput) // output values of non numeric range must not be checked (always included by default)
+					 return true;
+				
+				if(!this.numeric && asMeasurementInput) //is not numeric and implicitly not range. It check only values as input (output values are always boolean and must not be checked)
 				{   
 					 String stringValue = (String) value; //it is always as input, so we need only to cast.
 					 List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
