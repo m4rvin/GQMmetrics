@@ -3,6 +3,7 @@ package it.uniroma2.gqm.webapp.controller;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.DefaultOperation;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -204,6 +205,11 @@ public class MetricValidator implements Validator
 								
 								while(regexMatcher.find())
 								{
+									 if(!isConsistentOutput(metric, operation.getOperation()))
+									  {
+											errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "Formula not consistent with output type");
+											return false;
+									  }
 									 String match = formula.substring(regexMatcher.start(), regexMatcher.end());
 									 match = match.replace(regexMatcher.group(1), OPERATOR_REPLACEMENT);
 									 formula = formula.replace(formula.substring(regexMatcher.start(), regexMatcher.end()), match);
@@ -270,6 +276,16 @@ public class MetricValidator implements Validator
 		  entityClass = entityClass.replaceAll("\"", "");
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
 		  return rov.isIncluded(entityClass, true);	  
+	 }
+	 
+	 public boolean isConsistentOutput(AbstractMetric metric, String operator)
+	 {
+		  if(!operator.equals("addition") && !operator.equals("subtraction") && !operator.equals("multiplication") && !operator.equals("ratio")) //boolean operator
+		  {
+				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.NUMERIC)
+					 return false;
+		  }
+		  return true;
 	 }
 
 }
