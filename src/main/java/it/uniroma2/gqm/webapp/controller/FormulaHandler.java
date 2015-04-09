@@ -40,13 +40,13 @@ public class FormulaHandler
 		  operators.put("multiplication", "[*|x]{1}");
 		  operators.put("addition", "(\\+){1}");
 		  operators.put("subtraction", "(-){1}");
-		  operators.put("ratio", "[%|/]{1}");
+		  operators.put("ratio", "([%|/]){1}");
 		  operators.put("membership", "(#){1}");
-		  operators.put("greater than", "(>){1}");
-		  operators.put("lower than", "(<){1}");
+		  operators.put("greater than", "(>)[^=]{1}");
+		  operators.put("lower than", "(<)[^=]{1}");
 		  operators.put("greater or equal than", "(>=){1}");
 		  operators.put("lower or equal than", "(<=){1}");
-		  operators.put("equality", "(=){1}");
+		  operators.put("equality", "[^<>](=){1}");
 		  operators.put("and", "(&&){1}");
 		  operators.put("or", "(\\|\\|){1}");
 
