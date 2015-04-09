@@ -1562,7 +1562,7 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">4</value>
-			<value description = "operation">division</value>
+			<value description = "operation">ratio</value>
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">3</value>
 		</row>
@@ -1598,19 +1598,19 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">10</value>
-			<value description = "operation">arc cosine</value>
+			<value description = "operation">arccosine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">11</value>
-			<value description = "operation">arc tangent</value>
+			<value description = "operation">arctangent</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">12</value>
-			<value description = "operation">arc sine</value>
+			<value description = "operation">arcsine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
@@ -1694,7 +1694,7 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">26</value>
-			<value description = "operation">nearest uppper integer</value>
+			<value description = "operation">nearest upper integer</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
@@ -1822,6 +1822,15 @@
 		<value description="rangeofvalues_id">1</value>
 		<value description="unit_id">-3</value>
 	</row>
+	<row>
+		<value description="measurementScale_id">3</value>
+		<value description="name">measurement scale supporting ALL operations</value>
+		<value description="description">description for measurement scale ALL</value>
+		<value description="measurementScale_type">3</value>
+		<value description="project_id">-1</value>
+		<value description="rangeofvalues_id">4</value>
+		<value description="unit_id">-3</value>
+	</row>
 	
 	<!-- <row> <value description="measurementScale_id"></value> <value description="name"></value> 
 		<value description="measurementScale_type"></value> <value description="project_id"></value> 
@@ -1854,7 +1863,126 @@
 			<value description="measurementScale_id">2</value>
 			<value description="defaultoperation_id">2</value>
 		</row>
-		
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">1</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">2</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">3</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">4</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">5</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">6</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">7</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">8</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">9</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">10</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">11</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">12</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">13</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">14</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">15</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">16</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">17</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">18</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">19</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">20</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">21</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">22</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">23</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">24</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">25</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">26</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">27</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">28</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">29</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">30</value>
+		</row>
 
 		<!-- <row> <value description="measurementScale_id"></value> <value description="defaultoperation_id"></value> 
 			</row> -->
