@@ -19,7 +19,7 @@ public class FormulaHandler
 		  operations = new HashMap<String, String>();
 		  operators = new HashMap<String, String>();
 		  
-		  operations.put("modulo", "abs");
+		  operations.put("absolute value", "abs");
 		  operations.put("arccosine", "acos");
 		  operations.put("arcsine", "asin");
 		  operations.put("arctangent", "atan");
