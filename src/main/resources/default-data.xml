@@ -1574,156 +1574,155 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">6</value>
-			<value description = "operation">membership</value>
-			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">0</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">7</value>
 			<value description = "operation">exponentiation</value>
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">8</value>
+			<value description = "defaultoperation_id">7</value>
 			<value description = "operation">absolute value</value>
 			<value description = "operands_number">2</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
+		
 		<row>
-			<value description = "defaultoperation_id">9</value>
-			<value description = "operation">and</value>
-			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">0</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">10</value>
+			<value description = "defaultoperation_id">8</value>
 			<value description = "operation">arccosine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">11</value>
+			<value description = "defaultoperation_id">9</value>
 			<value description = "operation">arctangent</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">12</value>
+			<value description = "defaultoperation_id">10</value>
 			<value description = "operation">arcsine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">13</value>
+			<value description = "defaultoperation_id">11</value>
 			<value description = "operation">base 2 logarithm</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row> 
 		<row>
-			<value description = "defaultoperation_id">14</value>
+			<value description = "defaultoperation_id">12</value>
 			<value description = "operation">base 10 logarithm</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row> 
 		<row>
-			<value description = "defaultoperation_id">15</value>
+			<value description = "defaultoperation_id">13</value>
 			<value description = "operation">cubic root</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row> 
 		<row>
-			<value description = "defaultoperation_id">16</value>
+			<value description = "defaultoperation_id">14</value>
 			<value description = "operation">cosine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row> 
 		<row>
-			<value description = "defaultoperation_id">17</value>
-			<value description = "operation">equality</value>
-			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">0</value>
-		</row> 
-		<row>
-			<value description = "defaultoperation_id">18</value>
-			<value description = "operation">greater than</value>
-			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">1</value>
-		</row> 
-		<row>
-			<value description = "defaultoperation_id">19</value>
-			<value description = "operation">greater or equal than</value>
-			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">1</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">20</value>
+			<value description = "defaultoperation_id">15</value>
 			<value description = "operation">hyperbolic cosine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">21</value>
+			<value description = "defaultoperation_id">16</value>
 			<value description = "operation">hyperbolic sine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">22</value>
+			<value description = "defaultoperation_id">17</value>
 			<value description = "operation">hyperbolic tangent</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">23</value>
-			<value description = "operation">lower than</value>
-			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">1</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">24</value>
-			<value description = "operation">lower or equal than</value>
-			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">1</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">25</value>
+			<value description = "defaultoperation_id">18</value>
 			<value description = "operation">nearest lower integer</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">26</value>
+			<value description = "defaultoperation_id">19</value>
 			<value description = "operation">nearest upper integer</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">27</value>
-			<value description = "operation">or</value>
-			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">0</value>
-		</row>
-		<row>
-			<value description = "defaultoperation_id">28</value>
+			<value description = "defaultoperation_id">20</value>
 			<value description = "operation">sine</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">29</value>
+			<value description = "defaultoperation_id">21</value>
 			<value description = "operation">square root</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
-			<value description = "defaultoperation_id">30</value>
+			<value description = "defaultoperation_id">22</value>
 			<value description = "operation">tangent</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
-		 
-		 
+		<row>
+			<value description = "defaultoperation_id">23</value>
+			<value description = "operation">membership</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">0</value>
+		</row>
+		 	<row>
+			<value description = "defaultoperation_id">24</value>
+			<value description = "operation">or</value>
+			<value description = "operands_number">1</value>
+			<value description = "measurement_scale_type">0</value>
+		</row>
+		 <row>
+			<value description = "defaultoperation_id">25</value>
+			<value description = "operation">and</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">0</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">26</value>
+			<value description = "operation">greater than</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">1</value>
+		</row> 
+		<row>
+			<value description = "defaultoperation_id">27</value>
+			<value description = "operation">greater or equal than</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">1</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">28</value>
+			<value description = "operation">equality</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">0</value>
+		</row> 
+		<row>
+			<value description = "defaultoperation_id">29</value>
+			<value description = "operation">lower than</value>
+			<value description = "operands_number">1</value>
+			<value description = "measurement_scale_type">1</value>
+		</row>
+		<row>
+			<value description = "defaultoperation_id">30</value>
+			<value description = "operation">lower or equal than</value>
+			<value description = "operands_number">1</value>
+			<value description = "measurement_scale_type">1</value>
+		</row>
 		
 		
 <!-- TEMPLATE
@@ -1852,7 +1851,7 @@
 		</row>
 		<row>
 			<value description="measurementScale_id">1</value>
-			<value description="defaultoperation_id">7</value>
+			<value description="defaultoperation_id">6</value>
 		</row>
 		
 		<row>
