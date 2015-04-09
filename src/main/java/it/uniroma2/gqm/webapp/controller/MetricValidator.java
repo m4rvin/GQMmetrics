@@ -156,6 +156,9 @@ public class MetricValidator implements Validator
 	 public boolean checkAllowedOperationsAndOperators(String formula, AbstractMetric metric, Errors errors )
 	 {
 		  boolean multiplication = false;
+		  boolean booleanFormula = false;
+		  
+		  metric.setOutputValueType(null);
 
 		  if (metric.getMeasurementScale() != null)
 		  {
@@ -205,11 +208,8 @@ public class MetricValidator implements Validator
 								
 								while(regexMatcher.find())
 								{
-									 if(!isConsistentOutput(metric, operation.getOperation()))
-									  {
-											errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "Formula not consistent with output type");
-											return false;
-									  }
+									 if(isBooleanOutput(operation.getOperation())) //check if the operator is boolean
+										  booleanFormula = true;
 									 String match = formula.substring(regexMatcher.start(), regexMatcher.end());
 									 match = match.replace(regexMatcher.group(1), OPERATOR_REPLACEMENT);
 									 formula = formula.replace(formula.substring(regexMatcher.start(), regexMatcher.end()), match);
@@ -223,6 +223,11 @@ public class MetricValidator implements Validator
 					 errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, INVALID_OPERATIONS_ERROR);
 					 return false;
 				}
+				//set the right output value
+				if(booleanFormula)
+					 metric.setOutputValueType(MetricOutputValueTypeEnum.BOOLEAN);
+				else
+					 metric.setOutputValueType(MetricOutputValueTypeEnum.NUMERIC);
 				return true;
 		  }
 		  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, MISSING_MEASUREMENT_SCALE_ERROR);
@@ -278,14 +283,11 @@ public class MetricValidator implements Validator
 		  return rov.isIncluded(entityClass, true);	  
 	 }
 	 
-	 public boolean isConsistentOutput(AbstractMetric metric, String operator)
+	 public boolean isBooleanOutput(String operator)
 	 {
 		  if(!operator.equals("addition") && !operator.equals("subtraction") && !operator.equals("multiplication") && !operator.equals("ratio")) //boolean operator
-		  {
-				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.NUMERIC)
-					 return false;
-		  }
-		  return true;
+				return true;
+		  return false;
 	 }
 
 }

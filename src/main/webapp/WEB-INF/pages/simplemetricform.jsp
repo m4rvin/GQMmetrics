@@ -182,7 +182,7 @@
         </div>
     </div>
     </spring:bind>
-    
+    <!-- 
     <spring:bind path="simpleMetric.outputValueType">
     	<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
         	<appfuse:label styleClass="control-label" key="metric.outputValueType"/>
@@ -195,7 +195,7 @@
        		</div>
    		</div>
     </spring:bind>
-    
+     -->
     <spring:bind path="simpleMetric.formula">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
