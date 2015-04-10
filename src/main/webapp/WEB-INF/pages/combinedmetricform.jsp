@@ -131,16 +131,6 @@
         </div>
     </div>
     
-    <spring:bind path="combinedMetric.actualValue">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.actualValue"/>
-        <div class="controls">
-            <form:input path="actualValue" id="actualValue"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
-            <form:errors path="actualValue" cssClass="help-inline"/>
-        </div>
-    </div>
-    
     <spring:bind path="combinedMetric.collectingType">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>

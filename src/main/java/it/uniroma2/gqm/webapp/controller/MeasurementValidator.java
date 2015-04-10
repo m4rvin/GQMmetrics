@@ -135,7 +135,9 @@ public class MeasurementValidator implements Validator {
 			Double aggregated_values;
 			//multiple value metric: retrieve other measurement and aggregate them with the actual one, before evaluate the formula
 			if(metric.getCollectingType().equals(CollectingTypeEnum.MULTIPLE_VALUE)){
-				List<Measurement> saved_measurements = this.measurementManager.findMeasuremntsByMetric(metric);
+				Set<Measurement> saved_measurements = metric.getMeasurements();
+				 
+				//List<Measurement> saved_measurements = this.measurementManager.findMeasuremntsByMetric(metric);
 				List<Double> saved_measurements_values = new ArrayList<Double>();
 				for(Measurement m : saved_measurements){
 					if(rov.isNumeric())
@@ -153,8 +155,7 @@ public class MeasurementValidator implements Validator {
 			
 			try {
 				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
-				Expression expr = expressionBuilder.build().setVariables(
-						values);
+				Expression expr = expressionBuilder.build().setVariables(values);
 				/*ValidationResult validator = expr.validate();
 				if (!validator.isValid()) {
 					for (String error : validator.getErrors()) {

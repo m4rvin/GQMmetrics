@@ -4,6 +4,7 @@ import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -132,16 +133,23 @@ public class MeasurementFormController extends BaseFormController {
         } else {
         	if(measurement.getMeasurementOwner()==null)
         		measurement.setMeasurementOwner(userManager.getUserByUsername(request.getRemoteUser()));
-            
+         
+        	SimpleMetric metric = (SimpleMetric) measurement.getMetric();
+        	
         	//a single value metric must have only one associated measurement. Otherwise save every measurements.
         	if(measurement.getMetric().getCollectingType().equals(CollectingTypeEnum.SINGLE_VALUE))
         	{
-        		List<Measurement> saved_measurement = measurementManager.findMeasuremntsByMetric(measurement.getMetric());
+        		List<Measurement> saved_measurement = measurementManager.findMeasuremntsByMetric(metric);
         		if(saved_measurement.size() > 0){//there is a saved measurement. Overwrite it.
         			measurementManager.remove(saved_measurement.get(0).getId());
         		}
         	}
     		measurementManager.save(measurement);
+    		
+    		Double measurementResult = FormulaHandler.evaluateFormula(metric);
+    		metric.setActualValue(measurementResult);
+    		
+    		metricManager.save(metric);
 
             String key = (isNew) ? "measurement.added" : "measurement.updated";
             saveMessage(request, getText(key, locale));

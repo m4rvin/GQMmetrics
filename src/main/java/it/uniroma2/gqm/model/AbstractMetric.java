@@ -58,7 +58,7 @@ public class AbstractMetric extends BaseObject
 	 protected SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 protected User metricOwner;
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
-	 protected Double actualValue;
+	 protected Double actualValue = null;
 	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor;

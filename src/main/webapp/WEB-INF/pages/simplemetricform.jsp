@@ -133,16 +133,6 @@
         </div>
     </div>
     
-    <spring:bind path="simpleMetric.actualValue">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.actualValue"/>
-        <div class="controls">
-            <form:input path="actualValue" id="actualValue"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
-            <form:errors path="actualValue" cssClass="help-inline"/>
-        </div>
-    </div>
-    
     <spring:bind path="simpleMetric.collectingType">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
