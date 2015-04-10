@@ -310,10 +310,16 @@ public class RangeOfValues extends BaseObject
 	  */
 	 public Double getStringValueAsNumberByIndex(String value)
 	 {	
-		 //NOT defaultRange && NOT numeric. (always an input value, so a String)
-		  String stringValue = (String) value;
-		  List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
-		  return new Double(rangeList.indexOf(stringValue));
+		 //NOT numeric. (always a String)
+		 if(!this.isNumeric()){
+			  String stringValue = (String) value;
+			  List<String> rangeList = Arrays.asList(this.rangeValues.split(","));
+			  return new Double(rangeList.indexOf(stringValue));
+		 }
+		 else{//numeric (or numeric and defaultrange)
+			 return Double.valueOf(value);//a string representing a number
+			 
+		 }
 	 }
 	 
 
