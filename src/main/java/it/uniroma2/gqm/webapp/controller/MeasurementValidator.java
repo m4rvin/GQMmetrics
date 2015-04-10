@@ -2,6 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
@@ -10,8 +11,10 @@ import it.uniroma2.gqm.service.MeasurementManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -104,11 +107,18 @@ public class MeasurementValidator implements Validator {
 		metricFormula = metricFormula.replaceAll(" ", "");
 		if (metricFormula != null && metricFormula.length() > 0) {
 
+			Set<String> metric_variables;
+			Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+
+			//metric is a simple metric add only _this_ reference
+			metric_variables = new HashSet<String>();
+			metric_variables.add("_this_");
+			
 			ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 			
 			Map<String, Double> values = new HashMap<String, Double>();
 			
-			expressionBuilder.variable("_this_");
+			expressionBuilder.variables(metric_variables).variables(entityClasses);
 			
 			Double aggregated_values;
 			//multiple value metric: retrieve other measurement and aggregate them with the actual one, before evaluate the formula

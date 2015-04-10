@@ -17,7 +17,7 @@
                cssClass="well form-horizontal">
     <form:hidden path="id"/>
 
-    <spring:bind path="measurement.metric.id">
+    <spring:bind path="measurement.metric">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="measurement.metric"/>

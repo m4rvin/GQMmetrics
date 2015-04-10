@@ -9,7 +9,6 @@ import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -34,7 +33,9 @@ public class MetricValidator implements Validator
 	 private static final String METRIC_PATTERN_MIDDLE = "[^\"](_[^_^\\s^\"]+_)[^\"]";
 	 private static final String METRIC_PATTERN_BEGIN = "^(_[^_^\\s^\"]+_)[^\"]";
 	 private static final String METRIC_PATTERN_END = "[^\"](_[^_^\\s^\"]+_)$";
-	 private static final String ENTITY_CLASS_PATTERN = "\"(_[^\\s|^\"]+_)\"";
+
+	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
+	 
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
 	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
 	 private static final String MEMBERSHIP_PATTERN = "#\"(_[^\\s|^\"]+_)\"";
