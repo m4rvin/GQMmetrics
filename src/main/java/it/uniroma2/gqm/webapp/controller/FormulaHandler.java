@@ -75,7 +75,7 @@ public class FormulaHandler
 	 {
 		  List<Operator> operators = new ArrayList<Operator>();
 
-		  Operator equality = new Operator("=", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator equality = new Operator("=", 2, true, Operator.PRECEDENCE_ADDITION - 1)
 		  {
 
 				@Override
@@ -87,7 +87,7 @@ public class FormulaHandler
 
 		  operators.add(equality);
 
-		  Operator greater = new Operator(">", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator greater = new Operator(">", 2, true, Operator.PRECEDENCE_ADDITION - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -98,7 +98,7 @@ public class FormulaHandler
 
 		  operators.add(greater);
 
-		  Operator greater_equal = new Operator(">=", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator greater_equal = new Operator(">=", 2, true, Operator.PRECEDENCE_ADDITION - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -109,7 +109,7 @@ public class FormulaHandler
 
 		  operators.add(greater_equal);
 
-		  Operator lower = new Operator("<", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator lower = new Operator("<", 2, true, Operator.PRECEDENCE_ADDITION - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -120,7 +120,7 @@ public class FormulaHandler
 
 		  operators.add(lower);
 
-		  Operator lower_equal = new Operator("<=", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator lower_equal = new Operator("<=", 2, true, Operator.PRECEDENCE_ADDITION - 1)
 		  {
 				@Override
 				public double apply(double... args)
@@ -131,7 +131,7 @@ public class FormulaHandler
 
 		  operators.add(lower_equal);
 
-		  Operator and = new Operator("&&", 2, true, Operator.PRECEDENCE_POWER - 2)
+		  Operator and = new Operator("&&", 2, true, Operator.PRECEDENCE_ADDITION - 2)
 		  {
 				@Override
 				public double apply(double... args)
@@ -144,7 +144,7 @@ public class FormulaHandler
 
 		  operators.add(and);
 
-		  Operator or = new Operator("||", 2, true, Operator.PRECEDENCE_POWER - 2)
+		  Operator or = new Operator("||", 2, true, Operator.PRECEDENCE_ADDITION - 2)
 		  {
 				@Override
 				public double apply(double... args)
@@ -157,7 +157,7 @@ public class FormulaHandler
 
 		  operators.add(or);
 
-		  Operator membership = new Operator("#", 2, true, Operator.PRECEDENCE_POWER - 1)
+		  Operator membership = new Operator("#", 2, true, Operator.PRECEDENCE_ADDITION + 1)
 		  {
 				@Override
 				public double apply(double... args)
