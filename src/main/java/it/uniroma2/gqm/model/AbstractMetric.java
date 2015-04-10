@@ -315,7 +315,7 @@ public class AbstractMetric extends BaseObject
 		  return ret;
 	 }
 
-	 @Transient
+/*	 @Transient
 	 public Double getMeasuredValue()
 	 {
 		  Double value = Double.NaN;
@@ -355,7 +355,7 @@ public class AbstractMetric extends BaseObject
 				} else
 				{
 					 // It's a composite metrics...
-					 /*
+					 
 					  * if(metricA != null && metricA.getId() != null && metricB !=
 					  * null && metricB.getId() != null && operation != null){
 					  * //System.out.println("Metric: " + this.getCode() + " 9" +
@@ -370,7 +370,7 @@ public class AbstractMetric extends BaseObject
 					  * metricA.getMeasuredValue() * metricB.getMeasuredValue(); }
 					  * //System.out.println("Metric: " + this.getCode() + " 10" +
 					  * " value= " + value); }
-					  */
+					  
 					 // System.out.println("Metric: " + this.getCode() + " 11" +
 					 // " value= " + value);
 					 if (measurements != null)
@@ -411,6 +411,16 @@ public class AbstractMetric extends BaseObject
 		  return value;
 	 }
 
+*/	 
+
+	 /*
+	 @Transient
+	 public Double getMeasuredValue(){
+		 
+		 return null;
+	 }*/
+
+	 
 	 @Override
 	 public int hashCode()
 	 {
