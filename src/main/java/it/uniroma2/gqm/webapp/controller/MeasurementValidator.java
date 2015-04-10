@@ -118,7 +118,19 @@ public class MeasurementValidator implements Validator {
 			
 			Map<String, Double> values = new HashMap<String, Double>();
 			
-			expressionBuilder.variables(metric_variables).variables(entityClasses);
+			expressionBuilder.variables(metric_variables);
+			
+			if(entityClasses.size() != 0){
+				expressionBuilder.variables(entityClasses);
+				
+				//add corresponding value of each class element
+				for(String s : entityClasses){
+					String s_value = s.replaceAll("_", "");
+					Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
+					values.put(s, numeric_value);
+				}
+			}
+			
 			
 			Double aggregated_values;
 			//multiple value metric: retrieve other measurement and aggregate them with the actual one, before evaluate the formula
@@ -126,7 +138,10 @@ public class MeasurementValidator implements Validator {
 				List<Measurement> saved_measurements = this.measurementManager.findMeasuremntsByMetric(metric);
 				List<Double> saved_measurements_values = new ArrayList<Double>();
 				for(Measurement m : saved_measurements){
-					saved_measurements_values.add(Double.valueOf(m.getValue()));
+					if(rov.isNumeric())
+						saved_measurements_values.add(Double.valueOf(m.getValue()));
+					else//rov is not numeric
+						saved_measurements_values.add(rov.getStringValueAsNumberByIndex(m.getValue()));
 				}
 				//add last measurement (not yet saved in the system)
 				saved_measurements_values.add(value);
@@ -140,13 +155,14 @@ public class MeasurementValidator implements Validator {
 				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
 				Expression expr = expressionBuilder.build().setVariables(
 						values);
-				ValidationResult validator = expr.validate();
+				/*ValidationResult validator = expr.validate();
 				if (!validator.isValid()) {
 					for (String error : validator.getErrors()) {
 						errors.rejectValue("metric", "formula", error);
 					}
 					return false;
 				}
+				*/
 				//evaluate metric formula to retrieve result and check if it is compatible with the assigned range of values
 				Double result = new Double(expr.evaluate());
 				
