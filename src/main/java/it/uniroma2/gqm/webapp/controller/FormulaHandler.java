@@ -1,10 +1,13 @@
 package it.uniroma2.gqm.webapp.controller;
 
+import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
+import it.uniroma2.gqm.service.ComplexMetricManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,9 +183,10 @@ public class FormulaHandler
 
 		  return exprBuilder.operator(operators);
 	 }
-	 
+
 	 /**
 	  * Return the result of the simple metric passed as input
+	  * 
 	  * @param metric
 	  * @return
 	  * @throws IllegalArgumentException
@@ -227,7 +231,8 @@ public class FormulaHandler
 				input_value = AggregatorHandler.executeAggregator(metric.getAggregator(), collected_measurement_values);
 		  }
 
-		  // metric is a simple metric add only _this_ reference & membership classes
+		  // metric is a simple metric add only _this_ reference & membership
+		  // classes
 		  Set<String> metric_variables = new HashSet<String>();
 		  metric_variables.add("_this_");
 
@@ -235,7 +240,7 @@ public class FormulaHandler
 
 		  Map<String, Double> values = new HashMap<String, Double>();
 
-		  expressionBuilder.variables(metric_variables);
+		  expressionBuilder = expressionBuilder.variables(metric_variables);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
 
@@ -266,14 +271,99 @@ public class FormulaHandler
 
 		  System.out.println("formula:  " + metricFormula);
 		  System.out.println("formula test result=" + result + "\n\n");
-		  
+
 		  return result;
 	 }
 
 	 // TODO
-	 public static Double evaluateFormula(CombinedMetric metric)
+	 public static boolean evaluateFormula(CombinedMetric metric, ComplexMetricManager metricManager)
 	 {
-		  return null;
+		  Set<AbstractMetric> composers = metric.getComposedBy();
+		  String metricFormula = metric.getFormula();
+		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
+
+		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
+
+		  Set<String> metric_variables = new HashSet<String>();
+		  Map<String, Double> values = new HashMap<String, Double>();
+
+		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
+
+		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+
+		  if (entityClasses.size() != 0)
+		  {
+				expressionBuilder.variables(entityClasses);
+
+				// add corresponding value of each class element
+				for (String s : entityClasses)
+				{
+					 String s_value = s.replaceAll("_", "");
+					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
+					 values.put(s, numeric_value);
+				}
+		  }
+
+		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
+
+		  for (AbstractMetric composer : composers)
+		  {
+				Double composerActualValue = composer.getActualValue();
+				if (composerActualValue != null && !composerActualValue.isNaN())
+				{
+					 String metric_variable_name = "_" + composer.getName() + "_";
+					 metric_variables.add(metric_variable_name);
+					 values.put(metric_variable_name, composerActualValue);
+				} else if (composerActualValue == null)
+				{
+					 return false;// TODO return true???
+				} else // composerActualValue is NaN
+				{
+					 if(metric.getActualValue().isNaN())
+						  return false;
+					 metric.setActualValue(Double.NaN);
+					 metricManager.save(metric);
+				}
+		  }
+
+		  if (!metric.getActualValue().isNaN())
+		  {
+				expressionBuilder = expressionBuilder.variables(metric_variables);
+
+				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
+				Expression expression = expressionBuilder.build().setVariables(values);
+
+				Double result = expression.evaluate();
+
+				// result validation
+
+				if (metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
+				{
+					 if (result != 0 && result != 1) // a boolean result must be 0
+																// (false) or 1 (true)
+						  result = Double.NaN;
+				}
+				if (metric.getOutputValueType() != MetricOutputValueTypeEnum.BOOLEAN && !rov.isIncluded(result, false)) // output
+																																						  // not
+																																						  // valid
+					 result = Double.NaN;
+
+				// result validated, must be propagated above in the hierarchy
+
+				metric.setActualValue(result);
+				metricManager.save(metric);
+		  }
+
+		  Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
+
+		  for (CombinedMetric composedByMetric : composedByMetrics)
+				return evaluateFormula(composedByMetric, metricManager);
+
+		  if(metric.getActualValue().isNaN())
+				return false;
+		  else
+				return true; // composedByMetrics is empty, exit condition reached
+
 	 }
 
 }
