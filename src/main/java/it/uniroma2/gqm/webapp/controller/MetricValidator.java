@@ -30,22 +30,25 @@ public class MetricValidator implements Validator
 	 
 	 private static final String FORMULA_FIELD = "formula";
 
-	 private static final String METRIC_PATTERN = "_[^_]+_";
-	 
+	 private static final String METRIC_PATTERN_MIDDLE = "[^\"](_[^_^\\s^\"]+_)[^\"]";
+	 private static final String METRIC_PATTERN_BEGIN = "^(_[^_^\\s^\"]+_)[^\"]";
+	 private static final String METRIC_PATTERN_END = "[^\"](_[^_^\\s^\"]+_)$";
+
 	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
 	 
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
 	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
-	 private static final String MEMBERSHIP_PATTERN = "#{1}\"{1}[^\"]+\"{1}";
+	 private static final String MEMBERSHIP_PATTERN = "#\"(_[^\\s|^\"]+_)\"";
 	 private static final String VALID_RESULT_PATTERN = "[\\d|\\.|\\)|\\(|\\,|£|\\?|\\$]*";
 	 
-	 private static final String METRIC_REPLACEMENT = "\\$";
+	 private static final String METRIC_REPLACEMENT = "$";
 	 private static final String OPERATION_REPLACEMENT = "£";
 	 private static final String MEMBERSHIP_REPLACEMENT = "?$";
 	 private static final String OPERATOR_REPLACEMENT = "?";
 	 
 	 private static final String _THIS_ = "_this_";
 	 
+	 private static final String UNSUPPORTED_THIS_ERROR = "The use of _this value is not supported in CombinedMetrics. Please create a SimpleMetric that accomplish your needs and retry.";
 	 private static final String MISSING_THIS_ERROR = "Missing reference to _this_ value";
 	 private static final String SYNTAX_ERROR = "Syntax errors in formula declaration";
 	 private static final String INVALID_MEMBERSHIP_ERROR = "Invalid use of membership operator";
@@ -77,11 +80,18 @@ public class MetricValidator implements Validator
 				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, MISSING_THIS_ERROR);
 				return;
 		  }
-
+		  if (metric instanceof CombinedMetric && extractPattern(formula, THIS_PATTERN, 0).size() != 0)
+		  {
+				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, UNSUPPORTED_THIS_ERROR);
+				return;
+		  }
 		  if (!validateFormulaSyntax(formula, metric.getClass(), errors))
 				return;
 
-		  formula = formula.replaceAll(METRIC_PATTERN, METRIC_REPLACEMENT); 
+		  //formula = formula.replaceAll(METRIC_PATTERN_MIDDLE, METRIC_REPLACEMENT);
+		  //formula = formula.replaceAll(METRIC_PATTERN_BEGIN, METRIC_REPLACEMENT);
+		  //formula = formula.replaceAll(METRIC_PATTERN_END, METRIC_REPLACEMENT);
+		  formula = substituteMetrics(formula);
 		  
 		  checkAllowedOperationsAndOperators(formula, metric, errors);
 	 }
@@ -103,7 +113,12 @@ public class MetricValidator implements Validator
 				Set<String> entityClasses = extractPattern(formula, ENTITY_CLASS_PATTERN, 1);
 
 				if (metricClass.equals(CombinedMetric.class))
-					 metrics = extractPattern(formula, METRIC_PATTERN, 0);
+				{
+					 metrics = extractPattern(formula, METRIC_PATTERN_MIDDLE, 1);
+					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_BEGIN, 1));
+					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_END, 1));
+				}
+					 
 				else //if metric is a simple metric remove only _this_ reference
 				{
 					 metrics = new HashSet<String>();
@@ -183,6 +198,7 @@ public class MetricValidator implements Validator
 						  if (operation.getOperation().equals("membership")) 
 						  {
 								int membershipCount = StringUtils.countMatches(formula, "#");
+								booleanFormula = true;
 								Set<String> membershipPatterns = extractPattern(formula, MEMBERSHIP_PATTERN, 0); //extract every membership pattern
 								if(membershipPatterns.size() != membershipCount) //check if there are the same number of # and classes
 								{
@@ -192,14 +208,23 @@ public class MetricValidator implements Validator
 
 								for(String pattern : membershipPatterns)
 								{
-									 if(!checkMembershipValidity(pattern, metric)) //check if the pattern is valid, i.e. the class is inside the range of values
+									 try
+									 {
+										  if(!checkMembershipValidity(pattern, metric)) //check if the pattern is valid, i.e. the class is inside the range of values
+											 {
+												  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, CLASS_OUT_OF_RANGE_ERROR);
+												  return false;
+											 }
+												 
+											 else
+												 formula = formula.replace(pattern, MEMBERSHIP_REPLACEMENT); //replace the pattern with ?$ (in order to check implicit multiplication)
+									 }
+									 catch(NumberFormatException ex)
 									 {
 										  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, CLASS_OUT_OF_RANGE_ERROR);
 										  return false;
 									 }
-										 
-									 else
-										  formula = formula.replace(pattern, MEMBERSHIP_REPLACEMENT); //replace the pattern with ?$ (in order to check implicit multiplication)
+									 
 								}						
 						  }
 						  //regular operator substitution
@@ -271,6 +296,24 @@ public class MetricValidator implements Validator
 		  return result;
 	 }
 	 
+	 public static String substituteMetrics(String formula)
+	 {
+		  String[] patterns = {METRIC_PATTERN_BEGIN, METRIC_PATTERN_END, METRIC_PATTERN_MIDDLE};
+		  Pattern pattern; 
+		  Matcher regexMatcher;
+		  for(String p : patterns)
+		  {
+				pattern = Pattern.compile(p);
+				regexMatcher = pattern.matcher(formula);
+				
+				while(regexMatcher.find())
+				{
+					 formula = formula.replace(regexMatcher.group(1), METRIC_REPLACEMENT);
+				}
+		  }
+		 return formula;
+	 }
+	 
 	 /**
 	  * 
 	  * @param pattern the pattern to be checked i.e. #"entityclass"
@@ -280,6 +323,7 @@ public class MetricValidator implements Validator
 	 public static boolean checkMembershipValidity(String pattern, AbstractMetric metric)
 	 {
 		  String entityClass = pattern.replace("#", "");
+		  entityClass = entityClass.replace("_", "");
 		  entityClass = entityClass.replaceAll("\"", "");
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
 		  return rov.isIncluded(entityClass, true);	  
