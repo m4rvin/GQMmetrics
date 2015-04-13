@@ -244,22 +244,7 @@ public class FormulaHandler
 		  expressionBuilder = expressionBuilder.variables(metric_variables);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-
-		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
-
-		  if (entityClasses.size() != 0)
-		  {
-				expressionBuilder.variables(entityClasses);
-
-				// add corresponding value of each class element
-				for (String s : entityClasses)
-				{
-					 String s_value = s.replaceAll("_", "");
-					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
-					 values.put(s, numeric_value);
-				}
-		  }
-
+		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  values.put("_this_", input_value);
@@ -289,22 +274,7 @@ public class FormulaHandler
 		  Map<String, Double> values = new HashMap<String, Double>();
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-
-		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
-
-		  if (entityClasses.size() != 0)
-		  {
-				expressionBuilder.variables(entityClasses);
-
-				// add corresponding value of each class element
-				for (String s : entityClasses)
-				{
-					 String s_value = s.replaceAll("_", "");
-					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
-					 values.put(s, numeric_value);
-				}
-		  }
-
+		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  boolean still_evaluable = true;
@@ -373,6 +343,25 @@ public class FormulaHandler
 		  else
 				return true; // composedByMetrics is empty, exit condition reached
 
+	 }
+	 
+	 
+	 private static void setMembershipClassesInExpressionBuilder(String metricFormula, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
+		
+		 Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+
+		  if (entityClasses.size() != 0)
+		  {
+				expressionBuilder.variables(entityClasses);
+
+				// add corresponding value of each class element
+				for (String s : entityClasses)
+				{
+					 String s_value = s.replaceAll("_", "");
+					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
+					 values.put(s, numeric_value);
+				}
+		  }
 	 }
 
 }
