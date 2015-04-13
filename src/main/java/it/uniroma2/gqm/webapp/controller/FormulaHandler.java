@@ -5,6 +5,8 @@ import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
+import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
@@ -261,9 +263,13 @@ public class FormulaHandler
 		  return result;
 	 }
 
-	 // TODO
+
+	 
 	 public static boolean evaluateFormula(CombinedMetric metric, ComplexMetricManager metricManager)
 	 {
+		  if(!checkMetricEvaluability(metric))
+			  return true; //metric is not evaluable, but this is not an error in formula evaluation, so return true.
+		 
 		  Set<AbstractMetric> composers = metric.getComposedBy();
 		  String metricFormula = metric.getFormula();
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
@@ -363,5 +369,24 @@ public class FormulaHandler
 				}
 		  }
 	 }
+	 
+	 private static boolean checkMetricEvaluability(CombinedMetric metric)
+	 {
+		 //check if metric has been linked to at least a question and the relationship has been approved
+		 Iterator<QuestionMetric> qmIt = metric.getQuestions().iterator();
+		 if(!qmIt.hasNext())
+			 return false; //the formula cannot be evaluated because it is not linked to any question.
+		 else{
+			 boolean evaluable = false;
+			 while(qmIt.hasNext() && !evaluable){
+				 if(qmIt.next().getStatus().equals(QuestionMetricStatus.APPROVED))
+					 evaluable = true;
+			 }
+			 if(!evaluable)
+				 return false;
+			 else
+				 return true;
+		 }
+	}
 
 }
