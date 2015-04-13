@@ -12,6 +12,7 @@ import it.uniroma2.gqm.service.ComplexMetricManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -306,8 +307,11 @@ public class FormulaHandler
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
-		  for (AbstractMetric composer : composers)
+		  boolean still_evaluable = true;
+		  Iterator<AbstractMetric> it =  composers.iterator();
+		  while(it.hasNext() && still_evaluable)
 		  {
+			  	AbstractMetric composer = it.next();
 				Double composerActualValue = composer.getActualValue();
 				if (composerActualValue != null && !composerActualValue.equals(Double.MIN_VALUE))
 				{
@@ -316,14 +320,15 @@ public class FormulaHandler
 					 values.put(metric_variable_name, composerActualValue);
 				} else if (composerActualValue == null)
 				{
-					 return false;// TODO return true???
-				} else // composerActualValue is NaN  s1/c1
+					 return true; //the input does not generate an error, but it is impossible to evaluate the formula because it lack some other inputs
+				} else // composerActualValue is undefined (MIN_VALUE)
 				{
 					 if(metric.getActualValue() != null && metric.getActualValue().equals(Double.MIN_VALUE))
 						  return false;
-					 //is null or an acceptable value
+					 //the value of one composer is null or undefined
 					 metric.setActualValue(Double.MIN_VALUE);
 					 metric = (CombinedMetric) metricManager.save(metric);
+					 still_evaluable = false;
 				}
 		  }
 
@@ -357,10 +362,13 @@ public class FormulaHandler
 
 		  Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
 
+		  boolean evaluation_propagation_error = false;
+		  //propagate evaluation and look for errors
 		  for (CombinedMetric composedByMetric : composedByMetrics)
-				return evaluateFormula(composedByMetric, metricManager);
+				if(!evaluateFormula(composedByMetric, metricManager))
+					evaluation_propagation_error = true;
 
-		  if(metric.getActualValue().equals(Double.MIN_VALUE))
+		  if(metric.getActualValue().equals(Double.MIN_VALUE) || evaluation_propagation_error)
 				return false;
 		  else
 				return true; // composedByMetrics is empty, exit condition reached
