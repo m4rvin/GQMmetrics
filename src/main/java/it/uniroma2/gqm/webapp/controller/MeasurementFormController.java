@@ -2,6 +2,7 @@ package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.SimpleMetric;
@@ -13,6 +14,7 @@ import it.uniroma2.gqm.webapp.jsp.ViewName;
 import java.beans.PropertyEditorSupport;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -140,18 +142,36 @@ public class MeasurementFormController extends BaseFormController {
         	if(measurement.getMetric().getCollectingType().equals(CollectingTypeEnum.SINGLE_VALUE))
         	{
         		List<Measurement> saved_measurement = measurementManager.findMeasuremntsByMetric(metric);
-        		if(saved_measurement.size() > 0){//there is a saved measurement. Overwrite it.
+        		if(saved_measurement.size() > 0){//there is a saved measurement. Overwrite it. 
         			measurementManager.remove(saved_measurement.get(0).getId());
+        			//and remove reference in metric
+            		metric.getMeasurements().clear();
         		}
         	}
     		measurementManager.save(measurement);
+    		metric.getMeasurements().add(measurement);
+
     		
     		Double measurementResult = FormulaHandler.evaluateFormula(metric);
     		metric.setActualValue(measurementResult);
     		
     		metricManager.save(metric);
 
+    		Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
+
+    		int i = 0;
+    		boolean evaluation_success = true;
+    		for (CombinedMetric composedByMetric : composedByMetrics){
+    			evaluation_success = FormulaHandler.evaluateFormula(composedByMetric, metricManager);
+    			if(!evaluation_success)
+    				i++;
+    		}
+    		String error_message = "";
+    		if(!evaluation_success)
+    			error_message = "\nWarning: Error evaluation of formula in " + i + " combined metrics.";
+   		  
             String key = (isNew) ? "measurement.added" : "measurement.updated";
+            key = key + error_message;
             saveMessage(request, getText(key, locale));
         }
         String success = getSuccessView();
