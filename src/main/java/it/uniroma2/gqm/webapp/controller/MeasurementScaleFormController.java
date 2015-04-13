@@ -192,7 +192,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  
 		  System.out.println(measurementScale);
 		  try{
-			  this.measurementScaleManager.save(measurementScale);
+			  measurementScale = this.measurementScaleManager.save(measurementScale);
 		  }
 		  catch(DataIntegrityViolationException e){
 			  System.err.println(e.getMessage());

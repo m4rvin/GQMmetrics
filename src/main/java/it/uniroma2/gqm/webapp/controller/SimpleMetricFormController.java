@@ -234,7 +234,7 @@ public class SimpleMetricFormController extends BaseFormController
 				System.out.println("\n\n" + metric + "\n\n");
 				
 				try{
-					  this.metricManager.save(metric);
+					metric = (SimpleMetric) this.metricManager.save(metric);
 				}
 				catch(DataIntegrityViolationException e){
 					  System.err.println(e.getMessage());

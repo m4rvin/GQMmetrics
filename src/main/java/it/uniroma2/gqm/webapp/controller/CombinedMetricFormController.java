@@ -288,7 +288,7 @@ public class CombinedMetricFormController extends BaseFormController
 				System.out.println("\n\n" + metric + "\n\n");
 
 				try{
-					  this.metricManager.save(metric);
+					  metric = (CombinedMetric) this.metricManager.save(metric);
 				}
 				catch(DataIntegrityViolationException e){
 					  System.err.println(e.getMessage());

@@ -323,7 +323,7 @@ public class FormulaHandler
 						  return false;
 					 //is null or an acceptable value
 					 metric.setActualValue(Double.MIN_VALUE);
-					 metricManager.save(metric);
+					 metric = (CombinedMetric) metricManager.save(metric);
 				}
 		  }
 
@@ -352,7 +352,7 @@ public class FormulaHandler
 				// result validated, must be propagated above in the hierarchy
 
 				metric.setActualValue(result);
-				metricManager.save(metric);
+				metric = (CombinedMetric) metricManager.save(metric);
 		  }
 
 		  Set<CombinedMetric> composedByMetrics = metric.getComposerFor();

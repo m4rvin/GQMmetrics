@@ -158,7 +158,7 @@ public class RangeOfValuesFormController extends BaseFormController
 		  
 		  System.out.println(rangeOfValues);
 		  try{
-			  rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+			  rangeOfValues = rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
 		  }
 		  catch(DataIntegrityViolationException e){
 			  System.err.println(e.getMessage());

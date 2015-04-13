@@ -155,7 +155,7 @@ public class MeasurementFormController extends BaseFormController {
     		Double measurementResult = FormulaHandler.evaluateFormula(metric);
     		metric.setActualValue(measurementResult);
     		
-    		metricManager.save(metric);
+    		metric = (SimpleMetric) metricManager.save(metric);
 
     		Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
 
