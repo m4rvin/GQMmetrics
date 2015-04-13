@@ -309,7 +309,7 @@ public class FormulaHandler
 		  for (AbstractMetric composer : composers)
 		  {
 				Double composerActualValue = composer.getActualValue();
-				if (composerActualValue != null && !composerActualValue.isNaN())
+				if (composerActualValue != null && !composerActualValue.equals(Double.MIN_VALUE))
 				{
 					 String metric_variable_name = "_" + composer.getName() + "_";
 					 metric_variables.add(metric_variable_name);
@@ -317,16 +317,17 @@ public class FormulaHandler
 				} else if (composerActualValue == null)
 				{
 					 return false;// TODO return true???
-				} else // composerActualValue is NaN
+				} else // composerActualValue is NaN  s1/c1
 				{
-					 if(metric.getActualValue().isNaN())
+					 if(metric.getActualValue() != null && metric.getActualValue().equals(Double.MIN_VALUE))
 						  return false;
-					 metric.setActualValue(Double.NaN);
+					 //is null or an acceptable value
+					 metric.setActualValue(Double.MIN_VALUE);
 					 metricManager.save(metric);
 				}
 		  }
 
-		  if (!metric.getActualValue().isNaN())
+		  if (metric.getActualValue() == null || !metric.getActualValue().equals(Double.MIN_VALUE)) //is null or an acceptable value
 		  {
 				expressionBuilder = expressionBuilder.variables(metric_variables);
 
@@ -341,12 +342,12 @@ public class FormulaHandler
 				{
 					 if (result != 0 && result != 1) // a boolean result must be 0
 																// (false) or 1 (true)
-						  result = Double.NaN;
+						  result = Double.MIN_VALUE;
 				}
 				if (metric.getOutputValueType() != MetricOutputValueTypeEnum.BOOLEAN && !rov.isIncluded(result, false)) // output
 																																						  // not
 																																						  // valid
-					 result = Double.NaN;
+					 result = Double.MIN_VALUE;
 
 				// result validated, must be propagated above in the hierarchy
 
@@ -359,7 +360,7 @@ public class FormulaHandler
 		  for (CombinedMetric composedByMetric : composedByMetrics)
 				return evaluateFormula(composedByMetric, metricManager);
 
-		  if(metric.getActualValue().isNaN())
+		  if(metric.getActualValue().equals(Double.MIN_VALUE))
 				return false;
 		  else
 				return true; // composedByMetrics is empty, exit condition reached

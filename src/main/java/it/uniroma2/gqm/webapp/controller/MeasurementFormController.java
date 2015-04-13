@@ -148,7 +148,7 @@ public class MeasurementFormController extends BaseFormController {
             		metric.getMeasurements().clear();
         		}
         	}
-    		measurementManager.save(measurement);
+        	measurement = measurementManager.save(measurement);
     		metric.getMeasurements().add(measurement);
 
     		
