@@ -167,7 +167,7 @@ public class MeasurementFormController extends BaseFormController {
     				i++;
     		}
     		String error_message = "";
-    		if(!evaluation_success)
+    		if(i>0)
     			error_message = "\nWarning: Error evaluation of formula in " + i + " combined metrics.";
    		  
             String key = (isNew) ? "measurement.added" : "measurement.updated";

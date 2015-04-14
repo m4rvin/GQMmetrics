@@ -5,6 +5,8 @@ import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
+import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
@@ -12,6 +14,7 @@ import it.uniroma2.gqm.service.ComplexMetricManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -243,22 +246,7 @@ public class FormulaHandler
 		  expressionBuilder = expressionBuilder.variables(metric_variables);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-
-		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
-
-		  if (entityClasses.size() != 0)
-		  {
-				expressionBuilder.variables(entityClasses);
-
-				// add corresponding value of each class element
-				for (String s : entityClasses)
-				{
-					 String s_value = s.replaceAll("_", "");
-					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
-					 values.put(s, numeric_value);
-				}
-		  }
-
+		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  values.put("_this_", input_value);
@@ -275,9 +263,13 @@ public class FormulaHandler
 		  return result;
 	 }
 
-	 // TODO
+
+	 
 	 public static boolean evaluateFormula(CombinedMetric metric, ComplexMetricManager metricManager)
 	 {
+		  if(!checkMetricEvaluability(metric))
+			  return true; //metric is not evaluable, but this is not an error in formula evaluation, so return true.
+		 
 		  Set<AbstractMetric> composers = metric.getComposedBy();
 		  String metricFormula = metric.getFormula();
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
@@ -288,26 +280,14 @@ public class FormulaHandler
 		  Map<String, Double> values = new HashMap<String, Double>();
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-
-		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
-
-		  if (entityClasses.size() != 0)
-		  {
-				expressionBuilder.variables(entityClasses);
-
-				// add corresponding value of each class element
-				for (String s : entityClasses)
-				{
-					 String s_value = s.replaceAll("_", "");
-					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
-					 values.put(s, numeric_value);
-				}
-		  }
-
+		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
-		  for (AbstractMetric composer : composers)
+		  boolean still_evaluable = true;
+		  Iterator<AbstractMetric> it =  composers.iterator();
+		  while(it.hasNext() && still_evaluable)
 		  {
+			  	AbstractMetric composer = it.next();
 				Double composerActualValue = composer.getActualValue();
 				if (composerActualValue != null && !composerActualValue.equals(Double.MIN_VALUE))
 				{
@@ -316,14 +296,15 @@ public class FormulaHandler
 					 values.put(metric_variable_name, composerActualValue);
 				} else if (composerActualValue == null)
 				{
-					 return false;// TODO return true???
-				} else // composerActualValue is NaN  s1/c1
+					 return true; //the input does not generate an error, but it is impossible to evaluate the formula because it lack some other inputs
+				} else // composerActualValue is undefined (MIN_VALUE)
 				{
 					 if(metric.getActualValue() != null && metric.getActualValue().equals(Double.MIN_VALUE))
 						  return false;
-					 //is null or an acceptable value
+					 //the value of one composer is null or undefined
 					 metric.setActualValue(Double.MIN_VALUE);
 					 metric = (CombinedMetric) metricManager.save(metric);
+					 still_evaluable = false;
 				}
 		  }
 
@@ -357,14 +338,55 @@ public class FormulaHandler
 
 		  Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
 
+		  boolean evaluation_propagation_error = false;
+		  //propagate evaluation and look for errors
 		  for (CombinedMetric composedByMetric : composedByMetrics)
-				return evaluateFormula(composedByMetric, metricManager);
+				if(!evaluateFormula(composedByMetric, metricManager))
+					evaluation_propagation_error = true;
 
-		  if(metric.getActualValue().equals(Double.MIN_VALUE))
+		  if(metric.getActualValue().equals(Double.MIN_VALUE) || evaluation_propagation_error)
 				return false;
 		  else
 				return true; // composedByMetrics is empty, exit condition reached
 
 	 }
+	 
+	 
+	 private static void setMembershipClassesInExpressionBuilder(String metricFormula, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
+		
+		 Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+
+		  if (entityClasses.size() != 0)
+		  {
+				expressionBuilder.variables(entityClasses);
+
+				// add corresponding value of each class element
+				for (String s : entityClasses)
+				{
+					 String s_value = s.replaceAll("_", "");
+					 Double numeric_value = rov.getStringValueAsNumberByIndex(s_value);
+					 values.put(s, numeric_value);
+				}
+		  }
+	 }
+	 
+	 private static boolean checkMetricEvaluability(CombinedMetric metric)
+	 {
+		 //check if metric has been linked to at least a question and the relationship has been approved
+		 Iterator<QuestionMetric> qmIt = metric.getQuestions().iterator();
+		 if(!qmIt.hasNext())
+			 return false; //the formula cannot be evaluated because it is not linked to any question.
+		 else{
+			 boolean evaluable = false;
+			 while(qmIt.hasNext() && !evaluable){
+				 if(qmIt.next().getStatus().equals(QuestionMetricStatus.APPROVED))
+					 evaluable = true;
+			 }
+			 if(!evaluable)
+				 return false;
+			 else
+				 return true;
+		 }
+	}
 
 }

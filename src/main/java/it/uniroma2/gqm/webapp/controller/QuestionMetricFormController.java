@@ -1,6 +1,7 @@
 package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
@@ -80,8 +81,12 @@ public class QuestionMetricFormController extends BaseFormController {
         }else {
         	ret = new QuestionMetric();
         	ret.setStatus(QuestionMetricStatus.PROPOSED);
-        }              
+        }    
         
+        // === GQM+S+MS changes
+        session.setAttribute("questionMetricStatus", ret.getStatus());
+        // === END GQM+S+MS changes
+
         List<String> availableStatus =metricManager.getAvailableStatus(ret, currentUser); 
         
         model.addAttribute("availableStatus",availableStatus);
@@ -92,8 +97,12 @@ public class QuestionMetricFormController extends BaseFormController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String onSubmit(QuestionMetric questionMetric, BindingResult errors, HttpServletRequest request,
-                           HttpServletResponse response) throws Exception {
+                           HttpSession session, HttpServletResponse response) throws Exception {
         if (request.getParameter("cancel") != null) {
+            // === GQM+S+MS changes
+            session.removeAttribute("questionMetricStatus");
+            // === END GQM+S+MS changes
+
             return getCancelView();
         }
  
@@ -115,14 +124,27 @@ public class QuestionMetricFormController extends BaseFormController {
         } else {
         	
         	questionMetric.getPk().setQuestion(questionManager.get(questionMetric.getPk().getQuestion().getId()));
-        	questionMetric.getPk().setMetric(metricManager.get(questionMetric.getPk().getMetric().getId()));
+        	AbstractMetric metric = metricManager.get(questionMetric.getPk().getMetric().getId());
+        	questionMetric.getPk().setMetric(metric);
         	metricManager.saveQuestionMetric(questionMetric);
 
             String key = (isNew) ? "questionMetric.added" : "questionMetric.updated";
             saveMessage(request, getText(key, locale));
 
+            // === GQM+S+MS changes
+            if(metric.getClass().equals(CombinedMetric.class)){
+	            QuestionMetricStatus qmStatus_saved = (QuestionMetricStatus) session.getAttribute("questionMetricStatus");
+	            QuestionMetricStatus qmStatus_updated = questionMetric.getStatus();
+	            if(!qmStatus_saved.equals(qmStatus_updated) && qmStatus_updated.equals(QuestionMetricStatus.APPROVED)){
+	            	boolean dummytestvalue = FormulaHandler.evaluateFormula((CombinedMetric) metric, metricManager);
+	            	System.out.println("A new combined metric has been proposed. It has been evaluated and its formula evaluation returned: " + dummytestvalue);
+	            }
+            }
         }
- 
+        
+        session.removeAttribute("questionMetricStatus");
+        // === END GQM+S+MS changes
+
         return getSuccessView();
     }
 
