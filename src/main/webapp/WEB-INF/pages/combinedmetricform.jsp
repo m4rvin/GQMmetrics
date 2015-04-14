@@ -294,9 +294,9 @@
         </c:if>
       <button type="submit" class="btn" name="cancel">
       	<i class="icon-remove"></i> <fmt:message key="button.cancel"/>
-      </button>  --%>  
-      
-      <c:if test="${(combinedMetric.metricOwner eq currentUser || empty combinedMetric.id) && (not used)}">
+      </button>  --%> 
+
+      <c:if test="${(combinedMetric.metricOwner eq currentUser || empty combinedMetric.id)}">
 			<button type="submit" class="btn btn-primary" name="save">
 				<i class="icon-ok icon-white"></i>
 				<fmt:message key="button.save" />
