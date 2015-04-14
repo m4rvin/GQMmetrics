@@ -103,8 +103,10 @@ $.post(url, {id: $("#identifier").text()},
 						return "goalform?id="+d.identifier; 
 					else if(d.type==1) 
 						return "questionform?id="+d.identifier; 
+					else if(d.type==2) 
+						return "simplemetricform?id="+d.identifier;
 					else 
-						return "metricform?id="+d.identifier;
+						return "combinedmetricform?id="+d.identifier;
 					}).append("text")
 				  .attr("x", function(d) { return d.children || d._children ? 0 : 0; })
 				  .attr("dy", ".35em").attr("text-anchor", "middle")

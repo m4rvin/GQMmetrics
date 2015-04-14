@@ -6,6 +6,7 @@ import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,7 +60,10 @@ public class GraphManagerImpl extends GenericManagerImpl<BinaryTable, Long> impl
 						if(j != 0)
 							tree +=",";
 						tree += "{\"parent\":\""+q.getName()+"\",\"name\":\""+m.getName()+"\"";
-						tree += ",\"identifier\":\""+m.getId()+"\",\"type\":\""+2+"\"}";
+						if(m instanceof SimpleMetric)
+							 tree += ",\"identifier\":\""+m.getId()+"\",\"type\":\""+2+"\"}";
+						else
+							 tree += ",\"identifier\":\""+m.getId()+"\",\"type\":\""+3+"\"}";
 						j++;
 					}
 					tree += "]}";
