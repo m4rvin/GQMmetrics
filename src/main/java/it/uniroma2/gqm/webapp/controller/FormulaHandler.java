@@ -308,7 +308,7 @@ public class FormulaHandler
 				}
 		  }
 
-		  if (metric.getActualValue() == null || !metric.getActualValue().equals(Double.MIN_VALUE)) //is null or an acceptable value
+		  if (metric.getActualValue() == null || !metric.getActualValue().equals(Double.MIN_VALUE) || still_evaluable) //is null or an acceptable value or need to be evaluated
 		  {
 				expressionBuilder = expressionBuilder.variables(metric_variables);
 
