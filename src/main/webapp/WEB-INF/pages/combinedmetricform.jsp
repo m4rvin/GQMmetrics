@@ -58,7 +58,6 @@
 	<div style="color:#0000FF;">Where <b>y</b> refers to a valid value or to an existing metric.</div>	
 </div>
 
-
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
     <form:form commandName="combinedMetric" method="post" action="combinedmetricform" id="combinedMetricForm" cssClass="well form-horizontal">
@@ -200,7 +199,7 @@
          <div class="control-group">
         <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
         <div class="controls">
-			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField()" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)} ? 'disabled' : '' >
+			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField()" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used) ? 'disabled' : ''} >
 					<c:forEach items="${availableMetricComposers}" var="availablecomposer">
 						<c:set var="found" value="false"></c:set>
 							<c:forEach items="${combinedMetric.composedBy}" var="savedcomposer">

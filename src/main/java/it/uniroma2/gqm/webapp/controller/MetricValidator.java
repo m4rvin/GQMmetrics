@@ -33,6 +33,7 @@ public class MetricValidator implements Validator
 	 public static final String METRIC_PATTERN_MIDDLE = "[^\"](_[^_^\\s^\"]+_)[^\"]";
 	 public static final String METRIC_PATTERN_BEGIN = "^(_[^_^\\s^\"]+_)[^\"]";
 	 public static final String METRIC_PATTERN_END = "[^\"](_[^_^\\s^\"]+_)$";
+	 public static final String METRIC_PATTERN_ALONE = "^(_[^_^\\s^\"]+_)$";
 
 	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
 	 
@@ -117,6 +118,7 @@ public class MetricValidator implements Validator
 					 metrics = extractPattern(formula, METRIC_PATTERN_MIDDLE, 1);
 					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_BEGIN, 1));
 					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_END, 1));
+					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_ALONE, 1));
 				}
 					 
 				else //if metric is a simple metric remove only _this_ reference
@@ -298,7 +300,7 @@ public class MetricValidator implements Validator
 	 
 	 public static String substituteMetrics(String formula)
 	 {
-		  String[] patterns = {METRIC_PATTERN_BEGIN, METRIC_PATTERN_END, METRIC_PATTERN_MIDDLE};
+		  String[] patterns = {METRIC_PATTERN_BEGIN, METRIC_PATTERN_END, METRIC_PATTERN_MIDDLE, METRIC_PATTERN_ALONE};
 		  Pattern pattern; 
 		  Matcher regexMatcher;
 		  for(String p : patterns)
