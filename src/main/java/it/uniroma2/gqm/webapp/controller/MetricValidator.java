@@ -30,10 +30,10 @@ public class MetricValidator implements Validator
 	 
 	 private static final String FORMULA_FIELD = "formula";
 
-	 public static final String METRIC_PATTERN_MIDDLE = "[^\"](_[^_^\\s^\"]+_)[^\"]";
-	 public static final String METRIC_PATTERN_BEGIN = "^(_[^_^\\s^\"]+_)[^\"]";
-	 public static final String METRIC_PATTERN_END = "[^\"](_[^_^\\s^\"]+_)$";
-	 public static final String METRIC_PATTERN_ALONE = "^(_[^_^\\s^\"]+_)$";
+	 public static final String METRIC_PATTERN_MIDDLE = "[^\"](_[a-zA-Z0-9]+_)[^\"]";
+	 public static final String METRIC_PATTERN_BEGIN = "^(_[a-zA-Z0-9]+_)[^\"]";
+	 public static final String METRIC_PATTERN_END = "[^\"](_[a-zA-Z0-9]+_)$";
+	 public static final String METRIC_PATTERN_ALONE = "^(_[a-zA-Z0-9]+_)$";
 
 	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
 	 
@@ -115,9 +115,9 @@ public class MetricValidator implements Validator
 
 				if (metricClass.equals(CombinedMetric.class))
 				{
-					 metrics = extractPattern(formula, METRIC_PATTERN_MIDDLE, 1);
-					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_BEGIN, 1));
+					 metrics = extractPattern(formula, METRIC_PATTERN_BEGIN, 1);
 					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_END, 1));
+					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_MIDDLE, 1));
 					 metrics.addAll(extractPattern(formula, METRIC_PATTERN_ALONE, 1));
 				}
 					 
