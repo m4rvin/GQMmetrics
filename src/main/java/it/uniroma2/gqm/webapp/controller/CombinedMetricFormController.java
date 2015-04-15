@@ -238,8 +238,12 @@ public class CombinedMetricFormController extends BaseFormController
 				
 				if(metric.getComposedBy().size() > 0) //== not isNew --->  during editing I want to delete the old references to the composer metrics
 				{
-					 for(AbstractMetric m : metric.getComposedBy())
-						  metric.removeComposedBy(m);
+					 for(Iterator<AbstractMetric> iterator = metric.getComposedBy().iterator(); iterator.hasNext();)
+					 {
+						 AbstractMetric composer = iterator.next();
+						 metric.removeComposedBy(composer);
+						 iterator.remove();
+					 }
 				}
 				
 				

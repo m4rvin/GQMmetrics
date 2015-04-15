@@ -47,7 +47,7 @@ public class CombinedMetric extends AbstractMetric
 
 	 public void removeComposedBy(AbstractMetric metric)
 	 {
-		  this.composedBy.remove(metric);
+		  //removed to overcome ConcurrentModificationException: this.composedBy.remove(metric);
 		  metric.removeComposerFor(this);
 	 }
 	 
