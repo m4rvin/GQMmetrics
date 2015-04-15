@@ -200,7 +200,8 @@ public class MetricValidator implements Validator
 						  if (operation.getOperation().equals("membership")) 
 						  {
 								int membershipCount = StringUtils.countMatches(formula, "#");
-								booleanFormula = true;
+								if(membershipCount > 0) //formula uses membership
+									 booleanFormula = true;
 								Set<String> membershipPatterns = extractPattern(formula, MEMBERSHIP_PATTERN, 0); //extract every membership pattern
 								if(membershipPatterns.size() != membershipCount) //check if there are the same number of # and classes
 								{
@@ -237,7 +238,7 @@ public class MetricValidator implements Validator
 								
 								while(regexMatcher.find())
 								{
-									 if(isBooleanOutput(operation.getOperation())) //check if the operator is boolean
+									 if(isBooleanOperator(operation.getOperation())) //check if the operator is boolean
 										  booleanFormula = true;
 									 String match = formula.substring(regexMatcher.start(), regexMatcher.end());
 									 match = match.replace(regexMatcher.group(1), OPERATOR_REPLACEMENT);
@@ -331,7 +332,7 @@ public class MetricValidator implements Validator
 		  return rov.isIncluded(entityClass, true);	  
 	 }
 	 
-	 public boolean isBooleanOutput(String operator)
+	 public boolean isBooleanOperator(String operator)
 	 {
 		  if(!operator.equals("addition") && !operator.equals("subtraction") && !operator.equals("multiplication") && !operator.equals("ratio")) //boolean operator
 				return true;

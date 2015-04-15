@@ -114,6 +114,8 @@ public class MeasurementValidator implements Validator {
 			metric_variables = new HashSet<String>();
 			metric_variables.add("_this_");
 			
+			metricFormula = metricFormula.replaceAll("\"", "");
+			
 			ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 			
 			Map<String, Double> values = new HashMap<String, Double>();
@@ -155,6 +157,7 @@ public class MeasurementValidator implements Validator {
 			
 			try {
 				expressionBuilder = FormulaHandler.addCustomOperators(expressionBuilder);
+				//FormulaHandler.setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
 				Expression expr = expressionBuilder.build().setVariables(values);
 				/*ValidationResult validator = expr.validate();
 				if (!validator.isValid()) {

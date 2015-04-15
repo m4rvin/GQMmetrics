@@ -239,14 +239,18 @@ public class FormulaHandler
 		  Set<String> metric_variables = new HashSet<String>();
 		  metric_variables.add("_this_");
 
-		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 
 		  Map<String, Double> values = new HashMap<String, Double>();
+		  
+		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+		  metricFormula = metricFormula.replaceAll("\"", "");
+		  
+		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 
 		  expressionBuilder = expressionBuilder.variables(metric_variables);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
+		  setMembershipClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  values.put("_this_", input_value);
@@ -274,13 +278,17 @@ public class FormulaHandler
 		  String metricFormula = metric.getFormula();
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
 
-		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
-
 		  Set<String> metric_variables = new HashSet<String>();
 		  Map<String, Double> values = new HashMap<String, Double>();
+		  
+		  Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
+		  
+		  metricFormula = metricFormula.replaceAll("\"", "");
+		  
+		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-		  setMembershipClassesInExpressionBuilder(metricFormula, rov, expressionBuilder, values);
+		  setMembershipClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  boolean still_evaluable = true;
@@ -358,9 +366,8 @@ public class FormulaHandler
 	 }
 	 
 	 
-	 private static void setMembershipClassesInExpressionBuilder(String metricFormula, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
+	 public static void setMembershipClassesInExpressionBuilder(Set<String> entityClasses, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
 		
-		 Set<String> entityClasses = MetricValidator.extractPattern(metricFormula, MetricValidator.ENTITY_CLASS_PATTERN, 1);
 
 		  if (entityClasses.size() != 0)
 		  {

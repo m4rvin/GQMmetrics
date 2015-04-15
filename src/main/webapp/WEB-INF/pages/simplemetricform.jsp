@@ -197,13 +197,12 @@
             
         </div>
     </div>
-    
     <div id="aggregatorDiv" style="display:none;">
 	    <spring:bind path="simpleMetric.aggregator">
 		    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 		        <appfuse:label styleClass="control-label" key="metric.aggregator"/>
 		        <div class="controls">
-					<form:select path="aggregator" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
+					<form:select path="aggregator" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || (used)}" >
 					<form:option label="None" value="" />
 		            <c:forEach items="${availableAggregators}" var="availableAggregator">
 		            	<c:choose>
