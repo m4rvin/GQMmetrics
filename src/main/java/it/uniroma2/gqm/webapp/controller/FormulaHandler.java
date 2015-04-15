@@ -285,7 +285,7 @@ public class FormulaHandler
 
 		  boolean still_evaluable = true;
 		  Iterator<AbstractMetric> it =  composers.iterator();
-		  while(it.hasNext() && still_evaluable)
+		  while(it.hasNext())//check every composer. Exit only if you find a null-evaluated one (null-evaluated composers lead the result response) or this metric and a composer one have an undefined result (already known undefined states do not need to be propagated). 
 		  {
 			  	AbstractMetric composer = it.next();
 				Double composerActualValue = composer.getActualValue();
@@ -294,18 +294,26 @@ public class FormulaHandler
 					 String metric_variable_name = "_" + composer.getName() + "_";
 					 metric_variables.add(metric_variable_name);
 					 values.put(metric_variable_name, composerActualValue);
-				} else if (composerActualValue == null)
+				} 
+				else if (composerActualValue == null)
 				{
-					 return true; //the input does not generate an error, but it is impossible to evaluate the formula because it lack some other inputs
-				} else // composerActualValue is undefined (MIN_VALUE)
+					 return true; //the input does not generate an error, but it is impossible to evaluate the formula because it lack some other inputs. This metric still has a null value.
+				}
+				else //a composerActualValue is undefined (MIN_VALUE)
 				{
 					 if(metric.getActualValue() != null && metric.getActualValue().equals(Double.MIN_VALUE))
-						  return false;
-					 //the value of one composer is null or undefined
-					 metric.setActualValue(Double.MIN_VALUE);
-					 metric = (CombinedMetric) metricManager.save(metric);
-					 still_evaluable = false;
+						  return true; //this metric has a value already set to MIN_VALUE (received by a composer), do not need to propagate neither to show an error
+					 
+					 //the value of one composer is undefined and this metric has a null or valid (but old) value
+					 if(still_evaluable)
+						 still_evaluable = false;
 				}
+		  }
+		  
+		  if(!still_evaluable)
+		  {//set metric to the new value=MIN_VALUE, only after checking all composers and not founding a null-evaluated one.
+			  metric.setActualValue(Double.MIN_VALUE);
+			  metric = (CombinedMetric) metricManager.save(metric);
 		  }
 
 		  if (metric.getActualValue() == null || !metric.getActualValue().equals(Double.MIN_VALUE) || still_evaluable) //is null or an acceptable value or need to be evaluated
@@ -326,8 +334,6 @@ public class FormulaHandler
 						  result = Double.MIN_VALUE;
 				}
 				if (metric.getOutputValueType() != MetricOutputValueTypeEnum.BOOLEAN && !rov.isIncluded(result, false)) // output
-																																						  // not
-																																						  // valid
 					 result = Double.MIN_VALUE;
 
 				// result validated, must be propagated above in the hierarchy
@@ -345,7 +351,7 @@ public class FormulaHandler
 					evaluation_propagation_error = true;
 
 		  if(metric.getActualValue().equals(Double.MIN_VALUE) || evaluation_propagation_error)
-				return false;
+				return false; //the last (or any) metric returned an error
 		  else
 				return true; // composedByMetrics is empty, exit condition reached
 
