@@ -284,6 +284,9 @@ public class AbstractMetric extends BaseObject
 		  return this.questions.size() == 0 && this.composerFor.size() == 0;
 	 }
 
+	 /*
+	  *  va cancellata da qui la valutaizione della metrica, spostare sul manager
+	  */
 	 @Transient
 	 public boolean isConditionReached()
 	 {

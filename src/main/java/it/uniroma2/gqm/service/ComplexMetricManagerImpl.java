@@ -122,9 +122,12 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 }
 
 	 @Override
-	 public boolean getSatisfaction(AbstractMetric m)
+	 public boolean getSatisfaction(AbstractMetric m) //necessita di un satisfyingConditionTarget come input
 	 {
-		  return m.isConditionReached();
+		  return m.isConditionReached(); 
+		  /*
+		   * prendere il riferimento alla satisfying condition e alla metrica e verificare se l'actual value soddisfa o no la condizione
+		   */
 	 }
 
 	 @Override

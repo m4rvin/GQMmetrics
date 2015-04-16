@@ -98,7 +98,7 @@ public class BinaryTableController {
             		boolean satisfy = true;
 	            	//Calcolo valore di soddisfacimento (1 o 0)
 	                for(AbstractMetric m: metrics){
-	                	satisfy &= metricManager.getSatisfaction(m);
+	                	satisfy &= metricManager.getSatisfaction(m); //serve passare un satysfingConditionTarget ottenuto tramite il goal e la metrica corrente
 	                	satisfyAll &= satisfy;
 	                }
 	                if(satisfyAll)
