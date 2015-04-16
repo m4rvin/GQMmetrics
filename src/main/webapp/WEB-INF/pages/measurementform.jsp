@@ -9,20 +9,22 @@
 <div class="span2">
 	<p><fmt:message key="measurement.message"/></p>	
 </div>
-
-
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
     <form:form commandName="measurement" method="post" action="measurementform" id="measurementForm"
                cssClass="well form-horizontal">
     <form:hidden path="id"/>
+    
+	<c:if test="${not empty measurement.id}">
+		<c:set var="existingMeasurement" value="true"/>
+	</c:if> 
 
     <spring:bind path="measurement.metric">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>
         <appfuse:label styleClass="control-label" key="measurement.metric"/>
         <div class="controls">
-   			<form:select path="metric" multiple="false" disabled="${measurement.measurementOwner ne currentUser && not empty measurement.id}">
+   			<form:select path="metric" multiple="false"  disabled="${existingMeasurement}">
    				<form:option value="" label="None"/>
 		    	<form:options items="${availableMetrics}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
@@ -36,7 +38,7 @@
         <appfuse:label styleClass="control-label" key="measurement.collectingDate"/>
         <div class="controls">
             <form:input path="collectingDate" id="collectingDate" cssStyle="width:200px" 
-            	readonly="${measurement.measurementOwner ne currentUser && not empty measurement.id}"/>
+            	disabled="${existingMeasurement}" />
             <form:errors path="collectingDate" cssClass="help-inline"/>
         </div>
     </div>	
@@ -47,7 +49,7 @@
         <appfuse:label styleClass="control-label" key="measurement.collectingTime"/>
         <div class="controls">
             <form:input path="collectingTime" id="collectingTime" cssStyle="width:200px" 
-            	readonly="${measurement.measurementOwner ne currentUser && not empty measurement.id}"/>
+            	disabled="${existingMeasurement}"/>
             <form:errors path="collectingTime" cssClass="help-inline"/>
         </div>
     </div>
@@ -57,21 +59,21 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="measurement.value"/>
         <div class="controls">
-            <form:input path="value" id="value" maxlength="50" readonly="${measurement.measurementOwner ne currentUser && not empty measurement.id}"/>
+            <form:input path="value" id="value" maxlength="50" readonly="${existingMeasurement}"/>
             <form:errors path="value" cssClass="help-inline"/>
         </div>
     </div>	    
     
     <div class="form-actions">
-        <c:if test="${measurement.measurementOwner eq currentUser || empty measurement.id}">
+        <c:if test="${empty existingMeasurement}">
 			<button type="submit" class="btn btn-primary" name="save">
 			    <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
 			</button>
-			<c:if test="${measurement.measurementOwner eq currentUser}">	
+			<%-- <c:if test="${measurement.measurementOwner eq currentUser}">	
 				 <button type="submit" class="btn" name="delete">
 				     <i class="icon-trash"></i> <fmt:message key="button.delete"/>
 				</button>        
-			</c:if>
+			</c:if> --%>
         </c:if>
       <button type="submit" class="btn" name="cancel">
       	<i class="icon-remove"></i> <fmt:message key="button.cancel"/>
