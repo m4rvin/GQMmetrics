@@ -49,7 +49,7 @@ public class MetricValidator implements Validator
 	 
 	 private static final String _THIS_ = "_this_";
 	 
-	 private static final String UNSUPPORTED_THIS_ERROR = "The use of _this value is not supported in CombinedMetrics. Please create a SimpleMetric that accomplish your needs and retry.";
+	 private static final String UNSUPPORTED_THIS_ERROR = "The use of _this_ value is not supported in CombinedMetrics. Please create a SimpleMetric that accomplish your needs and retry.";
 	 private static final String MISSING_THIS_ERROR = "Missing reference to _this_ value";
 	 private static final String SYNTAX_ERROR = "Syntax errors in formula declaration";
 	 private static final String INVALID_MEMBERSHIP_ERROR = "Invalid use of membership operator";

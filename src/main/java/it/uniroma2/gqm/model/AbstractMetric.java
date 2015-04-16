@@ -37,7 +37,7 @@ import org.appfuse.model.User;
 		  @NamedQuery(name = "findMetricByMeasurementScaleTypeExludingOneById", query = "select m from AbstractMetric m where m.measurementScale.type = :type AND m.id <> :id" ),
 		  @NamedQuery(name = "findMetricByName", query = "select m from AbstractMetric m where m.name = :name")})
 @DiscriminatorColumn(name = "complexMetricType")
-@Table(name = "AbstractMetric", uniqueConstraints = @UniqueConstraint(columnNames = { "type", "measurement_scale_id", "collecting_type", "metric_formula"}))
+@Table(name = "AbstractMetric", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "type", "measurement_scale_id", "collecting_type", "metric_formula"}))
 public class AbstractMetric extends BaseObject
 {
 

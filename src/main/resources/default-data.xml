@@ -1265,17 +1265,37 @@
 		
 		<row>
 			<value description="metric_id">1</value>
-			<!--<value descritpion="aggregator" ></value> -->        	        	
+			<!--<value description="aggregator" ></value> -->        	        	
+		</row>
+		<row>
+			<value description="metric_id">2</value>
+			<!--<value description="aggregator" ></value> -->        	        	
+		</row>
+		<row>
+			<value description="metric_id">3</value>
+			<value description="aggregator" >AVG</value>        	        	
+		</row>
+	</table>
+	
+	<table name="combinedmetric">
+		<column>metric_id</column>
+		
+		<row>
+			<value description="metric_id">4</value>
+		</row>
+		<row>
+			<value description="metric_id">5</value>
+		</row>
+		<row>
+			<value description="metric_id">6</value>
 		</row>
 	</table>
 	
 	<table name="abstractmetric">
         <column>metric_id</column>
-        <column>actual_value</column>
         <column>code</column>
         <column>collecting_type</column>
         <column>metric_formula</column>
-        <column>hypothesis</column>
         <column>name</column>        
 		<column>outputValueType</column>
        	<column>satisfying_condition_peration</column>
@@ -1284,22 +1304,98 @@
         <column>measurement_scale_id</column>
         <column>mmdmo_id</column>
         <column>project_id</column>
+        <column>actual_value</column>
+        <column>hypothesis</column>
         
         <row>
-        	<value descritpion="metric_id" >1</value>
-        	<value descritpion="actual_value" >2</value>
-			<value descritpion="code" >metric s1b</value>
-        	<value descritpion="collecting_type" >SINGLE_VALUE</value>
-        	<value descritpion="metric_formula" >_this_</value>
-        	<value descritpion="hypothesis" >hyp</value>
-        	<value descritpion="name" >metric s1b</value>
-        	<value descritpion="outputValueType" >NUMERIC</value>
-        	<value descritpion="satisfying_condition_peration" >LESS</value>
-        	<value descritpion="satisfying_condition_value" >1</value>
-        	<value descritpion="type" >OBJECTIVE</value>
-        	<value descritpion="measurement_scale_id" >2</value>
-        	<value descritpion="mmdmo_id" >9</value>
-        	<value descritpion="project_id" >-1</value>
+        	<value description="metric_id" >1</value>
+			<value description="code" >Simple metric 1 single value</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_this_</value>
+<!--         	train running in the requested time -->			
+ 			<value description="name" >s1sv</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        	<value description="actual_value" >2</value>
+        </row>
+        <row>
+        	<value description="metric_id" >2</value>
+			<value description="code" >Simple metric 2 single value</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_this_</value>
+<!--          number of train cancelled in the requested time -->			
+			<value description="name" >s2sv</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >3</value>
+			<value description="code" >Simple metric 3 multiple value</value>
+        	<value description="collecting_type" >MULTIPLE_VALUE</value>
+        	<value description="metric_formula" >_this_</value>
+<!--         	avg number of train stop for repairing during the requested time -->			
+			<value description="name" >s3mv</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        
+         <row>
+        	<value description="metric_id" >4</value>
+			<value description="code" >Combined metric 1</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_s1sv_+_s2sv_</value>
+<!--          potential number of train running in the requested time -->			
+			<value description="name" >c1</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >5</value>
+			<value description="code" >Combined metric 2</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_s2sv_+_s3mv_</value>
+			<value description="name" >c2</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >6</value>
+			<value description="code" >Combined metric 3</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >exp(_c1_)+log10(_c2_)</value>
+			<value description="name" >c3</value>
+        	<value description="outputValueType" >NUMERIC</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
         </row>
 <!--         
 <column>complexMetricType</column>
@@ -1393,7 +1489,39 @@
             <value description="satisfying_condition_peration">GREATER_OR_EQUAL</value>
             <value description="satisfying_condition_value">190</value>                        
         </row>-->            
-    </table>	              
+    </table>
+    
+    <table name="metriccomposedby_metriccomposerfor">
+    	<column>metriccomposedby_id</column>
+        <column>metriccomposerfor_id</column>
+        
+        <row>
+        	<value description="metriccomposedby_id">4</value>
+        	<value description="metriccomposerfor_id">1</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">4</value>
+        	<value description="metriccomposerfor_id">2</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">5</value>
+        	<value description="metriccomposerfor_id">2</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">5</value>
+        	<value description="metriccomposerfor_id">3</value>
+        </row>
+          <row>
+        	<value description="metriccomposedby_id">6</value>
+        	<value description="metriccomposerfor_id">4</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">6</value>
+        	<value description="metriccomposerfor_id">5</value>
+        </row>
+        
+    </table>
+    	              
     <table name="question_metric">
         <column>metric_id</column>
         <column>question_id</column>
@@ -1405,8 +1533,37 @@
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
             <!--<value description="refinement"></value>-->
-            
-        </row>     
+        </row> 
+        <row>
+            <value description="metric_id">2</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row> 
+        <row>
+            <value description="metric_id">3</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row> 
+        <row>
+            <value description="metric_id">4</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>  
+        <row>
+            <value description="metric_id">5</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>   
+        <row>
+            <value description="metric_id">6</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>      
         <!--<row>
             <value description="metric_id">1</value>
             <value description="question_id">2</value>
@@ -1727,7 +1884,9 @@
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">1</value>
 		</row>
-		<row>
+		
+		<!--new numeric operations -->		
+ 		<row>
 			<value description = "defaultoperation_id">31</value>
 			<value description = "operation">power</value>
 			<value description = "operands_number">2</value>
