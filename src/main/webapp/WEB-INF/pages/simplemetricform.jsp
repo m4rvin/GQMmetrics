@@ -91,7 +91,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.name"/>
         <div class="controls">
-            <form:input path="name" id="name" maxlength="255" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
+            <form:input path="name" id="name" maxlength="255" placeholder="{a-z, A-Z, 1-9}is the allowed set of characters(no punctuation/other symbols)" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
             <form:errors path="name" cssClass="help-inline"/>
         </div>
     </div>	    
