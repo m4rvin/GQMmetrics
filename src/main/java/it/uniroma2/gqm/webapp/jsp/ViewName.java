@@ -17,5 +17,8 @@ public class ViewName {
 	public static final String rangeOfValuesForm = "rangeOfValuesform";
 	
 	public static final String measurementForm = "measurementform";
+	
+	public static final String satysfingConditionForm = "satisfyingConditionform";
+	public static final String satysfingConditions = "satisfyingConditions";
 
 }

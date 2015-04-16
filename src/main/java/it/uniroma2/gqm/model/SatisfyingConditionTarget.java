@@ -19,31 +19,16 @@ public class SatisfyingConditionTarget extends BaseObject
 	 
 	 private static final long serialVersionUID = 8695326719015317020L;
 
+	 private Long id;
+	 private Project project;
+	 private AbstractMetric metric;
+	 private Question question;
+	 private Goal goal;
+	 private SatisfyingCondition satisfyingCondition;
+	 
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 @Column(name = "satisfying_condition_target_id")
-	 private Long id;
-	 
-	 @OneToOne
-	 @JoinColumn(name = "project_id")
-	 private Project project;
-	 
-	 @OneToOne
-	 @JoinColumn(name = "metric_id")
-	 private AbstractMetric metric;
-	 
-	 @OneToOne
-	 @JoinColumn(name = "question_id")
-	 private Question question;
-	 
-	 @OneToOne
-	 @JoinColumn(name = "goal_id")
-	 private Goal goal;
-	 
-	 @ManyToOne
-	 @JoinColumn(name = "satisfying_condition_id")
-	 private SatisfyingCondition satisfyingCondition;
-	 
 	 public Long getId()
 	 {
 		  return id;
@@ -54,6 +39,8 @@ public class SatisfyingConditionTarget extends BaseObject
 		  this.id = id;
 	 }
 	 
+	 @OneToOne
+	 @JoinColumn(name = "project_id")
 	 public Project getProject()
 	 {
 	 	 return project;
@@ -64,6 +51,8 @@ public class SatisfyingConditionTarget extends BaseObject
 	 	 this.project = project;
 	 }
 
+	 @OneToOne
+	 @JoinColumn(name = "metric_id")
 	 public AbstractMetric getMetric()
 	 {
 	 	 return metric;
@@ -74,6 +63,8 @@ public class SatisfyingConditionTarget extends BaseObject
 	 	 this.metric = metric;
 	 }
 
+	 @OneToOne
+	 @JoinColumn(name = "question_id")
 	 public Question getQuestion()
 	 {
 	 	 return question;
@@ -84,6 +75,8 @@ public class SatisfyingConditionTarget extends BaseObject
 	 	 this.question = question;
 	 }
 
+	 @OneToOne
+	 @JoinColumn(name = "goal_id")
 	 public Goal getGoal()
 	 {
 	 	 return goal;
@@ -92,6 +85,18 @@ public class SatisfyingConditionTarget extends BaseObject
 	 public void setGoal(Goal goal)
 	 {
 	 	 this.goal = goal;
+	 }
+
+	 @ManyToOne
+	 @JoinColumn(name = "satisfying_condition_id")
+	 public SatisfyingCondition getSatisfyingCondition()
+	 {
+	 	 return satisfyingCondition;
+	 }
+
+	 public void setSatisfyingCondition(SatisfyingCondition satisfyingCondition)
+	 {
+	 	 this.satisfyingCondition = satisfyingCondition;
 	 }
 
 	 @Override
