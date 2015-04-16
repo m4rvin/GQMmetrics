@@ -1576,8 +1576,8 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">6</value>
-			<value description = "operation">exponentiation</value>
-			<value description = "operands_number">2</value>
+			<value description = "operation">euler's number power</value>
+			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
 		<row>
@@ -1727,6 +1727,12 @@
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">1</value>
 		</row>
+		<row>
+			<value description = "defaultoperation_id">31</value>
+			<value description = "operation">power</value>
+			<value description = "operands_number">2</value>
+			<value description = "measurement_scale_type">2</value>
+		</row>
 		
 		
 <!-- TEMPLATE
@@ -1866,6 +1872,14 @@
 		<row>
 			<value description="measurementScale_id">1</value>
 			<value description="defaultoperation_id">1</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">3</value>
+			<value description="defaultoperation_id">31</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">4</value>
+			<value description="defaultoperation_id">31</value>
 		</row>
 		<row>
 			<value description="measurementScale_id">1</value>

@@ -33,7 +33,7 @@
 		<div>Cubic root = <fmt:message key="cbrt"/></div>
 		<div>Cosine = <fmt:message key="cosine"/></div>
 		<div>Equality = <fmt:message key="equality"/></div>
-		<div>Exponentiation = <fmt:message key="exponentiation"/></div>
+		<div>Euler's number power = <fmt:message key="euler's_number_power"/></div>
 		<div>Greater than = <fmt:message key="greater_than"/></div>
 		<div>Greater or equal than = <fmt:message key="greater_equal_than"/></div>
 		<div>Hyperbolic cosine = <fmt:message key="hyperbolic_cosine"/></div>
@@ -48,6 +48,7 @@
 		<div>Nearest lower integer = <fmt:message key="nearest_lower_integer"/></div>
 		<div>Nearest upper integer = <fmt:message key="nearest_upper_integer"/></div>
 		<div>Or = <fmt:message key="or"/></div>
+		<div>Power = <fmt:message key="power" /></div>
 		<div>Ratio = <fmt:message key="ratio"/></div>
 		<div>Sine = <fmt:message key="sine"/></div>
 		<div>Square root = <fmt:message key="square_root"/></div>
