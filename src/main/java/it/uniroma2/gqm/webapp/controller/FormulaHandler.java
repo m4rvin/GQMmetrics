@@ -41,7 +41,7 @@ public class FormulaHandler
 		  operations.put("nearest upper integer", "ceil");
 		  operations.put("cosine", "cos");
 		  operations.put("hyperbolic cosine", "cosh");
-		  operations.put("exponentiation", "exp");
+		  operations.put("euler's number power", "exp");
 		  operations.put("nearest lower integer", "floor");
 		  operations.put("natural logarithm", "log");
 		  operations.put("base 10 logarithm", "log10");
@@ -51,10 +51,11 @@ public class FormulaHandler
 		  operations.put("square root", "sqrt");
 		  operations.put("tangent", "tan");
 		  operations.put("hyperbolic tangent", "tanh");
-		  operators.put("multiplication", "([*|x]){1}");
+		  operators.put("multiplication", "[^e]([x|*])[^p]");
 		  operators.put("addition", "(\\+){1}");
 		  operators.put("subtraction", "(-){1}");
 		  operators.put("ratio", "([%|/]){1}");
+		  operators.put("power", "(\\^){1}");
 		  operators.put("membership", "(#){1}");
 		  operators.put("greater than", "(>)[^=]{1}");
 		  operators.put("lower than", "(<)[^=]{1}");
