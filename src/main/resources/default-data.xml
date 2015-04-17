@@ -1275,6 +1275,14 @@
 			<value description="metric_id">3</value>
 			<value description="aggregator" >AVG</value>        	        	
 		</row>
+		<row>
+			<value description="metric_id">7</value>
+			<!--<value description="aggregator" ></value> -->        	        	
+		</row>
+		<row>
+			<value description="metric_id">8</value>
+			<value description="aggregator" >AVG</value>        	        	
+		</row>
 	</table>
 	
 	<table name="combinedmetric">
@@ -1288,6 +1296,9 @@
 		</row>
 		<row>
 			<value description="metric_id">6</value>
+		</row>
+		<row>
+			<value description="metric_id">9</value>
 		</row>
 	</table>
 	
@@ -1321,7 +1332,6 @@
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
         	<value description="project_id" >-1</value>
-        	<value description="actual_value" >2</value>
         </row>
         <row>
         	<value description="metric_id" >2</value>
@@ -1394,6 +1404,49 @@
         	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        
+        <row>
+        	<value description="metric_id" >7</value>
+			<value description="code" >Simple metric 1 boolean</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_this_=44</value>
+			<value description="name" >s1svbool</value>
+        	<value description="outputValueType" >BOOLEAN</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >5</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >8</value>
+			<value description="code" >Simple metric 2 boolean</value>
+        	<value description="collecting_type" >MULTIPLE_VALUE</value>
+        	<value description="metric_formula" >_this_=100</value>
+			<value description="name" >s2mvbool</value>
+        	<value description="outputValueType" >BOOLEAN</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >5</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >9</value>
+			<value description="code" >Combined metric 1 boolean</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_s1svbool_||_s2mvbool_</value>
+			<value description="name" >c1bool</value>
+        	<value description="outputValueType" >BOOLEAN</value>
+        	<value description="satisfying_condition_peration" >LESS</value>
+        	<value description="satisfying_condition_value" >1</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>
         	<value description="project_id" >-1</value>
         </row>
@@ -1511,13 +1564,21 @@
         	<value description="metriccomposedby_id">5</value>
         	<value description="metriccomposerfor_id">3</value>
         </row>
-          <row>
+        <row>
         	<value description="metriccomposedby_id">6</value>
         	<value description="metriccomposerfor_id">4</value>
         </row>
         <row>
         	<value description="metriccomposedby_id">6</value>
         	<value description="metriccomposerfor_id">5</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">9</value>
+        	<value description="metriccomposerfor_id">7</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">9</value>
+        	<value description="metriccomposerfor_id">8</value>
         </row>
         
     </table>
@@ -1563,7 +1624,25 @@
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
             <!--<value description="refinement"></value>-->
-        </row>      
+        </row>   
+        <row>
+            <value description="metric_id">7</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>  
+        <row>
+            <value description="metric_id">8</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>  
+        <row>
+            <value description="metric_id">9</value>
+            <value description="question_id">1</value>
+            <value description="status">APPROVED</value>
+            <!--<value description="refinement"></value>-->
+        </row>     
         <!--<row>
             <value description="metric_id">1</value>
             <value description="question_id">2</value>
