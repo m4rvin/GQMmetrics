@@ -6,6 +6,7 @@ import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	public AbstractMetric findMetricByName(String name);
 	public List<AbstractMetric> findMetricByMeasurementScaleType(MeasurementScaleTypeEnum type);
 	public List<AbstractMetric> findMetricByMeasurementScaleTypeExludingOneById(MeasurementScaleTypeEnum type, Long metricToExcludeId);
+	public JSONArray getAvailableTargetsJSONized(AbstractMetric metric);
 	
 
 	//SimpleMetric related query

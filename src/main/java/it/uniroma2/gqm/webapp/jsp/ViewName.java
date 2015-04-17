@@ -20,5 +20,6 @@ public class ViewName {
 	
 	public static final String satysfingConditionForm = "satisfyingConditionform";
 	public static final String satysfingConditions = "satisfyingConditions";
+	public static final String satysfingConditionFormAjax = "satisfyingConditionformAjax";
 
 }

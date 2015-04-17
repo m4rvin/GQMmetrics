@@ -5,11 +5,13 @@ package it.uniroma2.gqm.dao.hibernate;
 import java.util.List;
 
 
+
 import org.appfuse.dao.UserDao;
 import org.appfuse.dao.hibernate.GenericDaoHibernate;
+
 import it.uniroma2.gqm.dao.*;
 import it.uniroma2.gqm.model.*;
- 
+
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,13 @@ public class QuestionDaoHibernate extends GenericDaoHibernate<Question, Long> im
 		Question q = get(id);
 		super.remove(q);
 	}
+
+   @Override
+   public List<Question> findQuestionByMetric(Long id)
+   {
+   	 Query q =  getSession().getNamedQuery("findQuestionByMetric").setLong("metric_id", id);
+     	 return q.list();
+   }
 	
 	
 	

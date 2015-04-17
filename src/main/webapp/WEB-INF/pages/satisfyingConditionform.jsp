@@ -11,23 +11,21 @@
 	</h2>
 	<p>
 		<c:choose>
-			<c:when test="${used}">You cannot modify the selected Measurement Scale, it is already attached to a Metric</c:when>
+			<c:when test="${empty not satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">You cannot modify the selected Satisfying condition, you are not the owner</c:when>
 			<c:otherwise>
 				<fmt:message key="satisfyingConditionDetail.message" />
 			</c:otherwise>
 		</c:choose>
 	</p>
-
 </div>
+
 <div class="span7">
-	<form:errors path="*" cssClass="alert alert-error fade in"
-		element="div" />
+	<form:errors path="*" cssClass="alert alert-error fade in" 	element="div" />
 	<form:form commandName="satisfyingCondition" method="post" action="satisfyingConditionform" id="satisfyingConditionForm" cssClass="well form-horizontal">
 		<form:hidden path="id" />
 		
 		<spring:bind path="satisfyingCondition.project">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.project" />
 				<div class="controls">
 					<form:select path="project.id" disabled="${used}">
@@ -41,13 +39,65 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="satisfyingCondition.metric" />
 			<div class="controls">
-				<select id="metricSelectBox" onchange="retriveTargetsAndOperations">
+				<select id="metricSelectBox" onchange="retriveTargetsAndOperations()">
+				<option value="" label="None" />
 				<c:forEach items="${availableMetrics}" var="metric">
 					<option label="${metric.name}" value="${metric.id}">
 				</c:forEach>
 				</select>
 			</div>
 		</div>
+		
+		<spring:bind path="satisfyingCondition.targets">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
+				<div class="controls">
+					<form:select path="targets" disabled="${used}">
+						<form:options items="${targets}"/>
+					</form:select>
+					<form:errors path="targets" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="satisfyingCondition.satisfyingConditionOperation">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="satisfyingCondition.satisfyingConditionOperation" />
+				<div class="controls">
+					<form:select path="satisfyingConditionOperation" disabled="${used}">
+						<form:option value="" label="None" />
+						<form:options items="${satisfyingOperations}"/>
+					</form:select>
+					<form:errors path="satisfyingConditionOperation" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="satisfyingCondition.satisfyingConditionValue">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="satisfyingCondition.satisfyingConditionValue" />
+				<div class="controls">
+					<form:input path="satisfyingConditionValue" disabled="${used}" />
+					<form:errors path="satisfyingConditionValue" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="satisfyingCondition.hypotesis">
+			<div
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="satisfyingCondition.hypotesis" />
+				<div class="controls">
+					<form:input path="hypotesis" disabled="${used}" />
+					<form:errors path="hypotesis" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		
 
 		
 
@@ -75,5 +125,52 @@
 				$("input[type='text']:visible:enabled:first",
 						document.forms['satisfyingConditionform']).focus();
 			});
+	
+	function retriveTargetsAndOperations()
+	{
+		// remove old targets when select a new metric
+		$.each($('#targets option'), function() {
+			this.remove();
+		});
+		
+		$.each($('#satisfyingConditionOperation option'), function() {
+			if(this.value !== "")
+				this.remove();
+		});
+		
+		var metric_id = $('#metricSelectBox').val();
+		console.log(metric_id);
+		if(metric_id !== "")
+		{
+			$.ajax({
+				type : "GET",
+				url : "satisfyingConditionformAjax",
+				data : {
+					metricId : metric_id,
+				},
+				contentType : "application/json",
+				success : function(response) {
+					var JSONResponse = JSON.parse(response);
+					
+					var targetsArray = JSONResponse['targets'];
+					var operationsArray = JSONResponse['satisfyingOperations']
+					
+					$.each(targetsArray, function() {
+						$('#targets').append(
+								$("<option></option>").attr("value", this)
+										.text(this));
+					});
+					$.each(operationsArray, function() {
+						$('#satisfyingConditionOperation').append(
+								$("<option></option>").attr("value", this)
+										.text(this));
+					});
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});		
+		}
+	}
 
 </script>

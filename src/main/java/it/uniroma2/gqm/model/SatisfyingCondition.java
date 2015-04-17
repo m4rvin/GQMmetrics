@@ -18,9 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.appfuse.model.BaseObject;
-import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
+import org.appfuse.model.User;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotEmpty;
-import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 @Entity
 @Table(name = "satisfying_condition")
@@ -38,6 +37,7 @@ public class SatisfyingCondition extends BaseObject
 	 private Double satisfyingConditionValue;
 	 private Set<SatisfyingConditionTarget> targets;
 	 private Project project;
+	 private User satisfyingConditionOwner;
 
 	 @Id
 	 @Column(name = "satisfying_condition_id")
@@ -109,6 +109,18 @@ public class SatisfyingCondition extends BaseObject
 	 public void setProject(Project project)
 	 {
 		  this.project = project;
+	 }
+
+	 @ManyToOne
+	 @JoinColumn(name = "owner_id")
+	 public User getSatisfyingConditionOwner()
+	 {
+		  return satisfyingConditionOwner;
+	 }
+
+	 public void setSatisfyingConditionOwner(User satisfyingConditionOwner)
+	 {
+		  this.satisfyingConditionOwner = satisfyingConditionOwner;
 	 }
 
 	 @Override

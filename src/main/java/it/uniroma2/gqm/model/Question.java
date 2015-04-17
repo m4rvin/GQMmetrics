@@ -23,6 +23,10 @@ import org.appfuse.model.User;
     @NamedQuery(
             name = "findQuestionByProject",
             query = "select q from Question q  where q.project.id= :project_id "
+    ),
+    @NamedQuery(
+   			name = "findQuestionByMetric",
+   			query = "select q from Question q join q.metrics qm join qm.pk.metric m where m.id = :metric_id and m.id = qm.pk.metric.id and q.id = qm.pk.question.id"
     )
 })
 public class Question extends BaseObject {
