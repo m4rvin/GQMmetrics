@@ -1,7 +1,6 @@
 package it.uniroma2.gqm.service;
 
 
-import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.Project;
@@ -17,5 +16,4 @@ public interface QuestionManager extends GenericManager<Question, Long> {
 	public GoalQuestion getGoalQuestion(Goal goal,Question question);
 	public List<String> getAvailableStatus(GoalQuestion goalQuestion, User user);
 	public GoalQuestion saveGoalQuestion(GoalQuestion question);
-	public List<Question> findByMetric(AbstractMetric metric);
 }

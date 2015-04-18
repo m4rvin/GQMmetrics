@@ -28,7 +28,6 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	public AbstractMetric findMetricByName(String name);
 	public List<AbstractMetric> findMetricByMeasurementScaleType(MeasurementScaleTypeEnum type);
 	public List<AbstractMetric> findMetricByMeasurementScaleTypeExludingOneById(MeasurementScaleTypeEnum type, Long metricToExcludeId);
-	public JSONArray getAvailableTargetsJSONized(AbstractMetric metric);
 	
 
 	//SimpleMetric related query

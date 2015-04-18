@@ -3,24 +3,19 @@ package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.dao.GoalQuestionDao;
 import it.uniroma2.gqm.dao.QuestionDao;
-import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.GoalStatus;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
-import it.uniroma2.gqm.model.Scale;
-import it.uniroma2.gqm.model.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.appfuse.dao.GenericDao;
 import org.appfuse.model.User;
 import org.appfuse.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("questionManager")
 public class QuestionManagerImpl extends GenericManagerImpl<Question, Long> implements QuestionManager {
@@ -83,11 +78,4 @@ public class QuestionManagerImpl extends GenericManagerImpl<Question, Long> impl
     public GoalQuestion saveGoalQuestion(GoalQuestion goalQuestion){
     	return goalQuestionDao.save(goalQuestion);
     }
-
-	 @Override
-	 @Transactional
-	 public List<Question> findByMetric(AbstractMetric metric)
-	 {
-		  return this.questionDao.findQuestionByMetric(metric.getId());
-	 }
 }

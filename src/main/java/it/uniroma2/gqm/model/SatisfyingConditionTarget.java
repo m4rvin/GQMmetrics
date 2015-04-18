@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.appfuse.model.BaseObject;
 
@@ -20,6 +21,7 @@ public class SatisfyingConditionTarget extends BaseObject
 	 private static final long serialVersionUID = 8695326719015317020L;
 
 	 private Long id;
+	 private String representation;
 	 private Project project;
 	 private AbstractMetric metric;
 	 private Question question;
@@ -97,6 +99,17 @@ public class SatisfyingConditionTarget extends BaseObject
 	 public void setSatisfyingCondition(SatisfyingCondition satisfyingCondition)
 	 {
 	 	 this.satisfyingCondition = satisfyingCondition;
+	 }
+
+	 @Transient
+	 public String getRepresentation()
+	 {
+	 	 return representation;
+	 }
+
+	 public void setRepresentation(String representation)
+	 {
+	 	 this.representation = representation;
 	 }
 
 	 @Override

@@ -69,15 +69,4 @@ public class QuestionDaoHibernate extends GenericDaoHibernate<Question, Long> im
 		Question q = get(id);
 		super.remove(q);
 	}
-
-   @Override
-   public List<Question> findQuestionByMetric(Long id)
-   {
-   	 Query q =  getSession().getNamedQuery("findQuestionByMetric").setLong("metric_id", id);
-     	 return q.list();
-   }
-	
-	
-	
-	
 }

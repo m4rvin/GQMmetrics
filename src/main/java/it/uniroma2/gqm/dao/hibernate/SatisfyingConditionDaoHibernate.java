@@ -2,6 +2,7 @@ package it.uniroma2.gqm.dao.hibernate;
 
 import it.uniroma2.gqm.dao.SatisfyingConditionDao;
 import it.uniroma2.gqm.model.SatisfyingCondition;
+import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 
 import java.util.List;
 
@@ -24,6 +25,20 @@ public class SatisfyingConditionDaoHibernate extends GenericDaoHibernate<Satisfy
 	 {
 		  Query q = getSession().getNamedQuery("findSatisfyingConditionByProject").setLong("project_id", id);
 		  return q.list();
+	 }
+
+	 @Override
+	 public List<Object[]> findSatisfyingConditionTargetsByMetric(Long id)
+	 {
+		  Query q = getSession().getNamedQuery("findSatisfyingConditionTargetByMetric").setLong("metric_id", id);
+		  return q.list();
+	 }
+
+	 @Override
+	 public Object[] findSatisfyingConditionTargetByRepresentation(Long metric_id, Long question_id, Long goal_id)
+	 {
+		  Query q = getSession().getNamedQuery("findSatisfyingConditionTargetByRepresentation").setLong("metric_id", metric_id).setLong("question_id", question_id).setLong("goal_id", goal_id);
+		  return (Object[]) q.uniqueResult();
 	 }
 
 	 

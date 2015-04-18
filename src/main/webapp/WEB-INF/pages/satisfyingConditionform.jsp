@@ -39,31 +39,77 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="satisfyingCondition.metric" />
 			<div class="controls">
-				<select id="metricSelectBox" onchange="retriveTargetsAndOperations()">
+				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations()">
 				<option value="" label="None" />
 				<c:forEach items="${availableMetrics}" var="metric">
-					<option label="${metric.name}" value="${metric.id}">
+					<c:choose>
+						<c:when test="${metric.id eq selectedMetric}">
+							<option label="${metric.name}" value="${metric.id}" selected="selected" />
+						</c:when>
+						<c:otherwise>
+							<option label="${metric.name}" value="${metric.id}" />
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 				</select>
 			</div>
 		</div>
-		
+
 		<spring:bind path="satisfyingCondition.targets">
 			<div
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
 				<div class="controls">
 					<form:select path="targets" disabled="${used}">
+						<c:forEach items="${targets}" var="target">
+							<form:option value="${target.representation}"></form:option>
+						
+						</c:forEach>
 						<form:options items="${targets}"/>
 					</form:select>
 					<form:errors path="targets" cssClass="help-inline" />
 				</div>
 			</div>
 		</spring:bind>
+<!--  
+		<spring:bind path="satisfyingCondition.targets">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
+				<div class="controls">
+					<form:select path="targets">
+						<c:forEach items="${availableTargets}" var="target">
+							<c:set var="found" value="false" />
+							<c:forEach items="${satisfyingCondition.targets}" var="chosedTarget">
+								<c:if test="${target == chosedTarget.representation}">
+									<c:set var="found" value="true" />
+								</c:if>
+								<script type="text/javascript">
+							console.log("target: ${target}");
+							console.log("chosedTarget: ${chosedTarget.representation}");
+							console.log("foound: ${found}");
+							</script>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${found}">
+									<form:option label="${chosedTarget.representation}" value="${chosedTarget.representation}" />
+									<script type="text/javascript">
+									console.log("found");
+									</script>
+								</c:when>
+								<c:otherwise>
+									<form:option label="${chosedTarget.representation}" value="${chosedTarget.representation}" />
+								</c:otherwise>
+							</c:choose>			
+						</c:forEach>
+					</form:select>
+					<form:errors path="targets" cssClass="help-inline" />
+				</div>
+			</div>
+		</spring:bind>
+		-->
 		
 		<spring:bind path="satisfyingCondition.satisfyingConditionOperation">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.satisfyingConditionOperation" />
 				<div class="controls">
 					<form:select path="satisfyingConditionOperation" disabled="${used}">

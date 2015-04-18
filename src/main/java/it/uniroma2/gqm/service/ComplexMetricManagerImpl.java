@@ -38,15 +38,13 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 
 	 private ComplexMetricDao metricDao;
 	 private QuestionMetricDao questionMetricDao;
-	 private QuestionDao questionDao;
 
 	 @Autowired
-	 public ComplexMetricManagerImpl(ComplexMetricDao metricDao, QuestionMetricDao questionMetricDao, QuestionDao questionDao)
+	 public ComplexMetricManagerImpl(ComplexMetricDao metricDao, QuestionMetricDao questionMetricDao)
 	 {
 		  super(metricDao);
 		  this.metricDao = metricDao;
 		  this.questionMetricDao = questionMetricDao;
-		  this.questionDao = questionDao;
 	 }
 
 	 @Override
@@ -206,29 +204,4 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 				return this.metricDao.findMetricByName(name);
 		  return null;
 	 }
-
-	 @Override
-	 @Transactional
-	 public JSONArray getAvailableTargetsJSONized(AbstractMetric metric)
-	 {
-		  Set<String> res = new HashSet<String>();
-		  //get the questions attached to the current metric
-		  List<Question> questions = this.questionDao.findQuestionByMetric(metric.getId());
-		  for(Question q : questions)
-		  {
-				Set<GoalQuestion> gqs = q.getGoals();
-				for(GoalQuestion gq : gqs)
-				{
-					 Goal goal = gq.getGoal();
-					 String target = "Goal" + goal.getId() + "-";
-					 target += q.getName() + "-";
-					 target += metric.getName();
-					 res.add(target);
-				}
-		  }
-		  if(res.size() > 0)
-				return new JSONArray(res);
-		  return null;
-	 }
-
 }
