@@ -98,8 +98,8 @@ public class SatisfyingCondition extends BaseObject
 		  this.satisfyingConditionValue = satisfyingConditionValue;
 	 }
 
-	 @OneToMany(mappedBy = "satisfyingCondition", cascade = CascadeType.REMOVE)
-	 @NotNull(message = "satisfying condition targets cannot be empty")
+	 @OneToMany(mappedBy = "satisfyingCondition", cascade = CascadeType.ALL) //satisfying condition target is an "entità debole" ---> translation for on delete cascade
+	 @NotEmpty(message = "satisfying condition targets cannot be empty")
 	 public Set<SatisfyingConditionTarget> getTargets()
 	 {
 		  return targets;

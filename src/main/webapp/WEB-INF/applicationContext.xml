@@ -29,6 +29,13 @@
 	        </bean>     
 	    </constructor-arg> 
 	</bean>
+	<bean id="satisfyingConditionTargetManager" class="org.appfuse.service.impl.GenericManagerImpl">     
+	    <constructor-arg>         
+	        <bean class="org.appfuse.dao.hibernate.GenericDaoHibernate" autowire="byType">             
+	            <constructor-arg value="it.uniroma2.gqm.model.SatisfyingConditionTarget"/>         
+	        </bean>     
+	    </constructor-arg> 
+	</bean>
 	<!-- 
 	<bean id="measurementManager" class="org.appfuse.service.impl.GenericManagerImpl">     
 	    <constructor-arg>         

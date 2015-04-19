@@ -13,6 +13,7 @@ import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
+import org.appfuse.service.GenericManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,8 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 ComplexMetricManager metricManager;
 	 @Autowired
 	 ProjectManager projectManager;
+	 @Autowired
+	 GenericManager<SatisfyingConditionTarget, Long> satisfyingConditionTargetManager;
 	 
 	 public SatisfyingConditionFormController()
 	 {
@@ -65,7 +69,7 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  Project project = this.projectManager.getCurrentProject(session);
 		  List<AbstractMetric> availableMetrics = this.metricManager.findAllByProject(project);
 		  model.addAttribute("availableMetrics", availableMetrics);
-		  model.addAttribute("satisfyingOperations", new ArrayList<String>()); //need to add this attribute otherwise it is populated with enum fields
+		  model.addAttribute("satisfyingOperations", new ArrayList<String>()); //need to add this attribute otherwise it is populated with all enum fields
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = ViewName.satysfingConditionForm)
@@ -79,7 +83,8 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  if (!StringUtils.isBlank(id))
 		  {
 				satisfyingCondition = this.satisyfingConditionManager.get(new Long(id));
-				//manca la parte di recupero della metrica e inserimento sul modello
+				AbstractMetric metric = satisfyingCondition.getTargets().iterator().next().getMetric(); //There is always the same metric in all the target objects
+				populateModel(model, metric);
 		  }
 		  else
 		  {
@@ -98,6 +103,8 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 public String onSubmit(@ModelAttribute("satisfyingCondition") @Valid SatisfyingCondition satisfyingCondition, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
 	 {
 		  String metric_id = request.getParameter("metric");
+		  AbstractMetric metric = this.metricManager.get(new Long(metric_id));
+		  
 		  Locale locale = request.getLocale();
 		  if (request.getParameter("cancel") != null)
 				return getCancelView();
@@ -105,7 +112,7 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  if (errors.hasErrors() && request.getParameter("delete") == null)
 		  {
 				 System.out.println(errors);
-				 populateModel(model, metric_id);
+				 populateModel(model, metric);
 				 return ViewName.satysfingConditionForm;
 		  }
 		  
@@ -113,18 +120,23 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  {
 				this.satisyfingConditionManager.remove(satisfyingCondition.getId());
 				saveMessage(request, getText("satisfyingCondition.deleted", locale));
+				
 		  } else
 		  {
 		  
-   		  if(satisfyingCondition.getSatisfyingConditionOwner() == null)
+   		  if(satisfyingCondition.getSatisfyingConditionOwner() == null) //set the current user. Needed for enabling the edit of a satisfying condition
    				satisfyingCondition.setSatisfyingConditionOwner(getUserManager().getUserByUsername(request.getRemoteUser()));
    		  
+   		  //for each target object, initialize it
    		  for(SatisfyingConditionTarget target : satisfyingCondition.getTargets())
    		  {
-   				target = this.satisyfingConditionManager.updateTargetByRepresentation(target);
+   				target = this.satisyfingConditionManager.updateTargetByRepresentation(target); 
+   				target.setProject(satisfyingCondition.getProject());
+   				target.setSatisfyingCondition(satisfyingCondition);   				
    		  }
+   		  satisfyingCondition = this.satisyfingConditionManager.save(satisfyingCondition); //save the entity and the children
    		  
-   		  this.satisyfingConditionManager.save(satisfyingCondition);
+   		  saveMessage(request, getText("satisfyingCondition.created", locale));
 		  }
 		  
 		  return getSuccessView();
@@ -143,15 +155,18 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  
 		  //get the consistent satisfying operations according to metric's output type
 		  JSONArray satisfyingOperations = new JSONArray();
-		  if(metric.getOutputValueType() == MetricOutputValueTypeEnum.NUMERIC)
+		  
+		  SatisfyingConditionOperationEnum[] allOperations = SatisfyingConditionOperationEnum.values();
+		  for(SatisfyingConditionOperationEnum operation : allOperations)
 		  {
-				satisfyingOperations.put(SatisfyingConditionOperationEnum.GREATER);
-				satisfyingOperations.put(SatisfyingConditionOperationEnum.GREATER_OR_EQUAL);
-				satisfyingOperations.put(SatisfyingConditionOperationEnum.LESS);
-				satisfyingOperations.put(SatisfyingConditionOperationEnum.LESS_OR_EQUAL);
+				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
+				{
+					 if(operation.isOnlyBoolean())
+						  satisfyingOperations.put(operation.toString());
+				}
+				else
+					 satisfyingOperations.put(operation.toString());
 		  }
-		  satisfyingOperations.put(SatisfyingConditionOperationEnum.EQUAL);
-		  satisfyingOperations.put(SatisfyingConditionOperationEnum.NOT_EQUAL);
 		  
 		  responseMap.put("satisfyingOperations", satisfyingOperations);
 		  
@@ -163,6 +178,10 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  
 	 }
 	 
+	 /**
+	  * Method for converting the strings representing the target objects
+	  * @param binder
+	  */
 	 @InitBinder(value = "satisfyingCondition")
 	 public void initBinder(WebDataBinder binder)
 	 {
@@ -172,16 +191,20 @@ public class SatisfyingConditionFormController extends BaseFormController
 				protected Object convertElement(Object element) 
 				{
 					 String e = (String) element;
-					 SatisfyingConditionTarget target = new SatisfyingConditionTarget();
+					 SatisfyingConditionTarget target = new SatisfyingConditionTarget(); //instead of initializing all the objects fields (which is expensive) initialize only the representation field
 					 target.setRepresentation(e);
 					 return target;
 				}
 		  });
 	 }
 	 
-	 private void populateModel(Model model, String metric_id)
+	 /**
+	  * Function for populate the view in error or editing cases
+	  * @param model
+	  * @param metric
+	  */
+	 private void populateModel(Model model, AbstractMetric metric)
 	 {
-		  AbstractMetric metric = this.metricManager.get(new Long(metric_id));
 		  List<String> targets = this.satisyfingConditionManager.findTargetByMetric(metric);
 		  
 		  List<String> satisfyingOperations = new ArrayList<String>();
@@ -199,6 +222,6 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  
 		  model.addAttribute("satisfyingOperations", satisfyingOperations);
 		  model.addAttribute("availableTargets", targets);
-		  model.addAttribute("selectedMetric", metric_id);
+		  model.addAttribute("selectedMetric", metric.getId());
 	 }
 }

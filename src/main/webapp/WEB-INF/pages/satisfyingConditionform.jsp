@@ -4,14 +4,13 @@
 <meta name="menu" content="IntepretationPhaseMenu" />
 </head>
 
-
 <div class="span2">
 	<h2>
 		<fmt:message key='satisfyingConditionDetail.heading' />
 	</h2>
 	<p>
 		<c:choose>
-			<c:when test="${empty not satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">You cannot modify the selected Satisfying condition, you are not the owner</c:when>
+			<c:when test="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">You cannot modify the selected Satisfying condition, you are not the owner</c:when>
 			<c:otherwise>
 				<fmt:message key="satisfyingConditionDetail.message" />
 			</c:otherwise>
@@ -56,23 +55,6 @@
 		</div>
 
 		<spring:bind path="satisfyingCondition.targets">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
-				<div class="controls">
-					<form:select path="targets" disabled="${used}">
-						<c:forEach items="${targets}" var="target">
-							<form:option value="${target.representation}"></form:option>
-						
-						</c:forEach>
-						<form:options items="${targets}"/>
-					</form:select>
-					<form:errors path="targets" cssClass="help-inline" />
-				</div>
-			</div>
-		</spring:bind>
-<!--  
-		<spring:bind path="satisfyingCondition.targets">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
 				<div class="controls">
@@ -83,21 +65,13 @@
 								<c:if test="${target == chosedTarget.representation}">
 									<c:set var="found" value="true" />
 								</c:if>
-								<script type="text/javascript">
-							console.log("target: ${target}");
-							console.log("chosedTarget: ${chosedTarget.representation}");
-							console.log("foound: ${found}");
-							</script>
 							</c:forEach>
 							<c:choose>
 								<c:when test="${found}">
-									<form:option label="${chosedTarget.representation}" value="${chosedTarget.representation}" />
-									<script type="text/javascript">
-									console.log("found");
-									</script>
+									<option label="${target}" value="${target}" selected="selected"/>
 								</c:when>
 								<c:otherwise>
-									<form:option label="${chosedTarget.representation}" value="${chosedTarget.representation}" />
+									<option label="${target}" value="${target}" />
 								</c:otherwise>
 							</c:choose>			
 						</c:forEach>
@@ -106,7 +80,7 @@
 				</div>
 			</div>
 		</spring:bind>
-		-->
+		
 		
 		<spring:bind path="satisfyingCondition.satisfyingConditionOperation">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
@@ -142,9 +116,6 @@
 				</div>
 			</div>
 		</spring:bind>
-		
-		
-
 		
 
 		<div class="form-actions">
