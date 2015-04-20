@@ -1,13 +1,17 @@
 package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.SatisfyingCondition;
 import it.uniroma2.gqm.model.SatisfyingConditionOperationEnum;
 import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 import it.uniroma2.gqm.service.ComplexMetricManager;
+import it.uniroma2.gqm.service.GoalManager;
 import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.service.QuestionManager;
 import it.uniroma2.gqm.service.SatisfyingConditionManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
 
@@ -53,6 +57,10 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 ComplexMetricManager metricManager;
 	 @Autowired
 	 ProjectManager projectManager;
+	 @Autowired
+	 GoalManager goalManager;
+	 @Autowired
+	 QuestionManager questionManager;
 	 @Autowired
 	 GenericManager<SatisfyingConditionTarget, Long> satisfyingConditionTargetManager;
 	 
@@ -175,6 +183,28 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  
 		  return response.toString();
 		  
+	 }
+	 
+	 @ResponseBody
+	 @RequestMapping(method = RequestMethod.GET, value = ViewName.satisfyingConditionformGetTargetInfoAjax)
+	 public String getInfoOnSelectedTarget(HttpServletRequest request){
+		 String target = request.getParameter("target");
+		 if(target==null)
+			 return null;
+		 String [] target_items = target.split("-");
+		 
+		 //TODO retrieve metric info?
+		 Goal goal;
+		 Question question;
+		 try{
+			 goal = this.goalManager.get(new Long(target_items[0]));
+			 question = this.questionManager.get(new Long(target_items[1]));
+		 }
+		 catch(NumberFormatException e){
+			 return "Error retrieving info... Please contact customer care";
+		 }
+		 String description = "Goal: " + goal.toString() + "\n\nQuestion: " + question.toString();
+		 return description;
 	 }
 	 
 	 /**

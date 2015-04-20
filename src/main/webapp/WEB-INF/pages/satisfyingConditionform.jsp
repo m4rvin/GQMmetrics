@@ -57,6 +57,10 @@
 		<spring:bind path="satisfyingCondition.targets">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
+				   
+				<div class="controls">
+				   Goal-Question-Metric
+				</div>
 				<div class="controls">
 					<form:select path="targets">
 						<c:forEach items="${availableTargets}" var="target">
@@ -77,6 +81,8 @@
 						</c:forEach>
 					</form:select>
 					<form:errors path="targets" cssClass="help-inline" />
+					<a onclick="showTargetInfoInstructions()">Instructions</a>
+					
 				</div>
 			</div>
 		</spring:bind>
@@ -177,6 +183,10 @@
 								$("<option></option>").attr("value", this)
 										.text(this));
 					});
+					
+					//attach target-info listener to new options
+					$('#targets option').mouseup(showTargetInfo);
+					
 					$.each(operationsArray, function() {
 						$('#satisfyingConditionOperation').append(
 								$("<option></option>").attr("value", this)
@@ -189,5 +199,51 @@
 			});		
 		}
 	}
+	
+	function showTargetInfo(e){
 
+		switch(e.which)
+	    {
+	        
+	        case 2:
+	            //middle Click
+	           	console.log("mouse middle click");
+	            var target = $(this).text();
+	            console.log("getting info for target: " + target);
+	             
+           		$.ajax({
+       				type : "GET",
+       				url : "satisfyingConditionformGetTargetInfoAjax",
+       				data : {
+       					target : target,
+       				},
+       				contentType : "application/json",
+       				success : function(response) {
+       					
+       					console.log("response="+response);
+
+       					if(response== "")
+       						return;
+       					
+       					jQuery('<div/>', {
+       					    id: 'targetInfoBox',
+       					    title:"Satisfying Condition target info",
+       					    text: response
+       					}).dialog();
+       				},
+       				error : function(error) {
+       					console.log(error);
+       				}
+       			});	 
+	        break;
+	    }
+	}
+
+	function showTargetInfoInstructions(){
+		jQuery('<div/>', {
+		    id: 'dialogInstructions',
+		    title:"Target box instructions",
+		    text: "Click with the mouse wheel (or press right and left button of your touchpad in case you have a notebook) to retrieve information about each item."
+		}).dialog();
+	}
 </script>
