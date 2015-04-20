@@ -4,11 +4,13 @@ import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.BinaryElement;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.Project;
+import it.uniroma2.gqm.model.SatisfyingCondition;
 import it.uniroma2.gqm.service.BinaryTableManager;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.GoalManager;
 import it.uniroma2.gqm.service.GridManager;
 import it.uniroma2.gqm.service.ProjectManager;
+import it.uniroma2.gqm.service.SatisfyingConditionManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,6 +43,8 @@ public class BinaryTableController {
 	private UserManager userManager;
 	private GridManager gridManager;
 	private ProjectManager projectManager = null;
+	@Autowired
+	private SatisfyingConditionManager satisfyingConditionManager;
 	
 	@Autowired
 	private BinaryTableManager binaryManager;
@@ -98,8 +102,13 @@ public class BinaryTableController {
             		boolean satisfy = true;
 	            	//Calcolo valore di soddisfacimento (1 o 0)
 	                for(AbstractMetric m: metrics){
-	                	satisfy &= metricManager.getSatisfaction(m); //serve passare un satysfingConditionTarget ottenuto tramite il goal e la metrica corrente
-	                	satisfyAll &= satisfy;
+	               	  SatisfyingCondition condition = this.satisfyingConditionManager.findByTarget(mg.getProject(), mg, question, m);
+	               	  if(condition != null) //un target potrebbe anche non avere una condizione associata
+	               	  {
+	               			satisfy &= metricManager.getSatisfaction(condition); //serve passare un satysfingConditionTarget ottenuto tramite il goal e la metrica corrente
+	   	                	satisfyAll &= satisfy;
+	               	  }
+	                	
 	                }
 	                if(satisfyAll)
 	                	mainGoal.setValue(1);

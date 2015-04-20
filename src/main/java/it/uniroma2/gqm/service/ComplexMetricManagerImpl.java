@@ -13,6 +13,8 @@ import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
+import it.uniroma2.gqm.model.SatisfyingCondition;
+import it.uniroma2.gqm.model.SatisfyingConditionOperationEnum;
 import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -129,12 +131,33 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 }
 
 	 @Override
-	 public boolean getSatisfaction(AbstractMetric m) //necessita di un satisfyingConditionTarget come input
+	 public boolean getSatisfaction(SatisfyingCondition condition) //necessita di un satisfyingConditionTarget come input
 	 {
-		  return m.isConditionReached(); 
+		  //return m.isConditionReached(); 
 		  /*
 		   * prendere il riferimento alla satisfying condition e alla metrica e verificare se l'actual value soddisfa o no la condizione
 		   */
+		  AbstractMetric metric = condition.getTargets().iterator().next().getMetric();
+		  Double measuredValue = metric.getActualValue();
+		  
+		  SatisfyingConditionOperationEnum operation = condition.getSatisfyingConditionOperation();
+		  Double threshold = condition.getSatisfyingConditionValue();
+		  
+		  switch(operation)
+		  {
+   		  case EQUAL:
+   				return measuredValue == threshold;
+   		  case GREATER:
+   				return measuredValue > threshold;
+   		  case GREATER_OR_EQUAL:
+   				return measuredValue >= threshold;
+   		  case LESS:
+   				return measuredValue < threshold;
+   		  case LESS_OR_EQUAL:
+   				return measuredValue <= threshold;
+   		  case NOT_EQUAL:
+   				return measuredValue != threshold;
+		  }
 	 }
 
 	 @Override
