@@ -22,7 +22,6 @@ import javax.validation.constraints.NotNull;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotEmpty;
 
@@ -44,7 +43,6 @@ public class SatisfyingCondition extends BaseObject
 	 private static final long serialVersionUID = 35874115002726557L;
 
 	 private Long id;
-	 private String hypotesis;
 	 private SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 private Double satisfyingConditionValue;
 	 private Set<SatisfyingConditionTarget> targets = new HashSet<SatisfyingConditionTarget>();
@@ -62,17 +60,6 @@ public class SatisfyingCondition extends BaseObject
 	 public void setId(Long id)
 	 {
 		  this.id = id;
-	 }
-
-	 @NotBlank(message = "hypotesis cannot be empty")
-	 public String getHypotesis()
-	 {
-		  return hypotesis;
-	 }
-
-	 public void setHypotesis(String hypotesis)
-	 {
-		  this.hypotesis = hypotesis;
 	 }
 
 	 @Column(name = "condition_operation")
@@ -141,7 +128,7 @@ public class SatisfyingCondition extends BaseObject
 	 @Override
 	 public String toString()
 	 {
-		  return "SatisfyingCondition [id=" + id + ", hypotesis=" + hypotesis + ", satisfyingConditionOperation=" + satisfyingConditionOperation + ", satisfyingConditionValue=" + satisfyingConditionValue + ", targets=" + targets + ", project=" + project + ", satisfyingConditionOwner=" + satisfyingConditionOwner + "]";
+		  return "SatisfyingCondition [id=" + id + ", satisfyingConditionOperation=" + satisfyingConditionOperation + ", satisfyingConditionValue=" + satisfyingConditionValue + ", targets=" + targets + ", project=" + project + ", satisfyingConditionOwner=" + satisfyingConditionOwner + "]";
 	 }
 
 	 @Override
@@ -149,7 +136,6 @@ public class SatisfyingCondition extends BaseObject
 	 {
 		  final int prime = 31;
 		  int result = 1;
-		  result = prime * result + ((hypotesis == null) ? 0 : hypotesis.hashCode());
 		  result = prime * result + ((id == null) ? 0 : id.hashCode());
 		  result = prime * result + ((project == null) ? 0 : project.hashCode());
 		  result = prime * result + ((satisfyingConditionOperation == null) ? 0 : satisfyingConditionOperation.hashCode());
@@ -169,12 +155,6 @@ public class SatisfyingCondition extends BaseObject
 		  if (getClass() != obj.getClass())
 				return false;
 		  SatisfyingCondition other = (SatisfyingCondition) obj;
-		  if (hypotesis == null)
-		  {
-				if (other.hypotesis != null)
-					 return false;
-		  } else if (!hypotesis.equals(other.hypotesis))
-				return false;
 		  if (id == null)
 		  {
 				if (other.id != null)

@@ -16,6 +16,9 @@
 			</c:otherwise>
 		</c:choose>
 	</p>
+	<c:if test="${not empty satisfyingCondition.satisfyingConditionOwner}">
+	<p><fmt:message key="satisfyingCondition.owner.message"/><b>&nbsp;&nbsp;&nbsp;${satisfyingCondition.satisfyingConditionOwner.fullName}</b></p>
+	</c:if>
 </div>
 
 <div class="span7">
@@ -57,23 +60,16 @@
 		<spring:bind path="satisfyingCondition.targets">
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
-				   
-				<div class="controls">
-				   Goal-Question-Metric
-				</div>
 				<div class="controls">
 					<form:select path="targets" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
 						<c:forEach items="${availableTargets}" var="target">
 							<c:set var="found" value="false" />
 							<c:forEach items="${satisfyingCondition.targets}" var="chosedTarget">
 							<script type="text/javascript">
-							console.log("target : ${target}");
-							console.log("chosedTarget : ${chosedTarget.representation}");
 							</script>
 								<c:if test="${target == chosedTarget.representation}">
 									<c:set var="found" value="true" />
 									<script type="text/javascript">
-									console.log("found");
 									</script>
 								</c:if>
 							</c:forEach>
@@ -85,12 +81,10 @@
 									<option id="prova" label="${target}" value="${target}" />
 								</c:otherwise>
 							</c:choose>			
-						</c:forEach>￼
-						
+						</c:forEach>
 					</form:select>
 					<form:errors path="targets" cssClass="help-inline" />
 					<a onclick="showTargetInfoInstructions()">Instructions</a>
-					
 				</div>
 			</div>
 		</spring:bind>
@@ -120,18 +114,6 @@
 			</div>
 		</spring:bind>
 		
-		<spring:bind path="satisfyingCondition.hypotesis">
-			<div
-				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-				<appfuse:label styleClass="control-label" key="satisfyingCondition.hypotesis" />
-				<div class="controls">
-					<form:input path="hypotesis" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}" />
-					<form:errors path="hypotesis" cssClass="help-inline" />
-				</div>
-			</div>
-		</spring:bind>
-		
-
 		<div class="form-actions">
 			<c:if test="${satisfyingCondition.satisfyingConditionOwner eq currentUser ||empty satisfyingCondition.id }">
 				<button type="submit" class="btn btn-primary" name="save">
@@ -188,23 +170,29 @@
 					
 					var targetsArray = JSONResponse['targets'];
 					var operationsArray = JSONResponse['satisfyingOperations']
-					console.log(targetsArray);
-					$.each(targetsArray, function() {
-						$('#targets').append(
-								$("<option></option>").attr("value", this)
-										.text(this));
-					});
-					
-					//attach target-info listener to new options
-					$('#targets option').mouseup(showTargetInfo);
-					
+					if(targetsArray === undefined) //display retrived targets
+					{
+						jQuery('<div/>', {
+						    id: 'emptyTargetsDialog',
+						    text: "The current metric has not available targets, please select another metric."
+						}).dialog();
+					}
+					else
+					{
+						$.each(targetsArray, function() {
+							$('#targets').append(
+									$("<option></option>").attr("value", this)
+											.text(this));
+						});
+						
+						//attach target-info listener to new options
+						$('#targets option').mouseup(showTargetInfo);
+					}
 					$.each(operationsArray, function() {
 						$('#satisfyingConditionOperation').append(
 								$("<option></option>").attr("value", this)
 										.text(this));
 					});
-					
-					$('#targets option').click(function() {alert($(this).val());});
 				},
 				error : function(error) {
 					console.log(error);
