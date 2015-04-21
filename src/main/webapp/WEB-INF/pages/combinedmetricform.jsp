@@ -33,7 +33,7 @@
 		<div>Cubic root = <fmt:message key="cbrt"/></div>
 		<div>Cosine = <fmt:message key="cosine"/></div>
 		<div>Equality = <fmt:message key="equality"/></div>
-		<div>Euler's number power = <fmt:message key="euler's_number_power"/></div>
+		<div>Euler number power = <fmt:message key="euler_number_power"/></div>
 		<div>Greater than = <fmt:message key="greater_than"/></div>
 		<div>Greater or equal than = <fmt:message key="greater_equal_than"/></div>
 		<div>Hyperbolic cosine = <fmt:message key="hyperbolic_cosine"/></div>
@@ -118,6 +118,7 @@
 		    	<form:options items="${measurementScales}" itemValue="id" itemLabel="name"/>
 		    </form:select>		
             <form:errors path="measurementScale" cssClass="help-inline"/>
+            <a onclick="showMeasurementScaleInfo()">Info</a>
         </div>
     </div>  
   
@@ -452,4 +453,37 @@
 	    }
 	    return null;
 	}
+	
+	function showMeasurementScaleInfo(){
+    	var msrmntScaleId = $('#measurementScale').val();
+    	if( msrmntScaleId == "") //None selected
+    	{	
+			jQuery('<div/>', {
+			    id: 'dialogInstructions',
+			    title:"MeasurementScale info",
+			    text: "Select a MeasurementScale and click here to retrieve info on it."
+			}).dialog();
+   		}
+    	else{
+    		$.ajax({
+				type : "GET",
+				url : "combinedmetricformMeasurementScaleInfoAjax",
+				data : {
+					measurementScaleId : msrmntScaleId,
+				},
+				contentType : "application/json",
+				success : function(response) {
+					jQuery('<div/>', {
+					    id: 'dialogInstructions',
+					    title:"MeasurementScale info",
+					    text: response
+					}).dialog();
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			});
+    	}
+	}
+	
 </script>

@@ -256,6 +256,18 @@ public class SimpleMetricFormController extends BaseFormController
 		  return success;
 	 }
 	 
+	 
+	 @ResponseBody
+	 @RequestMapping(value = ViewName.simpleMetricFormMeasurementScaleInfoAjax, method = RequestMethod.GET)
+	 public String getMeasurementScaleInfo(HttpServletRequest request)
+	 {
+		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
+		  String info = measurementScale.toHumanReadableDescription();
+
+		  System.out.println("retrieved measurement scale info: " + info);
+		  return info;
+	 }
+	 
 	 @InitBinder(value="simpleMetric")
 	 public void initBinder(WebDataBinder binder)
 	 {

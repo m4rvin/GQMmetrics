@@ -12,6 +12,7 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
+import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -311,6 +312,17 @@ public class CombinedMetricFormController extends BaseFormController
 		  }
 		  status.setComplete();
 		  return success;
+	 }
+	 
+	 @ResponseBody
+	 @RequestMapping(value = ViewName.combinedMetricFormMeasurementScaleInfoAjax, method = RequestMethod.GET)
+	 public String getMeasurementScaleInfo(HttpServletRequest request)
+	 {
+		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
+		  String info = measurementScale.toHumanReadableDescription();
+
+		  System.out.println("retrieved measurement scale info: " + info);
+		  return info;
 	 }
 
 	 @InitBinder(value = "combinedMetric")

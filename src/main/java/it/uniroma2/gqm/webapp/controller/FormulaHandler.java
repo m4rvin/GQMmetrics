@@ -41,7 +41,7 @@ public class FormulaHandler
 		  operations.put("nearest upper integer", "ceil");
 		  operations.put("cosine", "cos");
 		  operations.put("hyperbolic cosine", "cosh");
-		  operations.put("euler's number power", "exp");
+		  operations.put("euler number power", "exp");
 		  operations.put("nearest lower integer", "floor");
 		  operations.put("natural logarithm", "log");
 		  operations.put("base 10 logarithm", "log10");

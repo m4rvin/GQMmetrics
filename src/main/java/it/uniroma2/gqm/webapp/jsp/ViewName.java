@@ -5,8 +5,11 @@ public class ViewName {
 	public static final String metrics = "metrics";
 	public static final String simpleMetricForm = "simplemetricform";
 	public static final String simpleMetricFormAjax = "simplemetricformAjax";
+	public static final String simpleMetricFormMeasurementScaleInfoAjax = "simplemetricformMeasurementScaleInfoAjax";
+
 	public static final String combinedMetricForm = "combinedmetricform";
 	public static final String combinedMetricFormAjax = "combinedmetricformAjax";
+	public static final String combinedMetricFormMeasurementScaleInfoAjax = "combinedmetricformMeasurementScaleInfoAjax";
 
 	
 	public static final String measurementScales = "measurementScales";

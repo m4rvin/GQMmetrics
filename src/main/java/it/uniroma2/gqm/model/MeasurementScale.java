@@ -65,6 +65,20 @@ public class MeasurementScale extends BaseObject
 	 {
 		  return "MeasurementScale [id=" + id + ", name=" + name + ", rangeOfValues=" + rangeOfValues + ", operations=" + operations + ", type=" + type + ", project=" + project + "]";
 	 }
+	 
+	 public String toHumanReadableDescription(){
+		 return "name: "+ this.name + ", description: " + this.description + ", measurementscaletype: " + this.type.toString() + ", supported operations: " + toHumanReadableOperationList() + ", range of values name: " + this.rangeOfValues.getName() ;
+	 }
+	 
+	 public String toHumanReadableOperationList(){
+		 String operationDescription = "_";
+		 
+		 for(DefaultOperation op: this.operations)
+		 {
+			 operationDescription += op.getOperation() + "_";
+		 }
+		 return operationDescription;
+	 }
 
 	 public MeasurementScaleTypeEnum getType()
 	 {

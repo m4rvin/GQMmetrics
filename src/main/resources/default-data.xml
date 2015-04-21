@@ -1812,7 +1812,7 @@
 		</row>
 		<row>
 			<value description = "defaultoperation_id">6</value>
-			<value description = "operation">euler's number power</value>
+			<value description = "operation">euler number power</value>
 			<value description = "operands_number">1</value>
 			<value description = "measurement_scale_type">2</value>
 		</row>
