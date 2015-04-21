@@ -27,7 +27,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.project" />
 				<div class="controls">
-					<form:select path="project.id" disabled="${used}">
+					<form:select path="project.id" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
 						<form:option value="${satisfyingCondition.project.id}" 	label="${satisfyingCondition.project.name}" />
 					</form:select>
 					<form:errors path="project" cssClass="help-inline" />
@@ -38,7 +38,7 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="satisfyingCondition.metric" />
 			<div class="controls">
-				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations()">
+				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations()" >
 				<option value="" label="None" />
 				<c:forEach items="${availableMetrics}" var="metric">
 					<c:choose>
@@ -58,23 +58,31 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
 				<div class="controls">
-					<form:select path="targets">
+					<form:select path="targets" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
 						<c:forEach items="${availableTargets}" var="target">
 							<c:set var="found" value="false" />
 							<c:forEach items="${satisfyingCondition.targets}" var="chosedTarget">
+							<script type="text/javascript">
+							console.log("target : ${target}");
+							console.log("chosedTarget : ${chosedTarget.representation}");
+							</script>
 								<c:if test="${target == chosedTarget.representation}">
 									<c:set var="found" value="true" />
+									<script type="text/javascript">
+									console.log("found");
+									</script>
 								</c:if>
 							</c:forEach>
 							<c:choose>
 								<c:when test="${found}">
-									<option label="${target}" value="${target}" selected="selected"/>
+									<option id="prova" label="${target}" value="${target}" selected="selected"/>
 								</c:when>
 								<c:otherwise>
-									<option label="${target}" value="${target}" />
+									<option id="prova" label="${target}" value="${target}" />
 								</c:otherwise>
 							</c:choose>			
-						</c:forEach>
+						</c:forEach>￼
+						
 					</form:select>
 					<form:errors path="targets" cssClass="help-inline" />
 				</div>
@@ -86,7 +94,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.satisfyingConditionOperation" />
 				<div class="controls">
-					<form:select path="satisfyingConditionOperation" disabled="${used}">
+					<form:select path="satisfyingConditionOperation" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
 						<form:option value="" label="None" />
 						<form:options items="${satisfyingOperations}"/>
 					</form:select>
@@ -100,7 +108,7 @@
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.satisfyingConditionValue" />
 				<div class="controls">
-					<form:input path="satisfyingConditionValue" disabled="${used}" />
+					<form:input path="satisfyingConditionValue" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}" />
 					<form:errors path="satisfyingConditionValue" cssClass="help-inline" />
 				</div>
 			</div>
@@ -111,7 +119,7 @@
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.hypotesis" />
 				<div class="controls">
-					<form:input path="hypotesis" disabled="${used}" />
+					<form:input path="hypotesis" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}" />
 					<form:errors path="hypotesis" cssClass="help-inline" />
 				</div>
 			</div>
@@ -119,11 +127,13 @@
 		
 
 		<div class="form-actions">
-			<c:if test="${not used}">
+			<c:if test="${satisfyingCondition.satisfyingConditionOwner eq currentUser ||empty satisfyingCondition.id }">
 				<button type="submit" class="btn btn-primary" name="save">
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
+			</c:if>
+			<c:if test="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner eq currentUser}">
 				<button type="submit" class="btn" name="delete">
 					<i class="icon-trash"></i>
 					<fmt:message key="button.delete" />
@@ -156,6 +166,7 @@
 		});
 		
 		var metric_id = $('#metricSelectBox').val();
+		var editing_cond = ($('#id').val() !== "") ? true : false;
 		console.log(metric_id);
 		if(metric_id !== "")
 		{
@@ -164,6 +175,7 @@
 				url : "satisfyingConditionformAjax",
 				data : {
 					metricId : metric_id,
+					editing : editing_cond
 				},
 				contentType : "application/json",
 				success : function(response) {
@@ -171,7 +183,7 @@
 					
 					var targetsArray = JSONResponse['targets'];
 					var operationsArray = JSONResponse['satisfyingOperations']
-					
+					console.log(targetsArray);
 					$.each(targetsArray, function() {
 						$('#targets').append(
 								$("<option></option>").attr("value", this)
@@ -182,6 +194,8 @@
 								$("<option></option>").attr("value", this)
 										.text(this));
 					});
+					
+					$('#targets option').click(function() {alert($(this).val());});
 				},
 				error : function(error) {
 					console.log(error);
@@ -189,5 +203,4 @@
 			});		
 		}
 	}
-
 </script>

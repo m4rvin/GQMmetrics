@@ -16,4 +16,6 @@ public interface SatisfyingConditionManager extends GenericManager<SatisfyingCon
 	 public JSONArray findTargetByMetricJSONized(AbstractMetric metric);
 	 public List<String> findTargetByMetric(AbstractMetric metric);
 	 public SatisfyingConditionTarget updateTargetByRepresentation(SatisfyingConditionTarget target);
+	 public JSONArray findTargetByMetricWhenEditingJSONized(AbstractMetric metric);
+	 public List<String> findTargetByMetricWhenEditing(AbstractMetric metric);
 }

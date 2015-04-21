@@ -41,6 +41,10 @@ public class SatisfyingConditionDaoHibernate extends GenericDaoHibernate<Satisfy
 		  return (Object[]) q.uniqueResult();
 	 }
 
-	 
-
+	 @Override
+	 public List<Object[]> findSatisfyingConditionTargetsByMetricWhenEditing(Long id)
+	 {
+		  Query q = getSession().getNamedQuery("findSatisfyingConditionTargetByMetricEditing").setLong("metric_id", id);
+		  return q.list();
+	 }
 }

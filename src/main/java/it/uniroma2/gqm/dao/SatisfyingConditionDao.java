@@ -11,5 +11,6 @@ public interface SatisfyingConditionDao extends GenericDao<SatisfyingCondition, 
 {
 	 public List<SatisfyingCondition> findSatisfyingConditionByProject(Long id);
 	 public List<Object[]> findSatisfyingConditionTargetsByMetric(Long id);
+	 public List<Object[]> findSatisfyingConditionTargetsByMetricWhenEditing(Long id);
 	 public Object[] findSatisfyingConditionTargetByRepresentation(Long metric_id, Long question_id, Long goal_id);
 }

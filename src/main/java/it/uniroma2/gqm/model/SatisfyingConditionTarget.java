@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -112,10 +113,16 @@ public class SatisfyingConditionTarget extends BaseObject
 	 	 this.representation = representation;
 	 }
 
+	 public void retriveRepresentation()
+	 {
+		  String representation = getGoal().getId() + "-" + getQuestion().getId() + "-" + getMetric().getId();
+		  setRepresentation(representation);
+	 }
+	 
 	 @Override
 	 public String toString()
 	 {
-		  return "SatisfyingConditionTarget [project=" + project + ", metric=" + metric + ", question=" + question + ", goal=" + goal + "]";
+		  return "SatisfyingConditionTarget [id=" + id + ", representation=" + representation + ", project=" + project + ", metric=" + metric + ", question=" + question + ", goal=" + goal + ", satisfyingCondition=" + satisfyingCondition + "]";
 	 }
 
 	 @Override
@@ -124,9 +131,11 @@ public class SatisfyingConditionTarget extends BaseObject
 		  final int prime = 31;
 		  int result = 1;
 		  result = prime * result + ((goal == null) ? 0 : goal.hashCode());
+		  result = prime * result + ((id == null) ? 0 : id.hashCode());
 		  result = prime * result + ((metric == null) ? 0 : metric.hashCode());
 		  result = prime * result + ((project == null) ? 0 : project.hashCode());
 		  result = prime * result + ((question == null) ? 0 : question.hashCode());
+		  result = prime * result + ((representation == null) ? 0 : representation.hashCode());
 		  return result;
 	 }
 
@@ -146,6 +155,12 @@ public class SatisfyingConditionTarget extends BaseObject
 					 return false;
 		  } else if (!goal.equals(other.goal))
 				return false;
+		  if (id == null)
+		  {
+				if (other.id != null)
+					 return false;
+		  } else if (!id.equals(other.id))
+				return false;
 		  if (metric == null)
 		  {
 				if (other.metric != null)
@@ -164,7 +179,19 @@ public class SatisfyingConditionTarget extends BaseObject
 					 return false;
 		  } else if (!question.equals(other.question))
 				return false;
+		  if (representation == null)
+		  {
+				if (other.representation != null)
+					 return false;
+		  } else if (!representation.equals(other.representation))
+				return false;
+		  if (satisfyingCondition == null)
+		  {
+				if (other.satisfyingCondition != null)
+					 return false;
+		  } else if (!satisfyingCondition.equals(other.satisfyingCondition))
+				return false;
 		  return true;
 	 }
-	 
+
 }

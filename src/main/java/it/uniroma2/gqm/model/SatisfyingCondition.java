@@ -1,5 +1,6 @@
 package it.uniroma2.gqm.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,8 +33,10 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.NotEmpty
 	 @NamedQuery(name = "findSatisfyingConditionTargetByMetric", query = "select g, q, m from AbstractMetric m join m.questions qm join qm.pk.question q join q.goals gq join gq.pk.goal g"
 	 		  + " where m.id = :metric_id and qm.status like 'APPROVED' and"
 	 		  + " not exists (select sct from SatisfyingConditionTarget sct where sct.goal.id = g.id and sct.question.id = q.id and sct.metric.id = m.id)"), 
+	 @NamedQuery(name = "findSatisfyingConditionTargetByMetricEditing", query = "select g, q, m from AbstractMetric m join m.questions qm join qm.pk.question q join q.goals gq join gq.pk.goal g"
+	 		  + " where m.id = :metric_id and qm.status like 'APPROVED'"),
 	 @NamedQuery(name = "findSatisfyingConditionTargetByRepresentation", query = "select g, q, m from AbstractMetric m join m.questions qm join qm.pk.question q join q.goals gq join gq.pk.goal g"
-	 		  + " where m.id = :metric_id and g.id = :goal_id and q.id = :question_id")
+	 		  + " where m.id = :metric_id and g.id = :goal_id and q.id = :question_id"),
 	 })
 public class SatisfyingCondition extends BaseObject
 {
@@ -44,7 +47,7 @@ public class SatisfyingCondition extends BaseObject
 	 private String hypotesis;
 	 private SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 private Double satisfyingConditionValue;
-	 private Set<SatisfyingConditionTarget> targets;
+	 private Set<SatisfyingConditionTarget> targets = new HashSet<SatisfyingConditionTarget>();
 	 private Project project;
 	 private User satisfyingConditionOwner;
 
@@ -98,8 +101,9 @@ public class SatisfyingCondition extends BaseObject
 		  this.satisfyingConditionValue = satisfyingConditionValue;
 	 }
 
-	 @OneToMany(mappedBy = "satisfyingCondition", cascade = CascadeType.ALL) //satisfying condition target is an "entità debole" ---> translation for on delete cascade
+	 @OneToMany(mappedBy = "satisfyingCondition", cascade = CascadeType.ALL, orphanRemoval = true) //satisfying condition target is an "entità debole" ---> translation for on delete cascade
 	 @NotEmpty(message = "satisfying condition targets cannot be empty")
+	 @NotNull(message = "satisfying condition targets cannot be null")
 	 public Set<SatisfyingConditionTarget> getTargets()
 	 {
 		  return targets;
@@ -137,7 +141,7 @@ public class SatisfyingCondition extends BaseObject
 	 @Override
 	 public String toString()
 	 {
-		  return "SatisfyingCondition [id=" + id + ", hypotesis=" + hypotesis + ", satisfyingConditionOperation=" + satisfyingConditionOperation + ", satisfyingConditionValue=" + satisfyingConditionValue + ", targets=" + targets + ", project=" + project + "]";
+		  return "SatisfyingCondition [id=" + id + ", hypotesis=" + hypotesis + ", satisfyingConditionOperation=" + satisfyingConditionOperation + ", satisfyingConditionValue=" + satisfyingConditionValue + ", targets=" + targets + ", project=" + project + ", satisfyingConditionOwner=" + satisfyingConditionOwner + "]";
 	 }
 
 	 @Override
@@ -149,6 +153,7 @@ public class SatisfyingCondition extends BaseObject
 		  result = prime * result + ((id == null) ? 0 : id.hashCode());
 		  result = prime * result + ((project == null) ? 0 : project.hashCode());
 		  result = prime * result + ((satisfyingConditionOperation == null) ? 0 : satisfyingConditionOperation.hashCode());
+		  result = prime * result + ((satisfyingConditionOwner == null) ? 0 : satisfyingConditionOwner.hashCode());
 		  result = prime * result + ((satisfyingConditionValue == null) ? 0 : satisfyingConditionValue.hashCode());
 		  result = prime * result + ((targets == null) ? 0 : targets.hashCode());
 		  return result;
@@ -183,6 +188,12 @@ public class SatisfyingCondition extends BaseObject
 		  } else if (!project.equals(other.project))
 				return false;
 		  if (satisfyingConditionOperation != other.satisfyingConditionOperation)
+				return false;
+		  if (satisfyingConditionOwner == null)
+		  {
+				if (other.satisfyingConditionOwner != null)
+					 return false;
+		  } else if (!satisfyingConditionOwner.equals(other.satisfyingConditionOwner))
 				return false;
 		  if (satisfyingConditionValue == null)
 		  {

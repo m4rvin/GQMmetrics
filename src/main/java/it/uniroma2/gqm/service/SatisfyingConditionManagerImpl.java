@@ -94,4 +94,44 @@ public class SatisfyingConditionManagerImpl extends GenericManagerImpl<Satisfyin
 		  }
 		  return null;
 	 }
+
+	 /**
+	  * Use this when handling editing cases, it does not filter on the already existing targets
+	  */
+	 @Override
+	 public JSONArray findTargetByMetricWhenEditingJSONized(AbstractMetric metric)
+	 {
+		  List<Object[]> result = this.satisfyingConditionDao.findSatisfyingConditionTargetsByMetricWhenEditing(metric.getId());
+		  JSONArray ret = new JSONArray();
+		  for(Object[] r : result)
+		  {
+				Goal g = (Goal) r[0];
+				Question q = (Question) r[1];
+				AbstractMetric m = (AbstractMetric) r[2];
+				String target = g.getId() + "-" + q.getId() + "-" + m.getId();
+				ret.put(target);
+		  }
+		  if(ret.length() > 0)
+				return  ret;
+		  return null;
+	 }
+	 
+	 @Transactional
+	 @Override
+	 public List<String> findTargetByMetricWhenEditing(AbstractMetric metric)
+	 {
+		  List<Object[]> result = this.satisfyingConditionDao.findSatisfyingConditionTargetsByMetricWhenEditing(metric.getId());
+		  List<String> ret = new ArrayList<String>();
+		  for(Object[] r : result)
+		  {
+				Goal g = (Goal) r[0];
+				Question q = (Question) r[1];
+				AbstractMetric m = (AbstractMetric) r[2];
+				String target = g.getId() + "-" + q.getId() + "-" + m.getId();
+				ret.add(target);
+		  }
+		  if(ret.size() > 0)
+				return  ret;
+		  return null;
+	 }
 }

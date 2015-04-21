@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({"satisfyingCondition", "currentProject", "currentUser"})
+@SessionAttributes({"satisfyingCondition", "currentProject", "currentUser", "currentMetric"})
 public class SatisfyingConditionFormController extends BaseFormController
 {
 
@@ -82,8 +82,13 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  if (!StringUtils.isBlank(id))
 		  {
 				satisfyingCondition = this.satisyfingConditionManager.get(new Long(id));
+				
+				for(SatisfyingConditionTarget target : satisfyingCondition.getTargets()) //representation is a transient field, it is needed to update it when retriving a condtion from db
+					 target.retriveRepresentation();
+				
 				AbstractMetric metric = satisfyingCondition.getTargets().iterator().next().getMetric(); //There is always the same metric in all the target objects
-				populateModel(model, metric);
+				populateModel(model, metric, true);
+				session.setAttribute("currentMetric", satisfyingCondition.getTargets().iterator().next().getMetric().getId());
 		  }
 		  else
 		  {
@@ -101,17 +106,26 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 @RequestMapping(method = RequestMethod.POST, value = ViewName.satysfingConditionForm)
 	 public String onSubmit(@ModelAttribute("satisfyingCondition") @Valid SatisfyingCondition satisfyingCondition, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
 	 {
-		  String metric_id = request.getParameter("metric");
-		  AbstractMetric metric = this.metricManager.get(new Long(metric_id));
 		  
 		  Locale locale = request.getLocale();
 		  if (request.getParameter("cancel") != null)
 				return getCancelView();
-
+		  
+		  String metric_id = request.getParameter("metric");
+		  AbstractMetric metric;
+		  
 		  if (errors.hasErrors() && request.getParameter("delete") == null)
 		  {
 				 System.out.println(errors);
-				 populateModel(model, metric);
+				 if(metric_id != "") //need to populate model only if a metric has been set
+				 {
+					  metric = this.metricManager.get(new Long(metric_id));
+					  
+					  if(satisfyingCondition.getId() == null)
+							  populateModel(model, metric, false);
+					  else
+							  populateModel(model, metric, true);
+				 }
 				 return ViewName.satysfingConditionForm;
 		  }
 		  
@@ -122,34 +136,54 @@ public class SatisfyingConditionFormController extends BaseFormController
 				
 		  } else
 		  {
+			  //at this step metric_id is a valid id
+			  metric = this.metricManager.get(new Long(metric_id));
 		  
    		  if(satisfyingCondition.getSatisfyingConditionOwner() == null) //set the current user. Needed for enabling the edit of a satisfying condition
    				satisfyingCondition.setSatisfyingConditionOwner(getUserManager().getUserByUsername(request.getRemoteUser()));
    		  
-   		  //for each target object, initialize it
-   		  for(SatisfyingConditionTarget target : satisfyingCondition.getTargets())
+   		 //either new object or updated one when targets are changed
+   		  if(satisfyingCondition.getTargets() != null)
    		  {
-   				target = this.satisyfingConditionManager.updateTargetByRepresentation(target); 
-   				target.setProject(satisfyingCondition.getProject());
-   				target.setSatisfyingCondition(satisfyingCondition);   				
+   				for(SatisfyingConditionTarget target : satisfyingCondition.getTargets())
+	   		   {
+	   				 target = this.satisyfingConditionManager.updateTargetByRepresentation(target); 
+	   				 target.setProject(satisfyingCondition.getProject());
+	   				 target.setSatisfyingCondition(satisfyingCondition);   				
+	   		   }
+   	   		  
    		  }
+   		  // targets == null means that we are in an update case where targets are not changed, so do nothing
    		  satisfyingCondition = this.satisyfingConditionManager.save(satisfyingCondition); //save the entity and the children
-   		  
    		  saveMessage(request, getText("satisfyingCondition.created", locale));
 		  }
-		  
+		  status.setComplete();
 		  return getSuccessView();
 	 }
 	 
 	 @ResponseBody
 	 @RequestMapping(method = RequestMethod.GET, value = ViewName.satysfingConditionFormAjax)
-	 public String getAvailableTargetsAndOperations(HttpServletRequest request)
+	 public String getAvailableTargetsAndOperations(HttpServletRequest request, HttpSession session)
 	 {
+		  Long session_metric_id = (Long) session.getAttribute("currentMetric");
+		  
 		  AbstractMetric metric = this.metricManager.get(new Long(request.getParameter("metricId")));
+		  
+		  boolean editing = new Boolean(request.getParameter("editing"));
 		  
 		  Map<String, JSONArray> responseMap = new HashMap<String, JSONArray>();
 		  
-		  JSONArray targets = this.satisyfingConditionManager.findTargetByMetricJSONized(metric);
+		  JSONArray targets;
+		  
+		  if(editing)// in editing I want all the metric just for the old condition's one, otherwise apply normal query which filters on existing target
+		  {
+				if(session_metric_id == metric.getId())
+					 targets = this.satisyfingConditionManager.findTargetByMetricWhenEditingJSONized(metric);
+				else
+					 targets = this.satisyfingConditionManager.findTargetByMetricJSONized(metric);
+		  }
+		  else
+				targets = this.satisyfingConditionManager.findTargetByMetricJSONized(metric);
 		  responseMap.put("targets", targets);
 		  
 		  //get the consistent satisfying operations according to metric's output type
@@ -202,9 +236,13 @@ public class SatisfyingConditionFormController extends BaseFormController
 	  * @param model
 	  * @param metric
 	  */
-	 private void populateModel(Model model, AbstractMetric metric)
+	 private void populateModel(Model model, AbstractMetric metric, boolean editing)
 	 {
-		  List<String> targets = this.satisyfingConditionManager.findTargetByMetric(metric);
+		  List<String> targets;
+		  if(editing)
+				targets = this.satisyfingConditionManager.findTargetByMetricWhenEditing(metric);
+		  else
+				targets = this.satisyfingConditionManager.findTargetByMetric(metric);
 		  
 		  List<String> satisfyingOperations = new ArrayList<String>();
 		  SatisfyingConditionOperationEnum[] allOperations = SatisfyingConditionOperationEnum.values();
