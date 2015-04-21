@@ -19,15 +19,10 @@
 	</div>
 
 	<display:table name="satisfyingConditionList" class="table table-condensed table-striped table-hover" requestURI="" id="satisfyingConditionList" export="true" pagesize="25">
-		<display:column property="id" sortable="true" href="satisfyingConditionform" media="html" paramId="id" paramProperty="id" titleKey="satisfyingCondition.id" />
-		<display:column property="id" media="csv excel xml pdf" titleKey="satisfyingCondition.id" />
-
-		<display:column property="hypotesis" sortable="true" titleKey="satisfyingCondition.hypotesis" />
-		<display:column property="satisfyingConditionOperation" sortable="true" titleKey="satisfyingCondition.satisfyingConditionOperation" />
-		<display:column property="satisfyingConditionValue" sortable="true" titleKey="satisfyingCondition.satisfyingConditionValue" />
-		
-		
-		
+		<display:column property="id" sortable="true" href="satisfyingConditionform" media="html" paramId="id" paramProperty="id" titleKey="satisfyingConditionList.id" />
+		<display:column property="id" media="csv excel xml pdf" titleKey="satisfyingConditionList.id" />
+		<display:column property="satisfyingConditionOperation" sortable="true" titleKey="satisfyingConditionList.satisfyingConditionOperation" />
+		<display:column property="satisfyingConditionValue" sortable="true" titleKey="satisfyingConditionList.satisfyingConditionValue" />
 		<display:setProperty name="paging.banner.item_name">
 			<fmt:message key="satisfyingConditionList.satisfyingCondition" />
 		</display:setProperty>

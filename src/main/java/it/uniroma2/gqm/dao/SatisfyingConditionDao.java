@@ -1,7 +1,6 @@
 package it.uniroma2.gqm.dao;
 
 import it.uniroma2.gqm.model.SatisfyingCondition;
-import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 
 import java.util.List;
 
