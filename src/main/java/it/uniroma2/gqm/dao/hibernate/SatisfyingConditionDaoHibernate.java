@@ -4,6 +4,7 @@ import it.uniroma2.gqm.dao.SatisfyingConditionDao;
 import it.uniroma2.gqm.model.SatisfyingCondition;
 
 import java.util.List;
+import java.util.Set;
 
 import org.appfuse.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
@@ -45,4 +46,12 @@ public class SatisfyingConditionDaoHibernate extends GenericDaoHibernate<Satisfy
 		  Query q = getSession().getNamedQuery("findSatisfyingConditionTargetByMetricEditing").setLong("metric_id", id);
 		  return q.list();
 	 }
+
+	@Override
+	public List<SatisfyingCondition> findByProjectGoalMetric(Long project_id,
+			Long goal_id, Long metric_id) {		
+		
+		Query q = getSession().getNamedQuery("findSatisfyingConditionByProjectGoalMetric").setLong("project_id", project_id).setLong("goal_id", goal_id).setLong("metric_id", metric_id);
+		return q.list();
+	}
 }

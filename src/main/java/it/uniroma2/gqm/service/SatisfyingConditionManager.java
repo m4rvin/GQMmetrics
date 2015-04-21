@@ -1,6 +1,7 @@
 package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.SatisfyingCondition;
 import it.uniroma2.gqm.model.SatisfyingConditionTarget;
@@ -18,4 +19,7 @@ public interface SatisfyingConditionManager extends GenericManager<SatisfyingCon
 	 public SatisfyingConditionTarget updateTargetByRepresentation(SatisfyingConditionTarget target);
 	 public JSONArray findTargetByMetricWhenEditingJSONized(AbstractMetric metric);
 	 public List<String> findTargetByMetricWhenEditing(AbstractMetric metric);
+	 
+	 public List<SatisfyingCondition> findByProjectGoalMetric(Project project, Goal goal, AbstractMetric metric);
+
 }

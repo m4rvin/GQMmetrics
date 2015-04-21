@@ -36,6 +36,7 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.NotEmpty
 	 		  + " where m.id = :metric_id and qm.status like 'APPROVED'"),
 	 @NamedQuery(name = "findSatisfyingConditionTargetByRepresentation", query = "select g, q, m from AbstractMetric m join m.questions qm join qm.pk.question q join q.goals gq join gq.pk.goal g"
 	 		  + " where m.id = :metric_id and g.id = :goal_id and q.id = :question_id"),
+	 @NamedQuery(name = "findSatisfyingConditionByProjectGoalMetric", query = "select sc from SatisfyingCondition sc JOIN sc.targets sct where sct.satisfyingCondition.id = sc.id AND sct.project.id = :project_id AND sct.goal.id = :goal_id AND sct.metric.id = :metric_id")
 	 })
 public class SatisfyingCondition extends BaseObject
 {
@@ -123,6 +124,31 @@ public class SatisfyingCondition extends BaseObject
 	 public void setSatisfyingConditionOwner(User satisfyingConditionOwner)
 	 {
 		  this.satisfyingConditionOwner = satisfyingConditionOwner;
+	 }
+	 
+	 
+	 public boolean getSatisfaction(Double  measuredValue)
+	 {
+		  
+		  Double threshold = this.satisfyingConditionValue;
+		  
+		  switch(this.satisfyingConditionOperation)
+		  {
+   		  case EQUAL:
+   				return measuredValue == threshold;
+   		  case GREATER:
+   				return measuredValue > threshold;
+   		  case GREATER_OR_EQUAL:
+   				return measuredValue >= threshold;
+   		  case LESS:
+   				return measuredValue < threshold;
+   		  case LESS_OR_EQUAL:
+   				return measuredValue <= threshold;
+   		  case NOT_EQUAL:
+   				return measuredValue != threshold;
+   		  default:
+   				return false;
+		  }
 	 }
 	 
 	 @Override

@@ -10,6 +10,7 @@ import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.appfuse.service.impl.GenericManagerImpl;
 import org.json.JSONArray;
@@ -134,4 +135,14 @@ public class SatisfyingConditionManagerImpl extends GenericManagerImpl<Satisfyin
 				return  ret;
 		  return null;
 	 }
+
+	@Transactional
+	@Override
+	public List<SatisfyingCondition> findByProjectGoalMetric(Project project,
+			Goal goal, AbstractMetric metric) {
+		
+		List<SatisfyingCondition> result = this.satisfyingConditionDao.findByProjectGoalMetric(project.getId(), goal.getId(), metric.getId());
+		
+		return result;
+	}
 }

@@ -68,6 +68,38 @@ public class BinaryTableController {
     public void setProjectManager(@Qualifier("projectManager") ProjectManager projectManager) {
         this.projectManager = projectManager;
     }
+    
+    public void setGoalStatus(BinaryElement goalToEvaluate, Set<Goal> mgs){
+    	
+    	boolean satisfyAll = true;
+    	
+    	//Recupero tutte le metriche associate ad ogni MG
+        for (Goal mg : mgs) {
+        	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
+        	
+        	if (metrics.size() > 0) {
+        		boolean satisfy = true;
+            	//Calcolo valore di soddisfacimento (1 o 0)
+                for(AbstractMetric m: metrics){
+               	  List<SatisfyingCondition> satisfyingConditions = this.satisfyingConditionManager.findByProjectGoalMetric(mg.getProject(), mg, m);
+               	  for(SatisfyingCondition sc: satisfyingConditions)
+               	  {
+               			satisfy &= sc.getSatisfaction(m.getActualValue());
+   	                	satisfyAll &= satisfy;
+               	  }
+               	  if(satisfyingConditions.size() == 0)
+               		satisfyAll = false;
+                }
+                if(satisfyAll)
+                	goalToEvaluate.setValue(1);
+                else
+                	goalToEvaluate.setValue(0);
+			} else {
+				goalToEvaluate.setValue(0);
+			}
+        	
+		}
+    }
 	
 	@ModelAttribute
     @RequestMapping(method = RequestMethod.GET)
@@ -91,24 +123,24 @@ public class BinaryTableController {
         	//Recupera MG associati
         	mgs = ret.getAssociatedMGs();
         	
-            boolean satisfyAll = true;
             BinaryElement mainGoal = new BinaryElement(ret, 0);
-			
+            setGoalStatus(mainGoal, mgs);
 			//Recupero tutte le metriche associate ad ogni MG
-            for (Goal mg : mgs) {
+            /*for (Goal mg : mgs) {
             	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
             	
             	if (metrics.size() > 0) {
             		boolean satisfy = true;
 	            	//Calcolo valore di soddisfacimento (1 o 0)
 	                for(AbstractMetric m: metrics){
-	               	  SatisfyingCondition condition = this.satisfyingConditionManager.findByTarget(mg.getProject(), mg, question, m);
-	               	  if(condition != null) //un target potrebbe anche non avere una condizione associata
+	               	  List<SatisfyingCondition> satisfyingConditions = this.satisfyingConditionManager.findByProjectGoalMetric(mg.getProject(), mg, m);
+	               	  for(SatisfyingCondition sc: satisfyingConditions)
 	               	  {
-	               			satisfy &= metricManager.getSatisfaction(condition); //serve passare un satysfingConditionTarget ottenuto tramite il goal e la metrica corrente
+	               			satisfy &= sc.getSatisfaction(m.getActualValue());
 	   	                	satisfyAll &= satisfy;
 	               	  }
-	                	
+	               	  if(satisfyingConditions.size() == 0)
+	               		satisfyAll = false;
 	                }
 	                if(satisfyAll)
 	                	mainGoal.setValue(1);
@@ -118,7 +150,7 @@ public class BinaryTableController {
 					mainGoal.setValue(0);
 				}
             	
-    		}
+    		}*/
         	
             Set<BinaryElement> childGoal = new HashSet<BinaryElement>();
  
@@ -131,11 +163,12 @@ public class BinaryTableController {
             	//Recupera associazioni con MG
             	mgs = g.getAssociatedMGs();
             	
-                satisfyAll = true;
                 BinaryElement gGoal = new BinaryElement(g, 0);
 
+                setGoalStatus(gGoal, mgs);
+
 				//Recupero tutte le metriche associate ad ogni MG
-	            for (Goal mg : mgs) {
+	            /*for (Goal mg : mgs) {
 	            	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
 	            	
 	            	boolean satisfy = true;
@@ -154,7 +187,7 @@ public class BinaryTableController {
 	            		gGoal.setValue(0);
 	            	}
 	    		}
-    			
+    			*/
             	childGoal.add(gGoal);
 			}
             
