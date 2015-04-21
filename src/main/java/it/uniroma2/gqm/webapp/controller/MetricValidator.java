@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 @Component(value = "metricValidator")
 public class MetricValidator implements Validator
@@ -71,6 +72,10 @@ public class MetricValidator implements Validator
 	 public void validate(Object target, Errors errors)
 	 {
 		  AbstractMetric metric = (AbstractMetric) target;
+		  
+		  String metric_name = metric.getName();
+		  if(!metric_name.matches("^[a-zA-Z0-9]+$"))
+				errors.rejectValue("name", "name", "name must be composed only by letters or numbers");
 
 		  String formula = metric.getFormula();
 

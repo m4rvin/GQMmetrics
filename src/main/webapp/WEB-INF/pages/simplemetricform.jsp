@@ -147,47 +147,6 @@
             <form:errors path="collectingType" cssClass="help-inline"/>            
         </div>
     </div>
-<!-- 
-    <spring:bind path="simpleMetric.satisfyingConditionOperation">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-    </spring:bind>
-        <appfuse:label styleClass="control-label" key="metric.satisfyingCondishowtionOperation"/>
-        <div class="controls">
-			<form:select path="satisfyingConditionOperation" disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" >
-				<form:option value="NONE" label="None"/>
-				<form:option value="LESS" label="<"/>
-				<form:option value="LESS_OR_EQUAL" label="<="/>
-				<form:option value="EQUAL" label="="/>
-				<form:option value="GREATER_OR_EQUAL" label=">="/>
-				<form:option value="GREATER" label=">"/>
-		    </form:select>		
-            <form:errors path="satisfyingConditionOperation" cssClass="help-inline"/>            
-        </div>
-    </div>
-
-    <spring:bind path="simpleMetric.satisfyingConditionValue">
-    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        <appfuse:label styleClass="control-label" key="metric.satisfyingConditionValue"/>
-        <div class="controls">
-            <form:input path="satisfyingConditionValue" id="satisfyingConditionValue"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
-            <form:errors path="satisfyingConditionValue" cssClass="help-inline"/>
-        </div>
-    </div>
-    </spring:bind>
-
-    <spring:bind path="simpleMetric.outputValueType">
-    	<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-        	<appfuse:label styleClass="control-label" key="metric.outputValueType"/>
-       		<div class="controls">
-           		<form:select path="outputValueType" disabled="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}" >
-           			<form:option value="NUMERIC" label="NUMERIC" />
-           			<form:option value="BOOLEAN" label="BOOLEAN" />
-          			</form:select>
-           		<form:errors path="outputValueType" cssClass="help-inline"/><br>          
-       		</div>
-   		</div>
-    </spring:bind>
-     -->
     <spring:bind path="simpleMetric.formula">
     <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
     </spring:bind>

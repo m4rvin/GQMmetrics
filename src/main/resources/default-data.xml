@@ -1309,8 +1309,6 @@
         <column>metric_formula</column>
         <column>name</column>        
 		<column>outputValueType</column>
-       	<column>satisfying_condition_peration</column>
-        <column>satisfying_condition_value</column>    
      	<column>type</column>
         <column>measurement_scale_id</column>
         <column>mmdmo_id</column>
@@ -1326,8 +1324,6 @@
 <!--         	train running in the requested time -->			
  			<value description="name" >s1sv</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1341,8 +1337,6 @@
 <!--          number of train cancelled in the requested time -->			
 			<value description="name" >s2sv</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1356,8 +1350,6 @@
 <!--         	avg number of train stop for repairing during the requested time -->			
 			<value description="name" >s3mv</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1372,8 +1364,6 @@
 <!--          potential number of train running in the requested time -->			
 			<value description="name" >c1</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1386,8 +1376,6 @@
         	<value description="metric_formula" >_s2sv_+_s3mv_</value>
 			<value description="name" >c2</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1400,8 +1388,6 @@
         	<value description="metric_formula" >exp(_c1_)+log10(_c2_)</value>
 			<value description="name" >c3</value>
         	<value description="outputValueType" >NUMERIC</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
         	<value description="mmdmo_id" >9</value>
@@ -1415,8 +1401,6 @@
         	<value description="metric_formula" >_this_=44</value>
 			<value description="name" >s1svbool</value>
         	<value description="outputValueType" >BOOLEAN</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>
@@ -1429,8 +1413,6 @@
         	<value description="metric_formula" >_this_=100</value>
 			<value description="name" >s2mvbool</value>
         	<value description="outputValueType" >BOOLEAN</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>
@@ -1443,8 +1425,6 @@
         	<value description="metric_formula" >_s1svbool_||_s2mvbool_</value>
 			<value description="name" >c1bool</value>
         	<value description="outputValueType" >BOOLEAN</value>
-        	<value description="satisfying_condition_peration" >LESS</value>
-        	<value description="satisfying_condition_value" >1</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>

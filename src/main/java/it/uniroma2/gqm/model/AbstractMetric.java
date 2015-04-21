@@ -28,10 +28,12 @@ import javax.persistence.UniqueConstraint;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
+import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq " + " inner join gq.pk.question q  " + " inner join q.metrics qm " + " inner join qm.pk.metric m " + " where g.id= :goal_id and m.satisfyingConditionValue <> null"),
+@NamedQueries({ @NamedQuery(name = "findMetricByProject", query = "select m from AbstractMetric m  where m.project.id= :project_id "), 
+	 	  @NamedQuery(name = "findMeasuredMetric", query = "select distinct m from Goal g inner join g.questions gq  inner join gq.pk.question q   inner join q.metrics qm  inner join qm.pk.metric m  where g.id= :goal_id and m.actualValue <> null"),
 		  @NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId"),
 		  @NamedQuery(name = "findMetricByMeasurementScaleType", query = "select m from AbstractMetric m where m.measurementScale.type = :type" ),
 		  @NamedQuery(name = "findMetricByMeasurementScaleTypeExludingOneById", query = "select m from AbstractMetric m where m.measurementScale.type = :type AND m.id <> :id" ),
@@ -55,11 +57,9 @@ public class AbstractMetric extends BaseObject
 																 // sulla view
 	 protected String hypothesis;
 	 protected MeasurementScale measurementScale;
-	 protected SatisfyingConditionOperationEnum satisfyingConditionOperation;
 	 protected User metricOwner;
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
 	 protected Double actualValue = null;
-	 protected Double satisfyingConditionValue;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor;
 	 protected String formula;
@@ -147,18 +147,6 @@ public class AbstractMetric extends BaseObject
 		  this.hypothesis = hypothesis;
 	 }
 
-	 @Enumerated(EnumType.STRING)
-	 @Column(name = "satisfying_condition_peration", length = 50)
-	 public SatisfyingConditionOperationEnum getSatisfyingConditionOperation()
-	 {
-		  return satisfyingConditionOperation;
-	 }
-
-	 public void setSatisfyingConditionOperation(SatisfyingConditionOperationEnum satisfyingConditionOperation)
-	 {
-		  this.satisfyingConditionOperation = satisfyingConditionOperation;
-	 }
-
 	 @ManyToOne
 	 @JoinColumn(name = "mmdmo_id", nullable = false)
 	 public User getMetricOwner()
@@ -202,17 +190,6 @@ public class AbstractMetric extends BaseObject
 	 public void setActualValue(Double actualValue)
 	 {
 		  this.actualValue = actualValue;
-	 }
-
-	 @Column(name = "satisfying_condition_value")
-	 public Double getSatisfyingConditionValue()
-	 {
-		  return satisfyingConditionValue;
-	 }
-
-	 public void setSatisfyingConditionValue(Double satisfyingConditionValue)
-	 {
-		  this.satisfyingConditionValue = satisfyingConditionValue;
 	 }
 
 	 @OneToMany(mappedBy = "metric")
@@ -441,8 +418,6 @@ public class AbstractMetric extends BaseObject
 		  result = prime * result + ((metricOwner == null) ? 0 : metricOwner.hashCode());
 		  result = prime * result + ((name == null) ? 0 : name.hashCode());
 		  result = prime * result + ((project == null) ? 0 : project.hashCode());
-		  result = prime * result + ((satisfyingConditionOperation == null) ? 0 : satisfyingConditionOperation.hashCode());
-		  result = prime * result + ((satisfyingConditionValue == null) ? 0 : satisfyingConditionValue.hashCode());
 		  result = prime * result + ((type == null) ? 0 : type.hashCode());
 		  return result;
 	 }
@@ -531,14 +506,6 @@ public class AbstractMetric extends BaseObject
 					 return false;
 		  } else if (!questions.equals(other.questions))
 				return false;
-		  if (satisfyingConditionOperation != other.satisfyingConditionOperation)
-				return false;
-		  if (satisfyingConditionValue == null)
-		  {
-				if (other.satisfyingConditionValue != null)
-					 return false;
-		  } else if (!satisfyingConditionValue.equals(other.satisfyingConditionValue))
-				return false;
 		  if (type != other.type)
 				return false;
 		  return true;
@@ -549,7 +516,4 @@ public class AbstractMetric extends BaseObject
 	 {
 		  return "AbstractMetric [id=" + id + ", code=" + code + ", name=" + name + "]";
 	 }
-
-	 
-
 }
