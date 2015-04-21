@@ -10,6 +10,7 @@ public class ViewName {
 	public static final String combinedMetricForm = "combinedmetricform";
 	public static final String combinedMetricFormAjax = "combinedmetricformAjax";
 	public static final String combinedMetricFormMeasurementScaleInfoAjax = "combinedmetricformMeasurementScaleInfoAjax";
+	public static final String combinedMetricFormInfoAjax = "combinedmetricformInfoAjax";
 
 	
 	public static final String measurementScales = "measurementScales";
