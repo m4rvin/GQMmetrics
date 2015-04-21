@@ -324,6 +324,17 @@ public class CombinedMetricFormController extends BaseFormController
 		  System.out.println("retrieved measurement scale info: " + info);
 		  return info;
 	 }
+	 
+	 @ResponseBody
+	 @RequestMapping(value = ViewName.combinedMetricFormInfoAjax, method = RequestMethod.GET)
+	 public String getMetricInfo(HttpServletRequest request)
+	 {
+		  AbstractMetric metric = this.metricManager.findMetricByName(request.getParameter("metricId"));
+		  String info = metric.toString();
+
+		  System.out.println("retrieved measurement scale info: " + info);
+		  return info;
+	 }
 
 	 @InitBinder(value = "combinedMetric")
 	 public void initBinder(WebDataBinder binder)

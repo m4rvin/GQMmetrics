@@ -201,7 +201,7 @@
          <div class="control-group">
         <appfuse:label styleClass="control-label" key="metric.availableMetricComposers"/>
         <div class="controls">
-			<select id="availableMetricComposersList" multiple onclick="putSelectedMetricIntoFormulaField()" ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used) ? 'disabled' : ''} >
+			<select id="availableMetricComposersList" multiple ${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used) ? 'disabled' : ''} >
 					<c:forEach items="${availableMetricComposers}" var="availablecomposer">
 						<c:set var="found" value="false"></c:set>
 							<c:forEach items="${combinedMetric.composedBy}" var="savedcomposer">
@@ -222,8 +222,10 @@
 								</c:otherwise>
 							</c:choose>
 					</c:forEach>
-		    </select>		
+		    </select>
+		    <a onclick="showComposerMetricInfoInstructions()">Info</a>
         </div>
+        
         </div>
             
 	<c:if test="${not empty combinedMetric.id}">
@@ -323,7 +325,9 @@
 	    $("input[type='text']:visible:enabled:first", document.forms['combinedMetricForm']).focus();
 	});
 	
+	$('#availableMetricComposersList option').mouseup(handleClickOnAvailableMetricComposersList);
 
+	
 	function showIMBox(){
 		
 		var e = document.getElementById("questions");
@@ -408,6 +412,8 @@
 								$("<option></option>").attr("value", this)
 										.text(this));
 					});
+					
+					$('#availableMetricComposersList option').mouseup(handleClickOnAvailableMetricComposersList);
 				},
 				error : function(error) {
 					console.log(error);
@@ -415,6 +421,40 @@
 			});
 		}
 
+    }
+    
+    function handleClickOnAvailableMetricComposersList(e){
+    	switch(e.which)
+	    {
+    		case 1:
+    			console.log("left click on AvailableMetricCompos");
+    			putSelectedMetricIntoFormulaField();
+    			break;
+    			
+    		case 2:
+    			console.log("middle click on AvailableMetricCompos");
+    			var metricId = $('#availableMetricComposersList option').val();
+    			$.ajax({
+    				type : "GET",
+    				url : "combinedmetricformInfoAjax",
+    				data : {
+    					metricId : metricId,
+    				},
+    				contentType : "application/json",
+    				success : function(response) {
+    					jQuery('<div/>', {
+    					    id: 'dialogInstructions',
+    					    title:"Composer metric info",
+    					    text: response
+    					}).dialog();
+    				},
+    				error : function(error) {
+    					console.log(error);
+    				}
+    			});
+
+    			break;
+	    }
     }
     
     // Retrieve the value associated to the selected metric ant put it into the formula text area field
@@ -484,6 +524,36 @@
 				}
 			});
     	}
+	}
+	
+	function showComposerMetricInfo(){
+		var metricId =
+		$.ajax({
+			type : "GET",
+			url : "combinedmetricformInfoAjax",
+			data : {
+				metricId : metricId,
+			},
+			contentType : "application/json",
+			success : function(response) {
+				jQuery('<div/>', {
+				    id: 'dialogInstructions',
+				    title:"MeasurementScale info",
+				    text: response
+				}).dialog();
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	}
+	
+	function showComposerMetricInfoInstructions(){
+		jQuery('<div/>', {
+		    id: 'dialogInstructions',
+		    title:"Composer metric box instructions",
+		    text: "Click with the mouse wheel (or press right and left button of your touchpad in case you have a notebook) to retrieve information about each item."
+		}).dialog();
 	}
 	
 </script>
