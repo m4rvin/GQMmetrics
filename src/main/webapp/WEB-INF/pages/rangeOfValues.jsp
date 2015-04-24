@@ -29,7 +29,6 @@
 		<display:column property="range" sortable="true" titleKey="rangeOfValuesList.range" />
 		<display:column property="numeric" sortable="true" titleKey="rangeOfValuesList.isNumeric" />
 		<display:column property="numberType" sortable="true" titleKey="rangeOfValues.numberType" />
-		<display:column property="measurementScaleType" sortable="true" titleKey="rangeOfValues.measurementScaleType" />
 		
 		
 		

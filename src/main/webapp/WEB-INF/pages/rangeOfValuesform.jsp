@@ -62,19 +62,6 @@
 			</div>
 		</spring:bind>
 		
-		<spring:bind path="rangeOfValues.measurementScaleType">
-			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
-				<appfuse:label styleClass="control-label" key="rangeOfValues.measurementScaleType" />
-				<div class="controls">
-					<form:select path="measurementScaleType" onchange="" disabled="${used}">
-						<form:option value="" label="None" />
-						<form:options items="${availableMeasurementScaleTypes}" />
-					</form:select>
-					<form:errors path="measurementScaleType" cssClass="help-inline" />
-				</div>
-			</div>
-		</spring:bind>
-
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="rangeOfValues.rangeType" />
 			<div class="controls">

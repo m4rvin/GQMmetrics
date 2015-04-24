@@ -24,7 +24,7 @@ import javax.persistence.UniqueConstraint;
 import org.appfuse.model.BaseObject;
 
 @Entity
-@Table(name = "range_of_values", uniqueConstraints = @UniqueConstraint(columnNames = { "measurement_scale_type", "number_type", "range_values" }))
+@Table(name = "range_of_values", uniqueConstraints = @UniqueConstraint(columnNames = {"number_type", "range_values" }))
 @NamedQueries({ 
 	@NamedQuery(name = "findRangeOfValuesByProject", query = "select r from RangeOfValues r where r.project.id= :project_id "), 
 })
