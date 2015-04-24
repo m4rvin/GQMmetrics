@@ -201,7 +201,8 @@ public class SimpleMetricFormController extends BaseFormController
 	 {
 		  if (request.getParameter("cancel") != null)
 		  {
-				return getCancelView();
+			  status.setComplete();
+			  return getCancelView();
 		  }
 
 		  if (validator != null)

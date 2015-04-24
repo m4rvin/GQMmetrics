@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @SessionAttributes({ "measurementScale", "currentProject", "units" })
@@ -152,10 +153,12 @@ public class MeasurementScaleFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(value = ViewName.measurementScaleForm, method = RequestMethod.POST)
-	 public String onSubmit(@Valid @ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, Model model)
+	 public String onSubmit(@Valid @ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model)
 	 {
-		  if (request.getParameter("cancel") != null)
-				return getCancelView();
+		  if (request.getParameter("cancel") != null){
+			  status.setComplete();
+			  return getCancelView();
+		  }
 
 		  if (validator != null)
 		  {
@@ -177,6 +180,7 @@ public class MeasurementScaleFormController extends BaseFormController
 				if(id != 0 && !this.measurementScaleManager.isUsed(id))
 					 {
 					 	this.measurementScaleManager.remove(id);
+					 	status.setComplete();
 					 	return getSuccessView();
 					 }
 				
@@ -197,15 +201,17 @@ public class MeasurementScaleFormController extends BaseFormController
 		  }
 		  catch(DataIntegrityViolationException e){
 			  System.err.println(e.getMessage());
-			  if(e.getMessage().contains("name")){
+			  if(e.getMessage().contains("name"))
+			  {
 				  model.addAttribute("duplicate_value", "A measurement scale with the same name already exists. Please change the name and retry.");
-
 			  }
-			  else{
+			  else
+			  {
 				  model.addAttribute("duplicate_value", "The measurement scale already exists in the database. Change some parameter and retry.");
 			  }
 			  return ViewName.measurementScaleForm;
 		  }
+		  status.setComplete();
 		  return getSuccessView();
 	 }
 

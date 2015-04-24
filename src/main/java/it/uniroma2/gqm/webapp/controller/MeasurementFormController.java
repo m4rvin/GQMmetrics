@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @RequestMapping(ViewName.measurementForm)
@@ -103,11 +104,12 @@ public class MeasurementFormController extends BaseFormController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public String onSubmit(@ModelAttribute("measurement") @Valid Measurement measurement, BindingResult errors, HttpServletRequest request,
+    public String onSubmit(@ModelAttribute("measurement") @Valid Measurement measurement, BindingResult errors, HttpServletRequest request, SessionStatus status,
                            HttpServletResponse response)
     throws Exception {
     	
         if (request.getParameter("cancel") != null) {
+  		  	status.setComplete();
             return getCancelView();
         }
         
@@ -174,6 +176,8 @@ public class MeasurementFormController extends BaseFormController {
             key = key + error_message;
             saveMessage(request, getText(key, locale));
         }
+        
+		status.setComplete();
         String success = getSuccessView();
         return success;
     }

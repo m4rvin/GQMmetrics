@@ -116,8 +116,10 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 {
 		  
 		  Locale locale = request.getLocale();
-		  if (request.getParameter("cancel") != null)
-				return getCancelView();
+		  if (request.getParameter("cancel") != null){
+			  status.setComplete();
+			  return getCancelView();
+		  }
 		  
 		  String metric_id = request.getParameter("metric");
 		  AbstractMetric metric;
@@ -147,23 +149,22 @@ public class SatisfyingConditionFormController extends BaseFormController
 			  //at this step metric_id is a valid id
 			  metric = this.metricManager.get(new Long(metric_id));
 		  
-   		  if(satisfyingCondition.getSatisfyingConditionOwner() == null) //set the current user. Needed for enabling the edit of a satisfying condition
-   				satisfyingCondition.setSatisfyingConditionOwner(getUserManager().getUserByUsername(request.getRemoteUser()));
-   		  
-   		 //either new object or updated one when targets are changed
-   		  if(satisfyingCondition.getTargets() != null)
-   		  {
-   				for(SatisfyingConditionTarget target : satisfyingCondition.getTargets())
-	   		   {
-	   				 target = this.satisyfingConditionManager.updateTargetByRepresentation(target); 
-	   				 target.setProject(satisfyingCondition.getProject());
-	   				 target.setSatisfyingCondition(satisfyingCondition);   				
-	   		   }
-   	   		  
-   		  }
-   		  // targets == null means that we are in an update case where targets are not changed, so do nothing
-   		  satisfyingCondition = this.satisyfingConditionManager.save(satisfyingCondition); //save the entity and the children
-   		  saveMessage(request, getText("satisfyingCondition.created", locale));
+	   		  if(satisfyingCondition.getSatisfyingConditionOwner() == null) //set the current user. Needed for enabling the edit of a satisfying condition
+	   				satisfyingCondition.setSatisfyingConditionOwner(getUserManager().getUserByUsername(request.getRemoteUser()));
+	   		  
+	   		 //either new object or updated one when targets are changed
+	   		  if(satisfyingCondition.getTargets() != null)
+	   		  {
+	   				for(SatisfyingConditionTarget target : satisfyingCondition.getTargets())
+		   		   {
+		   				 target = this.satisyfingConditionManager.updateTargetByRepresentation(target); 
+		   				 target.setProject(satisfyingCondition.getProject());
+		   				 target.setSatisfyingCondition(satisfyingCondition);   				
+		   		   }
+	   		  }
+	   		  // targets == null means that we are in an update case where targets are not changed, so do nothing
+	   		  satisfyingCondition = this.satisyfingConditionManager.save(satisfyingCondition); //save the entity and the children
+	   		  saveMessage(request, getText("satisfyingCondition.created", locale));
 		  }
 		  status.setComplete();
 		  return getSuccessView();
