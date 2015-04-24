@@ -682,7 +682,7 @@
         <web.framework>spring</web.framework>
         <amp.genericCore>true</amp.genericCore>
         <amp.fullSource>false</amp.fullSource>
-        <db.name>GQM_Blind_prod</db.name>
+        <db.name>gqm_s_ms_prod</db.name>
 
         <!-- Framework dependency versions -->
         <appfuse.version>2.2.1</appfuse.version>
