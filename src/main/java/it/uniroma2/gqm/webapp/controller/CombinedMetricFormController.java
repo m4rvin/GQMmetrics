@@ -451,7 +451,7 @@ public class CombinedMetricFormController extends BaseFormController
 		  while(it.hasNext())
 		  {
 				AbstractMetric m = it.next();
-				if(!m.getMeasurementScale().getRangeOfValues().isIncluded(currentMeasurementScale.getRangeOfValues()))
+				if(!m.getMeasurementScale().getRangeOfValues().isIncluded(currentMeasurementScale.getRangeOfValues()) && m.getOutputValueType() == MetricOutputValueTypeEnum.NUMERIC)
 					 it.remove();
 		  }
 		  return rawList;

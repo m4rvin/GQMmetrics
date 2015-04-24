@@ -150,9 +150,10 @@
 				<appfuse:label styleClass="control-label"
 					key="measurementScale.rangeOfValues" />
 				<div class="controls">
-					<form:select path="rangeOfValues" onchange="" disabled="${used}">
+					<form:select path="rangeOfValues" disabled="${used}">
 						<form:option value="" label="None" />
-						<c:forEach items="${supportedRangeOfValues}" var="rov">
+						<form:options  items="${supportedRangeOfValues}" itemLabel="name" itemValue="id"/>
+					<!-- 	<c:forEach items="${supportedRangeOfValues}" var="rov">
 							<c:choose>
 								<c:when test="${measurementScale.rangeOfValues.id == rov.id}">
 									<form:option value="${rov.id}" label="${rov.name}"
@@ -163,6 +164,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
+						 -->
 					</form:select>
 					<form:errors path="rangeOfValues" cssClass="help-inline" />
 				</div>
@@ -203,14 +205,7 @@
 			});
 
 	function getSupportedValues() {
-		var currentLength = document.getElementById('rangeOfValues').length;
-		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
-		{
-			while (currentLength > 0) {
-				$('#rangeOfValues option:eq(0)').remove();
-				currentLength = currentLength - 1;
-			}
-		}
+		
 		currentLength = document.getElementById('operations').length;
 
 		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
@@ -232,16 +227,8 @@
 				},
 				contentType : "application/json",
 				success : function(response) {
-					var JSONResponse = JSON.parse(response);
+					var JSONOperations = JSON.parse(response);
 
-					var JSONRangeOfValues = JSONResponse["rangeOfValues"];
-					$.each(JSONRangeOfValues, function() {
-						$('#rangeOfValues').append(
-								$("<option></option>").attr("value", this[0])
-										.text(this[1]));
-					});
-
-					var JSONOperations = JSONResponse["operation"];
 					$.each(JSONOperations, function() {
 						$('#operations').append(
 								$("<option></option>").attr("value", this[0])

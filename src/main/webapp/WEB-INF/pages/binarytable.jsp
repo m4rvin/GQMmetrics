@@ -9,7 +9,6 @@
 		    display: table-cell;		    
 		    width: 100px;
 		    text-align: center;
-		    background-color: lightcoral;
 		}
 		
 		#child {
@@ -63,4 +62,28 @@
    			<h2><fmt:message key="binaryTable.noPermission"/></h2>
    		</c:otherwise>
   	</c:choose>
+  	
+  	<script type="text/javascript">
+  	
+  	 $(document).ready(function() {
+         
+  		 var result = "${mainGoal.value}"
+  		 
+  		 switch(result)
+  		 {
+	  		case "1":
+	  			 $('#main').css("background-color", "Lime");
+	  			 break;
+	  		case "0":
+	 			 $('#main').css("background-color", "lightcoral");
+	 			 break;
+	  		default:
+	 			 $('#main').css("background-color", "orange");
+  			break;
+ 			 
+  		 }
+     });
+  	
+  	</script>
+  	
 </div>

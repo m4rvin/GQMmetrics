@@ -7,16 +7,31 @@ import junit.framework.Assert;
 public class RangeOfValuesEqualTest
 {
 
+	 int recursiveFun3(int n)
+	 {
+	     if (n <= 0)
+	         return 1;
+	     else
+	         return 1 + recursiveFun3(n/5);
+	 }
+	 
+	 @Test
+	 public void test()
+	 {
+		  int res = recursiveFun3(15);
+		  System.out.println(res);
+	 }
+	 
 	 
 	 @Test
 	 public void testEqualityOfRangeOfValues()
 	 {
 		  String rov = "[1:10],[20:25],[25:30]";
-		  String rov1  = "[1:3],[4:10],[20:30]";
+		  String rov1  = "[1:10]";
 		  boolean result = RangeOfValues.rangeEquality(rov, rov1, DefaultRangeOfValuesEnum.INTEGER_NUMBERS);
 		  Assert.assertTrue(result);
 		  result = RangeOfValues.rangeEquality(rov, rov1, DefaultRangeOfValuesEnum.REAL_NUMBERS);
-		  Assert.assertFalse(result);
+		  Assert.assertTrue(result);
 	 }
 	 
 	 @Test
