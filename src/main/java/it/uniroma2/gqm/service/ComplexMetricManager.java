@@ -22,9 +22,7 @@ public interface ComplexMetricManager extends GenericManager<AbstractMetric, Lon
 	public QuestionMetric getQuestionMetric(AbstractMetric metric,Question question);
 	public List<String> getAvailableStatus(QuestionMetric questionMetric, User user);
 	public QuestionMetric saveQuestionMetric(QuestionMetric questionMetric);
-	public List<Double> getMeasuredMetricValues(Long metricId);
 	public List<String> getMetricInfo(Long metricId);
-	public boolean getSatisfaction(AbstractMetric m);
 	public AbstractMetric findMetricByName(String name);
 	public List<AbstractMetric> findMetricByMeasurementScaleType(MeasurementScaleTypeEnum type);
 	public List<AbstractMetric> findMetricByMeasurementScaleTypeExludingOneById(MeasurementScaleTypeEnum type, Long metricToExcludeId);

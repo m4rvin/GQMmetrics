@@ -100,23 +100,6 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 	 }
 
 	 @Override
-	 public List<Double> getMeasuredMetricValues(Long metricId)
-	 {
-		  AbstractMetric metric = get(metricId);
-		  List<Double> ret = new ArrayList<Double>();
-		  Iterator<Measurement> it = metric.getMeasurements().iterator();
-		  if (it.hasNext())
-		  {
-				while (it.hasNext())
-				{
-					 Measurement mm = it.next();
-					 ret.add(mm.getValue());
-				}
-		  }
-		  return ret;
-	 }
-
-	 @Override
 	 public List<String> getMetricInfo(Long metricId)
 	 {
 		  AbstractMetric metric = get(metricId);
@@ -128,36 +111,6 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  // TODO measurement scale
 		  ret.add("Collecting Type: " + (metric.getCollectingType()));
 		  return ret;
-	 }
-
-	 @Override
-	 public boolean getSatisfaction(SatisfyingCondition condition) //necessita di un satisfyingConditionTarget come input
-	 {
-		  //return m.isConditionReached(); 
-		  /*
-		   * prendere il riferimento alla satisfying condition e alla metrica e verificare se l'actual value soddisfa o no la condizione
-		   */
-		  AbstractMetric metric = condition.getTargets().iterator().next().getMetric();
-		  Double measuredValue = metric.getActualValue();
-		  
-		  SatisfyingConditionOperationEnum operation = condition.getSatisfyingConditionOperation();
-		  Double threshold = condition.getSatisfyingConditionValue();
-		  
-		  switch(operation)
-		  {
-   		  case EQUAL:
-   				return measuredValue == threshold;
-   		  case GREATER:
-   				return measuredValue > threshold;
-   		  case GREATER_OR_EQUAL:
-   				return measuredValue >= threshold;
-   		  case LESS:
-   				return measuredValue < threshold;
-   		  case LESS_OR_EQUAL:
-   				return measuredValue <= threshold;
-   		  case NOT_EQUAL:
-   				return measuredValue != threshold;
-		  }
 	 }
 
 	 @Override
