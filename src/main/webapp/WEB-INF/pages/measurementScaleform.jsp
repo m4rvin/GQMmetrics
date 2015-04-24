@@ -185,6 +185,8 @@
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
+				</c:if>
+				<c:if test="${measurementScale.id ne '0' and not used}">
 				<button type="submit" class="btn" name="delete">
 					<i class="icon-trash"></i>
 					<fmt:message key="button.delete" />
@@ -197,6 +199,7 @@
 		</div>
 	</form:form>
 </div>
+
 <script type="text/javascript">
 	$(document).ready(
 			function() {
