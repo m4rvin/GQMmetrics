@@ -48,7 +48,7 @@ public class RangeOfValuesManagerImpl extends GenericManagerImpl<RangeOfValues, 
 		return rangeOfValuesDao.save(rangeOfValues);
 	}
 
-	@Override
+	/*@Override
 	public JSONArray findBySupportedMeasurementScaleJSONized(
 			MeasurementScaleTypeEnum type) {
 		if (type != null) {
@@ -56,7 +56,7 @@ public class RangeOfValuesManagerImpl extends GenericManagerImpl<RangeOfValues, 
 					this.rangeOfValuesDao.findBySupportedMeasurementScale(type));
 		}
 		return null;
-	}
+	}*/
 
 	@Override
 	public boolean isUsed(Long id) {
@@ -66,7 +66,7 @@ public class RangeOfValuesManagerImpl extends GenericManagerImpl<RangeOfValues, 
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public List<Object> findBySupportedMeasurementScale(
 			MeasurementScaleTypeEnum type) {
 		if (type != null) {
@@ -82,6 +82,6 @@ public class RangeOfValuesManagerImpl extends GenericManagerImpl<RangeOfValues, 
   			return this.rangeOfValuesDao.findBySupportedMeasurementScaleOBJ(type);
   		}
   		return null;
-   }
+   }*/
    
 }

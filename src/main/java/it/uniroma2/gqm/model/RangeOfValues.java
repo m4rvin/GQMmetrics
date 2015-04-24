@@ -25,7 +25,9 @@ import org.appfuse.model.BaseObject;
 
 @Entity
 @Table(name = "range_of_values", uniqueConstraints = @UniqueConstraint(columnNames = { "measurement_scale_type", "number_type", "range_values" }))
-@NamedQueries({ @NamedQuery(name = "findRangeOfValuesByProject", query = "select r from RangeOfValues r where r.project.id= :project_id "), @NamedQuery(name = "findRangeOfValuesBySupportedMeasurementScale", query = "select r.id, r.name from RangeOfValues r where r.measurementScaleType >= :measurementScaleType"), @NamedQuery(name = "findRangeOfValuesOBJBySupportedMeasurementScale", query = "select r from RangeOfValues r where r.measurementScaleType >= :measurementScaleType") })
+@NamedQueries({ 
+	@NamedQuery(name = "findRangeOfValuesByProject", query = "select r from RangeOfValues r where r.project.id= :project_id "), 
+})
 public class RangeOfValues extends BaseObject
 {
 
@@ -53,9 +55,6 @@ public class RangeOfValues extends BaseObject
 
 	 @Column(name = "range_values")
 	 private String rangeValues;
-
-	 @Column(name = "measurement_scale_type")
-	 private MeasurementScaleTypeEnum measurementScaleType;
 
 	 // optional
 	 @Column(name = "is_finite")
@@ -146,20 +145,10 @@ public class RangeOfValues extends BaseObject
 		  this.project = project;
 	 }
 
-	 public MeasurementScaleTypeEnum getMeasurementScaleType()
-	 {
-		  return measurementScaleType;
-	 }
-
-	 public void setMeasurementScaleType(MeasurementScaleTypeEnum measurementScaleType)
-	 {
-		  this.measurementScaleType = measurementScaleType;
-	 }
-
 	 @Override
 	 public String toString()
 	 {
-		  return "RangeOfValues [id=" + id + ", name=" + name + ", defaultRange=" + defaultRange + ", numeric=" + numeric + ", numberType=" + numberType + ", range=" + range + ", rangeValues=" + rangeValues + ", measurementScaleType=" + measurementScaleType + ", isFinite=" + isFinite + ", project=" + project + "]";
+		  return "RangeOfValues [id=" + id + ", name=" + name + ", defaultRange=" + defaultRange + ", numeric=" + numeric + ", numberType=" + numberType + ", range=" + range + ", rangeValues=" + rangeValues + ", isFinite=" + isFinite + ", project=" + project + "]";
 	 }
 
 	 @Override
@@ -170,7 +159,6 @@ public class RangeOfValues extends BaseObject
 		  result = prime * result + (defaultRange ? 1231 : 1237);
 		  result = prime * result + (int) (id ^ (id >>> 32));
 		  result = prime * result + (isFinite ? 1231 : 1237);
-		  result = prime * result + ((measurementScaleType == null) ? 0 : measurementScaleType.hashCode());
 		  result = prime * result + ((name == null) ? 0 : name.hashCode());
 		  result = prime * result + ((numberType == null) ? 0 : numberType.hashCode());
 		  result = prime * result + (numeric ? 1231 : 1237);
@@ -191,16 +179,8 @@ public class RangeOfValues extends BaseObject
 		  if (this.defaultRange != ((RangeOfValues) o).defaultRange)
 				return false;
 		  else if (this.defaultRange && this.numberType.equals(((RangeOfValues) o).numberType))
-		  {
-				if (this.measurementScaleType != null)
-				{
-					 if (this.measurementScaleType == ((RangeOfValues) o).measurementScaleType)
-						  return true;
-					 else
-						  return false;
-				}
 				return true;
-		  } else if (!this.defaultRange)
+		  else if (!this.defaultRange)
 		  {
 				if (this.numeric != ((RangeOfValues) o).numeric)
 					 return false;

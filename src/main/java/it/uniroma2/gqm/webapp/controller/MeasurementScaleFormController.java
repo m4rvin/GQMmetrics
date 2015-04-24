@@ -99,6 +99,10 @@ public class MeasurementScaleFormController extends BaseFormController
 		  }
 		  List<Unit> units = this.unitManager.getAll();
 		  model.addAttribute("units", units);
+		  
+		  List<RangeOfValues> rovs = this.rangeOfValuesManager.findByProject((Project)session.getAttribute("currentProject"));
+		  model.addAttribute("supportedRangeOfValues", rovs);
+
 	 }
 
 	 @RequestMapping(value = ViewName.measurementScaleForm, method = RequestMethod.GET)
@@ -140,12 +144,9 @@ public class MeasurementScaleFormController extends BaseFormController
 		  String type = request.getParameter("type");
 		  if (!StringUtils.isBlank(type))
 		  {
-				Map<String, JSONArray> responseMap = new HashMap<String, JSONArray>();
-				responseMap.put("rangeOfValues", this.rangeOfValuesManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.valueOf(type)));
-				responseMap.put("operation", this.defaultOperationManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.valueOf(type)));
-				JSONObject allowedValues = new JSONObject(responseMap);
-				System.out.println("query result : " + allowedValues.toString());
-				return allowedValues.toString();
+				JSONArray allowedOperations =  this.defaultOperationManager.findBySupportedMeasurementScaleJSONized(MeasurementScaleTypeEnum.valueOf(type));
+				System.out.println("query result : " + allowedOperations.toString());
+				return allowedOperations.toString();
 		  }
 		  return null;
 	 }
@@ -278,9 +279,6 @@ public class MeasurementScaleFormController extends BaseFormController
 
 	 private void populateModel(Model model, MeasurementScaleTypeEnum type)
 	 {
-		  List<RangeOfValues> rovs = this.rangeOfValuesManager.findBySupportedMeasurementScaleOBJ(type);
-		  model.addAttribute("supportedRangeOfValues", rovs);
-
 		  List<DefaultOperation> defops = this.defaultOperationManager.findBySupportedMeasurementScaleOBJ(type);
 		  model.addAttribute("supportedOperations", defops);
 	 }
