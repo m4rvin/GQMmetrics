@@ -126,9 +126,16 @@ public class SatisfyingCondition extends BaseObject
 		  this.satisfyingConditionOwner = satisfyingConditionOwner;
 	 }
 	 
-	 
+	 /**
+	  * Function which evaluate the measured value
+	  * @param measuredValue
+	  * @return true if <b>measuredValue</b> satisfies the condition ,false otherwise
+	  * @throws IllegalArgumentException if <b>measuredValue</b> is not a valid number, null or Double.MIN_VALUE
+	  */
 	 public boolean getSatisfaction(Double  measuredValue)
 	 {
+		  if(measuredValue == null || measuredValue == Double.MIN_VALUE)
+				throw new IllegalArgumentException("The metric has not a valid associated measurement, then it is not evaluable");
 		  
 		  Double threshold = this.satisfyingConditionValue;
 		  
