@@ -69,27 +69,47 @@ public class BinaryTableController {
         this.projectManager = projectManager;
     }
     
+    
+    //==== GQM+S+MS changes
+    /**
+     * Evaluate and set the status for an OrganizationalGoal. 
+     * Retrieve each MeasurementGoal associated to OG and evaluate it using only metrics that have SatisfyingCondition assigned and have been measured.
+     * @param goalToEvaluate The OrganizationalGoal to evaluate
+     * @param mgs The MeasurementGoal associated to the OrganizationalGoal to evaluate
+     */
     public void setGoalStatus(BinaryElement goalToEvaluate, Set<Goal> mgs){
     	
     	boolean satisfyAll = true;
     	
-    	//Recupero tutte le metriche associate ad ogni MG
+    	//Evaluate each measurement goal associated to the passed OG (goalToEvaluate)
         for (Goal mg : mgs) {
         	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
         	
         	if (metrics.size() > 0) {
         		boolean satisfy = true;
-            	//Calcolo valore di soddisfacimento (1 o 0)
-                for(AbstractMetric m: metrics){
+        		boolean evaluable = false;
+        		//retrieve the metrics associated to the MG through a question 
+        		for(AbstractMetric m: metrics){
                	  List<SatisfyingCondition> satisfyingConditions = this.satisfyingConditionManager.findByProjectGoalMetric(mg.getProject(), mg, m);
+               	  //evaluate only the metrics with an assigned Satisfying Condition
                	  for(SatisfyingCondition sc: satisfyingConditions)
                	  {
-               			satisfy &= sc.getSatisfaction(m.getActualValue());
+               		try{
+           				satisfy &= sc.getSatisfaction(m.getActualValue());
    	                	satisfyAll &= satisfy;
+   	                	evaluable = true;
+               		}
+               		catch (IllegalArgumentException exc){
+               			//a metric with an associated SatisfyingCondition returned an error. The Goal cannot be correctly evaluated. 
+               			goalToEvaluate.setValue(-1); //error value
+               			String newMessage = "The metric with name: " + m.getName() + " has returned the following error: \n" + exc.getMessage() + "\n The associated MeasurementGoal is not evaluable.";
+               			throw new IllegalArgumentException(newMessage);
+               		}
                	  }
-               	  if(satisfyingConditions.size() == 0)
-               		satisfyAll = false;
                 }
+        		if(!evaluable)//no metric with a satisfying condition associated found. The Goal is not evaluable.
+               		satisfyAll = false;
+
                 if(satisfyAll)
                 	goalToEvaluate.setValue(1);
                 else
@@ -97,9 +117,11 @@ public class BinaryTableController {
 			} else {
 				goalToEvaluate.setValue(0);
 			}
-        	
 		}
     }
+    
+    //==== GQM+S+MS changes
+
 	
 	@ModelAttribute
     @RequestMapping(method = RequestMethod.GET)
@@ -124,70 +146,34 @@ public class BinaryTableController {
         	mgs = ret.getAssociatedMGs();
         	
             BinaryElement mainGoal = new BinaryElement(ret, 0);
-            setGoalStatus(mainGoal, mgs);
-			//Recupero tutte le metriche associate ad ogni MG
-            /*for (Goal mg : mgs) {
-            	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
-            	
-            	if (metrics.size() > 0) {
-            		boolean satisfy = true;
-	            	//Calcolo valore di soddisfacimento (1 o 0)
-	                for(AbstractMetric m: metrics){
-	               	  List<SatisfyingCondition> satisfyingConditions = this.satisfyingConditionManager.findByProjectGoalMetric(mg.getProject(), mg, m);
-	               	  for(SatisfyingCondition sc: satisfyingConditions)
-	               	  {
-	               			satisfy &= sc.getSatisfaction(m.getActualValue());
-	   	                	satisfyAll &= satisfy;
-	               	  }
-	               	  if(satisfyingConditions.size() == 0)
-	               		satisfyAll = false;
-	                }
-	                if(satisfyAll)
-	                	mainGoal.setValue(1);
-	                else
-	                	mainGoal.setValue(0);
-				} else {
-					mainGoal.setValue(0);
-				}
-            	
-    		}*/
-        	
+            String fatherErrorMessage = null;
+            try{
+            	setGoalStatus(mainGoal, mgs);
+            }
+            catch(IllegalArgumentException exc){
+            	fatherErrorMessage = exc.getMessage();
+            }
+            
             Set<BinaryElement> childGoal = new HashSet<BinaryElement>();
- 
+
             //Recupera la lista degli OG figli di questo OG
             Set<Goal> set = binaryManager.findOGChildren(goalManager.get(Long.parseLong(id)));
-            
+            String childErrorMessage = null;
+
             for (Goal g : set) {
             	mgs.clear();
-            	
             	//Recupera associazioni con MG
             	mgs = g.getAssociatedMGs();
             	
                 BinaryElement gGoal = new BinaryElement(g, 0);
 
-                setGoalStatus(gGoal, mgs);
-
-				//Recupero tutte le metriche associate ad ogni MG
-	            /*for (Goal mg : mgs) {
-	            	List<AbstractMetric> metrics = goalManager.getMeasuredMetricByGoal(mg);
-	            	
-	            	boolean satisfy = true;
-	            	if(metrics.size() > 0){
-  	            		//Calcolo valore di soddisfacimento (1 o 0)
-    	                for(AbstractMetric m: metrics){
-    	                	satisfy &= metricManager.getSatisfaction(m);
-    	                	satisfyAll &= satisfy;
-    	                }
-    	                if(satisfyAll) {
-    	                	gGoal.setValue(1);
-    	                } else {
-    	                	gGoal.setValue(0);
-    	                }
-	            	} else {
-	            		gGoal.setValue(0);
-	            	}
-	    		}
-    			*/
+                try{
+                    setGoalStatus(gGoal, mgs);
+                }
+                catch(IllegalArgumentException exc){
+                	childErrorMessage = exc.getMessage();
+                    break;
+                }
             	childGoal.add(gGoal);
 			}
             
@@ -197,7 +183,7 @@ public class BinaryTableController {
     			System.out.println(s.getDescription());
     		}
     		
-    		Set<String> suggestions = getSuggestion(mainGoal, childGoal);
+    		Set<String> suggestions = getSuggestion(mainGoal, childGoal, fatherErrorMessage, childErrorMessage);
            
     		model.addAttribute("suggestions", suggestions);
     		model.addAttribute("mainGoal", mainGoal);
@@ -245,7 +231,7 @@ public class BinaryTableController {
 		return false;
 	}
 	
-	public Set<String> getSuggestion(BinaryElement b, Set<BinaryElement> setB){
+	public Set<String> getSuggestion(BinaryElement b, Set<BinaryElement> setB, String fatherErrorMessage, String ChildErrorMessage){
 		
 		String s1 = "Enforce strategies";
 		String s2 = "Strategies not sufficient or not effective";
@@ -258,6 +244,19 @@ public class BinaryTableController {
 		
 		boolean valueSetB = true;
 		Set<String> suggestions = new HashSet<String>();
+		
+	    //==== GQM+S+MS changes
+
+		if(fatherErrorMessage != null){
+			suggestions.add(fatherErrorMessage);
+			return suggestions;
+		}
+		else if(ChildErrorMessage != null){
+			suggestions.add(ChildErrorMessage);
+			return suggestions;
+		}
+	    //==== END GQM+S+MS changes
+
 		
 		for (BinaryElement elto : setB){
 			if(elto.getValue() == 0)
