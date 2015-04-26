@@ -63,7 +63,7 @@ public class MeasurementScale extends BaseObject
 	 @Override
 	 public String toString()
 	 {
-		  return "MeasurementScale [id=" + id + ", name=" + name + ", rangeOfValues=" + rangeOfValues + ", operations=" + operations + ", type=" + type + ", project=" + project + "]";
+		  return "MeasurementScale [id=" + id + ", name=" + name + ", description=" + description + ", rangeOfValues=" + rangeOfValues + ", operations=" + operations + ", type=" + type + ", project=" + project + ", measurementUnit=" + measurementUnit + "]";
 	 }
 	 
 	 public String toHumanReadableDescription(){

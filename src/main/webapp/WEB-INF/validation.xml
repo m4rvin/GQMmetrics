@@ -158,9 +158,6 @@
             <field property="name" depends="required">
                 <arg key="rangeOfValues.name"/>
             </field>
-            <field property="measurementScaleType" depends="required">
-                <arg key="rangeOfValues.measurementScaleType"/>
-            </field>
         </form>
         <form name="measurementScale">
         	<field property="project" depends="required">

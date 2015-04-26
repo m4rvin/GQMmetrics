@@ -1202,7 +1202,16 @@
             <value description="physical">time</value>
             <value description="base_unit">F</value>
             <value description="multiples">86400</value>
-        </row>                                                                   
+        </row> 
+        <row>
+            <value description="unit_id">1</value>
+            <value description="name">Custom</value>                       
+            <value description="symbol">NULL</value>
+            <value description="physical">NULL</value>
+            <value description="base_unit">T</value>
+            <value description="multiples">0</value>
+        </row> 
+                                                                          
 	</table>
     <table name="scale">
         <column>scale_id</column>

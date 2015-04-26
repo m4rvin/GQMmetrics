@@ -197,6 +197,12 @@ public class MeasurementScaleFormController extends BaseFormController
 		  
 		  System.out.println(measurementScale);
 		  try{
+				Unit unit = measurementScale.getMeasurementUnit();
+				  if(measurementScale.getMeasurementUnit().getId() == null)
+				  {
+						 unit = unitManager.save(unit);
+						 measurementScale.setMeasurementUnit(unit);
+				  }
 			  measurementScale = this.measurementScaleManager.save(measurementScale);
 		  }
 		  catch(DataIntegrityViolationException e){
@@ -211,6 +217,7 @@ public class MeasurementScaleFormController extends BaseFormController
 			  }
 			  return ViewName.measurementScaleForm;
 		  }
+		  
 		  status.setComplete();
 		  return getSuccessView();
 	 }
@@ -262,15 +269,50 @@ public class MeasurementScaleFormController extends BaseFormController
 	 private class MeasurementUnitEditorSupport extends PropertyEditorSupport
 	 {
 		  @Override
+		  public String getAsText()
+		  {
+				 Unit unit = (Unit) this.getValue();
+				 if(unit != null)
+				 {
+					  if(unit.getId() == null)
+						 {
+							  return unit.getName();
+						 }
+						 else
+							  return unit.toString();
+				 }
+				 return null;
+		  }
+		  
+		  @Override
 		  public void setAsText(String text)
 		  {
 				if (text != null && !text.equals(""))
 				{
 					 Unit unit = null;
+					 String[] formResult = text.split(",");
+					 
+					 Long unit_id = new Long(formResult[0]);
+					
 					 try
 					 {
-						  unit = unitManager.get(new Long(text));
-						  setValue(unit);
+						  if(unit_id == 1)
+						  {
+								 String unit_custom_name = formResult[1];
+								if(!unit_custom_name.equals(""))
+								{
+									 unit = new Unit();
+									 unit.setName(unit_custom_name);
+									 setValue(unit);
+								}
+								else
+									 setValue(null);
+						  }
+						  else
+						  {
+								unit = unitManager.get(new Long(formResult[0]));
+								setValue(unit);
+						  }
 					 }
 					 catch(Exception e)
 					 {

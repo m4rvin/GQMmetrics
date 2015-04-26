@@ -103,10 +103,34 @@
 					<form:select path="measurementUnit"
 						disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
 						<form:option value="" label="None" />
-						<form:options items="${units}" itemValue="id" itemLabel="name" />
+						<c:choose>
+							<c:when test="${empty measurementScale.measurementUnit.id}">
+								<c:forEach items="${units}" var="unit">
+								<c:choose>
+									<c:when test="${unit.id eq 1}">
+										<form:option value="${unit.id}" label="${unit.name}" selected="selected" />
+									</c:when>
+									<c:otherwise>
+										<form:option value="${unit.id}" label="${unit.name}"  />
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<form:options items="${units}" itemValue="id" itemLabel="name"/>
+							</c:otherwise>
+						</c:choose>
 					</form:select>
 					<form:errors path="measurementUnit" cssClass="help-inline" />
 				</div>
+			</div>
+
+			<div id="customUnit" style="display:${(empty measurementScale.measurementUnit.id) ? 'block' : 'none'}"
+				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
+				<div class="controls">
+					<form:input path="measurementUnit" id="customUnitInput" placeholder="Custom unit name" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" />
+				</div>
+				<form:errors path="measurementUnit" cssClass="help-inline" />
 			</div>
 		</spring:bind>
 
@@ -152,8 +176,9 @@
 				<div class="controls">
 					<form:select path="rangeOfValues" disabled="${used}">
 						<form:option value="" label="None" />
-						<form:options  items="${supportedRangeOfValues}" itemLabel="name" itemValue="id"/>
-					<!-- 	<c:forEach items="${supportedRangeOfValues}" var="rov">
+						<form:options items="${supportedRangeOfValues}" itemLabel="name"
+							itemValue="id" />
+						<!-- 	<c:forEach items="${supportedRangeOfValues}" var="rov">
 							<c:choose>
 								<c:when test="${measurementScale.rangeOfValues.id == rov.id}">
 									<form:option value="${rov.id}" label="${rov.name}"
@@ -185,8 +210,8 @@
 					<i class="icon-ok icon-white"></i>
 					<fmt:message key="button.save" />
 				</button>
-				</c:if>
-				<c:if test="${measurementScale.id ne '0' and not used}">
+			</c:if>
+			<c:if test="${measurementScale.id ne '0' and not used}">
 				<button type="submit" class="btn" name="delete">
 					<i class="icon-trash"></i>
 					<fmt:message key="button.delete" />
@@ -199,7 +224,6 @@
 		</div>
 	</form:form>
 </div>
-
 <script type="text/javascript">
 	$(document).ready(
 			function() {
@@ -208,7 +232,7 @@
 			});
 
 	function getSupportedValues() {
-		
+
 		currentLength = document.getElementById('operations').length;
 
 		if (currentLength > 0) //devo rimuovere le opzioni correnti prima di listare quelle nuove
@@ -244,4 +268,20 @@
 			});
 		}
 	}
+
+	$('#measurementUnit').on("change", function() {
+
+		var value = $(this).val();
+		console.log(value);
+		if (value == "1") //selected custom unit, need to show a input field
+		{
+			$('#customUnitInput').val('');
+			$('#customUnit').show();
+		}
+		else
+			{
+				$('#customUnit').hide();
+			}
+			
+	});
 </script>

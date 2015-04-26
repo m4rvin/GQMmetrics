@@ -74,7 +74,7 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 		  
 		  String metric_name = metric.getName();
-		  if(!metric_name.matches("^[a-zA-Z0-9]+$"))
+		  if(!metric_name.matches("^[0-9\\p{L}]+$"))
 				errors.rejectValue("name", "name", "name must be composed only by letters or numbers");
 
 		  String formula = metric.getFormula();
