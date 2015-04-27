@@ -592,11 +592,11 @@
 		<row>
             <value description="goal_id">1</value>
             <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Travel time]]></value>
+            <value description="description"><![CDATA[O1]]></value>
             <value description="type">0</value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
+            <value description="subject"></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
             <value description="context"></value>
             <value description="viewpoint"></value>
             <value description="impact_of_variation"></value>
@@ -604,11 +604,11 @@
             <value description="go_id">5</value>
             <value description="ge_id">6</value>
             <value description="refinement"></value>
-            <value description="activity">activity</value>
-            <value description="object">object</value>
-            <value description="magnitude">magnitude</value>
-            <value description="timeframe">2</value>
-            <value description="constraints">constraints</value>
+            <value description="activity">Activity</value>
+            <value description="object">What is the object under consideration?</value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
             <!-- <value description="associatedOG_goal_id">NULL</value>
             <value description="orgParent_goal_id">NULL</value>
             <value description="ostrategyParent_strategy_id">NULL</value> -->
@@ -617,255 +617,87 @@
         <row>
             <value description="goal_id">2</value>
             <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Travel time]]></value>
+            <value description="description"><![CDATA[M1]]></value>
             <value description="type">1</value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
+            <value description="subject"><![CDATA[What is the object under consideration?]]></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"><![CDATA[Context refers to an actual environmental characteristic. An assumption refers to a presumed, yet uncertain, aspect of the environment]]></value>
+            <value description="viewpoint"><![CDATA[The organizational unit representing the point of view]]></value>
+            <value description="impact_of_variation">Impact of variations</value>
             <value description="status">APPROVED</value>
             <value description="go_id">5</value>
             <value description="ge_id">6</value>
             <value description="refinement"></value>
-            <value description="activity"></value>
+            <value description="activity">Activity</value>
             <value description="object"></value>
-            <value description="magnitude"></value>
-            <value description="timeframe"></value>
-            <value description="constraints"></value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
             <value description="associatedOG_goal_id">1</value>
-            <!-- <value description="orgParent_goal_id">null</value>
-            <value description="ostrategyParent_strategy_id">null</value> -->
+     <!--   <value description="orgParent_goal_id">NULL</value>
+            <value description="ostrategyParent_strategy_id">NULL</value> -->
         </row>
-		
-        <!--<row>
-            <value description="goal_id">-1</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Travel time]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">APPROVED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <value description="strategy">-1</value>
-            <null/>
-        </row>
-        <row>
-            <value description="goal_id">-2</value>
-            <value description="project_id">-2</value>
-            <value description="description"><![CDATA[Test1]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to improve the service]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Reduce the travel time between Albano and Roma]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">PROPOSED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <null/>
-        </row>
-        <row>
-            <value description="goal_id">-3</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Quality of service]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to increase the quelity of the service]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Increase the quality of the service during the travel between Albano and Roma]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">APPROVED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <value description="strategy">-1</value>
-        </row>
-        <row>
-            <value description="goal_id">-4</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Quality of air conditioning]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to improve the quality of air conditioning in the railway wagon]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Increase the quality of travel between Albano and Roma]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">FOR_REVIEW</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"><![CDATA[Please change the scope]]></value>
-            <null/>
-        </row>
-        <row>
-            <value description="goal_id">-5</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Level of cleanliness]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to increase the cleaning of railway wagon]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the user]]></value>
-            <value description="impact_of_variation"><![CDATA[Increase the cleaning of railway wagon that start from Albano and arrive to Roma]]></value>
-            <value description="interpretation_model">1</value>
-            <value description="status">PROPOSED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <null/>
-        </row>      
-		<row>
-            <value description="goal_id">-6</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Number of railway]]></value>
-            <value description="type"><![CDATA[Business Gal]]></value>            
-            <value description="subject"><![CDATA[Rail service]]></value>
-            <value description="scope"><![CDATA[It is necessary to increase the number of railway]]></value>
-            <value description="focus"><![CDATA[Quality perceived by the user (less waiting taim in the railway station)]]></value>
-            <value description="context"><![CDATA[Trenitalia company of the Lazio region]]></value>
-            <value description="viewpoint"><![CDATA[This goal is seen from the point of view of the management]]></value>
-            <value description="impact_of_variation"><![CDATA[Increase the number of trains during peak time]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">ACCEPTED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <value description="strategy">-2</value>
-        </row> 
-        <row>
-            <value description="goal_id">-7</value>
-            <value description="project_id">-1</value>
-            <value description="description"><![CDATA[Test goal -7]]></value>
-            <value description="type"><![CDATA[Test goal -7]]></value>            
-            <value description="subject"><![CDATA[Test goal -7]]></value>
-            <value description="scope"><![CDATA[Test goal -7]]></value>
-            <value description="focus"><![CDATA[Test goal -7]]></value>
-            <value description="context"><![CDATA[Test goal -7]]></value>
-            <value description="viewpoint"><![CDATA[Test goal -7]]></value>
-            <value description="impact_of_variation"><![CDATA[Test goal -7]]></value>
-            <value description="interpretation_model">2</value>
-            <value description="status">DRAFT</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <value description="refinement"></value>
-            <value description="strategy">-1</value>
-            <null/>
-        </row>        
-		<row>
+        
+        
+        
+        
+      <!--  
+      TEMPLATE FOR ORGANIZATIONAL GOAL 1
+      
+       <row>
             <value description="goal_id">1</value>
-            <value description="project_id">1</value>
-            <value description="description"><![CDATA[Increase Customer Satisfaction]]></value>
-            <value description="type"><![CDATA[Business Goal]]></value>            
-            <null/>
-            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
-            <value description="focus"><![CDATA[Customer satisfaction]]></value>
-            <value description="context"><![CDATA[AAA]]></value>
-            <value description="viewpoint"><![CDATA[AAA]]></value>
-            <value description="impact_of_variation"><![CDATA[AAA]]></value>
-            <value description="interpretation_model">2</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Organizational G1]]></value>
+            <value description="type">0</value>            
+            <value description="subject"></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"></value>
+            <value description="viewpoint"></value>
+            <value description="impact_of_variation"></value>
             <value description="status">APPROVED</value>
             <value description="go_id">5</value>
             <value description="ge_id">6</value>
-            <null/>
-            <value description="strategy">2</value>
-            <value description="activity"><![CDATA[Increase]]></value>
-            <value description="object"><![CDATA[Product Jiano]]></value>
-            <value description="magnitude"><![CDATA[10% reduction in number of custmer complaints]]></value>
-            <value description="timeframe"><![CDATA[6 months after software release]]></value>
-		    <value description="constraints"><![CDATA[Jiano price and functionality]]></value>	
-            <value description="relations"><![CDATA[Can conflict with development other goals]]></value>        
-        </row>          
-		<row>
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object">What is the object under consideration?</value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <value description="associatedOG_goal_id">NULL</value>
+            <value description="orgParent_goal_id">NULL</value>
+            <value description="ostrategyParent_strategy_id">NULL</value>
+        </row>
+        
+        TEMPLATE FOR MEASUREMENT GOAL
+        
+        <row>
             <value description="goal_id">2</value>
-            <value description="project_id">1</value>
-            <value description="description"><![CDATA[Decrease reported software bugs ]]></value>
-            <value description="type"><![CDATA[Software Goal]]></value>            
-            <null/>
-            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
-            <value description="focus"><![CDATA[Reported software bugs]]></value>
-            <value description="context"><![CDATA[AAA]]></value>
-            <value description="viewpoint"><![CDATA[AAA]]></value>
-            <value description="impact_of_variation"><![CDATA[AAA]]></value>
-            <value description="interpretation_model">2</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[Measurement G1]]></value>
+            <value description="type">1</value>            
+            <value description="subject"><![CDATA[What is the object under consideration?]]></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"><![CDATA[Context refers to an actual environmental characteristic. An assumption refers to a presumed, yet uncertain, aspect of the environment]]></value>
+            <value description="viewpoint"><![CDATA[The organizational unit representing the point of view]]></value>
+            <value description="impact_of_variation">Impact of variations</value>
             <value description="status">APPROVED</value>
             <value description="go_id">5</value>
             <value description="ge_id">6</value>
-            <null/>
-            <value description="strategy">4</value>
-            <value description="activity"><![CDATA[Decrease]]></value>
-            <value description="object"><![CDATA[System test process for Jiano]]></value>
-            <value description="magnitude"><![CDATA[Decrease reported bugs by 20%]]></value>
-            <value description="timeframe"><![CDATA[6 months after software release (might check every week)]]></value>
-		    <value description="constraints"><![CDATA[Development cost and functionality]]></value>	
-            <value description="relations"><![CDATA[Can conflict with development other goals]]></value>
-            <value description="parent_id">1</value>        
-        </row>           
-		<row>
-            <value description="goal_id">3</value>
-            <value description="project_id">1</value>
-            <value description="description"><![CDATA[Decrease reported bugs by 20% compared to prior projects]]></value>
-            <value description="type"><![CDATA[Measurement Goal]]></value>            
-             <value description="subject"><![CDATA[System test process]]></value>
-            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
-            <value description="focus"><![CDATA[20% bug slippage compared to prior projects]]></value>
-            <value description="context"><![CDATA[Web product Division]]></value>
-            <value description="viewpoint"><![CDATA[Test Manager]]></value>
-            <value description="impact_of_variation"><![CDATA[Increase in the time of development and release of the software]]></value>
-            <value description="interpretation_model">1</value>
-            <value description="status">APPROVED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-		    <null/>	
-            <null/>
-            <value description="parent_id">2</value>        
-        </row>      
-		<row>
-            <value description="goal_id">4</value>
-            <value description="project_id">1</value>
-            <value description="description"><![CDATA[Analyze a pilot poject using a new system test process]]></value>
-            <value description="type"><![CDATA[Measurement Goal]]></value>            
-             <value description="subject"><![CDATA[System test process]]></value>
-            <value description="scope"><![CDATA[Web product Division, Jiano Project Manager]]></value>
-            <value description="focus"><![CDATA[Using the new pilot project there will must be a reduction of 20% compared to the previous version of the test process]]></value>
-            <value description="context"><![CDATA[Web product Division, Research and Development Division]]></value>
-            <value description="viewpoint"><![CDATA[Test Manager]]></value>
-            <value description="impact_of_variation"><![CDATA[build a prototype which could not be used in production environment]]></value>
-            <value description="interpretation_model">1</value>
-            <value description="status">APPROVED</value>
-            <value description="go_id">5</value>
-            <value description="ge_id">6</value>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
-		    <null/>	
-            <null/>
-            <value description="parent_id">2</value>        
-        </row>-->              
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object"></value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <value description="associatedOG_goal_id">1</value>
+       <value description="orgParent_goal_id">NULL</value>
+            <value description="ostrategyParent_strategy_id">NULL</value>
+        </row>
+         -->
+		
     </table>   
     <table name="goal_qs">
         <column>goal_id</column>
@@ -987,8 +819,8 @@
         <column>qso_id</column>
         <row>
             <value description="question_id">1</value>
-            <value description="name"><![CDATA[Number of train]]></value>
-            <value description="text"><![CDATA[How many trains run from 7 to 10?]]></value>
+            <value description="name"><![CDATA[Q1]]></value>
+            <value description="text"><![CDATA[Q1 description]]></value>
             <value description="project_id">-1</value>
             <value description="qso_id">7</value>
         </row>
