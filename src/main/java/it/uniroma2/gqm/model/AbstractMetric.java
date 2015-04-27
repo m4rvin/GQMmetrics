@@ -37,7 +37,8 @@ import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 		  @NamedQuery(name = "findByMeasurementScale", query = "select m from AbstractMetric m where m.measurementScale.id = :measurementScaleId"),
 		  @NamedQuery(name = "findMetricByMeasurementScaleType", query = "select m from AbstractMetric m where m.measurementScale.type <= :type" ),
 		  @NamedQuery(name = "findMetricByMeasurementScaleTypeExludingOneById", query = "select m from AbstractMetric m where m.measurementScale.type <= :type AND m.id <> :id" ),
-		  @NamedQuery(name = "findMetricByName", query = "select m from AbstractMetric m where m.name = :name")})
+		  @NamedQuery(name = "findMetricByName", query = "select m from AbstractMetric m where m.name = :name"),
+		  @NamedQuery(name = "findMetricByOwner", query = "select m from AbstractMetric m where m.metricOwner.id = :metricOwner_id")})
 @DiscriminatorColumn(name = "complexMetricType")
 @Table(name = "AbstractMetric", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "type", "measurement_scale_id", "collecting_type", "metric_formula"}))
 public class AbstractMetric extends BaseObject

@@ -71,11 +71,17 @@ public class SatisfyingConditionFormController extends BaseFormController
 	 }
 	 
 	 @ModelAttribute
-	 private void addModelAttributes(Model model, HttpSession session)
+	 private void addModelAttributes(Model model, HttpSession session, HttpServletRequest request)
 	 {
-		  Project project = this.projectManager.getCurrentProject(session);
-		  List<AbstractMetric> availableMetrics = this.metricManager.findAllByProject(project);
-		  model.addAttribute("availableMetrics", availableMetrics);
+		  this.projectManager.getCurrentProject(session);
+		  User currentUser = this.getUserManager().getUserByUsername(request.getRemoteUser());
+		  List<AbstractMetric> availableMetrics = this.metricManager.findMetricByOwner(currentUser);
+		  
+		  if(availableMetrics.size() > 0)
+				model.addAttribute("availableMetrics", availableMetrics);
+		  else
+				model.addAttribute("emptyAvailableMetrics", true);
+		  
 		  model.addAttribute("satisfyingOperations", new ArrayList<String>()); //need to add this attribute otherwise it is populated with all enum fields
 	 }
 	 

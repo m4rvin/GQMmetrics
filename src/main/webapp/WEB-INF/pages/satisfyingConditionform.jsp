@@ -16,6 +16,11 @@
 			</c:otherwise>
 		</c:choose>
 	</p>
+	<c:if test="${emptyAvailableMetrics eq true}">
+	<p>
+	You are not allowed to create a satisfying condition since you are not MMDM for any metric of this project
+	</p>
+	</c:if>
 	<c:if test="${not empty satisfyingCondition.satisfyingConditionOwner}">
 	<p><fmt:message key="satisfyingCondition.owner.message"/><b>&nbsp;&nbsp;&nbsp;${satisfyingCondition.satisfyingConditionOwner.fullName}</b></p>
 	</c:if>
@@ -226,11 +231,13 @@
        					if(response== "")
        						return;
        					
-       					jQuery('<div/>', {
+       					var helpbox = jQuery('<div/>', {
        					    id: 'targetInfoBox',
        					    title:"Satisfying Condition target info",
        					    text: response
-       					}).dialog();
+       					});
+       					helpbox.dialog();
+       					helpbox.dialog("option", "width", 380);
        				},
        				error : function(error) {
        					console.log(error);

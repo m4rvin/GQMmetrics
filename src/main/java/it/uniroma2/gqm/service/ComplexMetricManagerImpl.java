@@ -1,37 +1,25 @@
 package it.uniroma2.gqm.service;
 
 import it.uniroma2.gqm.dao.ComplexMetricDao;
-import it.uniroma2.gqm.dao.QuestionDao;
 import it.uniroma2.gqm.dao.QuestionMetricDao;
 import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
-import it.uniroma2.gqm.model.Goal;
-import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.GoalStatus;
-import it.uniroma2.gqm.model.Measurement;
 import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
-import it.uniroma2.gqm.model.SatisfyingCondition;
-import it.uniroma2.gqm.model.SatisfyingConditionOperationEnum;
-import it.uniroma2.gqm.model.SatisfyingConditionTarget;
 import it.uniroma2.gqm.model.SimpleMetric;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.jws.WebService;
 
 import org.appfuse.model.User;
 import org.appfuse.service.impl.GenericManagerImpl;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("complexMetricManager")
 @WebService(serviceName = "complexmetricservice", endpointInterface = "it.uniroma2.gqm.service.ComplexMetricManager")
@@ -179,5 +167,17 @@ public class ComplexMetricManagerImpl extends GenericManagerImpl<AbstractMetric,
 		  if(name != null)
 				return this.metricDao.findMetricByName(name);
 		  return null;
+	 }
+
+	 @Override
+	 public List<AbstractMetric> findMetricByOwner(User user)
+	 {
+		  if(user != null)
+		  {
+				Long owner_id = user.getId();
+				return this.metricDao.findMetricByOwner(owner_id);
+		  }
+		  else
+				return null;
 	 }
 }

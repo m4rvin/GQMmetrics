@@ -99,5 +99,12 @@ public class ComplexMetricDaoHibernate extends GenericDaoHibernate<AbstractMetri
 		  return (CombinedMetric) this.get(id);
 	 }
 
+	 @Override
+	 public List<AbstractMetric> findMetricByOwner(Long metricOwner_id)
+	 {
+		  Query q = getSession().getNamedQuery("findMetricByOwner").setLong("metricOwner_id", metricOwner_id);
+		  return q.list();
+	 }
+
 
 }
