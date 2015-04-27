@@ -13,9 +13,11 @@ import it.uniroma2.gqm.service.RangeOfValuesManager;
 import it.uniroma2.gqm.webapp.jsp.ViewName;
 
 import java.beans.PropertyEditorSupport;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +28,6 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.service.GenericManager;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -98,7 +99,18 @@ public class MeasurementScaleFormController extends BaseFormController
 		  {
 				this.projectManager.getCurrentProject(session);
 		  }
-		  List<Unit> units = this.unitManager.getAll();
+		  List<Unit> units = (ArrayList<Unit>) this.unitManager.getAll();
+		  
+		  Collections.sort(units, new Comparator<Unit>()
+		 {
+			  @Override
+			  public int compare(Unit o1, Unit o2)
+			  {
+					return (o1.getId() > o2.getId()) ? 1 : -1;
+			  }
+	
+		 });
+		  
 		  model.addAttribute("units", units);
 		  
 		  List<RangeOfValues> rovs = this.rangeOfValuesManager.findByProject((Project)session.getAttribute("currentProject"));
@@ -195,9 +207,10 @@ public class MeasurementScaleFormController extends BaseFormController
 				 measurementScale.setMeasurementUnit(null);
 			}*/
 		  
+		  Unit unit = null;
 		  System.out.println(measurementScale);
 		  try{
-				Unit unit = measurementScale.getMeasurementUnit();
+				unit = measurementScale.getMeasurementUnit();
 				  if(measurementScale.getMeasurementUnit().getId() == null)
 				  {
 						 unit = unitManager.save(unit);
@@ -207,6 +220,7 @@ public class MeasurementScaleFormController extends BaseFormController
 		  }
 		  catch(DataIntegrityViolationException e){
 			  System.err.println(e.getMessage());
+			  unitManager.remove(unit);
 			  if(e.getMessage().contains("name"))
 			  {
 				  model.addAttribute("duplicate_value", "A measurement scale with the same name already exists. Please change the name and retry.");
@@ -292,11 +306,11 @@ public class MeasurementScaleFormController extends BaseFormController
 					 Unit unit = null;
 					 String[] formResult = text.split(",");
 					 
-					 Long unit_id = new Long(formResult[0]);
-					
 					 try
 					 {
-						  if(unit_id == 1)
+						  Long unit_id = new Long(formResult[0]);
+						  
+						  if(unit_id == -12)
 						  {
 								 String unit_custom_name = formResult[1];
 								if(!unit_custom_name.equals(""))

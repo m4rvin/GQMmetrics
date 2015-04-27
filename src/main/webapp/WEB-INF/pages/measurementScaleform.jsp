@@ -104,10 +104,10 @@
 						disabled="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}">
 						<form:option value="" label="None" />
 						<c:choose>
-							<c:when test="${empty measurementScale.measurementUnit.id}">
+							<c:when test="${empty measurementScale.measurementUnit.id and not empty measurementScale.measurementUnit.name}">
 								<c:forEach items="${units}" var="unit">
 								<c:choose>
-									<c:when test="${unit.id eq 1}">
+									<c:when test="${unit.id eq -12}">
 										<form:option value="${unit.id}" label="${unit.name}" selected="selected" />
 									</c:when>
 									<c:otherwise>
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 
-			<div id="customUnit" style="display:${(empty measurementScale.measurementUnit.id) ? 'block' : 'none'}"
+			<div id="customUnit" style="display:${(empty measurementScale.measurementUnit.id and not empty measurementScale.measurementUnit.name) ? 'block' : 'none'}"
 				class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<div class="controls">
 					<form:input path="measurementUnit" id="customUnitInput" placeholder="Custom unit name" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}" />
@@ -273,7 +273,7 @@
 
 		var value = $(this).val();
 		console.log(value);
-		if (value == "1") //selected custom unit, need to show a input field
+		if (value == "-12") //selected custom unit, need to show a input field
 		{
 			$('#customUnitInput').val('');
 			$('#customUnit').show();
