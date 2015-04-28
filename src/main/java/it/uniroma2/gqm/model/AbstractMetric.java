@@ -62,7 +62,7 @@ public class AbstractMetric extends BaseObject
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
 	 protected Double actualValue = null;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
-	 protected Set<CombinedMetric> composerFor;
+	 protected Set<CombinedMetric> composerFor = new HashSet<CombinedMetric>();
 	 protected String formula;
 	 protected MetricOutputValueTypeEnum outputValueType;
 	 

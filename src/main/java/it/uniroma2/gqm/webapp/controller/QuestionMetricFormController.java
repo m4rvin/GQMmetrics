@@ -84,7 +84,7 @@ public class QuestionMetricFormController extends BaseFormController {
         }    
         
         // === GQM+S+MS changes
-        session.setAttribute("questionMetricStatus", ret.getStatus());
+        //session.setAttribute("questionMetricStatus", ret.getStatus());
         // === END GQM+S+MS changes
 
         List<String> availableStatus =metricManager.getAvailableStatus(ret, currentUser); 
@@ -100,7 +100,7 @@ public class QuestionMetricFormController extends BaseFormController {
                            HttpSession session, HttpServletResponse response) throws Exception {
         if (request.getParameter("cancel") != null) {
             // === GQM+S+MS changes
-            session.removeAttribute("questionMetricStatus");
+            //session.removeAttribute("questionMetricStatus");
             // === END GQM+S+MS changes
 
             return getCancelView();
@@ -132,17 +132,17 @@ public class QuestionMetricFormController extends BaseFormController {
             saveMessage(request, getText(key, locale));
 
             // === GQM+S+MS changes
-            if(metric.getClass().equals(CombinedMetric.class)){
+            /*if(metric.getClass().equals(CombinedMetric.class)){
 	            QuestionMetricStatus qmStatus_saved = (QuestionMetricStatus) session.getAttribute("questionMetricStatus");
 	            QuestionMetricStatus qmStatus_updated = questionMetric.getStatus();
 	            if(!qmStatus_saved.equals(qmStatus_updated) && qmStatus_updated.equals(QuestionMetricStatus.APPROVED)){
 	            	boolean dummytestvalue = FormulaHandler.evaluateFormula((CombinedMetric) metric, metricManager);
 	            	System.out.println("A new combined metric has been proposed. It has been evaluated and its formula evaluation returned: " + dummytestvalue);
 	            }
-            }
+            }*/
         }
         
-        session.removeAttribute("questionMetricStatus");
+        //session.removeAttribute("questionMetricStatus");
         // === END GQM+S+MS changes
 
         return getSuccessView();
