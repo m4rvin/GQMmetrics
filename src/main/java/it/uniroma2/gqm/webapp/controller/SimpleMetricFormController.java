@@ -201,7 +201,7 @@ public class SimpleMetricFormController extends BaseFormController
 	 {
 		  if (request.getParameter("cancel") != null)
 		  {
-			  status.setComplete();
+			  //status.setComplete();
 			  return getCancelView();
 		  }
 
@@ -253,7 +253,7 @@ public class SimpleMetricFormController extends BaseFormController
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));
 		  }
-		  status.setComplete();
+		  //status.setComplete();
 		  return success;
 	 }
 	 

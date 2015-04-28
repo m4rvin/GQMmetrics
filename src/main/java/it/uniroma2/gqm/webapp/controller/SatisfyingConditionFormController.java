@@ -123,7 +123,7 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  
 		  Locale locale = request.getLocale();
 		  if (request.getParameter("cancel") != null){
-			  status.setComplete();
+			  //status.setComplete();
 			  return getCancelView();
 		  }
 		  
@@ -172,7 +172,7 @@ public class SatisfyingConditionFormController extends BaseFormController
 	   		  satisfyingCondition = this.satisyfingConditionManager.save(satisfyingCondition); //save the entity and the children
 	   		  saveMessage(request, getText("satisfyingCondition.created", locale));
 		  }
-		  status.setComplete();
+		  //status.setComplete();
 		  return getSuccessView();
 	 }
 	 

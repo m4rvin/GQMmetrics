@@ -168,7 +168,7 @@ public class MeasurementScaleFormController extends BaseFormController
 	 public String onSubmit(@Valid @ModelAttribute MeasurementScale measurementScale, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model)
 	 {
 		  if (request.getParameter("cancel") != null){
-			  status.setComplete();
+			  //status.setComplete();
 			  return getCancelView();
 		  }
 
@@ -192,7 +192,7 @@ public class MeasurementScaleFormController extends BaseFormController
 				if(id != 0 && !this.measurementScaleManager.isUsed(id))
 					 {
 					 	this.measurementScaleManager.remove(id);
-					 	status.setComplete();
+					 	//status.setComplete();
 					 	return getSuccessView();
 					 }
 				
@@ -232,7 +232,7 @@ public class MeasurementScaleFormController extends BaseFormController
 			  return ViewName.measurementScaleForm;
 		  }
 		  
-		  status.setComplete();
+		  //status.setComplete();
 		  return getSuccessView();
 	 }
 

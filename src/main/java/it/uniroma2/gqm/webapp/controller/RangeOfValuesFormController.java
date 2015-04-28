@@ -127,7 +127,7 @@ public class RangeOfValuesFormController extends BaseFormController
 	 {
         if (request.getParameter("cancel") != null)
         {
-      		status.setComplete();
+      		//status.setComplete();
       		return getCancelView();
         }
 
@@ -171,7 +171,7 @@ public class RangeOfValuesFormController extends BaseFormController
 			  }
 			  return ViewName.rangeOfValuesForm;
 		  }
-		  status.setComplete();
+		  //status.setComplete();
 		  return getSuccessView();
 	 }
 	 

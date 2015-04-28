@@ -109,7 +109,7 @@ public class MeasurementFormController extends BaseFormController {
     throws Exception {
     	
         if (request.getParameter("cancel") != null) {
-  		  	status.setComplete();
+  		  	//status.setComplete();
             return getCancelView();
         }
         
@@ -177,7 +177,7 @@ public class MeasurementFormController extends BaseFormController {
             saveMessage(request, getText(key, locale));
         }
         
-		status.setComplete();
+		//status.setComplete();
         String success = getSuccessView();
         return success;
     }
