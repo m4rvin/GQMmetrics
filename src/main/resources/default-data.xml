@@ -1240,14 +1240,14 @@
 			<value description="metric_id">3</value>
 			<value description="aggregator" >AVG</value>        	        	
 		</row>
-		<row>
+		<!-- <row>
 			<value description="metric_id">7</value>
-			<!--<value description="aggregator" ></value> -->        	        	
+			<value description="aggregator" ></value>        	        	
 		</row>
 		<row>
 			<value description="metric_id">8</value>
 			<value description="aggregator" >AVG</value>        	        	
-		</row>
+		</row> -->
 	</table>
 	
 	<table name="combinedmetric">
@@ -1262,9 +1262,9 @@
 		<row>
 			<value description="metric_id">6</value>
 		</row>
-		<row>
+		<!-- <row>
 			<value description="metric_id">9</value>
-		</row>
+		</row> -->
 	</table>
 	
 	<table name="abstractmetric">
@@ -1359,7 +1359,7 @@
         	<value description="project_id" >-1</value>
         </row>
         
-        <row>
+        <!-- <row>
         	<value description="metric_id" >7</value>
 			<value description="code" >Simple metric 1 boolean</value>
         	<value description="collecting_type" >SINGLE_VALUE</value>
@@ -1394,7 +1394,7 @@
         	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>
         	<value description="project_id" >-1</value>
-        </row>
+        </row> -->
 <!--         
 <column>complexMetricType</column>
                   
@@ -1517,14 +1517,14 @@
         	<value description="metriccomposedby_id">6</value>
         	<value description="metriccomposerfor_id">5</value>
         </row>
-        <row>
+        <!-- <row>
         	<value description="metriccomposedby_id">9</value>
         	<value description="metriccomposerfor_id">7</value>
         </row>
         <row>
         	<value description="metriccomposedby_id">9</value>
         	<value description="metriccomposerfor_id">8</value>
-        </row>
+        </row> -->
         
     </table>
     	              
@@ -1566,58 +1566,28 @@
         </row>   
         <row>
             <value description="metric_id">6</value>
-            <value description="question_id">1</value>
+            <value description="question_id">3</value>
             <value description="status">APPROVED</value>
             <!--<value description="refinement"></value>-->
         </row>   
-        <row>
+        <!-- <row>
             <value description="metric_id">7</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
+            <value description="refinement"></value>
         </row>  
         <row>
             <value description="metric_id">8</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
+            <value description="refinement"></value>
         </row>  
         <row>
             <value description="metric_id">9</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
-        </row>     
-        <!--<row>
-            <value description="metric_id">1</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>        
-        <row>
-            <value description="metric_id">2</value>
-            <value description="question_id">1</value>
-            <value description="status">APPROVED</value>
-        </row>
-		<row>
-            <value description="metric_id">2</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>    
-		<row>
-            <value description="metric_id">3</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>  
-		<row>
-            <value description="metric_id">4</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>   
-		<row>
-            <value description="metric_id">5</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>-->                            
+            <value description="refinement"></value>
+        </row>      -->
     </table>
 	<table name="measurement">
         <column>measurement_id</column>
