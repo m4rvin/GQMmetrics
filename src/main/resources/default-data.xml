@@ -895,6 +895,34 @@
             <value description="project_id">-1</value>
             <value description="qso_id">7</value>
         </row>
+         <row>
+            <value description="question_id">2</value>
+            <value description="name"><![CDATA[Q2]]></value>
+            <value description="text"><![CDATA[Q2 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">3</value>
+            <value description="name"><![CDATA[Q3]]></value>
+            <value description="text"><![CDATA[Q3 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">4</value>
+            <value description="name"><![CDATA[Q4]]></value>
+            <value description="text"><![CDATA[Q4 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">5</value>
+            <value description="name"><![CDATA[Q5]]></value>
+            <value description="text"><![CDATA[Q5 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
         <!--<row>
             <value description="question_id">-2</value>
             <value description="name"><![CDATA[Trip duration]]></value>
@@ -970,6 +998,31 @@
             <value description="status">APPROVED</value>  
             <value description="refinement"></value>                       
         </row>
+        <row>
+            <value description="question_id">2</value>
+            <value description="goal_id">2</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">3</value>
+            <value description="goal_id">4</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">4</value>
+            <value description="goal_id">6</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">5</value>
+            <value description="goal_id">6</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        
         <!--<row>
             <value description="question_id">-1</value>
             <value description="goal_id">-3</value>

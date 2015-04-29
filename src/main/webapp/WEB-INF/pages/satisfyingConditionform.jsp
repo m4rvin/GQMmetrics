@@ -17,9 +17,11 @@
 		</c:choose>
 	</p>
 	<c:if test="${emptyAvailableMetrics eq true}">
+	<div style="color:#FF0000">
 	<p>
 	You are not allowed to create a satisfying condition since you are not MMDM for any metric of this project
 	</p>
+	</div>
 	</c:if>
 	<c:if test="${not empty satisfyingCondition.satisfyingConditionOwner}">
 	<p><fmt:message key="satisfyingCondition.owner.message"/><b>&nbsp;&nbsp;&nbsp;${satisfyingCondition.satisfyingConditionOwner.fullName}</b></p>
