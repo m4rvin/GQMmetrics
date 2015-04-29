@@ -48,7 +48,7 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="satisfyingCondition.metric" />
 			<div class="controls">
-				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations()" >
+				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations();" >
 				<option value="" label="None" />
 				<c:forEach items="${availableMetrics}" var="metric">
 					<c:choose>
@@ -82,7 +82,7 @@
 							</c:forEach>
 							<c:choose>
 								<c:when test="${found}">
-									<option id="prova" label="${target}" value="${target}" selected="selected"/>
+									<option id="prova" label="${target}" value="${target}" selected="selected" onmouseup="var that = this; showTargetInfo(event, that);"/>
 								</c:when>
 								<c:otherwise>
 									<option id="prova" label="${target}" value="${target}" />
@@ -208,15 +208,22 @@
 		}
 	}
 	
-	function showTargetInfo(e){
+	function showTargetInfo(e, t){
 
+		console.log(t);
+		
+		if(t == undefined)
+			t = this;
+		
 		switch(e.which)
 	    {
 	        
 	        case 2:
 	            //middle Click
 	           	console.log("mouse middle click");
-	            var target = $(this).text();
+	            
+	            var target = t.value;
+
 	            console.log("getting info for target: " + target);
 	             
            		$.ajax({
