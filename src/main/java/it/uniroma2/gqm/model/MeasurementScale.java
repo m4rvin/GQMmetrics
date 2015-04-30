@@ -19,6 +19,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import org.appfuse.model.BaseObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Entity
 @Table(name="measurement_scale", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "measurementScale_type", "rangeofvalues_id" }))
@@ -70,6 +72,18 @@ public class MeasurementScale extends BaseObject
 		 return "name: "+ this.name + ", description: " + this.description + ", measurementscaletype: " + this.type.toString() + ", supported operations: " + toHumanReadableOperationList() + ", range of values name: " + this.rangeOfValues.getName() ;
 	 }
 	 
+	 public JSONObject toJSONObject()
+	 {
+		 JSONObject measurementScaleInfo = new JSONObject();
+		 measurementScaleInfo.append("name", this.name);
+		 measurementScaleInfo.append("description", this.description);
+		 measurementScaleInfo.append("measurementscaletype", this.type.toString());
+		 measurementScaleInfo.append("supportedOperations", toJSONOperationListNames());
+		 measurementScaleInfo.append("rangeOfValuesName", this.rangeOfValues.getName());
+		 return measurementScaleInfo;
+
+	 }
+	 
 	 public String toHumanReadableOperationList(){
 		 String operationDescription = "_";
 		 
@@ -78,6 +92,17 @@ public class MeasurementScale extends BaseObject
 			 operationDescription += op.getOperation() + "_";
 		 }
 		 return operationDescription;
+	 }
+	 
+	 public JSONArray toJSONOperationListNames()
+	 {
+		 JSONArray opList = new JSONArray();
+		 
+		 for(DefaultOperation op: this.operations)
+		 {
+			 opList.put(op.getOperation());
+		 }
+		 return opList;
 	 }
 
 	 public MeasurementScaleTypeEnum getType()

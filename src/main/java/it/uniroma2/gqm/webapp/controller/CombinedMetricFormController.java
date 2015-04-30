@@ -322,7 +322,7 @@ public class CombinedMetricFormController extends BaseFormController
 	 public String getMeasurementScaleInfo(HttpServletRequest request)
 	 {
 		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
-		  String info = measurementScale.toHumanReadableDescription();
+		  String info = measurementScale.toJSONObject().toString();
 
 		  System.out.println("retrieved measurement scale info: " + info);
 		  return info;

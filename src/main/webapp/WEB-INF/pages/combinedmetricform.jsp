@@ -471,11 +471,24 @@
 				},
 				contentType : "application/json",
 				success : function(response) {
-					jQuery('<div/>', {
-					    id: 'dialogInstructions',
-					    title:"MeasurementScale info",
-					    text: response
-					}).dialog();
+					var measurementScaleInfo = jQuery.parseJSON(response);
+					console.log(response);
+					var divHeader = "<div id='dialogInstructions' title='MeasurementScale info'>";
+					var name = "<b>name: </b> " + measurementScaleInfo.name + "<br>";
+					var description = "<b>description: </b> " + measurementScaleInfo.description + "<br>";
+					var type = "<b>type: </b>" + measurementScaleInfo.measurementscaletype + "<br>";
+					var operations = "<b>supported operations: </b>";
+					var operationsArray = measurementScaleInfo.supportedOperations;
+					for( op in operationsArray)
+					{
+						operations += operationsArray[op] + ","		
+					}
+					operations = operations.substr(0, operations.length-1);
+					operations += "<br>";
+					var rangeOfValuesName = "<b>range of values name: </b>" + measurementScaleInfo.rangeOfValuesName;
+					var divFooter = "</div>";
+					
+					return $(divHeader + name + description + type + operations + rangeOfValuesName + divFooter).dialog();
 				},
 				error : function(error) {
 					console.log(error);
