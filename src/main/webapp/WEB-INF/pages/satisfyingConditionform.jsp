@@ -240,13 +240,47 @@
        					if(response== "")
        						return;
        					
-       					var helpbox = jQuery('<div/>', {
+       					var targetInfo = jQuery.parseJSON(response);
+       					
+    					var divHeader = "<div id='targetInfoBox' title='Satisfying Condition target info'>";
+    					
+    					var goalInfo = targetInfo.goal;
+    					var divGoalHeader = "<div>GOAL<br>";
+    					var goalId = "<b>goal id: </b>" + goalInfo.id + "<br>";
+    					var goalName = "<b>goal name: </b> " + goalInfo.name + "<br>";
+    					var divGoalFooter = "</div><br>";
+    					
+    					var questionInfo = targetInfo.question;
+    					var divQuestionHeader = "<div>QUESTION<br>";
+    					var questionId = "<b>question id: </b>" + questionInfo.id + "<br>";
+    					var questionName = "<b>question name: </b> " + questionInfo.name + "<br>";
+    					var divQuestionFooter = "</div><br>";
+    					
+       					var metricInfo = targetInfo.metric;
+    					var divMetricHeader = "<div>METRIC<br>";
+    					var metricType = "<b>metric type: </b>" + metricInfo.type + "<br>";
+    					var metricName = "<b>name: </b> " + metricInfo.name + "<br>";
+    					var metricFormula = "<b>formula: </b>" + metricInfo.formula;
+    					var divMetricFooter = "</div>";
+
+    					var divFooter = "</div>";
+    					var goalBox = divGoalHeader + goalId + goalName + divGoalFooter;
+    					var questionBox = divQuestionHeader +questionId + questionName +divQuestionFooter;
+    					var metricBox = divMetricHeader + metricType + metricName + metricFormula + divMetricFooter;
+    					return $(divHeader + "<ul><li>" + goalBox + "</li><li>" +questionBox + "</li><li>" + metricBox + "</li></ul>" + divFooter).dialog();
+       					
+       					
+       					
+       					
+       					
+       					
+       					/* var helpbox = jQuery('<div/>', {
        					    id: 'targetInfoBox',
-       					    title:"Satisfying Condition target info",
+       					    title:"",
        					    text: response
        					});
        					helpbox.dialog();
-       					helpbox.dialog("option", "width", 380);
+       					helpbox.dialog("option", "width", 380); */
        				},
        				error : function(error) {
        					console.log(error);

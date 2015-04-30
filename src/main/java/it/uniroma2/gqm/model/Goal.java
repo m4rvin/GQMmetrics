@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
+import org.json.JSONObject;
 
 @Entity
 @NamedQueries({
@@ -220,6 +221,11 @@ public class Goal extends BaseObject {
 	@Override
 	public String toString() {
 		return "Goal [id=" + id + ", description=" + description + "]";
+	}
+	
+	public JSONObject toJSON()
+	{
+		return new JSONObject().put("id", this.id).put("name", this.description);
 	}
 
 	@Enumerated(EnumType.STRING)
