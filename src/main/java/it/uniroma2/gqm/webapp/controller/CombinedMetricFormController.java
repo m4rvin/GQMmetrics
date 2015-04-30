@@ -333,7 +333,7 @@ public class CombinedMetricFormController extends BaseFormController
 	 public String getMetricInfo(HttpServletRequest request)
 	 {
 		  AbstractMetric metric = this.metricManager.findMetricByName(request.getParameter("metricId"));
-		  String info = metric.toString();
+		  String info = metric.toJSON().toString();
 
 		  System.out.println("retrieved measurement scale info: " + info);
 		  return info;

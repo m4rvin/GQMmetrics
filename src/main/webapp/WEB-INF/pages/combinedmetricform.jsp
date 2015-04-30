@@ -391,7 +391,8 @@
     			
     		case 2:
     			console.log("middle click on AvailableMetricCompos");
-    			var metricId = $('#availableMetricComposersList option').val();
+    			console.log(this.value);
+    			var metricId = this.value;
     			$.ajax({
     				type : "GET",
     				url : "combinedmetricformInfoAjax",
@@ -400,11 +401,14 @@
     				},
     				contentType : "application/json",
     				success : function(response) {
-    					jQuery('<div/>', {
-    					    id: 'dialogInstructions',
-    					    title:"Composer metric info",
-    					    text: response
-    					}).dialog();
+    					var metricInfo = jQuery.parseJSON(response);
+    					var divHeader = "<div id='dialogInstructions' title='Composer metric info'>";
+    					var type = "<b>metric type: </b>" + metricInfo.type + "<br>";
+    					var name = "<b>name: </b> " + metricInfo.name + "<br>";
+    					var formula = "<b>formula: </b>" + metricInfo.formula;
+    					var divFooter = "</div>";
+    					
+    					return $(divHeader + type + name + formula + divFooter).dialog();
     				},
     				error : function(error) {
     					console.log(error);
@@ -429,11 +433,10 @@
     }
     
 	function showFormulaInputInstructions(){
-		jQuery('<div/>', {
-		    id: 'dialogInstructions',
-		    title:"Formula input instructions",
-		    text: "Insert your formula operations as a text.Add an existing metric to the formula by clicking on it on the list of available metrics displayed below. Refer to the current measured value as _this_"
-		}).dialog();
+		var divHeader = "<div id='dialogInstructions' title='Formula input instructions'>";
+		var text = "<ul><li>Insert your formula operations as a text.</li> <li>Add an existing metric to the formula by clicking on it on the list of available metrics displayed below.</li> <li>Refer to the current measured value as <b>_this_</b></li></ul>";
+		var divFooter = "</div>";
+		return $( divHeader + text + divFooter).dialog();
 	}
 	
 	// get param from the URL
@@ -507,11 +510,15 @@
 			},
 			contentType : "application/json",
 			success : function(response) {
-				jQuery('<div/>', {
-				    id: 'dialogInstructions',
-				    title:"MeasurementScale info",
-				    text: response
-				}).dialog();
+				var metricInfo = jQuery.parseJSON(response);
+				var divHeader = "<div id='dialogInstructions' title='Composer metric info'>";
+				var type = "<b>metric type: </b>" + metricInfo.type + "<br>";
+				var name = "<b>name: </b> " + metricInfo.name + "<br>";
+				var formula = "<b>formula: </b>" + metricInfo.formula;
+				var divFooter = "</div>";
+				
+				return $(divHeader + "not used anymore! check code..." + divFooter).dialog();
+			
 			},
 			error : function(error) {
 				console.log(error);

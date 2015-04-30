@@ -10,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -74,6 +75,17 @@ public class SimpleMetric extends AbstractMetric
 	 public String toString()
 	 {
 		  return "SimpleMetric : [ id=" + this.id + ", name=" + this.name + " ]";
+	 }
+	 
+	 @Override
+	 public JSONObject toJSON()
+	 {
+		 JSONObject metricInfo = new JSONObject();
+		 metricInfo.put("type", "simple metric");
+		 metricInfo.put("name", this.name);
+		 metricInfo.put("formula", this.formula);
+		 
+		 return metricInfo;
 	 }
 
 }

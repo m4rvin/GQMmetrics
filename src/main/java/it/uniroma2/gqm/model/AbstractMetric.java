@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
+import org.json.JSONObject;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 @Entity
@@ -517,4 +518,10 @@ public class AbstractMetric extends BaseObject
 	 {
 		  return "AbstractMetric [id=" + id + ", code=" + code + ", name=" + name + "]";
 	 }
+	 
+	 
+	 public JSONObject toJSON()
+	 {
+		 return null;
+	 };
 }
