@@ -148,7 +148,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
-            <form:input path="formula" id="Metricformula"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
+            <form:input path="formula" id="Metricformula" readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
             <form:errors path="formula" cssClass="help-inline"/><br>
             <a onclick="showFormulaInputInstructions()">Instructions</a>
             
@@ -434,7 +434,7 @@
     
 	function showFormulaInputInstructions(){
 		var divHeader = "<div id='dialogInstructions' title='Formula input instructions'>";
-		var text = "<ul><li>Insert your formula operations as a text.</li> <li>Add an existing metric to the formula by clicking on it on the list of available metrics displayed below.</li> <li>Refer to the current measured value as <b>_this_</b></li></ul>";
+		var text = "<ul><li>Insert your formula operations as a text.</li> <li>Add an existing metric to the formula by clicking on it on the list of available metrics displayed below.</li> <li>Use the syntax written in the left column to refer to one or more operations.</li></ul>";
 		var divFooter = "</div>";
 		return $( divHeader + text + divFooter).dialog();
 	}
