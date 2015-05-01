@@ -52,7 +52,7 @@ public class MeasurementScale extends BaseObject
 	 @Column(name = "measurementScale_type")
 	 private MeasurementScaleTypeEnum type;
 
-	 @ManyToOne(fetch = FetchType.LAZY)
+	 @ManyToOne(fetch = FetchType.EAGER)
 	 @JoinColumn(name = "project_id", nullable = false)
 	 private Project project;
 

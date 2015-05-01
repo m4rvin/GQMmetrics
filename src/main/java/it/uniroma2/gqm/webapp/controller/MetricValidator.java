@@ -4,6 +4,7 @@ import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
+import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.RangeOfValues;
 import it.uniroma2.gqm.model.SimpleMetric;
 
@@ -14,6 +15,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import net.objecthunter.exp4j.ValidationResult;
@@ -23,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springmodules.validation.bean.conf.loader.annotation.handler.RegExp;
 
 @Component(value = "metricValidator")
 public class MetricValidator implements Validator
@@ -61,6 +63,9 @@ public class MetricValidator implements Validator
 	 
 	 @Autowired
 	 private FormulaHandler handler;
+	 
+	 @Autowired
+	 HttpSession session;
 
 	 @Override
 	 public boolean supports(Class<?> clazz)
@@ -74,9 +79,12 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 		  
 		  String metric_name = metric.getName();
-		  if(!metric_name.matches("^[0-9\\p{L}]+$"))
+		  if(!metric_name.matches("^[\\d\\p{L}]+$"))
 				errors.rejectValue("name", "name", "name must be composed only by letters or numbers");
+		  
 
+		  validateQuestions(metric, errors);
+		  
 		  String formula = metric.getFormula();
 
 		  formula = formula.replaceAll(" ", "");
@@ -100,6 +108,31 @@ public class MetricValidator implements Validator
 		  formula = substituteMetrics(formula);
 		  
 		  checkAllowedOperationsAndOperators(formula, metric, errors);
+	 }
+	 
+	 @SuppressWarnings("unchecked")
+	 public void validateQuestions(AbstractMetric metric, Errors errors)
+	 {
+		  Set<QuestionMetric> sessionQM = (Set<QuestionMetric>) session.getAttribute("currentQuestions");
+		  Set<QuestionMetric> currentQM = metric.getQuestions();
+		  
+		  if(sessionQM == null) //creation case
+				return;
+		  
+		  if(currentQM == null)
+				errors.rejectValue("questions", "questions", "cannot deselect a question from a metric");
+		  
+		  for(QuestionMetric qm : sessionQM)
+		  {
+				if(!currentQM.contains(qm))
+				{
+					 errors.rejectValue("questions", "questions", "cannot deselect a question from a metric");
+					 metric.setQuestions(sessionQM);
+					 break;
+				}
+		  }
+		//  session.removeAttribute("currentQuestions");
+		  
 	 }
 
 	 

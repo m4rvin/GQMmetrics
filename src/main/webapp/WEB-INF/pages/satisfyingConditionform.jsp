@@ -66,7 +66,7 @@
 			<div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 				<appfuse:label styleClass="control-label" key="satisfyingCondition.targets" />
 				<div class="controls">
-					<form:select path="targets" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
+					<form:select path="targets" onchange="checkDeselectedTargets()" disabled="${not empty satisfyingCondition.id and satisfyingCondition.satisfyingConditionOwner ne currentUser}">
 						<c:forEach items="${availableTargets}" var="target">
 							<c:set var="found" value="false" />
 							<c:forEach items="${satisfyingCondition.targets}" var="chosedTarget">
@@ -245,6 +245,23 @@
        			});	 
 	        break;
 	    }
+	}
+	
+	function checkDeselectedTargets()
+	{
+		if("${satisfyingCondition.id}" != "")
+		{
+			var count = $('#targets option:selected').size();
+			if(count === 0)
+			{
+				jQuery('<div/>', {
+				    id: 'emptyTargetInstructions',
+				    title:"Target box instructions",
+				    text: "You have deselected all the aviable targets for the current metric. Delete the satisfying condition instead."
+				}).dialog();
+			}
+		}
+		
 	}
 
 	function showTargetInfoInstructions(){

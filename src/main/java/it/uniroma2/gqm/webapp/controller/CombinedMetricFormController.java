@@ -13,6 +13,7 @@ import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
 import it.uniroma2.gqm.model.RangeOfValues;
+import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -56,7 +57,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
-@SessionAttributes({ "currentProject", "combinedMetric", "currentUser", "scales", "measurementScales" })
+@SessionAttributes({ "currentProject", "combinedMetric", "currentUser", "scales", "measurementScales", "availableQuestions" })
 public class CombinedMetricFormController extends BaseFormController
 {
 
@@ -123,6 +124,8 @@ public class CombinedMetricFormController extends BaseFormController
 				metric = metricManager.findCombinedMetricById(new Long(id));
 				model.addAttribute("used", !metric.isEresable());
 				MeasurementScale measurementScale = metric.getMeasurementScale();
+				session.setAttribute("currentQuestions", metric.getQuestions());
+				
 				if (measurementScale != null && measurementScale.getType() != null)
 					 populateModel(model, measurementScale,  metric.getId());
 		  } else
@@ -200,7 +203,7 @@ public class CombinedMetricFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(value = ViewName.combinedMetricForm, method = RequestMethod.POST)
-	 public String onSubmit(@ModelAttribute("combinedMetric") @Valid CombinedMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
+	 public String onSubmit(@ModelAttribute("combinedMetric") @Valid CombinedMetric metric, BindingResult errors, HttpServletRequest request, SessionStatus status, Model model, HttpSession session) throws Exception
 	 {
 		  if (request.getParameter("cancel") != null)
 		  {
@@ -310,6 +313,8 @@ public class CombinedMetricFormController extends BaseFormController
 				
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));
+				
+				session.removeAttribute("currentQuestions");
 		  }
 		  //status.setComplete();
 		  return success;
@@ -361,16 +366,22 @@ public class CombinedMetricFormController extends BaseFormController
 					 if (element != null)
 					 {
 						  String ids[] = ((String) element).split("\\|");
-						  Question question = questionManager.get(new Long(ids[0]));
-						  CombinedMetric metric = metricManager.findCombinedMetricById(new Long(ids[1]));
-						  QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);
-						  if (questionMetric == null)
-						  {
-								questionMetric = new QuestionMetric();
-								questionMetric.setPk(new QuestionMetricPK(question, metric));
-								questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
+						  try {
+								Question question = questionManager.get(new Long(ids[0]));
+								  CombinedMetric metric = metricManager.findCombinedMetricById(new Long(ids[1]));
+								  QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);
+								  if (questionMetric == null)
+								  {
+										questionMetric = new QuestionMetric();
+										questionMetric.setPk(new QuestionMetricPK(question, metric));
+										questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
+								  }
+								  return questionMetric;
 						  }
-						  return questionMetric;
+						  catch(Exception e)
+						  {
+								return null;
+						  }
 					 }
 					 return null;
 				}

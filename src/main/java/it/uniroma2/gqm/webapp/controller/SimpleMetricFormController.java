@@ -120,6 +120,9 @@ public class SimpleMetricFormController extends BaseFormController
 				metric = metricManager.findSimpleMetricById(new Long(id));
 				model.addAttribute("used", !metric.isEresable());
 				populateModel(model, metric);
+				
+				session.setAttribute("currentQuestions", metric.getQuestions());
+				
 		  } else
 		  {
 				metric = new SimpleMetric();
@@ -197,7 +200,7 @@ public class SimpleMetricFormController extends BaseFormController
 	 }
 
 	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.POST)
-	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, HttpServletResponse response, SessionStatus status, Model model) throws Exception
+	 public String onSubmit(@ModelAttribute("simpleMetric") @Valid SimpleMetric metric, BindingResult errors, HttpServletRequest request, SessionStatus status, Model model, HttpSession session) throws Exception
 	 {
 		  if (request.getParameter("cancel") != null)
 		  {
@@ -252,6 +255,8 @@ public class SimpleMetricFormController extends BaseFormController
 				
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));
+				
+				session.removeAttribute("currentQuestions");
 		  }
 		  //status.setComplete();
 		  return success;
@@ -326,16 +331,22 @@ public class SimpleMetricFormController extends BaseFormController
 					 if (element != null)
 					 {
 						  String ids[] = ((String) element).split("\\|");
-						  Question question = questionManager.get(new Long(ids[0]));
-						  SimpleMetric metric = metricManager.findSimpleMetricById(new Long(ids[1]));
-						  QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);
-						  if (questionMetric == null)
-						  {
-								questionMetric = new QuestionMetric();
-								questionMetric.setPk(new QuestionMetricPK(question, metric));
-								questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
+						  try {
+								Question question = questionManager.get(new Long(ids[0]));
+								  SimpleMetric metric = metricManager.findSimpleMetricById(new Long(ids[1]));
+								  QuestionMetric questionMetric = metricManager.getQuestionMetric(metric, question);
+								  if (questionMetric == null)
+								  {
+										questionMetric = new QuestionMetric();
+										questionMetric.setPk(new QuestionMetricPK(question, metric));
+										questionMetric.setStatus(QuestionMetricStatus.PROPOSED);
+								  }
+								  return questionMetric;
 						  }
-						  return questionMetric;
+						  catch(Exception e)
+						  {
+								return null;
+						  }
 					 }
 					 return null;
 				}
@@ -344,7 +355,7 @@ public class SimpleMetricFormController extends BaseFormController
 
 	 private class MeasurementScaleEditorSupport extends PropertyEditorSupport
 	 {
-
+		  
 		  @Override
 		  public void setAsText(String text)
 		  {

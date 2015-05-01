@@ -213,7 +213,9 @@
 						</c:forEach>
 											
 	        		</select>
-	        		* <br/> * This list contains the questions associated to the goal for which the user logged in is Measurement Model Design Manager.
+	        		* <br/>
+	        		<form:errors path="questions" cssClass="help-inline"/><br>
+	        		 * This list contains the questions associated to the goal for which the user logged in is Measurement Model Design Manager.
 	        	</div>
 	    </spring:bind>
 	</c:if>	
@@ -513,5 +515,15 @@
 		    text: "Click with the mouse wheel (or press right and left button of your touchpad in case you have a notebook) to retrieve information about each item."
 		}).dialog();
 	}
+	
+	$('#questions').change(function () {
+	    	
+	    	var count = $('#questions option:selected').size();
+	    	
+	    	if(count === 0)
+	   		{
+	    		$('#questions option:first').attr("selected", "selected");
+	   		}
+	    });
 	
 </script>

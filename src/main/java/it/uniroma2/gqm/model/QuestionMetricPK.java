@@ -55,12 +55,12 @@ public class QuestionMetricPK implements Serializable {
 		if (metric == null) {
 			if (other.metric != null)
 				return false;
-		} else if (!metric.equals(other.metric))
+		} else if (!metric.getId().equals(other.metric.getId()))
 			return false;
 		if (question == null) {
 			if (other.question != null)
 				return false;
-		} else if (!question.equals(other.question))
+		} else if (!question.getId().equals(other.question.getId()))
 			return false;
 		return true;
 	}

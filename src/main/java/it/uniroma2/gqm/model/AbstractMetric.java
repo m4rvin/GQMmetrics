@@ -160,7 +160,7 @@ public class AbstractMetric extends BaseObject
 		  this.metricOwner = metricOwner;
 	 }
 
-	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.metric", cascade = CascadeType.ALL)
+	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.metric", cascade = CascadeType.ALL, orphanRemoval = true)
 	 public Set<QuestionMetric> getQuestions()
 	 {
 		  return questions;
