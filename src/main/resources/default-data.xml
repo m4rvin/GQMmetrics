@@ -406,56 +406,40 @@
         <column>project_id</column>
         <column>name</column>
         <column>assumption</column>
-        <column>so_id</column>        
-        <!--<row>
-            <value description="strategy_id">-1</value>
-            <value description="project_id">-1</value>
-            <value description="name"><![CDATA[Improve customer interaction process]]></value>
-            <value description="assumption"><![CDATA[For getting more customers in the insurance area, the quality of the customer interaction processes has to be improved.]]></value>
-            <value description="so_id">1</value>                       
-        </row>
-        <row>
-            <value description="strategy_id">-2</value>
-            <value description="project_id">-1</value>
-            <value description="name"><![CDATA[Increase the maximum speed of trains]]></value>
-            <value description="assumption"><![CDATA[To reduce the travel time is necessary to strengthen the trains. With faster trains travel time of each leg will be shorter]]></value>                       
-        	<value description="so_id">2</value> 
-        </row>
-        <row>
-            <value description="strategy_id">-3</value>
-            <value description="project_id">-1</value>
-            <value description="name"><![CDATA[increase the number of people who do the cleaning]]></value>
-            <value description="assumption"><![CDATA[For trains cleaner is necessary to increase the number of people who carry out cleaning.]]></value>
-            <value description="so_id">1</value>                        
-        </row>           
+        <column>so_id</column> 
+        <column>sorgParent_goal_id</column> 
+        <column>strategyParent_strategy_id</column>      
         <row>
             <value description="strategy_id">1</value>
-            <value description="project_id">1</value>
-            <value description="name"><![CDATA[Cost reduction]]></value>
-            <value description="assumption"><![CDATA[For cost reduction is necessary to improve the developlemt process]]></value>
-            <value description="so_id">1</value>                        
-        </row>      
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[S1]]></value>
+            <value description="assumption"><![CDATA[assumption]]></value>
+            <value description="so_id">5</value>     
+            <value description="sorgParent_goal_id">1</value> 
+            <null/>
+        </row>
         <row>
             <value description="strategy_id">2</value>
-            <value description="project_id">1</value>
-            <value description="name"><![CDATA[Improve quality of product]]></value>
-            <value description="assumption"><![CDATA[For improve the quality of poduct it's possibile, for example, reduce the number of bug]]></value>
-            <value description="so_id">1</value>                        
-        </row>           
-        <row>
-            <value description="strategy_id">3</value>
-            <value description="project_id">1</value>
-            <value description="name"><![CDATA[Improve the quality of development team]]></value>
-            <value description="assumption"><![CDATA[The most experienced personnel produce code with fewer bugs]]></value>
-            <value description="so_id">2</value>                        
-        </row>     
-        <row>
-            <value description="strategy_id">4</value>
-            <value description="project_id">1</value>
-            <value description="name"><![CDATA[Improve the testing process]]></value>
-            <value description="assumption"><![CDATA[Increasing the test module and the functional test, you will produce software with fewer bugs]]></value>
-            <value description="so_id">2</value>                        
-        </row>  -->                             
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[S2]]></value>
+            <value description="assumption"><![CDATA[assumption]]></value>
+            <value description="so_id">5</value>     
+            <value description="sorgParent_goal_id">1</value> 
+            <null/>
+        </row>
+        
+       <!--  
+       TEMPLATE for STRATEGY
+       <row>
+            <value description="strategy_id">1</value>
+            <value description="project_id">-1</value>
+            <value description="name"><![CDATA[S1]]></value>
+            <value description="assumption"><![CDATA[assumption]]></value>
+            <value description="so_id">5</value>     
+            <value description="sorgParent_goal_id">1</value> 
+            <value description="strategyParent_strategy_id"></value>                 
+        </row> -->
+                                
     </table>        
     <table name="project_pm">
         <column>project_id</column>
@@ -592,7 +576,7 @@
 		<row>
             <value description="goal_id">1</value>
             <value description="project_id">-1</value>
-            <value description="description"><![CDATA[O1]]></value>
+            <value description="description"><![CDATA[OG1]]></value>
             <value description="type">0</value>            
             <value description="subject"></value>
             <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
@@ -609,15 +593,12 @@
             <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
             <value description="timeframe">When should the goal be achieved?</value>
             <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
-            <!-- <value description="associatedOG_goal_id">NULL</value>
-            <value description="orgParent_goal_id">NULL</value>
-            <value description="ostrategyParent_strategy_id">NULL</value> -->
         </row>
         
         <row>
             <value description="goal_id">2</value>
             <value description="project_id">-1</value>
-            <value description="description"><![CDATA[M1]]></value>
+            <value description="description"><![CDATA[MG1]]></value>
             <value description="type">1</value>            
             <value description="subject"><![CDATA[What is the object under consideration?]]></value>
             <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
@@ -635,11 +616,105 @@
             <value description="timeframe">When should the goal be achieved?</value>
             <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
             <value description="associatedOG_goal_id">1</value>
-     <!--   <value description="orgParent_goal_id">NULL</value>
-            <value description="ostrategyParent_strategy_id">NULL</value> -->
         </row>
         
+        <row>
+            <value description="goal_id">3</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[OG2]]></value>
+            <value description="type">0</value>            
+            <value description="subject"></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"></value>
+            <value description="viewpoint"></value>
+            <value description="impact_of_variation"></value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object">What is the object under consideration?</value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <null/>
+            <null/>
+            <value description="ostrategyParent_strategy_id">1</value>
+        </row>
+        <row>
+            <value description="goal_id">4</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[MG2]]></value>
+            <value description="type">1</value>            
+            <value description="subject"><![CDATA[What is the object under consideration?]]></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"><![CDATA[Context refers to an actual environmental characteristic. An assumption refers to a presumed, yet uncertain, aspect of the environment]]></value>
+            <value description="viewpoint"><![CDATA[The organizational unit representing the point of view]]></value>
+            <value description="impact_of_variation">Impact of variations</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object"></value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <value description="associatedOG_goal_id">3</value>
+            <null/>
+            <null/>
+        </row>
         
+        <row>
+            <value description="goal_id">5</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[OG3]]></value>
+            <value description="type">0</value>            
+            <value description="subject"></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"></value>
+            <value description="viewpoint"></value>
+            <value description="impact_of_variation"></value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object">What is the object under consideration?</value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <null/>
+            <null/>
+            <value description="ostrategyParent_strategy_id">2</value>
+        </row>
+        <row>
+            <value description="goal_id">6</value>
+            <value description="project_id">-1</value>
+            <value description="description"><![CDATA[MG3]]></value>
+            <value description="type">1</value>            
+            <value description="subject"><![CDATA[What is the object under consideration?]]></value>
+            <value description="scope"><![CDATA[Who or what organizations are responsible for goal attainment?]]></value>
+            <value description="focus"><![CDATA[What characteristic of the object is considered? Focus refers to the object’s attribute for which a certain state is going to be achieved.]]></value>
+            <value description="context"><![CDATA[Context refers to an actual environmental characteristic. An assumption refers to a presumed, yet uncertain, aspect of the environment]]></value>
+            <value description="viewpoint"><![CDATA[The organizational unit representing the point of view]]></value>
+            <value description="impact_of_variation">Impact of variations</value>
+            <value description="status">APPROVED</value>
+            <value description="go_id">5</value>
+            <value description="ge_id">6</value>
+            <value description="refinement"></value>
+            <value description="activity">Activity</value>
+            <value description="object"></value>
+            <value description="magnitude">What is the quantity (measure) of the goal to be achieved?</value>
+            <value description="timeframe">When should the goal be achieved?</value>
+            <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
+            <value description="associatedOG_goal_id">5</value>
+            <null/>
+            <null/>
+        </row>
         
         
       <!--  
@@ -693,7 +768,7 @@
             <value description="timeframe">When should the goal be achieved?</value>
             <value description="constraints">What are relevant constraints that may prevent attainment of the goal?</value>
             <value description="associatedOG_goal_id">1</value>
-       <value description="orgParent_goal_id">NULL</value>
+       		<value description="orgParent_goal_id">NULL</value>
             <value description="ostrategyParent_strategy_id">NULL</value>
         </row>
          -->
@@ -710,38 +785,22 @@
             <value description="goal_id">2</value>
             <value description="user_id">8</value>
         </row>
-        <!--<row>
-            <value description="goal_id">-5</value>
-            <value description="user_id">7</value>
-        </row>
         <row>
-            <value description="goal_id">-5</value>
-            <value description="user_id">8</value>
-        </row> 
-		<row>
-            <value description="goal_id">-6</value>
-            <value description="user_id">9</value>
-        </row>  
-		<row>
-            <value description="goal_id">1</value>
-            <value description="user_id">7</value>
-        </row>
-		<row>
-            <value description="goal_id">1</value>
-            <value description="user_id">8</value>
-        </row>    
-        <row>
-            <value description="goal_id">3</value>
-            <value description="user_id">7</value>
-        </row>
-		<row>
-            <value description="goal_id">3</value>
-            <value description="user_id">8</value>
-        </row>
-		<row>
             <value description="goal_id">4</value>
             <value description="user_id">7</value>
-        </row>-->          
+        </row>
+        <row>
+            <value description="goal_id">4</value>
+            <value description="user_id">8</value>
+        </row>
+        <row>
+            <value description="goal_id">6</value>
+            <value description="user_id">7</value>
+        </row>
+        <row>
+            <value description="goal_id">6</value>
+            <value description="user_id">8</value>
+        </row>
     </table>  
     <table name="goal_mmdm">
         <column>goal_id</column>
@@ -754,38 +813,22 @@
             <value description="goal_id">2</value>
             <value description="user_id">10</value>
         </row>
-        <!--<row>
-            <value description="goal_id">-5</value>
+        <row>
+            <value description="goal_id">4</value>
             <value description="user_id">9</value>
         </row>
         <row>
-            <value description="goal_id">-5</value>
+            <value description="goal_id">4</value>
             <value description="user_id">10</value>
-        </row>
-		<row>
-            <value description="goal_id">-6</value>
-            <value description="user_id">8</value>
-        </row>        
-		<row>
-            <value description="goal_id">1</value>
-            <value description="user_id">9</value>
         </row>     
 		<row>
-            <value description="goal_id">1</value>
+            <value description="goal_id">6</value>
+            <value description="user_id">9</value>
+        </row>
+        <row>
+            <value description="goal_id">6</value>
             <value description="user_id">10</value>
         </row>   
-		<row>
-            <value description="goal_id">3</value>
-            <value description="user_id">9</value>
-        </row>     
-		<row>
-            <value description="goal_id">3</value>
-            <value description="user_id">10</value>
-        </row>           
-		<row>
-            <value description="goal_id">4</value>
-            <value description="user_id">9</value>
-        </row>-->                      
     </table>    
     <table name="goal_vote">
         <column>goal_id</column>
@@ -798,18 +841,46 @@
             <value description="goal_id">1</value>
             <value description="user_id">2</value>
         </row>
-        <!--<row>
-            <value description="goal_id">1</value>
+        <row>
+            <value description="goal_id">2</value>
+            <value description="user_id">1</value>
+        </row>   
+        <row>
+            <value description="goal_id">2</value>
             <value description="user_id">2</value>
         </row>     
         <row>
             <value description="goal_id">3</value>
             <value description="user_id">1</value>
-        </row>
+        </row>   
         <row>
             <value description="goal_id">3</value>
             <value description="user_id">2</value>
-        </row>-->                     
+        </row>
+        <row>
+            <value description="goal_id">4</value>
+            <value description="user_id">1</value>
+        </row>   
+        <row>
+            <value description="goal_id">4</value>
+            <value description="user_id">2</value>
+        </row>
+        <row>
+            <value description="goal_id">5</value>
+            <value description="user_id">1</value>
+        </row>   
+        <row>
+            <value description="goal_id">5</value>
+            <value description="user_id">2</value>
+        </row>
+        <row>
+            <value description="goal_id">6</value>
+            <value description="user_id">1</value>
+        </row>   
+        <row>
+            <value description="goal_id">6</value>
+            <value description="user_id">2</value>
+        </row>          
     </table>
 	<table name="question">
         <column>question_id</column>
@@ -821,6 +892,34 @@
             <value description="question_id">1</value>
             <value description="name"><![CDATA[Q1]]></value>
             <value description="text"><![CDATA[Q1 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+         <row>
+            <value description="question_id">2</value>
+            <value description="name"><![CDATA[Q2]]></value>
+            <value description="text"><![CDATA[Q2 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">3</value>
+            <value description="name"><![CDATA[Q3]]></value>
+            <value description="text"><![CDATA[Q3 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">4</value>
+            <value description="name"><![CDATA[Q4]]></value>
+            <value description="text"><![CDATA[Q4 description]]></value>
+            <value description="project_id">-1</value>
+            <value description="qso_id">7</value>
+        </row>
+        <row>
+            <value description="question_id">5</value>
+            <value description="name"><![CDATA[Q5]]></value>
+            <value description="text"><![CDATA[Q5 description]]></value>
             <value description="project_id">-1</value>
             <value description="qso_id">7</value>
         </row>
@@ -899,6 +998,31 @@
             <value description="status">APPROVED</value>  
             <value description="refinement"></value>                       
         </row>
+        <row>
+            <value description="question_id">2</value>
+            <value description="goal_id">2</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">3</value>
+            <value description="goal_id">4</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">4</value>
+            <value description="goal_id">6</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        <row>
+            <value description="question_id">5</value>
+            <value description="goal_id">6</value>
+            <value description="status">APPROVED</value>  
+            <value description="refinement"></value>                       
+        </row>
+        
         <!--<row>
             <value description="question_id">-1</value>
             <value description="goal_id">-3</value>
@@ -1116,14 +1240,14 @@
 			<value description="metric_id">3</value>
 			<value description="aggregator" >AVG</value>        	        	
 		</row>
-		<row>
+		<!-- <row>
 			<value description="metric_id">7</value>
-			<!--<value description="aggregator" ></value> -->        	        	
+			<value description="aggregator" ></value>        	        	
 		</row>
 		<row>
 			<value description="metric_id">8</value>
 			<value description="aggregator" >AVG</value>        	        	
-		</row>
+		</row> -->
 	</table>
 	
 	<table name="combinedmetric">
@@ -1138,9 +1262,9 @@
 		<row>
 			<value description="metric_id">6</value>
 		</row>
-		<row>
+		<!-- <row>
 			<value description="metric_id">9</value>
-		</row>
+		</row> -->
 	</table>
 	
 	<table name="abstractmetric">
@@ -1235,7 +1359,7 @@
         	<value description="project_id" >-1</value>
         </row>
         
-        <row>
+        <!-- <row>
         	<value description="metric_id" >7</value>
 			<value description="code" >Simple metric 1 boolean</value>
         	<value description="collecting_type" >SINGLE_VALUE</value>
@@ -1270,7 +1394,7 @@
         	<value description="measurement_scale_id" >5</value>
         	<value description="mmdmo_id" >9</value>
         	<value description="project_id" >-1</value>
-        </row>
+        </row> -->
 <!--         
 <column>complexMetricType</column>
                   
@@ -1393,14 +1517,14 @@
         	<value description="metriccomposedby_id">6</value>
         	<value description="metriccomposerfor_id">5</value>
         </row>
-        <row>
+        <!-- <row>
         	<value description="metriccomposedby_id">9</value>
         	<value description="metriccomposerfor_id">7</value>
         </row>
         <row>
         	<value description="metriccomposedby_id">9</value>
         	<value description="metriccomposerfor_id">8</value>
-        </row>
+        </row> -->
         
     </table>
     	              
@@ -1442,58 +1566,28 @@
         </row>   
         <row>
             <value description="metric_id">6</value>
-            <value description="question_id">1</value>
+            <value description="question_id">3</value>
             <value description="status">APPROVED</value>
             <!--<value description="refinement"></value>-->
         </row>   
-        <row>
+        <!-- <row>
             <value description="metric_id">7</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
+            <value description="refinement"></value>
         </row>  
         <row>
             <value description="metric_id">8</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
+            <value description="refinement"></value>
         </row>  
         <row>
             <value description="metric_id">9</value>
             <value description="question_id">1</value>
             <value description="status">APPROVED</value>
-            <!--<value description="refinement"></value>-->
-        </row>     
-        <!--<row>
-            <value description="metric_id">1</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>        
-        <row>
-            <value description="metric_id">2</value>
-            <value description="question_id">1</value>
-            <value description="status">APPROVED</value>
-        </row>
-		<row>
-            <value description="metric_id">2</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>    
-		<row>
-            <value description="metric_id">3</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>  
-		<row>
-            <value description="metric_id">4</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>   
-		<row>
-            <value description="metric_id">5</value>
-            <value description="question_id">2</value>
-            <value description="status">APPROVED</value>
-        </row>-->                            
+            <value description="refinement"></value>
+        </row>      -->
     </table>
 	<table name="measurement">
         <column>measurement_id</column>

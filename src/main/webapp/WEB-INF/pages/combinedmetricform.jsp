@@ -148,7 +148,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
-            <form:input path="formula" id="Metricformula"  readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
+            <form:input path="formula" id="Metricformula" readonly="${(combinedMetric.metricOwner ne currentUser && not empty combinedMetric.id) || ( used)}"/>
             <form:errors path="formula" cssClass="help-inline"/><br>
             <a onclick="showFormulaInputInstructions()">Instructions</a>
             
@@ -393,7 +393,8 @@
     			
     		case 2:
     			console.log("middle click on AvailableMetricCompos");
-    			var metricId = $('#availableMetricComposersList option').val();
+    			console.log(this.value);
+    			var metricId = this.value;
     			$.ajax({
     				type : "GET",
     				url : "combinedmetricformInfoAjax",
@@ -402,11 +403,14 @@
     				},
     				contentType : "application/json",
     				success : function(response) {
-    					jQuery('<div/>', {
-    					    id: 'dialogInstructions',
-    					    title:"Composer metric info",
-    					    text: response
-    					}).dialog();
+    					var metricInfo = jQuery.parseJSON(response);
+    					var divHeader = "<div id='dialogInstructions' title='Composer metric info'>";
+    					var type = "<b>metric type: </b>" + metricInfo.type + "<br>";
+    					var name = "<b>name: </b> " + metricInfo.name + "<br>";
+    					var formula = "<b>formula: </b>" + metricInfo.formula;
+    					var divFooter = "</div>";
+    					
+    					return $(divHeader + type + name + formula + divFooter).dialog();
     				},
     				error : function(error) {
     					console.log(error);
@@ -431,11 +435,10 @@
     }
     
 	function showFormulaInputInstructions(){
-		jQuery('<div/>', {
-		    id: 'dialogInstructions',
-		    title:"Formula input instructions",
-		    text: "Insert your formula operations as a text.Add an existing metric to the formula by clicking on it on the list of available metrics displayed below. Refer to the current measured value as _this_"
-		}).dialog();
+		var divHeader = "<div id='dialogInstructions' title='Formula input instructions'>";
+		var text = "<ul><li>Insert your formula operations as a text.</li> <li>Add an existing metric to the formula by clicking on it on the list of available metrics displayed below.</li> <li>Use the syntax written in the left column to refer to one or more operations.</li></ul>";
+		var divFooter = "</div>";
+		return $( divHeader + text + divFooter).dialog();
 	}
 	
 	// get param from the URL
@@ -473,11 +476,24 @@
 				},
 				contentType : "application/json",
 				success : function(response) {
-					jQuery('<div/>', {
-					    id: 'dialogInstructions',
-					    title:"MeasurementScale info",
-					    text: response
-					}).dialog();
+					var measurementScaleInfo = jQuery.parseJSON(response);
+					console.log(response);
+					var divHeader = "<div id='dialogInstructions' title='MeasurementScale info'>";
+					var name = "<b>name: </b> " + measurementScaleInfo.name + "<br>";
+					var description = "<b>description: </b> " + measurementScaleInfo.description + "<br>";
+					var type = "<b>type: </b>" + measurementScaleInfo.measurementscaletype + "<br>";
+					var operations = "<b>supported operations: </b>";
+					var operationsArray = measurementScaleInfo.supportedOperations;
+					for( op in operationsArray)
+					{
+						operations += operationsArray[op] + ","		
+					}
+					operations = operations.substr(0, operations.length-1);
+					operations += "<br>";
+					var rangeOfValuesName = "<b>range of values name: </b>" + measurementScaleInfo.rangeOfValuesName;
+					var divFooter = "</div>";
+					
+					return $(divHeader + name + description + type + operations + rangeOfValuesName + divFooter).dialog();
 				},
 				error : function(error) {
 					console.log(error);
@@ -496,11 +512,15 @@
 			},
 			contentType : "application/json",
 			success : function(response) {
-				jQuery('<div/>', {
-				    id: 'dialogInstructions',
-				    title:"MeasurementScale info",
-				    text: response
-				}).dialog();
+				var metricInfo = jQuery.parseJSON(response);
+				var divHeader = "<div id='dialogInstructions' title='Composer metric info'>";
+				var type = "<b>metric type: </b>" + metricInfo.type + "<br>";
+				var name = "<b>name: </b> " + metricInfo.name + "<br>";
+				var formula = "<b>formula: </b>" + metricInfo.formula;
+				var divFooter = "</div>";
+				
+				return $(divHeader + "not used anymore! check code..." + divFooter).dialog();
+			
 			},
 			error : function(error) {
 				console.log(error);

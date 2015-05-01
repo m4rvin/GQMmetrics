@@ -17,9 +17,11 @@
 		</c:choose>
 	</p>
 	<c:if test="${emptyAvailableMetrics eq true}">
+	<div style="color:#FF0000">
 	<p>
 	You are not allowed to create a satisfying condition since you are not MMDM for any metric of this project
 	</p>
+	</div>
 	</c:if>
 	<c:if test="${not empty satisfyingCondition.satisfyingConditionOwner}">
 	<p><fmt:message key="satisfyingCondition.owner.message"/><b>&nbsp;&nbsp;&nbsp;${satisfyingCondition.satisfyingConditionOwner.fullName}</b></p>
@@ -46,7 +48,7 @@
 		<div class="control-group">
 			<appfuse:label styleClass="control-label" key="satisfyingCondition.metric" />
 			<div class="controls">
-				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations()" >
+				<select id="metricSelectBox" name="metric" onchange="retriveTargetsAndOperations();" >
 				<option value="" label="None" />
 				<c:forEach items="${availableMetrics}" var="metric">
 					<c:choose>
@@ -80,7 +82,7 @@
 							</c:forEach>
 							<c:choose>
 								<c:when test="${found}">
-									<option id="prova" label="${target}" value="${target}" selected="selected"/>
+									<option id="prova" label="${target}" value="${target}" selected="selected" onmouseup="var that = this; showTargetInfo(event, that);"/>
 								</c:when>
 								<c:otherwise>
 									<option id="prova" label="${target}" value="${target}" />
@@ -206,15 +208,22 @@
 		}
 	}
 	
-	function showTargetInfo(e){
+	function showTargetInfo(e, t){
 
+		console.log(t);
+		
+		if(t == undefined)
+			t = this;
+		
 		switch(e.which)
 	    {
 	        
 	        case 2:
 	            //middle Click
 	           	console.log("mouse middle click");
-	            var target = $(this).text();
+	            
+	            var target = t.value;
+
 	            console.log("getting info for target: " + target);
 	             
            		$.ajax({
@@ -231,13 +240,47 @@
        					if(response== "")
        						return;
        					
-       					var helpbox = jQuery('<div/>', {
+       					var targetInfo = jQuery.parseJSON(response);
+       					
+    					var divHeader = "<div id='targetInfoBox' title='Satisfying Condition target info'>";
+    					
+    					var goalInfo = targetInfo.goal;
+    					var divGoalHeader = "<div>GOAL<br>";
+    					var goalId = "<b>goal id: </b>" + goalInfo.id + "<br>";
+    					var goalName = "<b>goal name: </b> " + goalInfo.name + "<br>";
+    					var divGoalFooter = "</div><br>";
+    					
+    					var questionInfo = targetInfo.question;
+    					var divQuestionHeader = "<div>QUESTION<br>";
+    					var questionId = "<b>question id: </b>" + questionInfo.id + "<br>";
+    					var questionName = "<b>question name: </b> " + questionInfo.name + "<br>";
+    					var divQuestionFooter = "</div><br>";
+    					
+       					var metricInfo = targetInfo.metric;
+    					var divMetricHeader = "<div>METRIC<br>";
+    					var metricType = "<b>metric type: </b>" + metricInfo.type + "<br>";
+    					var metricName = "<b>name: </b> " + metricInfo.name + "<br>";
+    					var metricFormula = "<b>formula: </b>" + metricInfo.formula;
+    					var divMetricFooter = "</div>";
+
+    					var divFooter = "</div>";
+    					var goalBox = divGoalHeader + goalId + goalName + divGoalFooter;
+    					var questionBox = divQuestionHeader +questionId + questionName +divQuestionFooter;
+    					var metricBox = divMetricHeader + metricType + metricName + metricFormula + divMetricFooter;
+    					return $(divHeader + "<ul><li>" + goalBox + "</li><li>" +questionBox + "</li><li>" + metricBox + "</li></ul>" + divFooter).dialog();
+       					
+       					
+       					
+       					
+       					
+       					
+       					/* var helpbox = jQuery('<div/>', {
        					    id: 'targetInfoBox',
-       					    title:"Satisfying Condition target info",
+       					    title:"",
        					    text: response
        					});
        					helpbox.dialog();
-       					helpbox.dialog("option", "width", 380);
+       					helpbox.dialog("option", "width", 380); */
        				},
        				error : function(error) {
        					console.log(error);

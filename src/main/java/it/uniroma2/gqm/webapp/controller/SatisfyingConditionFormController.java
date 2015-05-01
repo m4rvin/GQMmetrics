@@ -237,15 +237,21 @@ public class SatisfyingConditionFormController extends BaseFormController
 		 //TODO retrieve metric info?
 		 Goal goal;
 		 Question question;
+		 AbstractMetric metric;
 		 try{
 			 goal = this.goalManager.get(new Long(target_items[0]));
 			 question = this.questionManager.get(new Long(target_items[1]));
+			 metric = this.metricManager.get(new Long(target_items[2]));
 		 }
 		 catch(NumberFormatException e){
 			 return "Error retrieving info... Please contact customer care";
 		 }
-		 String description = "Goal: " + goal.toString() + "\n\nQuestion: " + question.toString();
-		 return description;
+		 
+		 JSONObject description = new JSONObject();
+		 description.put("goal", goal.toJSON());
+		 description.put("question", question.toJSON());
+		 description.put("metric", metric.toJSON());
+		 return description.toString();
 	 }
 	 
 	 /**

@@ -272,8 +272,8 @@ public class FormulaHandler
 	 
 	 public static boolean evaluateFormula(CombinedMetric metric, ComplexMetricManager metricManager)
 	 {
-		  if(!checkMetricEvaluability(metric))
-			  return true; //metric is not evaluable, but this is not an error in formula evaluation, so return true.
+		  //if(!checkMetricEvaluability(metric))
+			//  return true; //metric is not evaluable, but this is not an error in formula evaluation, so return true.
 		 
 		  Set<AbstractMetric> composers = metric.getComposedBy();
 		  String metricFormula = metric.getFormula();

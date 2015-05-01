@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 
 import org.appfuse.model.BaseObject;
 import org.appfuse.model.User;
+import org.json.JSONObject;
 
 @Entity
 @NamedQueries({
@@ -86,6 +87,11 @@ public class Question extends BaseObject {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", name=" + name + ", text=" + text + "]";
+	}
+	
+	public JSONObject toJSON()
+	{
+		return new JSONObject().put("id", this.id).put("name", this.name);
 	}
     
 

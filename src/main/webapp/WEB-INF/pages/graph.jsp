@@ -113,11 +113,11 @@ $.post(url, {id: $("#identifier").text()},
 				  //.attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
 				  .text(function(d) { 
 					  if(d.type == 0) 
-						  return "MG"+d.identifier; 
+						  return /*MG*/d.name; 
 					  else if(d.type==1) 
-						  return "Q"+d.identifier; 
+						  return /*Q*/d.name; 
 					  else 
-						  return "M"+d.identifier; })
+						  return /*M*/d.name; })
 				  .style("fill-opacity", 1e-6);
 			
 			  // Transition nodes to their new position.

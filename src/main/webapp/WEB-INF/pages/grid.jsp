@@ -122,7 +122,7 @@ $.post(url,
 				return d.children || d._children ? -7 : -7; })
 			.attr("dy", ".35em")
 			.attr("text-anchor", "middle")
-			.text(function(d) { if(d.type == 0) return "OG"+d.identifier; else return "S"+d.identifier; })
+			.text(function(d) { if(d.type == 0) return /*OG*/d.name; else return /*S*/d.name; })
 			.style("fill-opacity", 1);
 			
 			nodeEnter.append("text")
@@ -149,7 +149,7 @@ $.post(url,
 									})
 								.append("text").attr("dy", ".35em").attr("x", 58).attr("y",30*i)
 							.attr("text-anchor", "middle")
-							.text(function(d) { return "MG"+d.mgs[i].identifier; });
+							.text(function(d) { return /*MG*/d.mgs[i].description; });
 							
 						}
 					}
@@ -167,7 +167,7 @@ $.post(url,
 						return d.children || d._children ? -7 : -7; })
 					.attr("dy", ".35em")
 					.attr("text-anchor", "middle")
-					.text(function(d) { if(d.type == 0) return "OG"+d.identifier; else return "S"+d.identifier; })
+					.text(function(d) { if(d.type == 0) return /*OG*/+d.name; else return /*S*/d.name; })
 					.style("fill-opacity", 1);
 					
 					d3.select(this).append("text")

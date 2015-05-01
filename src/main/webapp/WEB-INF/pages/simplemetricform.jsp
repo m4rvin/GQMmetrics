@@ -152,7 +152,7 @@
     </spring:bind>
         <appfuse:label styleClass="control-label" key="metric.formula"/>
         <div class="controls">
-            <form:input path="formula" id="Metricformula"  readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
+            <form:input path="formula" id="Metricformula" placeholder="e.g.: exp(_this_)" readonly="${(simpleMetric.metricOwner ne currentUser && not empty simpleMetric.id) || ( used)}"/>
            <form:errors path="formula" cssClass="help-inline"/><br>
             <a onclick="showFormulaInputInstructions()">Instructions</a>
             
@@ -333,11 +333,10 @@
     });
     
     function showFormulaInputInstructions(){
-		jQuery('<div/>', {
-		    id: 'dialogInstructions',
-		    title:"Formula syntax instructions",
-		    text: "Insert your formula as a plain text. Use the syntax written in the left column to refer to one or more operations. Refer to the current measured value as _this_\n"
-		    }).dialog();
+		var divHeader = "<div id='dialogInstructions' title='Formula syntax instructions'>";
+		var text = "<ul><li>Insert your formula operations as a text.</li> <li>Use the syntax written in the left column to refer to one or more operations.</li> <li>Refer to the current measured value as <b>_this_</b></li></ul>";
+		var divFooter = "</div>";
+		return $( divHeader + text + divFooter).dialog();
 	}
     
     function showAggregator() { 	
@@ -404,12 +403,26 @@
 				},
 				contentType : "application/json",
 				success : function(response) {
-					jQuery('<div/>', {
-					    id: 'dialogInstructions',
-					    title:"MeasurementScale info",
-					    text: response
-					}).dialog();
-				},
+					
+					var measurementScaleInfo = jQuery.parseJSON(response);
+					console.log(response);
+					var divHeader = "<div id='dialogInstructions' title='MeasurementScale info'>";
+					var name = "<b>name: </b> " + measurementScaleInfo.name + "<br>";
+					var description = "<b>description: </b> " + measurementScaleInfo.description + "<br>";
+					var type = "<b>type: </b>" + measurementScaleInfo.measurementscaletype + "<br>";
+					var operations = "<b>supported operations: </b>";
+					var operationsArray = measurementScaleInfo.supportedOperations;
+					for( op in operationsArray)
+					{
+						operations += operationsArray[op] + ","		
+					}
+					operations = operations.substr(0, operations.length-1);
+					operations += "<br>";
+					var rangeOfValuesName = "<b>range of values name: </b>" + measurementScaleInfo.rangeOfValuesName;
+					var divFooter = "</div>";
+					
+					return $(divHeader + name + description + type + operations + rangeOfValuesName + divFooter).dialog();
+				}, 
 				error : function(error) {
 					console.log(error);
 				}

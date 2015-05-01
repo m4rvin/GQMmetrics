@@ -298,6 +298,8 @@ public class CombinedMetricFormController extends BaseFormController
 
 				try{
 					  metric = (CombinedMetric) this.metricManager.save(metric);
+					  boolean dummytestvalue = FormulaHandler.evaluateFormula((CombinedMetric) metric, metricManager);
+					  System.out.println("A new combined metric has been proposed or an existing one has been edited. It has been evaluated and its formula evaluation returned: " + dummytestvalue);
 				}
 				catch(DataIntegrityViolationException e){
 					  System.err.println(e.getMessage());
@@ -325,7 +327,7 @@ public class CombinedMetricFormController extends BaseFormController
 	 public String getMeasurementScaleInfo(HttpServletRequest request)
 	 {
 		  MeasurementScale measurementScale = this.measurementScaleManager.get(new Long(request.getParameter("measurementScaleId")));
-		  String info = measurementScale.toHumanReadableDescription();
+		  String info = measurementScale.toJSONObject().toString();
 
 		  System.out.println("retrieved measurement scale info: " + info);
 		  return info;
@@ -336,7 +338,7 @@ public class CombinedMetricFormController extends BaseFormController
 	 public String getMetricInfo(HttpServletRequest request)
 	 {
 		  AbstractMetric metric = this.metricManager.findMetricByName(request.getParameter("metricId"));
-		  String info = metric.toString();
+		  String info = metric.toJSON().toString();
 
 		  System.out.println("retrieved measurement scale info: " + info);
 		  return info;

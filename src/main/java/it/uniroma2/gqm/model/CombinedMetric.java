@@ -13,6 +13,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.json.JSONObject;
+
 @Entity
 @DiscriminatorValue("combined")
 @Table(name = "CombinedMetric")
@@ -54,8 +56,18 @@ public class CombinedMetric extends AbstractMetric
 	 @Override
 	 public String toString()
 	 {
-
 		  return "CombinedMetric : [ id=" + this.id + ", name=" + this.name + " ]";
+	 }
+	 
+	 @Override
+	 public JSONObject toJSON()
+	 {
+		 JSONObject metricInfo = new JSONObject();
+		 metricInfo.put("type", "combined metric");
+		 metricInfo.put("name", this.name);
+		 metricInfo.put("formula", this.formula);
+		 
+		 return metricInfo;
 	 }
 
 	 @Override
