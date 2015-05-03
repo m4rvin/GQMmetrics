@@ -1,38 +1,144 @@
 package it.uniroma2.gqm.model;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class RangeOfValuesEqualTest
 {
-
-	 int recursiveFun3(int n)
-	 {
-	     if (n <= 0)
-	         return 1;
-	     else
-	         return 1 + recursiveFun3(n/5);
-	 }
 	 
-	 @Test
-	 public void test()
+	 private RangeOfValues rov;
+	 private RangeOfValues rov1;
+
+	 @Before
+	 public void initialize()
 	 {
-		  int res = recursiveFun3(15);
-		  System.out.println(res);
+		  rov = new RangeOfValues();
+		  rov1 = new RangeOfValues();
 	 }
 	 
 	 
 	 @Test
 	 public void testEqualityOfRangeOfValues()
 	 {
-		  String rov = "[1:10],[20:25],[25:30]";
-		  String rov1  = "[1:10]";
+		  String rov = "[1:10],[20:25],[26:30]";
+		  String rov1  = "[1:10],[20:30]";
 		  boolean result = RangeOfValues.rangeEquality(rov, rov1, DefaultRangeOfValuesEnum.INTEGER_NUMBERS);
 		  Assert.assertTrue(result);
 		  result = RangeOfValues.rangeEquality(rov, rov1, DefaultRangeOfValuesEnum.REAL_NUMBERS);
+		  Assert.assertFalse(result);
+	 }
+	 
+	 @Test
+	 public void testInclusion1()
+	 {
+		  rov.setRangeValues("[-inf:100]");
+		  rov1.setRangeValues("[-1000:-500], [0:50]");
+		  
+		  rov.setNumberType(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+		  rov1.setNumberType(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+		  
+		  rov.setNumeric(true);
+		  rov1.setNumeric(true);
+		  
+		  rov.setRange(true);
+		  rov1.setRange(true);
+				
+		  boolean result = rov1.isIncluded(rov);
+		  
+		  Assert.assertTrue(result);
+		  
+		  
+		  rov.setRangeValues("[-inf:inf]");
+		  rov1.setRangeValues("[-inf:-500], [0:inf]");
+		  
+		  result = rov1.isIncluded(rov);
+		  
 		  Assert.assertTrue(result);
 	 }
+	 
+	 @Test
+	 public void testInclusion2()
+	 {
+		  rov.setRangeValues("[-inf:100]");
+		  rov1.setRangeValues("[-1000:-500], [0:50], [100:200]");
+		  
+		  rov.setNumberType(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+		  rov1.setNumberType(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+		  
+		  rov.setNumeric(true);
+		  rov1.setNumeric(true);
+		  
+		  rov.setRange(true);
+		  rov1.setRange(true);
+				
+		  boolean result = rov1.isIncluded(rov);
+		  
+		  Assert.assertFalse(result);
+		  
+		  
+		  rov.setRangeValues("[-inf:50]");
+		  rov1.setRangeValues("[-inf:-500], [0:100]");
+		  
+		  result = rov1.isIncluded(rov);
+		  
+		  Assert.assertFalse(result);
+	 }
+	 
+	 
+	 @Test
+	 public void testSortAndMerge1()
+	 {
+		  RangeOfValues rov = new RangeOfValues();
+		  
+		  rov.setNumeric(true);
+		  rov.setRange(true);
+		  
+		  rov.setRangeValues("[-inf:0],[-20:20],[30:40],[32:38],[25:40],[35:50]");
+		  rov.setNumberType(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
+		  
+		  rov.sortAndMerge();
+		  
+		  Assert.assertEquals("[-inf:20.0],[25.0:50.0]", rov.getRangeValues());
+		  
+	 }
+	 
+	 @Test
+	 public void testSortAndMerge2()
+	 {
+		  RangeOfValues rov = new RangeOfValues();
+		  
+		  rov.setNumeric(true);
+		  rov.setRange(true);
+		  
+		  rov.setRangeValues("[-inf:inf],[10:20],[24.5:30]");
+		  rov.setNumberType(DefaultRangeOfValuesEnum.REAL_NUMBERS.toString());
+		  
+		  rov.sortAndMerge();
+		  
+		  Assert.assertEquals("[-inf:inf]", rov.getRangeValues());
+		  
+	 }
+	 
+	 @Test
+	 public void testSortAndMerge3()
+	 {
+		  RangeOfValues rov = new RangeOfValues();
+		  
+		  rov.setNumeric(true);
+		  rov.setRange(true);
+		  
+		  rov.setRangeValues("[-100:2.5],[23.4:25],[-50:-40.4],[0:10]");
+		  rov.setNumberType(DefaultRangeOfValuesEnum.REAL_NUMBERS.toString());
+		  
+		  rov.sortAndMerge();
+		  
+		  Assert.assertEquals("[-100.0:10.0],[23.4:25.0]", rov.getRangeValues());
+		  
+	 }
+	 
+	 
+	 
 	 
 	 @Test
 	 public void testRangeOfValuesInclusion()

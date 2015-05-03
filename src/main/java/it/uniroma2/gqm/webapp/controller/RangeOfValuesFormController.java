@@ -37,7 +37,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @RequestMapping("/rangeOfValuesform*")
-@SessionAttributes({"rangeOfValues", "currentProject"})
+@SessionAttributes({ "rangeOfValues", "currentProject" })
 public class RangeOfValuesFormController extends BaseFormController
 {
 
@@ -56,26 +56,27 @@ public class RangeOfValuesFormController extends BaseFormController
 	 {
 		  this.projectManager = projectManager;
 	 }
-	 
+
 	 @Autowired
-	 public void setRangeOfValuesManager(@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager) {
-		this.rangeOfValuesManager = rangeOfValuesManager;
+	 public void setRangeOfValuesManager(@Qualifier("rangeOfValuesManager") RangeOfValuesManager rangeOfValuesManager)
+	 {
+		  this.rangeOfValuesManager = rangeOfValuesManager;
 	 }
 
-	@Autowired
+	 @Autowired
 	 public void setCustomValidator(@Qualifier("rangeOfValueValidator") RangeOfValueValidator validator)
 	 {
 		  this.customValidator = validator;
 	 }
-	 
+
 	 @ModelAttribute
 	 private void addModelAttributes(Model model, HttpSession session)
 	 {
-		  if(model.asMap().get("currentProject") == null)
+		  if (model.asMap().get("currentProject") == null)
 		  {
 				this.projectManager.getCurrentProject(session);
 		  }
-				
+
 		  ArrayList<String> availableMeasurementScaleTypes = new ArrayList<String>();
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.NOMINAL.toString());
 		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.ORDINAL.toString());
@@ -87,7 +88,7 @@ public class RangeOfValuesFormController extends BaseFormController
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.NATURAL_NUMBERS.toString());
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.REAL_NUMBERS.toString());
-		  
+
 		  model.addAttribute("defaultRangeSets", defaultRangeSets);
 		  model.addAttribute("numberTypes", defaultRangeSets);
 	 }
@@ -97,16 +98,16 @@ public class RangeOfValuesFormController extends BaseFormController
 	 {
 		  String id = request.getParameter("id");
 		  RangeOfValues rov = null;
-		  
+
 		  Project currentProject = this.projectManager.getCurrentProject(session);
-		  
-		  if(!StringUtils.isBlank(id)) //rov già creato, visualizzo le info per l'update
+
+		  if (!StringUtils.isBlank(id)) // rov già creato, visualizzo le info per
+												  // l'update
 		  {
 				rov = this.rangeOfValuesManager.findById(new Long(id));
 				boolean isUsed = this.rangeOfValuesManager.isUsed(rov.getId());
 				model.addAttribute("used", isUsed);
-		  }
-		  else
+		  } else
 		  {
 				rov = new RangeOfValues();
 				rov.setProject(currentProject);
@@ -117,19 +118,18 @@ public class RangeOfValuesFormController extends BaseFormController
 		  }
 
 		  model.addAttribute("rangeOfValues", rov);
-		  
+
 		  return ViewName.rangeOfValuesForm;
 	 }
-
 
 	 @RequestMapping(method = RequestMethod.POST)
 	 public String onSubmit(@Valid RangeOfValues rangeOfValues, BindingResult errors, HttpServletRequest request, SessionStatus status, HttpSession session, Model model)
 	 {
-        if (request.getParameter("cancel") != null)
-        {
-      		//status.setComplete();
-      		return getCancelView();
-        }
+		  if (request.getParameter("cancel") != null)
+		  {
+				// status.setComplete();
+				return getCancelView();
+		  }
 
 		  if (validator != null)
 		  { // validator is null during testing
@@ -141,68 +141,72 @@ public class RangeOfValuesFormController extends BaseFormController
 					 return ViewName.rangeOfValuesForm;
 				}
 		  }
-		  
-		  if(request.getParameter("delete") != null)
+
+		  if (request.getParameter("delete") != null)
 		  {
 				Long id = rangeOfValues.getId();
-				
-				if(id != 0 && !this.rangeOfValuesManager.isUsed(id))
-					 {
-					 	this.rangeOfValuesManager.remove(id);
-					 	return getSuccessView();
-					 }
-				
+
+				if (id != 0 && !this.rangeOfValuesManager.isUsed(id))
+				{
+					 this.rangeOfValuesManager.remove(id);
+					 return getSuccessView();
+				}
+
 				else
 					 return ViewName.rangeOfValuesForm;
 		  }
-		  
-		  System.out.println(rangeOfValues);
-		  try{
-			  rangeOfValues = rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
-		  }
-		  catch(DataIntegrityViolationException e){
-			  System.err.println(e.getMessage());
-			  if(e.getMessage().contains("name")){
-				  model.addAttribute("duplicate_value", "A range of values with the same name already exists. Please change the name and retry.");
 
-			  }
-			  else{
-				  model.addAttribute("duplicate_value", "The range of values already exists in the database. Change some parameter and retry.");
-			  }
-			  return ViewName.rangeOfValuesForm;
+		  System.out.println(rangeOfValues);
+		  try
+		  {
+				rangeOfValues.sortAndMerge();
+				rangeOfValues = rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
+
+		  } catch (DataIntegrityViolationException e)
+		  {
+				System.err.println(e.getMessage());
+				if (e.getMessage().contains("name"))
+				{
+					 model.addAttribute("duplicate_value", "A range of values with the same name already exists. Please change the name and retry.");
+
+				} else
+				{
+					 model.addAttribute("duplicate_value", "The range of values already exists in the database. Change some parameter and retry.");
+				}
+				return ViewName.rangeOfValuesForm;
 		  }
-		  //status.setComplete();
+		  // status.setComplete();
 		  return getSuccessView();
 	 }
-	 
-	 @InitBinder(value="rangeOfValues")
+
+	 @InitBinder(value = "rangeOfValues")
 	 public void initBinder(WebDataBinder binder)
 	 {
 		  binder.setValidator(this.customValidator);
 		  binder.registerCustomEditor(String.class, "numberType", new RangeValuesEditorSupport());
 	 }
-	 
-	 private class RangeValuesEditorSupport extends PropertyEditorSupport {
-		  
+
+	 private class RangeValuesEditorSupport extends PropertyEditorSupport
+	 {
+
 		  @Override
 		  public void setAsText(String text)
 		  {
-				if(text != null && !text.equals(""))
+				if (text != null && !text.equals(""))
 				{
 					 String[] values = text.split(",");
 					 String res = "";
-					 for(String val : values)
+					 for (String val : values)
 					 {
-						  if(val.length() > 0)
+						  if (val.length() > 0)
 						  {
-								if(res.length() > 0)
+								if (res.length() > 0)
 									 res += ",";
 								res = res + val;
 						  }
 					 }
 					 setValue(res);
-				}
-				else
+				} else
 				{
 					 System.out.println("Error in RangeOfValuesEditorSupport conversion");
 				}

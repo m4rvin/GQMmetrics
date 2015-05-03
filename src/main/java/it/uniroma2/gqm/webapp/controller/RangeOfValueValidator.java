@@ -52,21 +52,21 @@ public class RangeOfValueValidator implements Validator
 								switch (DefaultRangeOfValuesEnum.valueOf(rov.getNumberType()))
 								{
 								case REAL_NUMBERS:
-									 if (!range.matches("^(\\[){1}(-)*[0-9]+(.[0-9]+)?(:){1}(-)*[0-9]+(.[0-9]+)?(\\])${1}"))
+									 if (!range.matches("^\\[-?(\\d+(\\.\\d+)?|\\binf\\b):(-?\\d+(\\.\\d+)?|\\binf\\b)\\]$"))
 									 {
 										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
 										  return;
 									 }
 									 break;
 								case INTEGER_NUMBERS:
-									 if (!range.matches("^(\\[){1}(-)*[0-9]+(:){1}(-)*[0-9]+(\\])${1}"))
+									 if (!range.matches("^\\[(-?\\d+|-\\binf\\b):(-?\\d+|\\binf\\b)\\]$"))
 									 {
 										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
 										  return;
 									 }
 									 break;
 								default:
-									 if (!range.matches("^(\\[){1}[0-9]+(:){1}[0-9]+(\\])${1}"))
+									 if (!range.matches("^\\[\\d+:(\\d+|\\binf\\b)\\]$"))
 									 {
 										  errors.rejectValue("rangeValues", "rangeValues", "Range Set pattern not valid");
 										  return;
@@ -116,8 +116,23 @@ public class RangeOfValueValidator implements Validator
 	 {
 		  rangeExpression = rangeExpression.replaceAll("\\[", "");
 		  rangeExpression = rangeExpression.replaceAll("\\]", "");
-		  float from = Float.parseFloat(rangeExpression.split(":")[0]);
-		  float to = Float.parseFloat(rangeExpression.split(":")[1]);
+		  String[] range = rangeExpression.split(":");
+		  double value, from = 0, to = 0;
+		  for(int i = 0; i < range.length; i++)
+		  {
+				if(range[i].equals("-inf"))
+					 value = Double.NEGATIVE_INFINITY;
+				else if(range[i].equals("inf"))
+					 value = Double.POSITIVE_INFINITY;
+				else
+					 value = Double.parseDouble(range[i]);
+				
+				if(i == 0)
+					 from = value;
+				else
+					 to = value;
+		  }
+		  
 		  return to > from;
 	 }
 

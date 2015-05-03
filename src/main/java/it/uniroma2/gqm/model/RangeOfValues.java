@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -420,15 +421,20 @@ public class RangeOfValues extends BaseObject
 	 @Transient
 	 public static boolean rangeEquality(String range1, String range2, DefaultRangeOfValuesEnum type)
 	 {
+		  
+		  if(range1.equals("") && range2.equals(""))
+				return true;
+		  
+		  if (range1.equals("") || range2.equals(""))
+				return false;
+		  
 		  Range firstRange = new RangeOfValues.Range(range1.split(",")[0]);
 		  Range secondRange = new RangeOfValues.Range(range2.split(",")[0]);
 
 		  if (firstRange.equals(secondRange))
-				return true;
-		  if (range1.equals("") || range2.equals(""))
-				return false;
-
-		  if (range1.split(",")[0].equals(range2.split(",")[0]))
+				return rangeEquality(deleteFirstRange(range1), deleteFirstRange(range2), type);
+/*
+		  if (firstRange.equals(secondRange))
 		  {
 				try
 				{
@@ -446,7 +452,7 @@ public class RangeOfValues extends BaseObject
 				}
 				rangeEquality(range1, range2, type);
 		  }
-
+*/
 		  if (firstRange.getFirst() != secondRange.getFirst())
 				return false;
 		  if (firstRange.getLast() > secondRange.getLast())
@@ -506,8 +512,54 @@ public class RangeOfValues extends BaseObject
 				return "";
 		  return range.substring(commaIndex + 1);
 	 }
+	 
+	 public void sortAndMerge()
+	 {
+		  String[] ranges = this.rangeValues.split(",");
+		  List<Range> rangeList = new ArrayList<RangeOfValues.Range>();
+		  
+		  for(String r : ranges)
+		  {
+				Range range = new Range(r);
+				rangeList.add(range);
+		  }
+		  //merge
+		  Collections.sort(rangeList);
+		  
+		  ListIterator<Range> iterator = rangeList.listIterator();
+		  
+		  Range currentRange = iterator.next();
+		  
+		  while(iterator.hasNext())
+		  {
+				Range nextRange = iterator.next();
+				
+				Range mergedRange = currentRange.merge(nextRange, DefaultRangeOfValuesEnum.valueOf(this.numberType));
+				
+				if(mergedRange == null)
+					 currentRange = nextRange;
+				else
+				{
+					 iterator.remove();
+					 iterator.previous();
+					 iterator.set(mergedRange);
+					 iterator.next();
+					 currentRange = mergedRange;
+				}
+		  }
+		  
+		  StringBuilder result = new StringBuilder();
+		  
+		  for(int i = 0; i < rangeList.size(); i++)
+		  {
+				if(result.length() != 0)
+					 result.append(",");
+				result.append(rangeList.get(i).toString());
+		  }
+		  this.setRangeValues(result.toString());
+	 }
 
-	 private static class Range
+	 private static class Range implements Comparable<Range>
 	 {
 
 		  private double first;
@@ -518,8 +570,27 @@ public class RangeOfValues extends BaseObject
 				format = format.replaceAll("\\[", "");
 				format = format.replaceAll("\\]", "");
 				String[] arr = format.split(":");
-				this.first = Double.parseDouble(arr[0]);
-				this.last = Double.parseDouble(arr[1]);
+				double value;
+				for(int i = 0; i < arr.length; i++)
+			   {
+					if(arr[i].equals("-inf"))
+						 value = Double.NEGATIVE_INFINITY;
+					else if(arr[i].equals("inf"))
+						 value = Double.POSITIVE_INFINITY;
+					else
+						 value = Double.parseDouble(arr[i]);
+					
+					if(i == 0)
+						 this.first = value;
+					else
+						 this.last = value;
+			   }
+		  }
+		  
+		  public Range(double first, double last)
+		  {
+				this.first = first;
+				this.last = last;
 		  }
 
 		  public double getFirst()
@@ -570,7 +641,12 @@ public class RangeOfValues extends BaseObject
 		  @Override
 		  public String toString()
 		  {
-				return "[" + this.first + ":" + this.last + "]";
+				String result = "[";
+				result += (this.first == Double.NEGATIVE_INFINITY) ? "-inf" : this.first;
+				result += ":";
+				result += ((this.last == Double.POSITIVE_INFINITY)) ? "inf" : this.last;
+				result += "]";
+				return result;
 		  }
 
 		  public boolean includes(Double number, DefaultRangeOfValuesEnum type)
@@ -610,6 +686,31 @@ public class RangeOfValues extends BaseObject
 					 return true;
 				else
 					 return false;
+		  }
+		  
+		  public Range merge(Range other, DefaultRangeOfValuesEnum type)
+		  {
+				if(this.includes(other, type, type))
+					 return this;
+				
+				else if(other.includes(this, type, type))
+					 return other;
+				
+				if(this.last < other.first) //ranges disjoint
+					 return null;
+				
+				else
+					 return new Range(this.first, other.last);
+		  }
+
+		  @Override
+		  public int compareTo(Range o)
+		  {
+				if(o == null)
+					 return 1;
+				if(o.first == this.first)
+					 return 0;
+				return (this.first > o.first) ? 1 : -1;
 		  }
 	 }
 }
