@@ -8,10 +8,7 @@
 		margin-left: 0px;
 	}
 	.row-fluid table td, th.sortable {
-		width: 230px; 
-	}
-	.row-fluid table > tbody > tr:first-child > td:first-child {
-		width: 100px;
+		width: 14%; 
 	}
 </style>
 <div class="span10">
@@ -31,6 +28,7 @@
         <display:column property="code" sortable="true" titleKey="metric.code"/>
         <display:column property="name" sortable="true" titleKey="metric.name"/>
         <display:column property="collectingType" sortable="true" titleKey="metric.collectingType"/>
+        <display:column property="formula" sortable="true" titleKey="metric.formula"/>
         <display:column property="measurementScale.name" sortable="true" titleKey="measurementScale"/>
         <display:column property="metricOwner.fullName" sortable="true" titleKey="metric.metricOwner"/>
         <display:setProperty name="paging.banner.item_name"><fmt:message key="simpleMetricsList.metric"/></display:setProperty>
@@ -47,6 +45,7 @@
         <display:column property="code" sortable="true" titleKey="metric.code"/>
         <display:column property="name" sortable="true" titleKey="metric.name"/>
         <display:column property="collectingType" sortable="true" titleKey="metric.collectingType"/>
+        <display:column property="formula" sortable="true" titleKey="metric.formula"/>
         <display:column property="measurementScale.name" sortable="true" titleKey="measurementScale"/>
         <display:column property="metricOwner.fullName" sortable="true" titleKey="metric.metricOwner"/>
         <display:setProperty name="paging.banner.item_name"><fmt:message key="combinedMetricsList.metric"/></display:setProperty>
