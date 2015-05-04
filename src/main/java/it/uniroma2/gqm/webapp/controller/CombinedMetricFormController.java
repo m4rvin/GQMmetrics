@@ -452,11 +452,17 @@ public class CombinedMetricFormController extends BaseFormController
 	 {
 		  List<AbstractMetric> availableMetricComposers;
 		  if(metricId != null)
+		  {
 			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleTypeExludingOneById(measurementScale.getType(), metricId);
+			  AbstractMetric metric = this.metricManager.get(metricId);
+			  if(metric.getActualValue() != null)
+				  model.addAttribute("actual_value", metric.getActualValue());
+		  }
 		  else
 			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleType(measurementScale.getType());
 		  availableMetricComposers = this.filterByRangeOfValues(measurementScale, availableMetricComposers);
 		  model.addAttribute("availableMetricComposers", availableMetricComposers);
+		  
 	 }
 	 
 	 private List<AbstractMetric> filterByRangeOfValues(MeasurementScale currentMeasurementScale, List<AbstractMetric> rawList)

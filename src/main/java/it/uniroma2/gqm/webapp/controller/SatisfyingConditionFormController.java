@@ -77,9 +77,9 @@ public class SatisfyingConditionFormController extends BaseFormController
 		  User currentUser = this.getUserManager().getUserByUsername(request.getRemoteUser());
 		  List<AbstractMetric> availableMetrics = this.metricManager.findMetricByOwner(currentUser);
 		  
-		  if(availableMetrics.size() > 0)
-				model.addAttribute("availableMetrics", availableMetrics);
-		  else
+		  model.addAttribute("availableMetrics", availableMetrics);
+
+		  if(availableMetrics.size() == 0)
 				model.addAttribute("emptyAvailableMetrics", true);
 		  
 		  model.addAttribute("satisfyingOperations", new ArrayList<String>()); //need to add this attribute otherwise it is populated with all enum fields

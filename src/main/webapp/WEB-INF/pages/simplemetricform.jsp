@@ -183,6 +183,24 @@
     </div>
             
 	<c:if test="${not empty simpleMetric.id}">
+	
+		<div class="control-group">
+			<appfuse:label styleClass="control-label" key="metric.actualValue"/>
+			<div class="controls">
+				<c:choose>
+					<c:when test="${actual_value eq 4.9E-324}">
+						<input type="text" name="Actual Value" value="evaluated value not accepted" placeholder="no associated measurement" readonly	/>
+					</c:when>
+					<c:otherwise>
+						<input type="text" name="Actual Value" value="${actual_value}" placeholder="no associated measurement" readonly	/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+		
+		
+		
+	
 		<spring:bind path="simpleMetric.questions">
 			    <div class="control-group${(not empty status.errorMessage) ? ' error' : ''}">
 			    <appfuse:label styleClass="control-label" key="metric.questions"/>

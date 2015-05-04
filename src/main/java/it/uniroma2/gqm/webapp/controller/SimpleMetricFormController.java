@@ -402,6 +402,9 @@ public class SimpleMetricFormController extends BaseFormController
 		  }
 		  
 		  model.addAttribute("availableAggregators", availableAggregators);
+		  if(metric.getActualValue() != null)
+			  model.addAttribute("actual_value", metric.getActualValue());
+
 	 }
 
 }
