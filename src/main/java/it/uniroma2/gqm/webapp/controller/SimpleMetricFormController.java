@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -104,6 +105,7 @@ public class SimpleMetricFormController extends BaseFormController
 		  setCancelView("redirect:" + ViewName.metrics);
 		  setSuccessView("redirect:" + ViewName.metrics);
 	 }
+	 
 
 	 @ModelAttribute("simpleMetric")
 	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.GET)
@@ -120,7 +122,7 @@ public class SimpleMetricFormController extends BaseFormController
 		  {
 				metric = metricManager.findSimpleMetricById(new Long(id));
 				model.addAttribute("used", !metric.isEresable());
-				populateModel(model, metric);
+				populateModel(model, metric, request, session);
 				
 				session.setAttribute("currentQuestions", metric.getQuestions());
 				
@@ -128,31 +130,10 @@ public class SimpleMetricFormController extends BaseFormController
 		  {
 				metric = new SimpleMetric();
 				metric.setProject(currentProject);
+				model.addAttribute("currentProject", currentProject);
+				model.addAttribute("currentUser", currentUser);
 		  }
-
-		  List<Question> availableQuestions = makeAvailableQuestions(metric, projectManager.get(currentProject.getId()), currentUser);
-		  HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
-
-		  // per ogni question, recupero il goal mg a cui sono è associata e
-		  // aggiungo nella hashmap l'og associato (se mg non "orfano")
-		  for (Question q : availableQuestions)
-		  {
-				Set<Goal> relatedOGs = new HashSet<Goal>();
-				for (GoalQuestion gq : q.getGoals())
-				{ // gli mg a cui la question è stata associata
-					 Goal associatedOG = gq.getGoal().getAssociatedOG();
-
-					 if (associatedOG != null)
-					 {
-						  relatedOGs.add(associatedOG);
-					 }
-				}
-				if (relatedOGs.size() > 0)
-					 map.put(q.getId(), relatedOGs);
-		  }
-
-		  model.addAttribute("currentProject", currentProject);
-		  model.addAttribute("currentUser", currentUser);
+		  
 		  model.addAttribute("measurementScales", this.measurementScaleManager.findByProject(currentProject));
 
 		  ArrayList<String> availablesTypes = new ArrayList<String>();
@@ -164,8 +145,6 @@ public class SimpleMetricFormController extends BaseFormController
 		  // System.out.println("availableMetrics ------>" +
 		  // metricManager.findAllByProject(currentProject));
 		  // model.addAttribute("availableGoals",makeAvailableGoals(ret,currentUser));
-		  model.addAttribute("availableQuestions", availableQuestions);
-		  model.addAttribute("map", map);
 		  return metric;
 	 }
 	 /**
@@ -215,7 +194,19 @@ public class SimpleMetricFormController extends BaseFormController
 				if (errors.hasErrors() && request.getParameter("delete") == null)
 				{
 					 // don't validate when deleting
-					 populateModel(model, metric);
+					 Set<QuestionMetric> sessionQuestions = (Set<QuestionMetric>) session.getAttribute("currentQuestions");
+					 
+					 Iterator<QuestionMetric> iterator = metric.getQuestions().iterator();
+					 
+					 while(iterator.hasNext())
+					 {
+						  QuestionMetric qm = iterator.next();
+						  if(!sessionQuestions.contains(qm))
+								iterator.remove();
+					 }
+					 
+					 populateModel(model, metric,request, session);
+					 
 					 return ViewName.simpleMetricForm;
 				}
 		  }
@@ -386,7 +377,7 @@ public class SimpleMetricFormController extends BaseFormController
 		  }
 	 }
 	 
-	 private void populateModel(Model model, SimpleMetric metric)
+	 private void populateModel(Model model, SimpleMetric metric, HttpServletRequest request, HttpSession session)
 	 {
 		  String[] numericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString(), Aggregator.SUM.toString(), Aggregator.AVG.toString(), Aggregator.VARIANCE.toString()};
 		  String[] nonNumericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString()};
@@ -400,7 +391,37 @@ public class SimpleMetricFormController extends BaseFormController
 				  else
 						availableAggregators.addAll(Arrays.asList(nonNumericAggregators));
 		  }
+		  Project currentProject = projectManager.getCurrentProject(session);
+
+		  User currentUser = userManager.getUserByUsername(request.getRemoteUser());
 		  
+		  
+		  List<Question> availableQuestions = makeAvailableQuestions(metric, projectManager.get(currentProject.getId()), currentUser);
+		  HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
+
+		  // per ogni question, recupero il goal mg a cui sono è associata e
+		  // aggiungo nella hashmap l'og associato (se mg non "orfano")
+		  for (Question q : availableQuestions)
+		  {
+				Set<Goal> relatedOGs = new HashSet<Goal>();
+				for (GoalQuestion gq : q.getGoals())
+				{ // gli mg a cui la question è stata associata
+					 Goal associatedOG = gq.getGoal().getAssociatedOG();
+
+					 if (associatedOG != null)
+					 {
+						  relatedOGs.add(associatedOG);
+					 }
+				}
+				if (relatedOGs.size() > 0)
+					 map.put(q.getId(), relatedOGs);
+		  }
+
+		  model.addAttribute("currentProject", currentProject);
+		  model.addAttribute("currentUser", currentUser);
+		  model.addAttribute("availableQuestions", availableQuestions);
+		  model.addAttribute("map", map);
+		  model.addAttribute("used", !metric.isEresable());
 		  model.addAttribute("availableAggregators", availableAggregators);
 		  if(metric.getActualValue() != null)
 			  model.addAttribute("actual_value", metric.getActualValue());

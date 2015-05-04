@@ -281,13 +281,14 @@
 				<i class="icon-ok icon-white"></i>
 				<fmt:message key="button.save" />
 			</button>
+			</c:if>
 				<c:if test="${(combinedMetric.metricOwner eq currentUser)&& (not used)}">	
 					<button type="submit" class="btn" name="delete">
 						<i class="icon-trash"></i>
 						<fmt:message key="button.delete" />
 					</button>
 				</c:if>
-	</c:if>
+	
 	<button type="submit" class="btn" name="cancel">
 		<i class="icon-remove"></i>
 		<fmt:message key="button.cancel" />
