@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -251,7 +252,12 @@ public class SimpleMetricFormController extends BaseFormController
 					  }
 					  return ViewName.simpleMetricForm;
 				}
-				
+				catch(DataAccessException e1)
+				{
+					 e1.printStackTrace();
+						
+				}
+					
 				
 				String key = (isNew) ? "metric.added" : "metric.updated";
 				saveMessage(request, getText(key, locale));

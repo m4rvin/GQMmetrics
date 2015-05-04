@@ -89,12 +89,12 @@ public class CombinedMetric extends AbstractMetric
 		  if (getClass() != obj.getClass())
 				return false;
 		  CombinedMetric other = (CombinedMetric) obj;
-		  if (composedBy == null)
+/*		  if (composedBy == null)
 		  {
 				if (other.composedBy != null)
 					 return false;
 		  } else if (!composedBy.equals(other.composedBy))
-				return false;
+				return false; */
 		  return true;
 	 }
 

@@ -161,7 +161,7 @@ public class AbstractMetric extends BaseObject
 		  this.metricOwner = metricOwner;
 	 }
 
-	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.metric", cascade = CascadeType.ALL, orphanRemoval = true)
+	 @OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.metric", cascade = CascadeType.ALL, orphanRemoval = true)
 	 public Set<QuestionMetric> getQuestions()
 	 {
 		  return questions;
@@ -448,12 +448,12 @@ public class AbstractMetric extends BaseObject
 				return false;
 		  if (collectingType != other.collectingType)
 				return false;
-		  if (composerFor == null)
+	/*	  if (composerFor == null)
 		  {
 				if (other.composerFor != null)
 					 return false;
 		  } else if (!composerFor.equals(other.composerFor))
-				return false;
+				return false; */
 		  if (formula == null)
 		  {
 				if (other.formula != null)
