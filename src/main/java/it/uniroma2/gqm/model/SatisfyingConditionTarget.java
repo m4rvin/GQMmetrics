@@ -122,7 +122,7 @@ public class SatisfyingConditionTarget extends BaseObject
 	 @Override
 	 public String toString()
 	 {
-		  return "SatisfyingConditionTarget [id=" + id + ", representation=" + representation + ", project=" + project + ", metric=" + metric + ", question=" + question + ", goal=" + goal + ", satisfyingCondition=" + satisfyingCondition + "]";
+		  return "SatisfyingConditionTarget [id=" + id + ", representation=" + representation + ", project=" + project + ", metric=" + metric.getName() + ", question=" + question.getName() + ", goal=" + goal.getId() + ", satisfyingCondition=" + satisfyingCondition.getId() + "]";
 	 }
 
 	 @Override

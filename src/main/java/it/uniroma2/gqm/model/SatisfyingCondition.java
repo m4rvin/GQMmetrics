@@ -142,7 +142,7 @@ public class SatisfyingCondition extends BaseObject
 		  switch(this.satisfyingConditionOperation)
 		  {
    		  case EQUAL:
-   				return measuredValue == threshold;
+   				return measuredValue.equals(threshold);
    		  case GREATER:
    				return measuredValue > threshold;
    		  case GREATER_OR_EQUAL:
@@ -152,7 +152,7 @@ public class SatisfyingCondition extends BaseObject
    		  case LESS_OR_EQUAL:
    				return measuredValue <= threshold;
    		  case NOT_EQUAL:
-   				return measuredValue != threshold;
+   				return !measuredValue.equals(threshold);
    		  default:
    				return false;
 		  }

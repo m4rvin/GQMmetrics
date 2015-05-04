@@ -37,6 +37,7 @@ public class MetricValidator implements Validator
 	 public static final String METRIC_PATTERN_BEGIN = "^(_[a-zA-Z0-9]+_)[^\"]";
 	 public static final String METRIC_PATTERN_END = "[^\"](_[a-zA-Z0-9]+_)$";
 	 public static final String METRIC_PATTERN_ALONE = "^(_[a-zA-Z0-9]+_)$";
+	 public static final String METRIC_NAME_PATTERN = "^[\\d\\p{L}]+$";
 
 	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";
 	 
@@ -79,8 +80,8 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 		  
 		  String metric_name = metric.getName();
-		  if(!metric_name.matches("^[\\d\\p{L}]+$"))
-				errors.rejectValue("name", "name", "name must be composed only by letters or numbers");
+		  if(!metric_name.matches(METRIC_NAME_PATTERN))
+				errors.rejectValue("name", "name", "Name must be composed only by letters or numbers");
 		  
 
 		  validateQuestions(metric, errors);

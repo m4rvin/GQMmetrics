@@ -146,8 +146,11 @@
             <field property="type" depends="required">
                 <arg key="combinedMetric.type"/>
             </field>
+            <field property="formula" depends="required">
+                <arg key="combinedMetric.formula"/>
+            </field>
             <field property="outputValueType" depends="required">
-                <arg key="simpleMetric.outputValueType"/>
+                <arg key="combinedMetric.outputValueType"/>
             </field>      
         </form>
         

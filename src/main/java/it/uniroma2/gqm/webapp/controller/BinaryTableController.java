@@ -94,6 +94,7 @@ public class BinaryTableController {
                	  //evaluate only the metrics with an assigned Satisfying Condition
                	  for(SatisfyingCondition sc: satisfyingConditions)
                	  {
+               			System.out.println(sc);
                		try{
            				satisfy &= sc.getSatisfaction(m.getActualValue());
    	                	satisfyAll &= satisfy;

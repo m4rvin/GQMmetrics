@@ -7,7 +7,7 @@
  
 
 <div class="span2">
-	<p><fmt:message key="measurement.message"/></p>	
+	<h2><fmt:message key="measurement.message"/></h2>	
 </div>
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>

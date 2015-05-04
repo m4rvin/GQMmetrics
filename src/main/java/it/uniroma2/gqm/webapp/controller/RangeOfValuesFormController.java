@@ -159,7 +159,8 @@ public class RangeOfValuesFormController extends BaseFormController
 		  System.out.println(rangeOfValues);
 		  try
 		  {
-				rangeOfValues.sortAndMerge();
+				if(rangeOfValues.isRange())
+					 rangeOfValues.sortAndMerge();
 				rangeOfValues = rangeOfValuesManager.saveRangeOfValues(rangeOfValues);
 
 		  } catch (DataIntegrityViolationException e)
