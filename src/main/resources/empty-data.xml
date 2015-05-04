@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="app_user">
+		<column>id</column>
+		<column>username</column>
+		<column>password</column>
+		<column>first_name</column>
+		<column>last_name</column>
+		<column>address</column>
+		<column>city</column>
+		<column>country</column>
+		<column>email</column>
+		<column>phone_number</column>
+		<column>postal_code</column>
+		<column>province</column>
+		<column>website</column>
+		<column>password_hint</column>
+		<column>version</column>
+		<column>account_enabled</column>
+		<column>account_expired</column>
+		<column>account_locked</column>
+		<column>credentials_expired</column>
+		<row>
+			<value description="id">-1</value>
+			<value description="username">luca</value>
+			<value description="password">41213f768a613c42733e956314b0cf4dc2502377</value>
+			<value description="first_name">Luca</value>
+			<value description="last_name">Mastrogiovanni</value>
+			<value description="address">Via Virgilio 114</value>
+			<value description="city">Albano Laziale</value>
+			<value description="country">IT</value>
+			<value description="email">luca.mastrogiovanni@gmail.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">00041</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[My first nick name.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">-2</value>
+			<value description="username">marco</value>
+			<value description="password">45bcf4bc05478909c504f47edf89633c1460dfd9</value>
+			<value description="first_name">Marco</value>
+			<value description="last_name">Vasselli</value>
+			<value description="address">Via Filippo Serafini 5</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">nicovax7@gmail.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">00173</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[My first nick name.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">-3</value>
+			<value description="username">admin</value>
+			<value description="password">a40546cc4fd6a12572828bb803380888ad1bfdab</value>
+			<value description="first_name">Administrator</value>
+			<value description="last_name">God</value>
+			<value description="address"></value>
+			<value description="city">Ney York</value>
+			<value description="country">US</value>
+			<value description="email">admin@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">12345</value>
+			<value description="province">NY</value>
+			<value description="website">http://gqmblind.com</value>
+			<value description="password_hint"><![CDATA[Something about my sister.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">1</value>
+			<value description="username">Project Manager 1</value>
+			<value description="password">0dd1ebccc81d9710bd67cea5120e89790b0ff57d</value>
+			<value description="first_name">Project</value>
+			<value description="last_name">Manager 1</value>
+			<value description="address">Via Cola di Rienzo 1</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">pm1@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">2</value>
+			<value description="username">Project Manager 2</value>
+			<value description="password">0cc44f0ce1ee2e600839ae16bdd188267faa3a63</value>
+			<value description="first_name">Project</value>
+			<value description="last_name">Manager 2</value>
+			<value description="address">Via Cola di Rienzo 2</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">pm2@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">3</value>
+			<value description="username">Project Employee 1</value>
+			<value description="password">f07a16172ccf528353cb262727618f761dbc2283</value>
+			<value description="first_name">Project</value>
+			<value description="last_name">Employee 1</value>
+			<value description="address">Via Lemonia 1</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">pe1@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">4</value>
+			<value description="username">Project Employee 2</value>
+			<value description="password">4bc3d71224d71173824729d9d281dbb07066a3fc</value>
+			<value description="first_name">Project</value>
+			<value description="last_name">Employee 2</value>
+			<value description="address">Via Lemonia 2</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">pe2@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">5</value>
+			<value description="username">GQM Member 1</value>
+			<value description="password">4ea45af0e2d23d621ffb144183ca238ed2fd8416</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 1</value>
+			<value description="address">Via del Serafico 1</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm1@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">6</value>
+			<value description="username">GQM Member 2</value>
+			<value description="password">f0f8227d65524fd4a52c7f617db5a1273c36739f</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 2</value>
+			<value description="address">Via del Serafico 2</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm2@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">7</value>
+			<value description="username">GQM Member 3</value>
+			<value description="password">f6926493cca117930d7ffb7255909f204de2a6c2</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 3</value>
+			<value description="address">Via del Serafico 3</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm3@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">8</value>
+			<value description="username">GQM Member 4</value>
+			<value description="password">8a37caeb4384be43fbbe8e679da395cc3337f040</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 4</value>
+			<value description="address">Via del Serafico 4</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm4@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">9</value>
+			<value description="username">GQM Member 5</value>
+			<value description="password">72166ce00bff5ba9d74063f0471c750f5e4745d2</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 5</value>
+			<value description="address">Via del Serafico 5</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm5@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+		<row>
+			<value description="id">10</value>
+			<value description="username">GQM Member 6</value>
+			<value description="password">bf26424ee33648ae6381ae8b69072b9c11860d2b</value>
+			<value description="first_name">GQM</value>
+			<value description="last_name">Member 6</value>
+			<value description="address">Via del Serafico 6</value>
+			<value description="city">Rome</value>
+			<value description="country">IT</value>
+			<value description="email">gqmm6@gqm-blind.com</value>
+			<value description="phone_number"></value>
+			<value description="postal_code">1234</value>
+			<value description="province">RM</value>
+			<value description="website">https://gqm-blind.googlecode.com</value>
+			<value description="password_hint"><![CDATA[PWD hint 1.]]></value>
+			<value description="version">1</value>
+			<value description="account_enabled">1</value>
+			<value description="account_expired">0</value>
+			<value description="account_locked">0</value>
+			<value description="credentials_expired">0</value>
+		</row>
+	</table>
+	<table name="role">
+		<column>id</column>
+		<column>name</column>
+		<column>description</column>
+		<row>
+			<value description="id">-1</value>
+			<value description="name">ROLE_ADMIN</value>
+			<value description="description"><![CDATA[Administrator role (can edit Users and create project.)]]></value>
+		</row>
+		<row>
+			<value description="id">-2</value>
+			<value description="name">ROLE_USER</value>
+			<value description="description"><![CDATA[Default role for all Users]]></value>
+		</row>
+	</table>
+	<table name="user_role">
+		<column>user_id</column>
+		<column>role_id</column>
+		<row>
+			<value description="user_id">-1</value>
+			<value description="role_id">-1</value>
+		</row>
+		<row>
+			<value description="user_id">-1</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">-2</value>
+			<value description="role_id">-1</value>
+		</row>
+		<row>
+			<value description="user_id">-2</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">-3</value>
+			<value description="role_id">-1</value>
+		</row>
+		<row>
+			<value description="user_id">-3</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">1</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">2</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">3</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">4</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">5</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">6</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">7</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">8</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">9</value>
+			<value description="role_id">-2</value>
+		</row>
+		<row>
+			<value description="user_id">10</value>
+			<value description="role_id">-2</value>
+		</row>
+	</table>
+	 <table name="Project">
+        <column>project_id</column>
+        <column>name</column>
+        <column>description</column>
+        <column>po_id</column>
+        <row>
+            <value description="project_id">-1</value>
+            <value description="name">Trenitalia</value>
+            <value description="description"><![CDATA[Trenitalia is the primary train operator in Italy]]></value>
+            <value description="po_id">1</value>
+        </row>
+		<row>
+            <value description="project_id">-2</value>
+            <value description="name">CINECA</value>
+            <value description="description"><![CDATA[Cineca is a non profit Consortium, made up of 56 Italian universities*, and 3 Institutions.]]></value>
+            <value description="po_id">1</value>
+        </row>      
+		<row>
+            <value description="project_id">1</value>
+            <value description="name">Application replacement</value>
+            <value description="description"><![CDATA[Replacement of the management software of beds developed by Cineca. Cineca is a non profit Consortium, made up of 56 Italian universities, and 3 Institutions.]]></value>
+            <value description="po_id">1</value>
+        </row>
+    </table> 
+</dataset>
