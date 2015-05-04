@@ -58,8 +58,6 @@
 	<br>
 	<div style="color:#0000FF;">Where <b>y</b> refers to a valid value.</div>	
 </div>
-
-
 <div class="span7">
     <form:errors path="*" cssClass="alert alert-error fade in" element="div"/>
     <form:form commandName="simpleMetric" method="post" action="simplemetricform" id="simpleMetricForm" cssClass="well form-horizontal">
@@ -258,13 +256,14 @@
 				<i class="icon-ok icon-white"></i>
 				<fmt:message key="button.save" />
 			</button>
+			</c:if>
 				<c:if test="${(simpleMetric.metricOwner eq currentUser)&& (not used)}">	
 					<button type="submit" class="btn" name="delete">
 						<i class="icon-trash"></i>
 						<fmt:message key="button.delete" />
 					</button>
 				</c:if>
-		</c:if>
+		
       <button type="submit" class="btn" name="cancel">
       	<i class="icon-remove"></i> <fmt:message key="button.cancel"/>
       </button>        

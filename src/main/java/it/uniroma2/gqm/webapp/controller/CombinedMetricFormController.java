@@ -12,8 +12,6 @@ import it.uniroma2.gqm.model.Question;
 import it.uniroma2.gqm.model.QuestionMetric;
 import it.uniroma2.gqm.model.QuestionMetricPK;
 import it.uniroma2.gqm.model.QuestionMetricStatus;
-import it.uniroma2.gqm.model.RangeOfValues;
-import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
 import it.uniroma2.gqm.service.MeasurementScaleManager;
 import it.uniroma2.gqm.service.ProjectManager;
@@ -26,17 +24,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.appfuse.model.User;
-import org.appfuse.service.GenericManager;
 import org.appfuse.service.UserManager;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,12 +119,11 @@ public class CombinedMetricFormController extends BaseFormController
 		  {
 			  	model.addAttribute("metricInEditingId", id);
 				metric = metricManager.findCombinedMetricById(new Long(id));
-				model.addAttribute("used", !metric.isEresable());
 				MeasurementScale measurementScale = metric.getMeasurementScale();
 				session.setAttribute("currentQuestions", metric.getQuestions());
 				
 				if (measurementScale != null && measurementScale.getType() != null)
-					 populateModel(model, measurementScale,  metric.getId());
+					 populateModel(model, metric.getMeasurementScale(), metric.getId(), metric, request, session);
 		  } else
 		  {
 				metric = new CombinedMetric();
@@ -219,9 +215,23 @@ public class CombinedMetricFormController extends BaseFormController
 					 // don't validate when deleting
 					 System.out.println(errors);
 					 System.out.println(metric);
+					 
+					 //delete question_metric association performed into the last submit
+					 Set<QuestionMetric> sessionQuestions = (Set<QuestionMetric>) session.getAttribute("currentQuestions");
+					 
+					 Iterator<QuestionMetric> iterator = metric.getQuestions().iterator();
+					 
+					 while(iterator.hasNext())
+					 {
+						  QuestionMetric qm = iterator.next();
+						  if(!sessionQuestions.contains(qm))
+								iterator.remove();
+					 }
+					 
 					 MeasurementScale measurementScale = metric.getMeasurementScale();
-					 if (measurementScale != null && measurementScale.getType() != null)
-						  populateModel(model, measurementScale, metric.getId());
+					 
+					 populateModel(model, metric.getMeasurementScale(), metric.getId(), metric, request, session);
+					 
 					 return ViewName.combinedMetricForm;
 				}
 		  }
@@ -266,33 +276,39 @@ public class CombinedMetricFormController extends BaseFormController
 				 * 
 				 * for(AbstractMetric m : mSet) { metric.addComposedBy(m); }
 				 */
-				populateModel(model, metric.getMeasurementScale(), metric.getId());
+				populateModel(model, metric.getMeasurementScale(), metric.getId(), metric, request, session);
 				
 				Set<String> composedByMetricNames = MetricValidator.extractPattern(metric.getFormula(), "(_){1}[^_]+(_){1}", 0);
 
 				List<AbstractMetric> availableMetrics = (ArrayList<AbstractMetric>) model.asMap().get("availableMetricComposers");
 
-				//check used composer metrics are compatible with the metric to bea created
-				for (String metricName : composedByMetricNames)
+				if(availableMetrics != null)
 				{
-					 boolean found = false;
-					 metricName = metricName.replaceAll("_", "");
-					 for (AbstractMetric m : availableMetrics)
-					 {
-						  if (m.getName().equals(metricName))
-						  {
-								metric.addComposedBy(m);
-								found = true;
-								break;
-						  }
-					 }
-					 if (!found)
-					 {
-						  errors.rejectValue("formula", "formula", "Usage of not valid metric");
-						//  populateModel(model, metric.getMeasurementScale().getType());
-						  return ViewName.combinedMetricForm;
-					 }
+					//check used composer metrics are compatible with the metric to bea created
+						for (String metricName : composedByMetricNames)
+						{
+							 boolean found = false;
+							 metricName = metricName.replaceAll("_", "");
+							 for (AbstractMetric m : availableMetrics)
+							 {
+								  if (m.getName().equals(metricName))
+								  {
+										metric.addComposedBy(m);
+										found = true;
+										break;
+								  }
+							 }
+							 if (!found)
+							 {
+								  errors.rejectValue("formula", "formula", "Usage of not valid metric");
+								//  populateModel(model, metric.getMeasurementScale().getType());
+								  
+								  return ViewName.combinedMetricForm;
+							 }
+						}
 				}
+				
+				
 
 				System.out.println("\n\n" + metric + "\n\n");
 
@@ -448,14 +464,50 @@ public class CombinedMetricFormController extends BaseFormController
 		  return ret;
 	 }
 
-	 private void populateModel(Model model, MeasurementScale measurementScale, Long metricId)
+	 private void populateModel(Model model, MeasurementScale measurementScale, Long metricId, CombinedMetric metric, HttpServletRequest request, HttpSession session)
 	 {
 		  List<AbstractMetric> availableMetricComposers;
-		  if(metricId != null)
-			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleTypeExludingOneById(measurementScale.getType(), metricId);
+		  if(measurementScale != null)
+		  {
+				if(metricId != null)
+					  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleTypeExludingOneById(measurementScale.getType(), metricId);
+				  else
+					  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleType(measurementScale.getType());
+				  availableMetricComposers = this.filterByRangeOfValues(measurementScale, availableMetricComposers);
+		  }
 		  else
-			  availableMetricComposers = this.metricManager.findMetricByMeasurementScaleType(measurementScale.getType());
-		  availableMetricComposers = this.filterByRangeOfValues(measurementScale, availableMetricComposers);
+				availableMetricComposers = new ArrayList<AbstractMetric>();
+		  
+		  Project currentProject = projectManager.getCurrentProject(session);
+
+		  User currentUser = userManager.getUserByUsername(request.getRemoteUser());
+		  
+		  List<Question> availableQuestions = makeAvailableQuestions(metric, projectManager.get(currentProject.getId()), currentUser);
+		  HashMap<Long, Set<Goal>> map = new HashMap<Long, Set<Goal>>();
+
+		  // per ogni question, recupero il goal mg a cui sono è associata e
+		  // aggiungo nella hashmap l'og associato (se mg non "orfano")
+		  for (Question q : availableQuestions)
+		  {
+				Set<Goal> relatedOGs = new HashSet<Goal>();
+				for (GoalQuestion gq : q.getGoals())
+				{ // gli mg a cui la question è stata associata
+					 Goal associatedOG = gq.getGoal().getAssociatedOG();
+
+					 if (associatedOG != null)
+					 {
+						  relatedOGs.add(associatedOG);
+					 }
+				}
+				if (relatedOGs.size() > 0)
+					 map.put(q.getId(), relatedOGs);
+		  }
+
+		  model.addAttribute("currentProject", currentProject);
+		  model.addAttribute("currentUser", currentUser);
+		  model.addAttribute("availableQuestions", availableQuestions);
+		  model.addAttribute("map", map);
+		  model.addAttribute("used", !metric.isEresable());
 		  model.addAttribute("availableMetricComposers", availableMetricComposers);
 	 }
 	 

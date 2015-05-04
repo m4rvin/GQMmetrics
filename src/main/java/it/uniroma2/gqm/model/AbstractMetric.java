@@ -478,13 +478,13 @@ public class AbstractMetric extends BaseObject
 					 return false;
 		  } else if (!measurementScale.equals(other.measurementScale))
 				return false;
-		  if (measurements == null)
+/*		  if (measurements == null)
 		  {
 				if (other.measurements != null)
 					 return false;
 		  } else if (!measurements.equals(other.measurements))
 				return false;
-		  if (metricOwner == null)
+*/		  if (metricOwner == null)
 		  {
 				if (other.metricOwner != null)
 					 return false;
