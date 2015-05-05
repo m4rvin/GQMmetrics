@@ -111,6 +111,9 @@ public class SimpleMetricFormController extends BaseFormController
 	 @RequestMapping(value = ViewName.simpleMetricForm, method = RequestMethod.GET)
 	 protected SimpleMetric showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
+		 session.removeAttribute("simpleMetric");
+		 session.removeAttribute("currentQuestions");
+		 
 		  String id = request.getParameter("id");
 		  SimpleMetric metric = null;
 

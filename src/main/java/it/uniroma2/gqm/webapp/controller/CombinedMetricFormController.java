@@ -108,6 +108,8 @@ public class CombinedMetricFormController extends BaseFormController
 	 @RequestMapping(value = ViewName.combinedMetricForm, method = RequestMethod.GET)
 	 protected CombinedMetric showForm(HttpServletRequest request, HttpSession session, Model model) throws Exception
 	 {
+		 session.removeAttribute("combinedMetric");
+		 session.removeAttribute("currentQuestions");
 		  String id = request.getParameter("id");
 		  CombinedMetric metric = null;
 
