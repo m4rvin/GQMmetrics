@@ -77,20 +77,15 @@ public class RangeOfValuesFormController extends BaseFormController
 				this.projectManager.getCurrentProject(session);
 		  }
 
-		  ArrayList<String> availableMeasurementScaleTypes = new ArrayList<String>();
-		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.NOMINAL.toString());
-		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.ORDINAL.toString());
-		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.INTERVAL.toString());
-		  availableMeasurementScaleTypes.add(MeasurementScaleTypeEnum.RATIO.toString());
-		  model.addAttribute("availableMeasurementScaleTypes", availableMeasurementScaleTypes);
-
 		  List<String> defaultRangeSets = new ArrayList<String>();
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.NATURAL_NUMBERS.toString());
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.INTEGER_NUMBERS.toString());
 		  defaultRangeSets.add(DefaultRangeOfValuesEnum.REAL_NUMBERS.toString());
 
 		  model.addAttribute("defaultRangeSets", defaultRangeSets);
-		  model.addAttribute("numberTypes", defaultRangeSets);
+		  List<String> numberTypes = new ArrayList<String>(defaultRangeSets);
+		  numberTypes.remove(DefaultRangeOfValuesEnum.NATURAL_NUMBERS.toString());
+		  model.addAttribute("numberTypes", numberTypes);
 	 }
 
 	 @RequestMapping(method = RequestMethod.GET)

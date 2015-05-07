@@ -121,7 +121,7 @@
 							<form:select id="numberType" path="numberType" onchange=""
 								disabled="${used}">
 								<form:option value="" label="None" />
-								<form:options items="${defaultRangeSets}" />
+								<form:options items="${numberTypes}" />
 							</form:select>
 							<form:errors path="numberType" cssClass="help-inline" />
 						</div>
