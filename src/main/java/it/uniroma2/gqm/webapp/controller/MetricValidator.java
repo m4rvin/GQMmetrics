@@ -33,10 +33,10 @@ public class MetricValidator implements Validator
 	 
 	 private static final String FORMULA_FIELD = "formula";
 
-	 public static final String METRIC_PATTERN_MIDDLE = "[^\"](_[a-zA-Z0-9]+_)[^\"]";
-	 public static final String METRIC_PATTERN_BEGIN = "^(_[a-zA-Z0-9]+_)[^\"]";
-	 public static final String METRIC_PATTERN_END = "[^\"](_[a-zA-Z0-9]+_)$";
-	 public static final String METRIC_PATTERN_ALONE = "^(_[a-zA-Z0-9]+_)$";
+	 public static final String METRIC_PATTERN_MIDDLE = "[^\"](_[\\d\\p{L}]+_)[^\"]";
+	 public static final String METRIC_PATTERN_BEGIN = "^(_[\\d\\p{L}]+_)[^\"]";
+	 public static final String METRIC_PATTERN_END = "[^\"](_[\\d\\p{L}]+_)$";
+	 public static final String METRIC_PATTERN_ALONE = "^(_[\\d\\p{L}]+_)$";
 	 public static final String METRIC_NAME_PATTERN = "^[\\d\\p{L}]+$";
 
 	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\"";

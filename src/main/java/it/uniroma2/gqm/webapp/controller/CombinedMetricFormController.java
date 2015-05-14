@@ -280,7 +280,10 @@ public class CombinedMetricFormController extends BaseFormController
 				 */
 				populateModel(model, metric.getMeasurementScale(), metric.getId(), metric, request, session);
 				
-				Set<String> composedByMetricNames = MetricValidator.extractPattern(metric.getFormula(), "(_){1}[^_]+(_){1}", 0);
+				Set<String> composedByMetricNames = MetricValidator.extractPattern(metric.getFormula(), MetricValidator.METRIC_PATTERN_BEGIN, 1);
+				composedByMetricNames.addAll(MetricValidator.extractPattern(metric.getFormula(), MetricValidator.METRIC_PATTERN_MIDDLE, 1));
+				composedByMetricNames.addAll(MetricValidator.extractPattern(metric.getFormula(), MetricValidator.METRIC_PATTERN_ALONE, 1));
+				composedByMetricNames.addAll(MetricValidator.extractPattern(metric.getFormula(), MetricValidator.METRIC_PATTERN_END, 1));
 
 				List<AbstractMetric> availableMetrics = (ArrayList<AbstractMetric>) model.asMap().get("availableMetricComposers");
 
