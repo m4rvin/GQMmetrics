@@ -233,6 +233,8 @@ public class FormulaHandler
 					 }
 				}
 				input_value = AggregatorHandler.executeAggregator(metric.getAggregator(), collected_measurement_values);
+				//TODO
+				input value a stringa o numeric a seconda del tipo di metrica (undef/numeric)
 		  }
 
 		  // metric is a simple metric add only _this_ reference & membership
@@ -303,6 +305,8 @@ public class FormulaHandler
 					 String metric_variable_name = "_" + composer.getName() + "_";
 					 metric_variables.add(metric_variable_name);
 					 values.put(metric_variable_name, composerActualValue);
+					 //TODO
+					 mettere stringa o valore numerico
 				} 
 				else if (composerActualValue == null)
 				{
@@ -347,6 +351,8 @@ public class FormulaHandler
 
 				// result validated, must be propagated above in the hierarchy
 
+				//TODO
+				imposta result come stringa o numeric a seconda del tipo di metric che sono
 				metric.setActualValue(result);
 				metric = (CombinedMetric) metricManager.save(metric);
 		  }
