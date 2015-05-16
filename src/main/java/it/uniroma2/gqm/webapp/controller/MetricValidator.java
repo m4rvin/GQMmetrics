@@ -42,20 +42,20 @@ public class MetricValidator implements Validator
 	 public static final String METRIC_PATTERN_ALONE = "^(_[\\d\\p{L}]+_)$";
 	 public static final String METRIC_NAME_PATTERN = "^[\\d\\p{L}]+$";
 
-	 public static final String ENTITY_CLASS_PATTERN = "\"(.*?)\""; //FIXME underscore
+	 public static final String ENTITY_CLASS_PATTERN = "\"(_.*?_)\""; //FIXME underscore
 	 
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
 	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
-	 private static final String MEMBERSHIP_PATTERN = "#\"(_[^\\s|^\"]+_)\"";
-	 private static final String LOWER_PATTERN_WITH_THIS 			= "(_this_)<\"(.*?)\"";
-	 private static final String LOWER_OR_EQUAL_PATTERN_WITH_THIS 	= "(_this_)<=\"(.*?)\"";
-	 private static final String GREATER_PATTERN_WITH_THIS 			= "(_this_)>\"(.*?)\"";
-	 private static final String GREATER_OR_EQUAL_PATTERN_WITH_THIS = "(_this_)>=\"(.*?)\"";
+	 private static final String MEMBERSHIP_PATTERN = "(_this_)#\"(_.*?_)\"";
+	 private static final String LOWER_PATTERN_WITH_THIS 			= "(_this_)<\"(_.*?_)\"";
+	 private static final String LOWER_OR_EQUAL_PATTERN_WITH_THIS 	= "(_this_)<=\"(_.*?_)\"";
+	 private static final String GREATER_PATTERN_WITH_THIS 			= "(_this_)>\"(_.*?_)\"";
+	 private static final String GREATER_OR_EQUAL_PATTERN_WITH_THIS = "(_this_)>=\"(_.*?_)\"";
 	 
-	 private static final String LOWER_PATTERN_WITHOUT_THIS 			= "(_[\\d\\p{L}]+_)<\"(.*?)\"";
-	 private static final String LOWER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)<=\"(.*?)\"";
-	 private static final String GREATER_PATTERN_WITHOUT_THIS 			= "(_[\\d\\p{L}]+_)>\"(.*?)\"";
-	 private static final String GREATER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)>=\"(.*?)\"";
+	 private static final String LOWER_PATTERN_WITHOUT_THIS 			= "(_[\\d\\p{L}]+_)<\"(_.*?_)\"";
+	 private static final String LOWER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)<=\"(_.*?_)\"";
+	 private static final String GREATER_PATTERN_WITHOUT_THIS 			= "(_[\\d\\p{L}]+_)>\"(_.*?_)\"";
+	 private static final String GREATER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)>=\"(_.*?_)\"";
 	 
 	  
 	 private static final String VALID_RESULT_PATTERN = "[\\d|\\.|\\)|\\(|\\,|£|\\?|\\$]*";
@@ -146,7 +146,7 @@ public class MetricValidator implements Validator
 		  //formula = formula.replaceAll(METRIC_PATTERN_BEGIN, METRIC_REPLACEMENT);
 		  //formula = formula.replaceAll(METRIC_PATTERN_END, METRIC_REPLACEMENT);
 		  
-		  String[] formula_blocks = formula.split("[\\&\\&|\\|\\|]"); //split formula in blocks separated by && or ||
+		  String[] formula_blocks = formula.split("&&|\\|\\|"); //split formula in blocks separated by && or ||
 		  boolean  unique_block = (formula_blocks.length == 1) ? true : false;
 		  
 		  //ho almeno 2 blocchetti (quindi ognuno deve essere un blocchetto boolean)
@@ -170,9 +170,16 @@ public class MetricValidator implements Validator
 			   			//retrieve metric from db e check of its type constraints (related with other metric type)
 			   			m = m.replaceAll("_", ""); //clean the metric name
 			   			
-			   			AbstractMetric metricObj = complexMetricManager.findMetricByName(m);
+			   			
+			   			AbstractMetric metricObj;
+			   			
+			   			if(m.equals("this")) //simple metric case
+			   				 metricObj = null;
+			   			else
+			   				 metricObj = complexMetricManager.findMetricByName(m);
 
-				   		if(metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.UNDEFINED))
+			   			
+				   		if(metricObj != null && metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.UNDEFINED))
 				   		{
 				   			undefined_counter++;
 				   			if(undefined_counter > 1)
@@ -182,30 +189,30 @@ public class MetricValidator implements Validator
 				   			}
 							else if(undefined_counter == 1)
 					   		{
-								if(!unique_block) //we are analyzing a multiple block formula
-								{
-						   			if (block.length()-2 == m.length()) // una metrica undefined non può stare da sola: almeno un operatore o altro vicino (poi controlliamo se è corretta l'operazione)
-						   			{
-						   				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO SINGLE UNDEFINED METRIC SUPPORTED");
-						   				return;
-						   			}
-						   			if(numeric_counter > 0)
-						   			{
-						   				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO MIXED UNDEFINED AND NUMERIC METRIC SUPPORTED"); //non si possono combinare metriche numeriche e undefined senza operatori di && oppure ||
-						   				return;
-						   			}
-								}
-								else
-								{
-									if (block.length()-2 == m.length()) // un unico block, lunghezza == metric name => formula è uguale a M1 (undefined)
-						   			{
-						   				metric.setOutputValueType(MetricOutputValueTypeEnum.UNDEFINED);
-						   				return;
-						   			}
-								}
+   								if(!unique_block) //we are analyzing a multiple block formula
+   								{
+   						   			if (block.length()-2 == m.length()) // una metrica undefined non può stare da sola: almeno un operatore o altro vicino (poi controlliamo se è corretta l'operazione)
+   						   			{
+   						   				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO SINGLE UNDEFINED METRIC SUPPORTED");
+   						   				return;
+   						   			}
+   						   			if(numeric_counter > 0)
+   						   			{
+   						   				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO MIXED UNDEFINED AND NUMERIC METRIC SUPPORTED"); //non si possono combinare metriche numeriche e undefined senza operatori di && oppure ||
+   						   				return;
+   						   			}
+   								}
+   								else
+   								{
+   									if (block.length()-2 == m.length()) // un unico block, lunghezza == metric name => formula è uguale a M1 (undefined)
+   						   			{
+   						   				metric.setOutputValueType(MetricOutputValueTypeEnum.UNDEFINED);
+   						   				return;
+   						   			}
+   								}
 					   		}
 				   		}
-				   		if(metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.BOOLEAN))
+				   		else if(metricObj != null && metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.BOOLEAN))
 				   		{
 				   			if (block.length()-2 != m.length())
 				   			{
@@ -219,7 +226,7 @@ public class MetricValidator implements Validator
 				   				break;//this is the only metric found, so the block is correct (it is composed by an single boolean metric)
 				   			}
 				   		}
-				   		if(metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.NUMERIC))
+				   		else if(metricObj != null && metricObj.getOutputValueType().equals(MetricOutputValueTypeEnum.NUMERIC))
 				   		{
 				   			numeric_counter++;
 				   			if(undefined_counter > 0)
@@ -227,6 +234,33 @@ public class MetricValidator implements Validator
 				   				errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "MIXED UNDEFINED AND NUMERIC METRIC UNSUPPORTED"); //non si possono combinare metriche numeriche e undefined senza operatori di && oppure ||
 				   				return;
 				   			}
+				   		}
+				   		else //simple metric case: _this_ found
+				   		{
+				   			 if(unique_block)
+				   			 {
+				   				  if(block.length()-2 == m.length())
+				   				  {
+				   						if(metric.getMeasurementScale().getRangeOfValues().isNumeric())
+				   						{
+				   							 metric.setOutputValueType(MetricOutputValueTypeEnum.NUMERIC);
+				   							 return;
+				   						}
+				   						else
+				   						{
+				   							 metric.setOutputValueType(MetricOutputValueTypeEnum.UNDEFINED);
+				   							 return;
+				   						}
+				   						
+				   				  }
+				   			 }
+				   			 else
+				   			 {
+				   				  if(block.length()-2 == m.length())
+				   				  {
+				   						errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "WRONG USAGE OF _THIS_");
+				   				  }
+				   			 }
 				   		}
 			   		}
 			   		
@@ -241,25 +275,38 @@ public class MetricValidator implements Validator
 		   			comparison_operators_regex.add(this.handler.getOperators().get("lower than"));
 		   			comparison_operators_regex.add(this.handler.getOperators().get("lower or equal than"));
 		   			
-			   		if(numeric_counter > 0)
+			   		if(numeric_counter > 0 || (metric instanceof SimpleMetric && metric.getMeasurementScale().getRangeOfValues().isNumeric()))
 			   		{
 			   			comparison_operators_regex.add(this.handler.getOperators().get("equality"));
 			   		}
-			   		else if(undefined_counter > 0)
+			   		else if(undefined_counter > 0 || (metric instanceof SimpleMetric && !metric.getMeasurementScale().getRangeOfValues().isNumeric()))
 			   		{
 			   			comparison_operators_regex.add(this.handler.getOperators().get("membership"));
 			   		}
 			   		
-			   		if(!ComparisonOperatorsInBlockEqualsToOne(comparison_operators_regex, block))
+			   		int comparison_operators_number = ComparisonOperatorsInBlockEqualsToOne(comparison_operators_regex, block); //number of comparison operators found in block formula
+			   		
+			   		if(unique_block)
 			   		{
-			   			errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "ERROR: It is not possible to use multiple comparison operators not separated by && or ||"); //non si possono combinare metriche numeriche e undefined senza operatori di && oppure ||
-		   				return;
+			   			 if(comparison_operators_number == 0 && metric.getOutputValueType() == null)
+			   				  metric.setOutputValueType(MetricOutputValueTypeEnum.NUMERIC);
+			   			 else if(comparison_operators_number == 1 && metric.getOutputValueType() == null)
+			   				  metric.setOutputValueType(MetricOutputValueTypeEnum.BOOLEAN);
+			   			 else if(comparison_operators_number > 1)
+			   			 {
+			   				  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "ERROR: It is not possible to use multiple comparison operators not separated by && or ||");
+			   				  return;
+			   			 }
 			   		}
-			   		else //ONE comparison operator
-					{
-			   			if(unique_block) //set metric as boolean
-			   				metric.setOutputValueType(MetricOutputValueTypeEnum.BOOLEAN);
-
+			   		else //block case
+			   		{
+			   			 if(comparison_operators_number != 1)
+			   			 {
+			   				  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "ERROR: It is not possible to use multiple comparison operators not separated by && or ||");
+			   				  return;
+			   			 }
+			   		}
+			   	
 						if(metric.getMeasurementScale().getRangeOfValues().isNumeric())
 						{
 							NUMERICcheckAllowedOperationsAndOperators(block, metric, errors); //NUMERICparsa&sostituisce operazioni alla stringa del blocchetto
@@ -268,13 +315,12 @@ public class MetricValidator implements Validator
 						{
 							NOTNUMERICcheckAllowedOperationsAndOperators(block, metric, errors); //NotNUMERICparsa&sostituisce operazioni alla stringa del blocchetto
 						}
-					}
-		   }
+			}
 		   if(formula_blocks.length > 1)
 			   metric.setOutputValueType(MetricOutputValueTypeEnum.BOOLEAN); //the entire formula is boolean
 		   else
 		   {
-			   if(metric.getOutputValueType() != null)// metric type not yet defined. It should be numeric
+			   if(metric.getOutputValueType() == null)// metric type not yet defined. It should be numeric
 	   				metric.setOutputValueType(MetricOutputValueTypeEnum.NUMERIC);
 		   }
 		   		
@@ -286,7 +332,7 @@ public class MetricValidator implements Validator
 	  * @param block
 	  * @return
 	  */
-	 private boolean ComparisonOperatorsInBlockEqualsToOne(List<String> comparisonOperators, String block)
+	 private int ComparisonOperatorsInBlockEqualsToOne(List<String> comparisonOperators, String block)
 	 {
 		 Pattern pattern;
 		 Matcher matcher;
@@ -298,11 +344,9 @@ public class MetricValidator implements Validator
 			 while(matcher.find())
 			 {
 				 counter++;
-				 if(counter > 1)
-					 return false;
 			 }
 		 }
-		 return true;
+		 return counter;
 	 }
 	 
 	 
@@ -450,7 +494,7 @@ public class MetricValidator implements Validator
 	 public boolean NOTNUMERICcheckAllowedOperationsAndOperators(String formula, AbstractMetric metric, Errors errors )
 	 {
 		  boolean multiplication = false;
-		  
+		  formula = " " + formula + " "; //put spaces to force a correct analysis  using regex expression
 		  if (metric.getMeasurementScale() != null)
 		  {
 			  
@@ -463,7 +507,7 @@ public class MetricValidator implements Validator
 					  regex = this.handler.getOperators().get(operation.getOperation());
 					  
 					  //membership custom validation (extract membership parameter and check if its symbol is supported by the ROV)
-					  if (operation.getOperation().equals("membership")) 
+					  if (operation.getOperation().equals("membershsip")) 
 					  {
 							int membershipCount = StringUtils.countMatches(formula, "#");
 							Set<String> membershipPatterns = extractPattern(formula, MEMBERSHIP_PATTERN, 0); //extract every membership pattern
@@ -496,16 +540,14 @@ public class MetricValidator implements Validator
 							}						
 					  }
 					  
-					  else if (operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than") || operation.getOperation().equals("greater or equal than") || operation.getOperation().equals("lower or equal than")) 
+					  else if (operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than") || operation.getOperation().equals("greater or equal than") || operation.getOperation().equals("lower or equal than")) 
 					  {
-						  formula = " " + formula + " "; //put spaces to force a correct analysis  using regex expression
-						  
 						  if(metric.getClass().equals(SimpleMetric.class))
 						  {
 							  String pattern = comparison_operators_with_this.get(operation.getOperation());
 
 							  Set<String> matches= extractPattern(formula, pattern, 0); //look for the correctness of the block (i.e. this>"_asdasd_")
-							  if (matches.size() != 1)
+							  if (matches.size() > 1)
 							  {
 								  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "ERRORE in a section of the formula"); //TODO refine error
 								  return false;
@@ -522,7 +564,7 @@ public class MetricValidator implements Validator
 								  }
 								  else
 								  {
-									  formula = formula.replaceAll(pattern, "$?$"); //replace the the bloc with $?$ (e.g. this>"_sadas_" now is $?$, i.e. metric-operator-metric )
+									  formula = formula.replace(match, "$?$"); //replace the the bloc with $?$ (e.g. this>"_sadas_" now is $?$, i.e. metric-operator-metric )
 									  formula = formula.trim();
 								  }
 							  }
@@ -542,7 +584,7 @@ public class MetricValidator implements Validator
 							String pattern = comparison_operators_without_this.get(operation.getOperation());
 					   		
 					   		Set<String> matches= extractPattern(formula, pattern, 0); //look for the correctness of the block (e.g M1>"_asdasd_")
-							  if (matches.size() != 1)
+							  if (matches.size() > 1)
 							  {
 								  errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "ERRORE in a section of the formula"); //TODO refine error
 								  return false;
@@ -559,7 +601,7 @@ public class MetricValidator implements Validator
 								  }
 								  else
 								  {
-									  formula = formula.replaceAll(pattern, "$?$"); //replace the the bloc with $?$ (e.g. this>"_sadas_" now is $?$, i.e. metric-operator-metric )
+									  formula = formula.replace(match, "$?$"); //replace the the bloc with $?$ (e.g. this>"_sadas_" now is $?$, i.e. metric-operator-metric )
 									  formula = formula.trim();
 								  }
 							  }
