@@ -378,7 +378,7 @@ public class FormulaHandler
 				if(!evaluateFormula(composedByMetric, metricManager))
 					evaluation_propagation_error = true;
 
-		  if(metric.getActualValue().equals(Double.MIN_VALUE) || evaluation_propagation_error)
+		  if(metric.getConvertedActualValue(rov).equals(Double.MIN_VALUE) || evaluation_propagation_error)
 				return false; //the last (or any) metric returned an error
 		  else
 				return true; // composedByMetrics is empty, exit condition reached

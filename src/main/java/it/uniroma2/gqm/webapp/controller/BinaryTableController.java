@@ -96,7 +96,7 @@ public class BinaryTableController {
                	  {
                			System.out.println(sc);
                		try{
-           				satisfy &= sc.getSatisfaction(m.getActualValue());
+           				satisfy &= sc.getSatisfaction(m.getConvertedActualValue(m.getMeasurementScale().getRangeOfValues()));
    	                	satisfyAll &= satisfy;
    	                	evaluable = true;
                		}
