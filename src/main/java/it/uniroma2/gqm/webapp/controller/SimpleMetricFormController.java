@@ -234,6 +234,12 @@ public class SimpleMetricFormController extends BaseFormController
 				
 				try{
 					metric = (SimpleMetric) this.metricManager.save(metric);
+					 /*if(!isNew && metric.getActualValue()!= null && !(new Double(metric.getActualValue()).equals(Double.MIN_VALUE)))
+					 {
+						  Double result = FormulaHandler.evaluateFormula((SimpleMetric) metric);
+						  metric.setActualValue(result.toString());
+						  metric = (SimpleMetric) this.metricManager.save(metric);
+					 }*/
 				}
 				catch(DataIntegrityViolationException e){
 					  System.err.println(e.getMessage());
