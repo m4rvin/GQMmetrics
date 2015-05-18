@@ -320,6 +320,10 @@ public class CombinedMetricFormController extends BaseFormController
 				try{
 					  metric = (CombinedMetric) this.metricManager.save(metric);
 					  boolean dummytestvalue = FormulaHandler.evaluateFormula((CombinedMetric) metric, metricManager);
+					  /*
+					   * if(!isNew && metric.getActualValue()!= null && !(new Double(metric.getActualValue()).equals(Double.MIN_VALUE)))
+						  metric = (CombinedMetric) this.metricManager.save(metric);
+					   */
 					  System.out.println("A new combined metric has been proposed or an existing one has been edited. It has been evaluated and its formula evaluation returned: " + dummytestvalue);
 				}
 				catch(DataIntegrityViolationException e){
