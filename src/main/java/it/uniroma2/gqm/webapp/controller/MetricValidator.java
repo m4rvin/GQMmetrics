@@ -157,10 +157,10 @@ public class MetricValidator implements Validator
 			   	exit errore*/
 		
 			   	
-			   		Set<String> metrics= extractPattern(block, METRIC_PATTERN_BEGIN, 1);
-			   		metrics.addAll(extractPattern(block, METRIC_PATTERN_MIDDLE, 1));
-			   		metrics.addAll(extractPattern(block, METRIC_PATTERN_END, 1));
-			   		metrics.addAll(extractPattern(block, METRIC_PATTERN_ALONE, 1));
+			   		List<String> metrics= extractAllPattern(block, METRIC_PATTERN_BEGIN, 1);
+			   		metrics.addAll(extractAllPattern(block, METRIC_PATTERN_MIDDLE, 1));
+			   		metrics.addAll(extractAllPattern(block, METRIC_PATTERN_END, 1));
+			   		metrics.addAll(extractAllPattern(block, METRIC_PATTERN_ALONE, 1));
 
 			   		int undefined_counter = 0;
 		   			int numeric_counter = 0;
@@ -185,8 +185,8 @@ public class MetricValidator implements Validator
 				   			undefined_counter++;
 				   			if(undefined_counter > 1)
 				   			{
-								errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO MULTIPLE UNDEFINED METRIC SUPPORTED");  //non possono esistere + metriche undefined in un blocco
-								return;
+   								errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO MULTIPLE UNDEFINED METRIC SUPPORTED");  //non possono esistere + metriche undefined in un blocco
+   								return;
 				   			}
 				   			else if(undefined_counter == 1)
 					   		{
@@ -803,6 +803,25 @@ public class MetricValidator implements Validator
 	 public static Set<String> extractPattern(String formula, String patternToExtract, int group)
 	 {
 		  Set<String> result = new HashSet<String>();
+		  Pattern pattern = Pattern.compile(patternToExtract);
+		  Matcher matcher = pattern.matcher(formula);
+
+		  while (matcher.find())
+		  {
+				result.add(matcher.group(group));
+		  }
+		  return result;
+	 }
+	 
+	 /**
+	  * Generic function to extract a given pattern from a string(formula)
+	  * @param formula
+	  * @param patternToExtract
+	  * @return Set<String>
+	  */
+	 public static List<String> extractAllPattern(String formula, String patternToExtract, int group)
+	 {
+		  List<String> result = new ArrayList<String>();
 		  Pattern pattern = Pattern.compile(patternToExtract);
 		  Matcher matcher = pattern.matcher(formula);
 
