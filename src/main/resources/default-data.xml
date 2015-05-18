@@ -1240,11 +1240,11 @@
 			<value description="metric_id">3</value>
 			<value description="aggregator" >AVG</value>        	        	
 		</row>
-		<!-- <row>
+		<row>
 			<value description="metric_id">7</value>
 			<value description="aggregator" ></value>        	        	
 		</row>
-		<row>
+		<!-- <row>
 			<value description="metric_id">8</value>
 			<value description="aggregator" >AVG</value>        	        	
 		</row> -->
@@ -1261,6 +1261,12 @@
 		</row>
 		<row>
 			<value description="metric_id">6</value>
+		</row>
+		<row>
+			<value description="metric_id">8</value>
+		</row>
+		<row>
+			<value description="metric_id">9</value>
 		</row>
 		<!-- <row>
 			<value description="metric_id">9</value>
@@ -1355,6 +1361,42 @@
         	<value description="outputValueType" >NUMERIC</value>
         	<value description="type" >OBJECTIVE</value>
         	<value description="measurement_scale_id" >3</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >7</value>
+			<value description="code" >T-Size UMetric</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_this_</value>
+			<value description="name" >TSizeUMetric</value>
+        	<value description="outputValueType" >UNDEFINED</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >6</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >8</value>
+			<value description="code" >T-Size CombinedMetric UMetric</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_TSizeUMetric_</value>
+			<value description="name" >TSizeUMetricCM</value>
+        	<value description="outputValueType" >UNDEFINED</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >7</value>
+        	<value description="mmdmo_id" >9</value>
+        	<value description="project_id" >-1</value>
+        </row>
+        <row>
+        	<value description="metric_id" >9</value>
+			<value description="code" >T-Size CombinedMetric BMetric</value>
+        	<value description="collecting_type" >SINGLE_VALUE</value>
+        	<value description="metric_formula" >_TSizeUMetric_#"_XS_"||_TSizeUMetric_>"_L_"||_TSizeUMetricCM_&lt;="_3XL_"</value>
+			<value description="name" >TSizeBMetricCM</value>
+        	<value description="outputValueType" >BOOLEAN</value>
+        	<value description="type" >OBJECTIVE</value>
+        	<value description="measurement_scale_id" >7</value>
         	<value description="mmdmo_id" >9</value>
         	<value description="project_id" >-1</value>
         </row>
@@ -1516,6 +1558,18 @@
         <row>
         	<value description="metriccomposedby_id">6</value>
         	<value description="metriccomposerfor_id">5</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">8</value>
+        	<value description="metriccomposerfor_id">7</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">9</value>
+        	<value description="metriccomposerfor_id">7</value>
+        </row>
+        <row>
+        	<value description="metriccomposedby_id">9</value>
+        	<value description="metriccomposerfor_id">8</value>
         </row>
         <!-- <row>
         	<value description="metriccomposedby_id">9</value>
@@ -1951,6 +2005,17 @@
 			<value description="range_values">none</value>
 			<value description="project_id">-1</value>		
 		</row>
+		<row>
+			<value description="rangeofvalues_id">5</value>
+			<value description="is_default_range">false</value>
+			<value description="is_finite">true</value>
+			<value description="name">EnlargedT-Size</value>
+			<value description="number_type">null</value>
+			<value description="is_numeric">false</value>
+			<value description="is_range">false</value>
+			<value description="range_values">XXS,XS,S,M,L,XL,XXL,3XL</value>
+			<value description="project_id">-1</value>		
+		</row>
  	</table> 
  	
  	<table name="measurement_scale">
@@ -2004,6 +2069,24 @@
 		<value description="measurementScale_type">0</value>
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">4</value>
+		<value description="unit_id">-3</value>
+	</row>
+	<row>
+		<value description="measurementScale_id">6</value>
+		<value description="name">T-Sizes short</value>
+		<value description="description">measurement scale for T-Sizes</value>
+		<value description="measurementScale_type">1</value>
+		<value description="project_id">-1</value>
+		<value description="rangeofvalues_id">3</value>
+		<value description="unit_id">-3</value>
+	</row>
+	<row>
+		<value description="measurementScale_id">7</value>
+		<value description="name">T-Sizes large</value>
+		<value description="description">measurement scale for T-Sizes large</value>
+		<value description="measurementScale_type">1</value>
+		<value description="project_id">-1</value>
+		<value description="rangeofvalues_id">5</value>
 		<value description="unit_id">-3</value>
 	</row>
 	
