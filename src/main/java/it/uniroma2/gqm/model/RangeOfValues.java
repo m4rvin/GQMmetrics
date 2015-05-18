@@ -302,7 +302,22 @@ public class RangeOfValues extends BaseObject
 			 
 		 }
 	 }
-	 
+	 /**
+	  * Retrive the rov value corresponding to input value
+	  * @param measurementResult
+	  * @return if rov is numeric returns measurementResult, otherwise rov[measurementResult]
+	  */
+	 public Object getValueByIndex(Double measurementResult)
+	 {
+		  if(this.numeric)
+				return measurementResult;
+		  else
+		  {
+				int index = measurementResult.intValue();
+				return this.rangeValues.split(",")[index];
+		  }
+				
+	 }
 
 	 public boolean isIncluded(RangeOfValues other)
 	 {

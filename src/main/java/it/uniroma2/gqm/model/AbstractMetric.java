@@ -61,7 +61,7 @@ public class AbstractMetric extends BaseObject
 	 protected MeasurementScale measurementScale;
 	 protected User metricOwner;
 	 protected Set<QuestionMetric> questions = new HashSet<QuestionMetric>();
-	 protected Double actualValue = null;
+	 protected String actualValue = null;
 	 protected Set<Measurement> measurements = new HashSet<Measurement>();
 	 protected Set<CombinedMetric> composerFor = new HashSet<CombinedMetric>();
 	 protected String formula;
@@ -184,12 +184,12 @@ public class AbstractMetric extends BaseObject
 	 }
 
 	 @Column(name = "actual_value")
-	 public Double getActualValue()
+	 public String getActualValue()
 	 {
 		  return actualValue;
 	 }
 
-	 public void setActualValue(Double actualValue)
+	 public void setActualValue(String actualValue)
 	 {
 		  this.actualValue = actualValue;
 	 }
@@ -519,9 +519,27 @@ public class AbstractMetric extends BaseObject
 		  return "AbstractMetric [id=" + id + ", code=" + code + ", name=" + name + "]";
 	 }
 	 
-	 
+	 /**
+	  * 
+	  * @param rov range of values to get the correct value of the actual values
+	  * @return
+	  */
+	 public Double getConvertedActualValue(RangeOfValues rov)
+	 {
+		  if(this.actualValue == null)
+				return null;
+		  else
+		  {
+				if(this.getMeasurementScale().getRangeOfValues().isNumeric() || this.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
+					 return Double.parseDouble(this.actualValue);
+				else
+					 return rov.getStringValueAsNumberByIndex(this.actualValue);
+		  }	
+	 }
+
 	 public JSONObject toJSON()
 	 {
-		 return null;
-	 };
+		  // TODO Auto-generated method stub
+		  return null;
+	 }
 }

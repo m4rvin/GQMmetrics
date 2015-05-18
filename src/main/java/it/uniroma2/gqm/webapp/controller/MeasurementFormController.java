@@ -4,6 +4,7 @@ import it.uniroma2.gqm.model.AbstractMetric;
 import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.Measurement;
+import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.SimpleMetric;
 import it.uniroma2.gqm.service.ComplexMetricManager;
@@ -155,7 +156,16 @@ public class MeasurementFormController extends BaseFormController {
 
     		
     		Double measurementResult = FormulaHandler.evaluateFormula(metric);
-    		metric.setActualValue(measurementResult);
+    		
+    		if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)// if the metric is boolean save 1 or 0 as actual values
+    			metric.setActualValue(String.valueOf(measurementResult));
+    		else
+    		{
+    			if(!metric.getMeasurementScale().getRangeOfValues().isNumeric()) // se non il rov non è numerico bisogna salvare il valore a cui corrisponde il risultato di evalutateFormula
+       			 metric.setActualValue((String) metric.getMeasurementScale().getRangeOfValues().getValueByIndex(measurementResult));
+       		else
+       			metric.setActualValue(String.valueOf(measurementResult));
+    		}
     		
     		metric = (SimpleMetric) metricManager.save(metric);
 

@@ -234,7 +234,7 @@ public class FormulaHandler
 				}
 				input_value = AggregatorHandler.executeAggregator(metric.getAggregator(), collected_measurement_values);
 				//TODO
-				input value a stringa o numeric a seconda del tipo di metrica (undef/numeric)
+		//		input value a stringa o numeric a seconda del tipo di metrica (undef/numeric)
 		  }
 
 		  // metric is a simple metric add only _this_ reference & membership
@@ -253,7 +253,7 @@ public class FormulaHandler
 		  expressionBuilder = expressionBuilder.variables(metric_variables);
 
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-		  setMembershipClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
+		  setClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
 		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
 
 		  values.put("_this_", input_value);
@@ -280,6 +280,7 @@ public class FormulaHandler
 		  Set<AbstractMetric> composers = metric.getComposedBy();
 		  String metricFormula = metric.getFormula();
 		  RangeOfValues rov = metric.getMeasurementScale().getRangeOfValues();
+		  Double currentActualValue = metric.getConvertedActualValue(rov);
 
 		  Set<String> metric_variables = new HashSet<String>();
 		  Map<String, Double> values = new HashMap<String, Double>();
@@ -290,23 +291,27 @@ public class FormulaHandler
 		  
 		  ExpressionBuilder expressionBuilder = new ExpressionBuilder(metricFormula);
 
-		  // ---------MEMBERSHIP CLASSES SUBSTITUTION------------
-		  setMembershipClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
-		  // ---------MEMBERSHIP CLASSES SUBSTITUTION END---------
+		  // ---------CLASSES SUBSTITUTION------------
+		  setClassesInExpressionBuilder(entityClasses, rov, expressionBuilder, values);
+		  // ---------CLASSES SUBSTITUTION END---------
 
 		  boolean still_evaluable = true;
 		  Iterator<AbstractMetric> it =  composers.iterator();
 		  while(it.hasNext())//check every composer. Exit only if you find a null-evaluated one (null-evaluated composers lead the result response) or this metric and a composer one have an undefined result (already known undefined states do not need to be propagated). 
 		  {
 			  	AbstractMetric composer = it.next();
-				Double composerActualValue = composer.getActualValue();
+			  	
+			  	//retrive the correct numeric value corresponding to the composer actual value
+				Double composerActualValue = composer.getConvertedActualValue(rov);
+				
+				
 				if (composerActualValue != null && !composerActualValue.equals(Double.MIN_VALUE))
 				{
 					 String metric_variable_name = "_" + composer.getName() + "_";
 					 metric_variables.add(metric_variable_name);
 					 values.put(metric_variable_name, composerActualValue);
 					 //TODO
-					 mettere stringa o valore numerico
+		//			 mettere stringa o valore numerico
 				} 
 				else if (composerActualValue == null)
 				{
@@ -314,7 +319,7 @@ public class FormulaHandler
 				}
 				else //a composerActualValue is undefined (MIN_VALUE)
 				{
-					 if(metric.getActualValue() != null && metric.getActualValue().equals(Double.MIN_VALUE))
+					 if(currentActualValue != null && currentActualValue.equals(Double.MIN_VALUE))
 						  return true; //this metric has a value already set to MIN_VALUE (received by a composer), do not need to propagate neither to show an error
 					 
 					 //the value of one composer is undefined and this metric has a null or valid (but old) value
@@ -325,11 +330,11 @@ public class FormulaHandler
 		  
 		  if(!still_evaluable)
 		  {//set metric to the new value=MIN_VALUE, only after checking all composers and not founding a null-evaluated one.
-			  metric.setActualValue(Double.MIN_VALUE);
+			  metric.setActualValue(String.valueOf(Double.MIN_VALUE));
 			  metric = (CombinedMetric) metricManager.save(metric);
 		  }
 
-		  if (metric.getActualValue() == null || !metric.getActualValue().equals(Double.MIN_VALUE) || still_evaluable) //is null or an acceptable value or need to be evaluated
+		  if (currentActualValue == null || !currentActualValue.equals(Double.MIN_VALUE) || still_evaluable) //is null or an acceptable value or need to be evaluated
 		  {
 				expressionBuilder = expressionBuilder.variables(metric_variables);
 
@@ -351,10 +356,18 @@ public class FormulaHandler
 
 				// result validated, must be propagated above in the hierarchy
 
+				//set the correct actual value according to the rov
+				if(metric.getOutputValueType() == MetricOutputValueTypeEnum.BOOLEAN)
+					 metric.setActualValue(String.valueOf(result));
+				else	 
+					 metric.setActualValue(String.valueOf(rov.getValueByIndex(result)));
+				
+				metric = (CombinedMetric) metricManager.save(metric);				
+				
 				//TODO
-				imposta result come stringa o numeric a seconda del tipo di metric che sono
-				metric.setActualValue(result);
-				metric = (CombinedMetric) metricManager.save(metric);
+//				imposta result come stringa o numeric a seconda del tipo di metric che sono
+//				metric.setActualValue(result);
+//				metric = (CombinedMetric) metricManager.save(metric);
 		  }
 
 		  Set<CombinedMetric> composedByMetrics = metric.getComposerFor();
@@ -373,7 +386,7 @@ public class FormulaHandler
 	 }
 	 
 	 
-	 public static void setMembershipClassesInExpressionBuilder(Set<String> entityClasses, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
+	 public static void setClassesInExpressionBuilder(Set<String> entityClasses, RangeOfValues rov, ExpressionBuilder expressionBuilder, Map<String, Double> values){
 		
 
 		  if (entityClasses.size() != 0)

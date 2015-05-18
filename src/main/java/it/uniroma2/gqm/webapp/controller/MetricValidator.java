@@ -46,7 +46,7 @@ public class MetricValidator implements Validator
 	 
 	 private static final String THIS_PATTERN = "(_){1}(this){1}(_){1}";
 	 private static final String MULTIPLICATION_PATTERN = "(\\$){2}|\\d+(\\$)|(\\$)\\d+|(\\$)(£)|\\d+(£)|(£)\\d+|\\)\\d+|\\)(\\$)|\\)(£)";
-	 private static final String MEMBERSHIP_PATTERN = "(_this_)#\"(_.*?_)\"";
+	 private static final String MEMBERSHIP_PATTERN_WITH_THIS = "(_this_)#\"(_.*?_)\"";
 	 private static final String LOWER_PATTERN_WITH_THIS 			= "(_this_)<\"(_.*?_)\"";
 	 private static final String LOWER_OR_EQUAL_PATTERN_WITH_THIS 	= "(_this_)<=\"(_.*?_)\"";
 	 private static final String GREATER_PATTERN_WITH_THIS 			= "(_this_)>\"(_.*?_)\"";
@@ -56,6 +56,7 @@ public class MetricValidator implements Validator
 	 private static final String LOWER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)<=\"(_.*?_)\"";
 	 private static final String GREATER_PATTERN_WITHOUT_THIS 			= "(_[\\d\\p{L}]+_)>\"(_.*?_)\"";
 	 private static final String GREATER_OR_EQUAL_PATTERN_WITHOUT_THIS 	= "(_[\\d\\p{L}]+_)>=\"(_.*?_)\"";
+	 private static final String MEMBERSHIP_PATTERN_WITHOUT_THIS = "(_[\\d\\p{L}]+_)#\"(_.*?_)\"";
 	 
 	  
 	 private static final String VALID_RESULT_PATTERN = "[\\d|\\.|\\)|\\(|\\,|£|\\?|\\$]*";
@@ -82,7 +83,7 @@ public class MetricValidator implements Validator
 	 {
 		 //WITH THIS
 		 comparison_operators_with_this = new HashMap<String, String>();
-		 comparison_operators_with_this.put("membership", MEMBERSHIP_PATTERN);
+		 comparison_operators_with_this.put("membership", MEMBERSHIP_PATTERN_WITH_THIS);
 		 comparison_operators_with_this.put("greater than", GREATER_PATTERN_WITH_THIS);
 		 comparison_operators_with_this.put("lower than", LOWER_PATTERN_WITH_THIS);
 		 comparison_operators_with_this.put("greater or equal than", GREATER_OR_EQUAL_PATTERN_WITH_THIS);
@@ -90,7 +91,7 @@ public class MetricValidator implements Validator
 		 
 		 //WITHOUT THIS
 		 comparison_operators_without_this = new HashMap<String, String>();
-		 comparison_operators_without_this.put("membership", MEMBERSHIP_PATTERN);
+		 comparison_operators_without_this.put("membership", MEMBERSHIP_PATTERN_WITHOUT_THIS);
 		 comparison_operators_without_this.put("greater than", GREATER_PATTERN_WITHOUT_THIS);
 		 comparison_operators_without_this.put("lower than", LOWER_PATTERN_WITHOUT_THIS);
 		 comparison_operators_without_this.put("greater or equal than", GREATER_OR_EQUAL_PATTERN_WITHOUT_THIS);
@@ -187,7 +188,7 @@ public class MetricValidator implements Validator
 								errors.rejectValue(FORMULA_FIELD, FORMULA_FIELD, "NO MULTIPLE UNDEFINED METRIC SUPPORTED");  //non possono esistere + metriche undefined in un blocco
 								return;
 				   			}
-							else if(undefined_counter == 1)
+				   			else if(undefined_counter == 1)
 					   		{
    								if(!unique_block) //we are analyzing a multiple block formula
    								{
@@ -222,6 +223,7 @@ public class MetricValidator implements Validator
 				   			else{
 				   				if(unique_block)
 					   				metric.setOutputValueType(MetricOutputValueTypeEnum.BOOLEAN);
+					   			boolean_metric = true;
 
 				   				break;//this is the only metric found, so the block is correct (it is composed by an single boolean metric)
 				   			}
@@ -505,7 +507,7 @@ public class MetricValidator implements Validator
 					 try 
 					 {
 					  regex = this.handler.getOperators().get(operation.getOperation());
-					  
+					/*  
 					  //membership custom validation (extract membership parameter and check if its symbol is supported by the ROV)
 					  if (operation.getOperation().equals("membershsip")) 
 					  {
@@ -538,9 +540,9 @@ public class MetricValidator implements Validator
 								 }
 								 
 							}						
-					  }
+					  } */
 					  
-					  else if (operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than") || operation.getOperation().equals("greater or equal than") || operation.getOperation().equals("lower or equal than")) 
+					  if (operation.getOperation().equals("membership") || operation.getOperation().equals("greater than") || operation.getOperation().equals("lower than") || operation.getOperation().equals("greater or equal than") || operation.getOperation().equals("lower or equal than")) 
 					  {
 						  if(metric.getClass().equals(SimpleMetric.class))
 						  {
