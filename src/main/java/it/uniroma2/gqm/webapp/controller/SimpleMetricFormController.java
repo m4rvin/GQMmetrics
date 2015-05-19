@@ -4,6 +4,7 @@ import it.uniroma2.gqm.model.Aggregator;
 import it.uniroma2.gqm.model.Goal;
 import it.uniroma2.gqm.model.GoalQuestion;
 import it.uniroma2.gqm.model.MeasurementScale;
+import it.uniroma2.gqm.model.MeasurementScaleTypeEnum;
 import it.uniroma2.gqm.model.MetricTypeEnum;
 import it.uniroma2.gqm.model.Project;
 import it.uniroma2.gqm.model.Question;
@@ -167,16 +168,31 @@ public class SimpleMetricFormController extends BaseFormController
 		  String[] numericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString(), Aggregator.SUM.toString(), Aggregator.AVG.toString(), Aggregator.VARIANCE.toString()};
 		  String[] nonNumericAggregators = {Aggregator.MAX_VALUE.toString(), Aggregator.MIN_VALUE.toString()};
 		  
-		  if(rov.isNumeric())
+		 
+			  
+		  if(measurementScale.getType().equals(MeasurementScaleTypeEnum.INTERVAL) || measurementScale.getType().equals(MeasurementScaleTypeEnum.RATIO))
 		  {
+			  if(rov.isNumeric())
+			  {
 				for(String aggregator : numericAggregators)
 					 ret.put(aggregator);
+			  }
+			  else
+			  {
+				  for(String aggregator : nonNumericAggregators)
+						 ret.put(aggregator);
+			  }
 		  }
-		  else
+		  else if(measurementScale.getType().equals(MeasurementScaleTypeEnum.ORDINAL))
 		  {
 				for(String aggregator : nonNumericAggregators)
 					 ret.put(aggregator);
 		  }
+		  
+		  
+		 /* if(!measurementScale.getType().equals(MeasurementScaleTypeEnum.NOMINAL))
+			  continue;*/
+		  
 		  
 		  System.out.println(ret);
 		  return ret.toString();

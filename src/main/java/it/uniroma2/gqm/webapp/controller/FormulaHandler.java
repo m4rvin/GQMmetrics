@@ -332,6 +332,7 @@ public class FormulaHandler
 		  {//set metric to the new value=MIN_VALUE, only after checking all composers and not founding a null-evaluated one.
 			  metric.setActualValue(String.valueOf(Double.MIN_VALUE));
 			  metric = (CombinedMetric) metricManager.save(metric);
+			  currentActualValue = Double.MIN_VALUE;
 		  }
 
 		  if (currentActualValue == null || !currentActualValue.equals(Double.MIN_VALUE) || still_evaluable) //is null or an acceptable value or need to be evaluated

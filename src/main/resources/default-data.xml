@@ -1392,7 +1392,7 @@
         	<value description="metric_id" >9</value>
 			<value description="code" >T-Size CombinedMetric BMetric</value>
         	<value description="collecting_type" >SINGLE_VALUE</value>
-        	<value description="metric_formula" >_TSizeUMetric_#"_XS_"||_TSizeUMetric_>"_L_"||_TSizeUMetricCM_&lt;="_3XL_"</value>
+        	<value description="metric_formula" >_TSizeUMetric_#"_XS_"||_TSizeUMetric_>"_L_"||_TSizeUMetricCM_&gt;="_XL_"</value>
 			<value description="name" >TSizeBMetricCM</value>
         	<value description="outputValueType" >BOOLEAN</value>
         	<value description="type" >OBJECTIVE</value>
@@ -1918,7 +1918,7 @@
 			<value description = "defaultoperation_id">28</value>
 			<value description = "operation">equality</value>
 			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">0</value>
+			<value description = "measurement_scale_type">2</value>
 		</row> 
 		<row>
 			<value description = "defaultoperation_id">29</value>
@@ -1977,7 +1977,7 @@
 			<value description="is_default_range">false</value>
 			<value description="is_finite">true</value>
 			<value description="name">0-100 Numbers</value>
-			<value description="number_type">NATURAL_NUMBERS</value>
+			<value description="number_type">INTEGER_NUMBERS</value>
 			<value description="is_numeric">true</value>
 			<value description="is_range">true</value>
 			<value description="range_values">[0:100]</value>
@@ -2062,7 +2062,7 @@
 		<value description="rangeofvalues_id">4</value>
 		<value description="unit_id">-3</value>
 	</row>
-	<row>
+	<!-- <row>
 		<value description="measurementScale_id">5</value>
 		<value description="name">measurement scale supporting BOOLEAN operations</value>
 		<value description="description">description for measurement scale BOOLEAN</value>
@@ -2070,7 +2070,7 @@
 		<value description="project_id">-1</value>
 		<value description="rangeofvalues_id">4</value>
 		<value description="unit_id">-3</value>
-	</row>
+	</row> -->
 	<row>
 		<value description="measurementScale_id">6</value>
 		<value description="name">T-Sizes short</value>
@@ -2338,7 +2338,7 @@
 			<value description="measurementScale_id">4</value>
 			<value description="defaultoperation_id">22</value>
 		</row>
-		<row>
+<!-- 		<row>
 			<value description="measurementScale_id">5</value>
 			<value description="defaultoperation_id">23</value>
 		</row>
@@ -2360,14 +2360,68 @@
 		</row>
 		<row>
 			<value description="measurementScale_id">5</value>
-			<value description="defaultoperation_id">28</value>
-		</row>
-		<row>
-			<value description="measurementScale_id">5</value>
 			<value description="defaultoperation_id">29</value>
 		</row>
 		<row>
 			<value description="measurementScale_id">5</value>
+			<value description="defaultoperation_id">30</value>
+		</row>
+ -->
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">23</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">24</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">25</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">26</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">27</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">29</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">6</value>
+			<value description="defaultoperation_id">30</value>
+		</row>
+		
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">23</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">24</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">25</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">26</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">27</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
+			<value description="defaultoperation_id">29</value>
+		</row>
+		<row>
+			<value description="measurementScale_id">7</value>
 			<value description="defaultoperation_id">30</value>
 		</row>
 

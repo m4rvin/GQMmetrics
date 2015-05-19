@@ -237,7 +237,7 @@
 					{
 						id : 'dialogInstructions',
 						title : "instructions",
-						text : "To specify a valid range you have to use the following syntax: [start_value:end_value], where 'start_value' and 'end_value' must be consistent with the number type"
+						text : "To specify a valid range you have to use the following syntax: [start_value:end_value], where 'start_value' and 'end_value' must be consistent with the number type. (if you want you can use -inf or inf to specify an infinite limit)"
 					}).dialog();
 		} else {
 			jQuery(

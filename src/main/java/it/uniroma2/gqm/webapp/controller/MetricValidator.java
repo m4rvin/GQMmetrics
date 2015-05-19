@@ -1,6 +1,7 @@
 package it.uniroma2.gqm.webapp.controller;
 
 import it.uniroma2.gqm.model.AbstractMetric;
+import it.uniroma2.gqm.model.CollectingTypeEnum;
 import it.uniroma2.gqm.model.CombinedMetric;
 import it.uniroma2.gqm.model.DefaultOperation;
 import it.uniroma2.gqm.model.MetricOutputValueTypeEnum;
@@ -119,6 +120,15 @@ public class MetricValidator implements Validator
 		  AbstractMetric metric = (AbstractMetric) target;
 		  metric.setOutputValueType(null);
 
+		  if(metric.getCollectingType().equals(CollectingTypeEnum.MULTIPLE_VALUE))
+		  {
+			  SimpleMetric sm = (SimpleMetric) metric;
+			  if(sm.getAggregator().equals(""))
+			  {
+					errors.rejectValue("aggregator", "aggregator", "Aggregator must be selected");
+					return;
+			  }
+		  }
 		  String metric_name = metric.getName();
 		  if(!metric_name.matches(METRIC_NAME_PATTERN))
 				errors.rejectValue("name", "name", "Name must be composed only by letters or numbers");
@@ -614,7 +624,7 @@ public class MetricValidator implements Validator
 							  }
 						  }
 					  }
-					 } catch (Exception e) //the operation is an operator
+					 } catch (Exception e) //the operation is an operation
 					 {
 						continue;
 					 }
