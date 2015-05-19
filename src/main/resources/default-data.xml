@@ -1765,7 +1765,7 @@
 			<value description = "defaultoperation_id">3</value>
 			<value description = "operation">multiplication</value>
 			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">4</value>
@@ -1783,104 +1783,104 @@
 			<value description = "defaultoperation_id">6</value>
 			<value description = "operation">euler number power</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">7</value>
 			<value description = "operation">absolute value</value>
 			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		
 		<row>
 			<value description = "defaultoperation_id">8</value>
 			<value description = "operation">arccosine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">9</value>
 			<value description = "operation">arctangent</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">10</value>
 			<value description = "operation">arcsine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">11</value>
 			<value description = "operation">base 2 logarithm</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row> 
 		<row>
 			<value description = "defaultoperation_id">12</value>
 			<value description = "operation">base 10 logarithm</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row> 
 		<row>
 			<value description = "defaultoperation_id">13</value>
 			<value description = "operation">cubic root</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row> 
 		<row>
 			<value description = "defaultoperation_id">14</value>
 			<value description = "operation">cosine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row> 
 		<row>
 			<value description = "defaultoperation_id">15</value>
 			<value description = "operation">hyperbolic cosine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">16</value>
 			<value description = "operation">hyperbolic sine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">17</value>
 			<value description = "operation">hyperbolic tangent</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">18</value>
 			<value description = "operation">nearest lower integer</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">19</value>
 			<value description = "operation">nearest upper integer</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">20</value>
 			<value description = "operation">sine</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">21</value>
 			<value description = "operation">square root</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		<row>
 			<value description = "defaultoperation_id">22</value>
 			<value description = "operation">tangent</value>
 			<value description = "operands_number">1</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		
 		<!-- boolean operators -->
@@ -1938,7 +1938,7 @@
 			<value description = "defaultoperation_id">31</value>
 			<value description = "operation">power</value>
 			<value description = "operands_number">2</value>
-			<value description = "measurement_scale_type">2</value>
+			<value description = "measurement_scale_type">3</value>
 		</row>
 		
 		
